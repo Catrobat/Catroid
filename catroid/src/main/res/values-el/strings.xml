@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Αποεπιλογή όλων</string>
     <string formatted="false" name="skip">παράλειψη</string>
     <string formatted="false" name="warning">Προσοχή</string>
-    <string formatted="false" name="error">Σφάλμα</string>
     <string formatted="false" name="loading">Φόρτωση…</string>
-    <string formatted="false" name="please_wait">Περίμενε λίγο</string>
     <string formatted="false" name="search_hint">Αναζήτηση</string>
     <string formatted="false" name="backpack_add">Προσθήκη στο σακίδιο</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">βάλε εδώ το κλειδί API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Έλεγχος στοιχείων σύνδεσης…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ανταλλαγή στοιχείων σύνδεσης Google…</string>
-    <string formatted="false" name="loading_google_login">Η σύνδεση Google στον διακομιστή μας ολοκληρώθηκε…</string>
     <string formatted="false" name="logout_successful">Επιτυχής αποσύνδεση</string>
     <string formatted="false" name="degrees">μοίρες</string>
     <string formatted="false" name="background">Φόντο</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Νέο έργο</string>
     <string formatted="false" name="main_menu_programs">Έργα</string>
     <string formatted="false" name="main_menu_help">Βοήθεια</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Ανέβασμα έργου</string>
     <string formatted="false" name="main_menu_play">Παίξε το έργο</string>
     <string formatted="false" name="main_menu_rate_app">Βαθμολόγησέ μας!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Τρέχον σκηνικό (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Σύνδεση</string>
     <string formatted="false" name="username">Όνομα χρήστη</string>
     <string formatted="false" name="password">Κωδικός πρόσβασης</string>
     <string formatted="false" name="reset_password">Επαναφορά κωδικού πρόσβασης</string>
-    <string formatted="false" name="new_user_registered">Ο νέος λογαριασμός δημιουργήθηκε</string>
-    <string formatted="false" name="user_logged_in">Επιτυχής σύνδεση</string>
-    <string formatted="false" name="register_error">Μη έγκυρα στοιχεία σύνδεσης</string>
     <string formatted="false" name="register_terms">Με την εγγραφή σου αποδέχεσαι τους εξής όρους:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Όροι χρήσης και παροχής υπηρεσιών</string>
     <string formatted="false" name="login">Σύνδεση</string>
     <string formatted="false" name="register">Εγγραφή</string>
-    <string formatted="false" name="password_confirm">Επιβεβαίωση κωδικού πρόσβασης</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Ευχαριστούμε για την εγγραφή σου!</string>
-    <string formatted="false" name="signin_choose_username">Διάλεξε όνομα χρήστη:</string>
-    <string formatted="false" name="signin_choose_username_empty">Γράψε ένα όνομα χρήστη.</string>
-    <string formatted="false" name="signin_choose_username_hint">Το όνομα χρήστη δεν πρέπει να είναι το πραγματικό σου όνομα ούτε μια διεύθυνση e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Αυτό το όνομα το χρησιμοποιεί ήδη κάποιος άλλος. Διάλεξε ένα διαφορετικό!</string>
     <string formatted="false" name="show_password">Εμφάνιση κωδικού πρόσβασης</string>
     <string formatted="false" name="sign_in_error">Κάτι πήγε στραβά κατά τη σύνδεση.</string>
     <string formatted="false" name="error_google_plus_sign_in">Σφάλμα σύνδεσης Google. Κατάσταση: %s</string>
-    <string formatted="false" name="error_session_expired">Η συνεδρία έληξε. Συνδέσου ξανά.</string>
     <string formatted="false" name="error_register_empty_username">Κενό όνομα χρήστη</string>
-    <string formatted="false" name="error_register_username_as_email">Η διεύθυνση e-mail δεν μπορεί να χρησιμοποιηθεί ως όνομα χρήστη</string>
     <string formatted="false" name="error_register_invalid_username">Το όνομα χρήστη πρέπει να περιέχει μόνο λατινικά γράμματα (a–z), αριθμούς (0–9), παύλες (-), κάτω παύλες (_) και τελείες (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Το όνομα χρήστη δεν πρέπει να ξεκινά με παύλα (-), κάτω παύλα (_) ή τελεία (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Μη έγκυρη μορφή e-mail</string>
     <string formatted="false" name="error_register_empty_password">Το πεδίο κωδικού πρόσβασης είναι κενό</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 6 χαρακτήρες</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Οι κωδικοί πρόσβασης δεν ταιριάζουν</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Το πεδίο επιβεβαίωσης κωδικού πρόσβασης είναι κενό</string>
-    <string formatted="false" name="error_register_username_already_exists">Το όνομα χρήστη υπάρχει ήδη</string>
-    <string formatted="false" name="error_register_email_exists">Η διεύθυνση e-mail υπάρχει ήδη</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Το έργο υπάρχει.</string>

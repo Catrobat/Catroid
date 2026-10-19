@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ਸਾਰਿਆਂ ਦੀ ਚੋਣ ਹਟਾਓ</string>
     <string formatted="false" name="skip">ਛੱਡੋ</string>
     <string formatted="false" name="warning">ਚੇਤਾਵਨੀ</string>
-    <string formatted="false" name="error">ਗ਼ਲਤੀ</string>
     <string formatted="false" name="loading">ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ…</string>
-    <string formatted="false" name="please_wait">ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
     <string formatted="false" name="search_hint">ਖੋਜੋ</string>
     <string formatted="false" name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਪਾਓ</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">ਇੱਥੇ API ਕੁੰਜੀ ਪਾਓ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">ਲੌਗ ਇਨ ਡਾਟਾ ਦੀ ਜਾਂਚ ਹੋ ਰਹੀ ਹੈ…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google ਲੌਗ ਇਨ ਡਾਟਾ ਦਾ ਵਟਾਂਦਰਾ ਹੋ ਰਿਹਾ ਹੈ…</string>
-    <string formatted="false" name="loading_google_login">ਸਾਡੇ ਸਰਵਰ \'ਤੇ Google ਲੌਗ ਇਨ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ…</string>
     <string formatted="false" name="logout_successful">ਲੌਗ ਆਉਟ ਹੋ ਗਿਆ</string>
     <string formatted="false" name="degrees">ਡਿਗਰੀ</string>
     <string formatted="false" name="background">ਪਿਛੋਕੜ</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
     <string formatted="false" name="main_menu_programs">ਪ੍ਰੋਜੈਕਟ</string>
     <string formatted="false" name="main_menu_help">ਮਦਦ</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅੱਪਲੋਡ ਕਰੋ</string>
     <string formatted="false" name="main_menu_play">ਪ੍ਰੋਜੈਕਟ ਚਲਾਓ</string>
     <string formatted="false" name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">ਮੌਜੂਦਾ ਦ੍ਰਿਸ਼ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ਸਾਈਨ ਇਨ</string>
     <string formatted="false" name="username">ਵਰਤੋਂਕਾਰ ਨਾਮ</string>
     <string formatted="false" name="password">ਪਾਸਵਰਡ</string>
     <string formatted="false" name="reset_password">ਪਾਸਵਰਡ ਰੀਸੈਟ ਕਰੋ</string>
-    <string formatted="false" name="new_user_registered">ਨਵਾਂ ਖਾਤਾ ਬਣ ਗਿਆ</string>
-    <string formatted="false" name="user_logged_in">ਲੌਗ ਇਨ ਹੋ ਗਿਆ</string>
-    <string formatted="false" name="register_error">ਲੌਗ ਇਨ ਜਾਣਕਾਰੀ ਗ਼ਲਤ ਹੈ</string>
     <string formatted="false" name="register_terms">ਰਜਿਸਟਰ ਕਰਕੇ ਤੁਸੀਂ ਇਹਨਾਂ ਨਾਲ ਸਹਿਮਤ ਹੁੰਦੇ ਹੋ:</string>
     <string formatted="false" name="register_code_terms_of_use_text">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
     <string formatted="false" name="login">ਲੌਗ ਇਨ</string>
     <string formatted="false" name="register">ਰਜਿਸਟਰ ਕਰੋ</string>
-    <string formatted="false" name="password_confirm">ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ</string>
-    <string formatted="false" name="accountName">ਈ-ਮੇਲ</string>
-    <string formatted="false" name="signin_thanks">ਸਾਈਨ ਅੱਪ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!</string>
-    <string formatted="false" name="signin_choose_username">ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਵਰਤੋਂਕਾਰ ਨਾਮ ਚੁਣੋ:</string>
-    <string formatted="false" name="signin_choose_username_empty">ਕਿਰਪਾ ਕਰਕੇ ਵਰਤੋਂਕਾਰ ਨਾਮ ਲਿਖੋ।</string>
-    <string formatted="false" name="signin_choose_username_hint">ਵਰਤੋਂਕਾਰ ਨਾਮ ਤੁਹਾਡਾ ਅਸਲੀ ਨਾਮ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ ਅਤੇ ਨਾ ਹੀ ਕੋਈ ਈ-ਮੇਲ ਪਤਾ।</string>
-    <string formatted="false" name="oauth_username_taken">ਇਹ ਨਾਮ ਪਹਿਲਾਂ ਹੀ ਕੋਈ ਹੋਰ ਵਰਤ ਰਿਹਾ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਨਾਮ ਚੁਣੋ!</string>
     <string formatted="false" name="show_password">ਪਾਸਵਰਡ ਦਿਖਾਓ</string>
     <string formatted="false" name="sign_in_error">ਸਾਈਨ ਇਨ ਦੌਰਾਨ ਕੁਝ ਗ਼ਲਤ ਹੋ ਗਿਆ।</string>
     <string formatted="false" name="error_google_plus_sign_in">Google ਸਾਈਨ ਇਨ ਗ਼ਲਤੀ। ਸਥਿਤੀ: %s</string>
-    <string formatted="false" name="error_session_expired">ਸੈਸ਼ਨ ਦੀ ਮਿਆਦ ਖ਼ਤਮ ਹੋ ਗਈ, ਕਿਰਪਾ ਕਰਕੇ ਲੌਗ ਇਨ ਕਰੋ।</string>
     <string formatted="false" name="error_register_empty_username">ਵਰਤੋਂਕਾਰ ਨਾਮ ਖਾਲੀ ਹੈ</string>
-    <string formatted="false" name="error_register_username_as_email">ਈ-ਮੇਲ ਪਤਾ ਵਰਤੋਂਕਾਰ ਨਾਮ ਵਜੋਂ ਨਹੀਂ ਵਰਤਿਆ ਜਾ ਸਕਦਾ</string>
     <string formatted="false" name="error_register_invalid_username">ਵਰਤੋਂਕਾਰ ਨਾਮ ਵਿੱਚ ਸਿਰਫ਼ ਅੱਖਰ (a–z), ਅੰਕ (0–9), ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰ (_) ਅਤੇ ਬਿੰਦੂ (.) ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ।</string>
-    <string formatted="false" name="error_register_username_start_with">ਵਰਤੋਂਕਾਰ ਨਾਮ ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰ (_) ਜਾਂ ਬਿੰਦੂ (.) ਨਾਲ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ।</string>
-    <string formatted="false" name="error_register_invalid_email_format">ਈ-ਮੇਲ ਦਾ ਫ਼ਾਰਮੈਟ ਗ਼ਲਤ ਹੈ</string>
     <string formatted="false" name="error_register_empty_password">ਪਾਸਵਰਡ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">ਪਾਸਵਰਡ ਘੱਟੋ-ਘੱਟ 6 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ</string>
-    <string formatted="false" name="error_register_passwords_mismatch">ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾਂਦੇ</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ਪਾਸਵਰਡ ਪੁਸ਼ਟੀ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
-    <string formatted="false" name="error_register_username_already_exists">ਇਹ ਵਰਤੋਂਕਾਰ ਨਾਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
-    <string formatted="false" name="error_register_email_exists">ਇਹ ਈ-ਮੇਲ ਪਤਾ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">ਪ੍ਰੋਜੈਕਟ ਮੌਜੂਦ ਹੈ।</string>

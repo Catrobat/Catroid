@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Auswahl aufheben</string>
     <string formatted="false" name="skip">überspringen</string>
     <string formatted="false" name="warning">Warnung</string>
-    <string formatted="false" name="error">Fehler</string>
     <string formatted="false" name="loading">Wird geladen…</string>
-    <string formatted="false" name="please_wait">Bitte warten</string>
     <string formatted="false" name="search_hint">Suchen</string>
     <string formatted="false" name="backpack_add">In den Rucksack packen</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API-Schlüssel hier einfügen</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Anmeldedaten werden überprüft…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google-Anmeldedaten werden ausgetauscht…</string>
-    <string formatted="false" name="loading_google_login">Google-Anmeldung auf unserem Server abgeschlossen…</string>
     <string formatted="false" name="logout_successful">Abmeldung erfolgreich</string>
     <string formatted="false" name="degrees">Grad</string>
     <string formatted="false" name="background">Hintergrund</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Neues Projekt</string>
     <string formatted="false" name="main_menu_programs">Projekte</string>
     <string formatted="false" name="main_menu_help">Hilfe</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Projekt hochladen</string>
     <string formatted="false" name="main_menu_play">Projekt starten</string>
     <string formatted="false" name="main_menu_rate_app">Bewerte uns!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuelle Szene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Anmelden</string>
     <string formatted="false" name="username">Benutzername</string>
     <string formatted="false" name="password">Passwort</string>
     <string formatted="false" name="reset_password">Passwort zurücksetzen</string>
-    <string formatted="false" name="new_user_registered">Neues Konto erstellt</string>
-    <string formatted="false" name="user_logged_in">Erfolgreich angemeldet</string>
-    <string formatted="false" name="register_error">Anmeldung ungültig</string>
     <string formatted="false" name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
     <string formatted="false" name="register_code_terms_of_use_text">Nutzungsbedingungen</string>
     <string formatted="false" name="login">Anmelden</string>
     <string formatted="false" name="register">Registrieren</string>
-    <string formatted="false" name="password_confirm">Passwort bestätigen</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Danke für deine Registrierung!</string>
-    <string formatted="false" name="signin_choose_username">Bitte wähle deinen Benutzernamen:</string>
-    <string formatted="false" name="signin_choose_username_empty">Bitte gib einen Benutzernamen ein.</string>
-    <string formatted="false" name="signin_choose_username_hint">Der Benutzername sollte weder dein echter Name noch eine E-Mail-Adresse sein.</string>
-    <string formatted="false" name="oauth_username_taken">Dieser Name wird schon von jemand anderem verwendet. Bitte wähle einen anderen!</string>
     <string formatted="false" name="show_password">Passwort anzeigen</string>
     <string formatted="false" name="sign_in_error">Beim Anmelden ist etwas schiefgelaufen.</string>
     <string formatted="false" name="error_google_plus_sign_in">Fehler bei der Google-Anmeldung. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sitzung abgelaufen. Bitte melde dich an.</string>
     <string formatted="false" name="error_register_empty_username">Leerer Benutzername</string>
-    <string formatted="false" name="error_register_username_as_email">Eine E-Mail-Adresse kann nicht als Benutzername verwendet werden</string>
     <string formatted="false" name="error_register_invalid_username">Der Benutzername darf nur Buchstaben (a–z), Ziffern (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) enthalten.</string>
-    <string formatted="false" name="error_register_username_start_with">Der Benutzername darf nicht mit einem Bindestrich (-), Unterstrich (_) oder Punkt (.) beginnen.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ungültiges E-Mail-Format</string>
     <string formatted="false" name="error_register_empty_password">Das Passwortfeld ist leer</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Das Passwort muss mindestens 6 Zeichen lang sein</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Passwörter stimmen nicht überein</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Das Feld zur Passwortbestätigung ist leer</string>
-    <string formatted="false" name="error_register_username_already_exists">Dieser Benutzername existiert bereits</string>
-    <string formatted="false" name="error_register_email_exists">Diese E-Mail-Adresse existiert bereits</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekt existiert bereits.</string>

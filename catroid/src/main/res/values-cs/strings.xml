@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Zrušit výběr</string>
     <string formatted="false" name="skip">Přeskočit</string>
     <string formatted="false" name="warning">Varování</string>
-    <string formatted="false" name="error">Chyba</string>
     <string formatted="false" name="loading">Načítání…</string>
-    <string formatted="false" name="please_wait">Počkej prosím</string>
     <string formatted="false" name="search_hint">Hledat</string>
     <string formatted="false" name="backpack_add">Přidat do batohu</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">sem vlož klíč API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kontrola přihlašovacích údajů…</string>
-    <string formatted="false" name="loading_google_exchange_code">Výměna přihlašovacích údajů Google…</string>
-    <string formatted="false" name="loading_google_login">Přihlášení přes Google na našem serveru je dokončeno…</string>
     <string formatted="false" name="logout_successful">Odhlášení proběhlo úspěšně</string>
     <string formatted="false" name="degrees">stupňů</string>
     <string formatted="false" name="background">Pozadí</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nový projekt</string>
     <string formatted="false" name="main_menu_programs">Projekty</string>
     <string formatted="false" name="main_menu_help">Nápověda</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Nahrát projekt</string>
     <string formatted="false" name="main_menu_play">Spustit projekt</string>
     <string formatted="false" name="main_menu_rate_app">Ohodnoť nás!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuální scéna (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Přihlášení</string>
     <string formatted="false" name="username">Uživatelské jméno</string>
     <string formatted="false" name="password">Heslo</string>
     <string formatted="false" name="reset_password">Obnovit heslo</string>
-    <string formatted="false" name="new_user_registered">Nový účet byl vytvořen</string>
-    <string formatted="false" name="user_logged_in">Přihlášení proběhlo úspěšně</string>
-    <string formatted="false" name="register_error">Neplatné přihlášení</string>
     <string formatted="false" name="register_terms">Registrací souhlasíš s našimi</string>
     <string formatted="false" name="register_code_terms_of_use_text">Podmínkami používání a služby</string>
     <string formatted="false" name="login">Přihlásit se</string>
     <string formatted="false" name="register">Registrovat se</string>
-    <string formatted="false" name="password_confirm">Potvrzení hesla</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Děkujeme za registraci!</string>
-    <string formatted="false" name="signin_choose_username">Vyber si uživatelské jméno:</string>
-    <string formatted="false" name="signin_choose_username_empty">Zadej prosím uživatelské jméno.</string>
-    <string formatted="false" name="signin_choose_username_hint">Uživatelské jméno by nemělo být tvoje skutečné jméno ani e-mailová adresa.</string>
-    <string formatted="false" name="oauth_username_taken">Toto jméno už používá někdo jiný. Vyber si prosím jiné!</string>
     <string formatted="false" name="show_password">Zobrazit heslo</string>
     <string formatted="false" name="sign_in_error">Při přihlašování se něco pokazilo.</string>
     <string formatted="false" name="error_google_plus_sign_in">Chyba přihlášení přes Google. Stav: %s</string>
-    <string formatted="false" name="error_session_expired">Relace vypršela, přihlas se prosím.</string>
     <string formatted="false" name="error_register_empty_username">Prázdné uživatelské jméno</string>
-    <string formatted="false" name="error_register_username_as_email">E-mailovou adresu nelze použít jako uživatelské jméno</string>
     <string formatted="false" name="error_register_invalid_username">Uživatelské jméno smí obsahovat jen písmena (a–z), číslice (0–9), pomlčky (-), podtržítka (_) a tečky (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Uživatelské jméno nesmí začínat pomlčkou (-), podtržítkem (_) ani tečkou (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Neplatný formát e-mailu</string>
     <string formatted="false" name="error_register_empty_password">Pole pro heslo je prázdné</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Heslo musí mít alespoň 6 znaků</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Hesla se neshodují</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Pole pro potvrzení hesla je prázdné</string>
-    <string formatted="false" name="error_register_username_already_exists">Toto uživatelské jméno už existuje</string>
-    <string formatted="false" name="error_register_email_exists">Tato e-mailová adresa už existuje</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekt existuje.</string>

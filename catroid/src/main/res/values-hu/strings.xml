@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Kijelölés megszüntetése</string>
     <string formatted="false" name="skip">kihagyás</string>
     <string formatted="false" name="warning">Figyelmeztetés</string>
-    <string formatted="false" name="error">Hiba</string>
     <string formatted="false" name="loading">Betöltés…</string>
-    <string formatted="false" name="please_wait">Kérlek, várj</string>
     <string formatted="false" name="search_hint">Keresés</string>
     <string formatted="false" name="backpack_add">Hozzáadás a hátizsákhoz</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">ide írd be az API-kulcsot</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Bejelentkezési adatok ellenőrzése…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google bejelentkezési adatok cseréje…</string>
-    <string formatted="false" name="loading_google_login">A Google-bejelentkezés a szerverünkön befejeződött…</string>
     <string formatted="false" name="logout_successful">Sikeres kijelentkezés</string>
     <string formatted="false" name="degrees">fok</string>
     <string formatted="false" name="background">Háttér</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Új projekt</string>
     <string formatted="false" name="main_menu_programs">Projektek</string>
     <string formatted="false" name="main_menu_help">Súgó</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Projekt feltöltése</string>
     <string formatted="false" name="main_menu_play">Projekt lejátszása</string>
     <string formatted="false" name="main_menu_rate_app">Értékelj minket!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuális jelenet (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Bejelentkezés</string>
     <string formatted="false" name="username">Felhasználónév</string>
     <string formatted="false" name="password">Jelszó</string>
     <string formatted="false" name="reset_password">Jelszó visszaállítása</string>
-    <string formatted="false" name="new_user_registered">Új fiók létrehozva</string>
-    <string formatted="false" name="user_logged_in">Sikeres bejelentkezés</string>
-    <string formatted="false" name="register_error">Érvénytelen bejelentkezés</string>
     <string formatted="false" name="register_terms">A regisztrációval elfogadod a következőt:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Felhasználási és szolgáltatási feltételek</string>
     <string formatted="false" name="login">Bejelentkezés</string>
     <string formatted="false" name="register">Regisztráció</string>
-    <string formatted="false" name="password_confirm">Jelszó megerősítése</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Köszönjük, hogy regisztráltál!</string>
-    <string formatted="false" name="signin_choose_username">Válassz felhasználónevet:</string>
-    <string formatted="false" name="signin_choose_username_empty">Adj meg egy felhasználónevet.</string>
-    <string formatted="false" name="signin_choose_username_hint">A felhasználónév ne a valódi neved és ne e-mail-cím legyen.</string>
-    <string formatted="false" name="oauth_username_taken">Ezt a nevet már valaki más használja. Válassz egy másikat!</string>
     <string formatted="false" name="show_password">Jelszó megjelenítése</string>
     <string formatted="false" name="sign_in_error">Hiba történt a bejelentkezés során.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google-bejelentkezési hiba. Állapot: %s</string>
-    <string formatted="false" name="error_session_expired">A munkamenet lejárt, jelentkezz be.</string>
     <string formatted="false" name="error_register_empty_username">Üres felhasználónév</string>
-    <string formatted="false" name="error_register_username_as_email">E-mail-cím nem használható felhasználónévként</string>
     <string formatted="false" name="error_register_invalid_username">A felhasználónév csak betűket (a–z), számokat (0–9), kötőjelet (-), aláhúzásjelet (_) és pontot (.) tartalmazhat.</string>
-    <string formatted="false" name="error_register_username_start_with">A felhasználónév nem kezdődhet kötőjellel (-), aláhúzásjellel (_) vagy ponttal (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Érvénytelen e-mail-formátum</string>
     <string formatted="false" name="error_register_empty_password">A jelszómező üres</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">A jelszónak legalább 6 karakterből kell állnia</string>
-    <string formatted="false" name="error_register_passwords_mismatch">A jelszavak nem egyeznek</string>
-    <string formatted="false" name="error_register_empty_confirm_password">A jelszómegerősítő mező üres</string>
-    <string formatted="false" name="error_register_username_already_exists">Ez a felhasználónév már létezik</string>
-    <string formatted="false" name="error_register_email_exists">Ez az e-mail-cím már létezik</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">A projekt már létezik.</string>

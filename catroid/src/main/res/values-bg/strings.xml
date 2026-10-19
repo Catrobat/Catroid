@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Премахни избора</string>
     <string formatted="false" name="skip">пропусни</string>
     <string formatted="false" name="warning">Внимание</string>
-    <string formatted="false" name="error">Грешка</string>
     <string formatted="false" name="loading">Зареждане…</string>
-    <string formatted="false" name="please_wait">Моля, изчакай</string>
     <string formatted="false" name="search_hint">Търсене</string>
     <string formatted="false" name="backpack_add">Сложи в раницата</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">въведи API ключа тук</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Проверка на данните за вход…</string>
-    <string formatted="false" name="loading_google_exchange_code">Обмен на данните за вход с Google…</string>
-    <string formatted="false" name="loading_google_login">Входът с Google на нашия сървър е завършен…</string>
     <string formatted="false" name="logout_successful">Излизането е успешно</string>
     <string formatted="false" name="degrees">градуса</string>
     <string formatted="false" name="background">Фон</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Нов проект</string>
     <string formatted="false" name="main_menu_programs">Проекти</string>
     <string formatted="false" name="main_menu_help">Помощ</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Качи проекта</string>
     <string formatted="false" name="main_menu_play">Стартирай проекта</string>
     <string formatted="false" name="main_menu_rate_app">Оцени ни!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Текущ епизод (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Вход</string>
     <string formatted="false" name="username">Потребителско име</string>
     <string formatted="false" name="password">Парола</string>
     <string formatted="false" name="reset_password">Нулирай паролата</string>
-    <string formatted="false" name="new_user_registered">Създаден е нов профил</string>
-    <string formatted="false" name="user_logged_in">Влизането е успешно</string>
-    <string formatted="false" name="register_error">Невалидни данни за вход</string>
     <string formatted="false" name="register_terms">С регистрацията си приемаш нашите</string>
     <string formatted="false" name="register_code_terms_of_use_text">Условия за ползване</string>
     <string formatted="false" name="login">Вход</string>
     <string formatted="false" name="register">Регистрация</string>
-    <string formatted="false" name="password_confirm">Потвърди паролата</string>
-    <string formatted="false" name="accountName">Имейл</string>
-    <string formatted="false" name="signin_thanks">Благодарим ти за регистрацията!</string>
-    <string formatted="false" name="signin_choose_username">Избери потребителско име:</string>
-    <string formatted="false" name="signin_choose_username_empty">Въведи потребителско име.</string>
-    <string formatted="false" name="signin_choose_username_hint">Потребителското име не трябва да е истинското ти име, нито имейл адрес.</string>
-    <string formatted="false" name="oauth_username_taken">Някой друг вече използва това име. Избери друго!</string>
     <string formatted="false" name="show_password">Покажи паролата</string>
     <string formatted="false" name="sign_in_error">Нещо се обърка при влизането.</string>
     <string formatted="false" name="error_google_plus_sign_in">Грешка при вход с Google. Състояние: %s</string>
-    <string formatted="false" name="error_session_expired">Сесията е изтекла. Моля, влез отново.</string>
     <string formatted="false" name="error_register_empty_username">Празно потребителско име</string>
-    <string formatted="false" name="error_register_username_as_email">Имейл адрес не може да се използва като потребителско име</string>
     <string formatted="false" name="error_register_invalid_username">Потребителското име може да съдържа само латински букви (a–z), цифри (0–9), тирета (-), долни черти (_) и точки (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Потребителското име не трябва да започва с тире (-), долна черта (_) или точка (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Невалиден формат на имейла</string>
     <string formatted="false" name="error_register_empty_password">Полето за парола е празно</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Паролата трябва да е поне 6 знака</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Паролите не съвпадат</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Полето за потвърждаване на паролата е празно</string>
-    <string formatted="false" name="error_register_username_already_exists">Потребителското име вече съществува</string>
-    <string formatted="false" name="error_register_email_exists">Имейл адресът вече съществува</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Проектът съществува.</string>

@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Alles deselecteren</string>
     <string formatted="false" name="skip">overslaan</string>
     <string formatted="false" name="warning">Waarschuwing</string>
-    <string formatted="false" name="error">Fout</string>
     <string formatted="false" name="loading">Laden…</string>
-    <string formatted="false" name="please_wait">Even geduld</string>
     <string formatted="false" name="search_hint">Zoeken</string>
     <string formatted="false" name="backpack_add">Toevoegen aan rugzak</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">vul hier de API-sleutel in</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Inloggegevens controleren…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google-inloggegevens uitwisselen…</string>
-    <string formatted="false" name="loading_google_login">Inloggen met Google op onze server is voltooid…</string>
     <string formatted="false" name="logout_successful">Uitloggen gelukt</string>
     <string formatted="false" name="degrees">graden</string>
     <string formatted="false" name="background">Achtergrond</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nieuw project</string>
     <string formatted="false" name="main_menu_programs">Projecten</string>
     <string formatted="false" name="main_menu_help">Help</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Project uploaden</string>
     <string formatted="false" name="main_menu_play">Project afspelen</string>
     <string formatted="false" name="main_menu_rate_app">Beoordeel ons!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Huidige scène (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Inloggen</string>
     <string formatted="false" name="username">Gebruikersnaam</string>
     <string formatted="false" name="password">Wachtwoord</string>
     <string formatted="false" name="reset_password">Wachtwoord opnieuw instellen</string>
-    <string formatted="false" name="new_user_registered">Nieuw account aangemaakt</string>
-    <string formatted="false" name="user_logged_in">Inloggen gelukt</string>
-    <string formatted="false" name="register_error">Ongeldige inloggegevens</string>
     <string formatted="false" name="register_terms">Door je te registreren, ga je akkoord met onze</string>
     <string formatted="false" name="register_code_terms_of_use_text">gebruiksvoorwaarden</string>
     <string formatted="false" name="login">Inloggen</string>
     <string formatted="false" name="register">Registreren</string>
-    <string formatted="false" name="password_confirm">Wachtwoord bevestigen</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Bedankt voor je registratie!</string>
-    <string formatted="false" name="signin_choose_username">Kies je gebruikersnaam:</string>
-    <string formatted="false" name="signin_choose_username_empty">Voer een gebruikersnaam in.</string>
-    <string formatted="false" name="signin_choose_username_hint">Gebruik niet je echte naam of een e-mailadres als gebruikersnaam.</string>
-    <string formatted="false" name="oauth_username_taken">Iemand anders gebruikt deze naam al. Kies een andere!</string>
     <string formatted="false" name="show_password">Wachtwoord tonen</string>
     <string formatted="false" name="sign_in_error">Er ging iets mis bij het inloggen.</string>
     <string formatted="false" name="error_google_plus_sign_in">Fout bij inloggen met Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessie verlopen. Log opnieuw in.</string>
     <string formatted="false" name="error_register_empty_username">Gebruikersnaam is leeg</string>
-    <string formatted="false" name="error_register_username_as_email">Een e-mailadres kan niet als gebruikersnaam worden gebruikt</string>
     <string formatted="false" name="error_register_invalid_username">Een gebruikersnaam mag alleen letters (a–z), cijfers (0–9), streepjes (-), underscores (_) en punten (.) bevatten.</string>
-    <string formatted="false" name="error_register_username_start_with">Een gebruikersnaam mag niet beginnen met een streepje (-), underscore (_) of punt (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ongeldig e-mailadres</string>
     <string formatted="false" name="error_register_empty_password">Het wachtwoordveld is leeg</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Het wachtwoord moet minstens 6 tekens lang zijn</string>
-    <string formatted="false" name="error_register_passwords_mismatch">De wachtwoorden komen niet overeen</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Het veld voor het bevestigen van het wachtwoord is leeg</string>
-    <string formatted="false" name="error_register_username_already_exists">Deze gebruikersnaam bestaat al</string>
-    <string formatted="false" name="error_register_email_exists">Dit e-mailadres is al in gebruik</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Project bestaat al.</string>

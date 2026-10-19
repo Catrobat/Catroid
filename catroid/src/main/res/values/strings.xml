@@ -65,10 +65,8 @@
 
     <string formatted="false" name="skip">skip</string>
     <string formatted="false" name="warning">Warning</string>
-    <string formatted="false" name="error">Error</string>
 
     <string formatted="false" name="loading">Loading…</string>
-    <string formatted="false" name="please_wait">Please wait</string>
     <string formatted="false" name="search_hint">Search</string>
 
     <string formatted="false" name="backpack_add">Add to backpack</string>
@@ -94,9 +92,6 @@
 
 
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Checking login data…</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data…</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete…</string>
 
     <string formatted="false" name="logout_successful">Logout successful</string>
 
@@ -113,7 +108,6 @@
     <string formatted="false" name="main_menu_new">New project</string>
     <string formatted="false" name="main_menu_programs">Projects</string>
     <string formatted="false" name="main_menu_help">Help</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="explore_share">Explore our community</string>
     <string formatted="false" name="upload_to_community">Upload to community</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
@@ -825,41 +819,21 @@
 
 
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Sign in</string>
     <string formatted="false" name="username">Username</string>
     <string formatted="false" name="password">Password</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">New account created</string>
-    <string formatted="false" name="user_logged_in">Login successful</string>
-    <string formatted="false" name="register_error">Login invalid</string>
     <string formatted="false" name="register_terms">By registering you agree to our</string>
     <string formatted="false" name="register_code_terms_of_use_text">Terms of use and service</string>
     <string formatted="false" name="login">Login</string>
     <string formatted="false" name="register">Register</string>
-    <string formatted="false" name="password_confirm">Confirm password</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Thank you for signing up!</string>
-    <string formatted="false" name="signin_choose_username">Please choose your username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string formatted="false" name="show_password">Show password</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Session expired, please log in.</string>
     <string formatted="false" name="error_register_empty_username">Empty username</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Invalid email format</string>
     <string formatted="false" name="error_register_empty_password">Password field is empty</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string formatted="false" name="error_register_username_already_exists">Username already exists</string>
-    <string formatted="false" name="error_register_email_exists">Email address already exists</string>
     <!--  -->
 
 

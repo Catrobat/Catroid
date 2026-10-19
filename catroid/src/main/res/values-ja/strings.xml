@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">すべての選択を解除</string>
     <string formatted="false" name="skip">スキップ</string>
     <string formatted="false" name="warning">警告</string>
-    <string formatted="false" name="error">エラー</string>
     <string formatted="false" name="loading">読み込み中…</string>
-    <string formatted="false" name="please_wait">しばらくお待ちください</string>
     <string formatted="false" name="search_hint">検索</string>
     <string formatted="false" name="backpack_add">バックパックに追加</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">ここに API キーを入力</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">ログインデータを確認中…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google のログインデータを交換しています…</string>
-    <string formatted="false" name="loading_google_login">サーバーでの Google ログインが完了しました…</string>
     <string formatted="false" name="logout_successful">ログアウトしました</string>
     <string formatted="false" name="degrees">度</string>
     <string formatted="false" name="background">背景</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">新規プロジェクト</string>
     <string formatted="false" name="main_menu_programs">プロジェクト</string>
     <string formatted="false" name="main_menu_help">ヘルプ</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">プロジェクトをアップロード</string>
     <string formatted="false" name="main_menu_play">プロジェクトをプレイ</string>
     <string formatted="false" name="main_menu_rate_app">アプリを評価してください！</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">現在のシーン (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ログイン</string>
     <string formatted="false" name="username">ユーザー名</string>
     <string formatted="false" name="password">パスワード</string>
     <string formatted="false" name="reset_password">パスワードをリセット</string>
-    <string formatted="false" name="new_user_registered">新しいアカウントを作成しました</string>
-    <string formatted="false" name="user_logged_in">ログインしました</string>
-    <string formatted="false" name="register_error">ログイン情報が正しくありません</string>
     <string formatted="false" name="register_terms">登録すると、次に同意したことになります:</string>
     <string formatted="false" name="register_code_terms_of_use_text">利用規約</string>
     <string formatted="false" name="login">ログイン</string>
     <string formatted="false" name="register">登録</string>
-    <string formatted="false" name="password_confirm">パスワードの確認</string>
-    <string formatted="false" name="accountName">メールアドレス</string>
-    <string formatted="false" name="signin_thanks">ご登録ありがとうございます！</string>
-    <string formatted="false" name="signin_choose_username">ユーザー名を決めてください:</string>
-    <string formatted="false" name="signin_choose_username_empty">ユーザー名を入力してください。</string>
-    <string formatted="false" name="signin_choose_username_hint">ユーザー名には本名やメールアドレスを使わないでください。</string>
-    <string formatted="false" name="oauth_username_taken">この名前は既にほかの人が使っています。別の名前を選んでください！</string>
     <string formatted="false" name="show_password">パスワードを表示</string>
     <string formatted="false" name="sign_in_error">ログイン中に問題が発生しました。</string>
     <string formatted="false" name="error_google_plus_sign_in">Google ログインエラー。ステータス: %s</string>
-    <string formatted="false" name="error_session_expired">セッションの期限が切れました。ログインしてください。</string>
     <string formatted="false" name="error_register_empty_username">ユーザー名が空です</string>
-    <string formatted="false" name="error_register_username_as_email">メールアドレスはユーザー名として使用できません</string>
     <string formatted="false" name="error_register_invalid_username">ユーザー名に使えるのは、英字（a–z）、数字（0–9）、ダッシュ（-）、アンダースコア（_）、ピリオド（.）だけです。</string>
-    <string formatted="false" name="error_register_username_start_with">ユーザー名をダッシュ（-）、アンダースコア（_）、ピリオド（.）で始めることはできません。</string>
-    <string formatted="false" name="error_register_invalid_email_format">メールアドレスの形式が正しくありません</string>
     <string formatted="false" name="error_register_empty_password">パスワードが入力されていません</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">パスワードは 6 文字以上にしてください</string>
-    <string formatted="false" name="error_register_passwords_mismatch">パスワードが一致しません</string>
-    <string formatted="false" name="error_register_empty_confirm_password">確認用のパスワードが入力されていません</string>
-    <string formatted="false" name="error_register_username_already_exists">このユーザー名は既に使われています</string>
-    <string formatted="false" name="error_register_email_exists">このメールアドレスは既に使われています</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">プロジェクトが存在します。</string>

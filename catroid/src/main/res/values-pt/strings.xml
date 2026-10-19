@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Desselecionar tudo</string>
     <string formatted="false" name="skip">saltar</string>
     <string formatted="false" name="warning">Aviso</string>
-    <string formatted="false" name="error">Erro</string>
     <string formatted="false" name="loading">A carregar…</string>
-    <string formatted="false" name="please_wait">Aguarde, por favor</string>
     <string formatted="false" name="search_hint">Pesquisar</string>
     <string formatted="false" name="backpack_add">Adicionar à mochila</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">inserir chave de API aqui</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">A verificar os dados de início de sessão…</string>
-    <string formatted="false" name="loading_google_exchange_code">A trocar os dados de início de sessão do Google…</string>
-    <string formatted="false" name="loading_google_login">O início de sessão com o Google no nosso servidor está concluído…</string>
     <string formatted="false" name="logout_successful">Sessão terminada com êxito</string>
     <string formatted="false" name="degrees">graus</string>
     <string formatted="false" name="background">Fundo</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Novo projeto</string>
     <string formatted="false" name="main_menu_programs">Projetos</string>
     <string formatted="false" name="main_menu_help">Ajuda</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Carregar projeto</string>
     <string formatted="false" name="main_menu_play">Executar projeto</string>
     <string formatted="false" name="main_menu_rate_app">Avalie-nos!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Cena atual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Iniciar sessão</string>
     <string formatted="false" name="username">Nome de utilizador</string>
     <string formatted="false" name="password">Palavra-passe</string>
     <string formatted="false" name="reset_password">Repor palavra-passe</string>
-    <string formatted="false" name="new_user_registered">Nova conta criada</string>
-    <string formatted="false" name="user_logged_in">Sessão iniciada com êxito</string>
-    <string formatted="false" name="register_error">Dados de início de sessão inválidos</string>
     <string formatted="false" name="register_terms">Ao registar-se, aceita os nossos</string>
     <string formatted="false" name="register_code_terms_of_use_text">Termos de Utilização e Serviço</string>
     <string formatted="false" name="login">Iniciar sessão</string>
     <string formatted="false" name="register">Registar-se</string>
-    <string formatted="false" name="password_confirm">Confirmar palavra-passe</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Obrigado por se ter registado!</string>
-    <string formatted="false" name="signin_choose_username">Escolha o seu nome de utilizador:</string>
-    <string formatted="false" name="signin_choose_username_empty">Introduza um nome de utilizador.</string>
-    <string formatted="false" name="signin_choose_username_hint">O nome de utilizador não deve ser o seu nome verdadeiro nem um endereço de e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Outra pessoa já utiliza este nome. Escolha um nome diferente!</string>
     <string formatted="false" name="show_password">Mostrar palavra-passe</string>
     <string formatted="false" name="sign_in_error">Ocorreu um erro ao iniciar sessão.</string>
     <string formatted="false" name="error_google_plus_sign_in">Erro ao iniciar sessão com o Google. Estado: %s</string>
-    <string formatted="false" name="error_session_expired">A sessão expirou. Inicie sessão novamente.</string>
     <string formatted="false" name="error_register_empty_username">Nome de utilizador vazio</string>
-    <string formatted="false" name="error_register_username_as_email">Não é possível utilizar um endereço de e-mail como nome de utilizador</string>
     <string formatted="false" name="error_register_invalid_username">O nome de utilizador só pode conter letras (a–z), números (0–9), hífenes (-), sublinhados (_) e pontos (.).</string>
-    <string formatted="false" name="error_register_username_start_with">O nome de utilizador não deve começar com hífenes (-), sublinhados (_) ou pontos (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Formato de e-mail inválido</string>
     <string formatted="false" name="error_register_empty_password">O campo da palavra-passe está vazio</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">A palavra-passe deve ter pelo menos 6 carateres</string>
-    <string formatted="false" name="error_register_passwords_mismatch">As palavras-passe não coincidem</string>
-    <string formatted="false" name="error_register_empty_confirm_password">O campo de confirmação da palavra-passe está vazio</string>
-    <string formatted="false" name="error_register_username_already_exists">O nome de utilizador já existe</string>
-    <string formatted="false" name="error_register_email_exists">O endereço de e-mail já existe</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">O projeto já existe.</string>

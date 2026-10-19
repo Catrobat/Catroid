@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Таңдауды алып тастау</string>
     <string formatted="false" name="skip">өткізіп жіберу</string>
     <string formatted="false" name="warning">Ескерту</string>
-    <string formatted="false" name="error">Қате</string>
     <string formatted="false" name="loading">Жүктелуде…</string>
-    <string formatted="false" name="please_wait">Күте тұрыңыз</string>
     <string formatted="false" name="search_hint">Іздеу</string>
     <string formatted="false" name="backpack_add">Рюкзакқа салу</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API кілтін осында енгізіңіз</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Кіру деректері тексерілуде…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google кіру деректері алмасуда…</string>
-    <string formatted="false" name="loading_google_login">Біздің серверде Google арқылы кіру аяқталды…</string>
     <string formatted="false" name="logout_successful">Жүйеден шығу сәтті аяқталды</string>
     <string formatted="false" name="degrees">градус</string>
     <string formatted="false" name="background">Фон</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Жаңа жоба</string>
     <string formatted="false" name="main_menu_programs">Жобалар</string>
     <string formatted="false" name="main_menu_help">Көмек</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Жобаны жүктеп салу</string>
     <string formatted="false" name="main_menu_play">Жобаны ойнау</string>
     <string formatted="false" name="main_menu_rate_app">Бізді бағалаңыз!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Ағымдағы көрініс (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Кіру</string>
     <string formatted="false" name="username">Пайдаланушы аты</string>
     <string formatted="false" name="password">Құпиясөз</string>
     <string formatted="false" name="reset_password">Құпиясөзді қалпына келтіру</string>
-    <string formatted="false" name="new_user_registered">Жаңа тіркелгі жасалды</string>
-    <string formatted="false" name="user_logged_in">Жүйеге сәтті кірдіңіз</string>
-    <string formatted="false" name="register_error">Кіру деректері жарамсыз</string>
     <string formatted="false" name="register_terms">Тіркелу арқылы сіз мынаған келісесіз:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Пайдалану және қызмет көрсету шарттары</string>
     <string formatted="false" name="login">Кіру</string>
     <string formatted="false" name="register">Тіркелу</string>
-    <string formatted="false" name="password_confirm">Құпиясөзді растау</string>
-    <string formatted="false" name="accountName">Электрондық пошта</string>
-    <string formatted="false" name="signin_thanks">Тіркелгеніңізге рахмет!</string>
-    <string formatted="false" name="signin_choose_username">Пайдаланушы атыңызды таңдаңыз:</string>
-    <string formatted="false" name="signin_choose_username_empty">Пайдаланушы атын енгізіңіз.</string>
-    <string formatted="false" name="signin_choose_username_hint">Пайдаланушы аты нақты атыңыз немесе электрондық пошта мекенжайы болмауы керек.</string>
-    <string formatted="false" name="oauth_username_taken">Бұл атауды әлдеқашан басқа біреу қолданады. Басқасын таңдаңыз!</string>
     <string formatted="false" name="show_password">Құпиясөзді көрсету</string>
     <string formatted="false" name="sign_in_error">Жүйеге кіру кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google жүйесіне кіру қатесі. Күйі: %s</string>
-    <string formatted="false" name="error_session_expired">Сеанс аяқталды, жүйеге кіріңіз.</string>
     <string formatted="false" name="error_register_empty_username">Бос пайдаланушы аты</string>
-    <string formatted="false" name="error_register_username_as_email">Электрондық пошта мекенжайын пайдаланушы аты ретінде пайдалану мүмкін емес</string>
     <string formatted="false" name="error_register_invalid_username">Пайдаланушы атында тек әріптер (a–z), сандар (0–9), дефистер (-), астын сызу таңбалары (_) және нүктелер (.) болуы керек.</string>
-    <string formatted="false" name="error_register_username_start_with">Пайдаланушы аты дефистен (-), астын сызу таңбасынан (_) немесе нүктеден (.) басталмауы керек.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Электрондық пошта пішімі жарамсыз</string>
     <string formatted="false" name="error_register_empty_password">Құпиясөз өрісі бос</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Құпиясөз кемінде 6 таңбадан тұруы керек</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Құпиясөздер сәйкес келмейді</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Құпиясөзді растау өрісі бос</string>
-    <string formatted="false" name="error_register_username_already_exists">Бұл пайдаланушы аты бұрыннан бар</string>
-    <string formatted="false" name="error_register_email_exists">Бұл электрондық пошта мекенжайы бұрыннан тіркелген</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Жоба бұрыннан бар.</string>

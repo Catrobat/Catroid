@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆ ರದ್ದುಮಾಡಿ</string>
     <string formatted="false" name="skip">ಸ್ಕಿಪ್ ಮಾಡಿ</string>
     <string formatted="false" name="warning">ಎಚ್ಚರಿಕೆ</string>
-    <string formatted="false" name="error">ದೋಷ</string>
     <string formatted="false" name="loading">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</string>
-    <string formatted="false" name="please_wait">ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ</string>
     <string formatted="false" name="search_hint">ಹುಡುಕಿ</string>
     <string formatted="false" name="backpack_add">ಬ್ಯಾಕ್‌ಪ್ಯಾಕ್‌ಗೆ ಸೇರಿಸಿ</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API ಕೀಯನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">ಲಾಗಿನ್ ಡೇಟಾವನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google ಲಾಗಿನ್ ಡೇಟಾವನ್ನು ವಿನಿಮಯ ಮಾಡಲಾಗುತ್ತಿದೆ…</string>
-    <string formatted="false" name="loading_google_login">ನಮ್ಮ ಸರ್ವರ್‌ನಲ್ಲಿ Google ಲಾಗಿನ್ ಪೂರ್ಣಗೊಂಡಿದೆ…</string>
     <string formatted="false" name="logout_successful">ಲಾಗ್ ಔಟ್ ಯಶಸ್ವಿಯಾಗಿದೆ</string>
     <string formatted="false" name="degrees">ಡಿಗ್ರಿ</string>
     <string formatted="false" name="background">ಹಿನ್ನೆಲೆ</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">ಹೊಸ ಪ್ರಾಜೆಕ್ಟ್</string>
     <string formatted="false" name="main_menu_programs">ಪ್ರಾಜೆಕ್ಟ್‌ಗಳು</string>
     <string formatted="false" name="main_menu_help">ಸಹಾಯ</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">ಪ್ರಾಜೆಕ್ಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
     <string formatted="false" name="main_menu_play">ಪ್ರಾಜೆಕ್ಟ್ ಪ್ಲೇ ಮಾಡಿ</string>
     <string formatted="false" name="main_menu_rate_app">ನಮ್ಮನ್ನು ರೇಟ್ ಮಾಡಿ!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">ಪ್ರಸ್ತುತ ದೃಶ್ಯ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ಲಾಗ್ ಇನ್ ಮಾಡಿ</string>
     <string formatted="false" name="username">ಬಳಕೆದಾರ ಹೆಸರು</string>
     <string formatted="false" name="password">ಪಾಸ್‌ವರ್ಡ್</string>
     <string formatted="false" name="reset_password">ಪಾಸ್‌ವರ್ಡ್ ಮರುಹೊಂದಿಸಿ</string>
-    <string formatted="false" name="new_user_registered">ಹೊಸ ಖಾತೆಯನ್ನು ರಚಿಸಲಾಗಿದೆ</string>
-    <string formatted="false" name="user_logged_in">ಲಾಗ್ ಇನ್ ಯಶಸ್ವಿಯಾಗಿದೆ</string>
-    <string formatted="false" name="register_error">ಲಾಗಿನ್ ಅಮಾನ್ಯವಾಗಿದೆ</string>
     <string formatted="false" name="register_terms">ನೋಂದಾಯಿಸುವ ಮೂಲಕ ನೀವು ಇದಕ್ಕೆ ಒಪ್ಪುತ್ತೀರಿ:</string>
     <string formatted="false" name="register_code_terms_of_use_text">ಬಳಕೆ ಮತ್ತು ಸೇವೆಯ ನಿಯಮಗಳು</string>
     <string formatted="false" name="login">ಲಾಗ್ ಇನ್</string>
     <string formatted="false" name="register">ನೋಂದಾಯಿಸಿ</string>
-    <string formatted="false" name="password_confirm">ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಿಸಿ</string>
-    <string formatted="false" name="accountName">ಇಮೇಲ್</string>
-    <string formatted="false" name="signin_thanks">ನೋಂದಾಯಿಸಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!</string>
-    <string formatted="false" name="signin_choose_username">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬಳಕೆದಾರ ಹೆಸರನ್ನು ಆರಿಸಿ:</string>
-    <string formatted="false" name="signin_choose_username_empty">ದಯವಿಟ್ಟು ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ.</string>
-    <string formatted="false" name="signin_choose_username_hint">ಬಳಕೆದಾರ ಹೆಸರು ನಿಮ್ಮ ನಿಜವಾದ ಹೆಸರಾಗಿರಬಾರದು ಮತ್ತು ಇಮೇಲ್ ವಿಳಾಸವೂ ಆಗಿರಬಾರದು.</string>
-    <string formatted="false" name="oauth_username_taken">ಈ ಹೆಸರನ್ನು ಈಗಾಗಲೇ ಬೇರೊಬ್ಬರು ಬಳಸುತ್ತಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಬೇರೆ ಹೆಸರನ್ನು ಆರಿಸಿ!</string>
     <string formatted="false" name="show_password">ಪಾಸ್‌ವರ್ಡ್ ತೋರಿಸಿ</string>
     <string formatted="false" name="sign_in_error">ಲಾಗ್ ಇನ್ ಮಾಡುವಾಗ ಏನೋ ತಪ್ಪಾಗಿದೆ.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google ಲಾಗ್ ಇನ್ ದೋಷ. ಸ್ಥಿತಿ: %s</string>
-    <string formatted="false" name="error_session_expired">ಸೆಷನ್ ಅವಧಿ ಮುಗಿದಿದೆ, ದಯವಿಟ್ಟು ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
     <string formatted="false" name="error_register_empty_username">ಬಳಕೆದಾರ ಹೆಸರು ಖಾಲಿಯಾಗಿದೆ</string>
-    <string formatted="false" name="error_register_username_as_email">ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ಬಳಕೆದಾರ ಹೆಸರಾಗಿ ಬಳಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
     <string formatted="false" name="error_register_invalid_username">ಬಳಕೆದಾರ ಹೆಸರಿನಲ್ಲಿ ಅಕ್ಷರಗಳು (a–z), ಸಂಖ್ಯೆಗಳು (0–9), ಡ್ಯಾಶ್‌ಗಳು (-), ಅಂಡರ್‌ಸ್ಕೋರ್‌ಗಳು (_) ಮತ್ತು ಪೂರ್ಣವಿರಾಮಗಳು (.) ಮಾತ್ರ ಇರಬೇಕು.</string>
-    <string formatted="false" name="error_register_username_start_with">ಬಳಕೆದಾರ ಹೆಸರು ಡ್ಯಾಶ್ (-), ಅಂಡರ್‌ಸ್ಕೋರ್ (_) ಅಥವಾ ಪೂರ್ಣವಿರಾಮದಿಂದ (.) ಪ್ರಾರಂಭವಾಗಬಾರದು.</string>
-    <string formatted="false" name="error_register_invalid_email_format">ಇಮೇಲ್ ಫಾರ್ಮ್ಯಾಟ್ ಅಮಾನ್ಯವಾಗಿದೆ</string>
     <string formatted="false" name="error_register_empty_password">ಪಾಸ್‌ವರ್ಡ್ ಕ್ಷೇತ್ರ ಖಾಲಿಯಾಗಿದೆ</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">ಪಾಸ್‌ವರ್ಡ್ ಕನಿಷ್ಠ 6 ಅಕ್ಷರಗಳಿರಬೇಕು</string>
-    <string formatted="false" name="error_register_passwords_mismatch">ಪಾಸ್‌ವರ್ಡ್‌ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಣ ಕ್ಷೇತ್ರ ಖಾಲಿಯಾಗಿದೆ</string>
-    <string formatted="false" name="error_register_username_already_exists">ಬಳಕೆದಾರ ಹೆಸರು ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ</string>
-    <string formatted="false" name="error_register_email_exists">ಇಮೇಲ್ ವಿಳಾಸ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">ಪ್ರಾಜೆಕ್ಟ್ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.</string>

@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ไม่เลือกทั้งหมด</string>
     <string formatted="false" name="skip">ข้าม</string>
     <string formatted="false" name="warning">คำเตือน</string>
-    <string formatted="false" name="error">ข้อผิดพลาด</string>
     <string formatted="false" name="loading">กำลังโหลด…</string>
-    <string formatted="false" name="please_wait">โปรดรอสักครู่</string>
     <string formatted="false" name="search_hint">ค้นหา</string>
     <string formatted="false" name="backpack_add">เพิ่มลงในกระเป๋าเป้</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">ใส่คีย์ API ที่นี่</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">กำลังตรวจสอบข้อมูลการเข้าสู่ระบบ…</string>
-    <string formatted="false" name="loading_google_exchange_code">กำลังแลกเปลี่ยนข้อมูลการเข้าสู่ระบบ Google…</string>
-    <string formatted="false" name="loading_google_login">การเข้าสู่ระบบ Google บนเซิร์ฟเวอร์ของเราเสร็จสมบูรณ์…</string>
     <string formatted="false" name="logout_successful">ออกจากระบบสำเร็จ</string>
     <string formatted="false" name="degrees">องศา</string>
     <string formatted="false" name="background">พื้นหลัง</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">โปรเจกต์ใหม่</string>
     <string formatted="false" name="main_menu_programs">โปรเจกต์</string>
     <string formatted="false" name="main_menu_help">ช่วยเหลือ</string>
-    <string formatted="false" name="main_menu_web">ชุมชน Catrobat</string>
     <string formatted="false" name="main_menu_upload">อัปโหลดโปรเจกต์</string>
     <string formatted="false" name="main_menu_play">เล่นโปรเจกต์</string>
     <string formatted="false" name="main_menu_rate_app">ให้คะแนนเรา!</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">ฉากปัจจุบัน (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">เข้าสู่ระบบ</string>
     <string formatted="false" name="username">ชื่อผู้ใช้</string>
     <string formatted="false" name="password">รหัสผ่าน</string>
     <string formatted="false" name="reset_password">รีเซ็ตรหัสผ่าน</string>
-    <string formatted="false" name="new_user_registered">สร้างบัญชีใหม่แล้ว</string>
-    <string formatted="false" name="user_logged_in">เข้าสู่ระบบสำเร็จแล้ว</string>
-    <string formatted="false" name="register_error">ข้อมูลการเข้าสู่ระบบไม่ถูกต้อง</string>
     <string formatted="false" name="register_terms">การลงทะเบียนถือว่าคุณยอมรับ</string>
     <string formatted="false" name="register_code_terms_of_use_text">ข้อกำหนดการใช้งานและบริการ</string>
     <string formatted="false" name="login">เข้าสู่ระบบ</string>
     <string formatted="false" name="register">สมัครสมาชิก</string>
-    <string formatted="false" name="password_confirm">ยืนยันรหัสผ่าน</string>
-    <string formatted="false" name="accountName">อีเมล</string>
-    <string formatted="false" name="signin_thanks">ขอบคุณที่ลงทะเบียน!</string>
-    <string formatted="false" name="signin_choose_username">โปรดเลือกชื่อผู้ใช้ของคุณ:</string>
-    <string formatted="false" name="signin_choose_username_empty">โปรดป้อนชื่อผู้ใช้</string>
-    <string formatted="false" name="signin_choose_username_hint">ชื่อผู้ใช้ไม่ควรเป็นชื่อจริงของคุณและไม่ควรเป็นที่อยู่อีเมล</string>
-    <string formatted="false" name="oauth_username_taken">มีคนอื่นใช้ชื่อนี้แล้ว โปรดเลือกชื่ออื่น!</string>
     <string formatted="false" name="show_password">แสดงรหัสผ่าน</string>
     <string formatted="false" name="sign_in_error">เกิดข้อผิดพลาดระหว่างการเข้าสู่ระบบ</string>
     <string formatted="false" name="error_google_plus_sign_in">เกิดข้อผิดพลาดในการเข้าสู่ระบบ Google สถานะ: %s</string>
-    <string formatted="false" name="error_session_expired">เซสชันหมดอายุแล้ว โปรดเข้าสู่ระบบ</string>
     <string formatted="false" name="error_register_empty_username">ชื่อผู้ใช้ว่างเปล่า</string>
-    <string formatted="false" name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
     <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรประกอบด้วยตัวอักษร (a–z), ตัวเลข (0–9), ขีดกลาง (-), ขีดล่าง (_) และจุด (.) เท่านั้น</string>
-    <string formatted="false" name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
-    <string formatted="false" name="error_register_invalid_email_format">รูปแบบอีเมลไม่ถูกต้อง</string>
     <string formatted="false" name="error_register_empty_password">ช่องรหัสผ่านว่างเปล่า</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">รหัสผ่านควรมีอย่างน้อย 6 ตัวอักษร</string>
-    <string formatted="false" name="error_register_passwords_mismatch">รหัสผ่านไม่ตรงกัน</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ช่องยืนยันรหัสผ่านว่างเปล่า</string>
-    <string formatted="false" name="error_register_username_already_exists">ชื่อผู้ใช้นี้มีอยู่ในระบบอยู่แล้ว</string>
-    <string formatted="false" name="error_register_email_exists">มีอีเมลนี้อยู่ในระบบแล้ว</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">มีโปรเจกต์นี้อยู่แล้ว</string>

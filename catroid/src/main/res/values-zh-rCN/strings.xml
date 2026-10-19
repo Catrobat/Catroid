@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">取消全选</string>
     <string formatted="false" name="skip">跳过</string>
     <string formatted="false" name="warning">警告</string>
-    <string formatted="false" name="error">错误</string>
     <string formatted="false" name="loading">正在加载…</string>
-    <string formatted="false" name="please_wait">请稍候</string>
     <string formatted="false" name="search_hint">搜索</string>
     <string formatted="false" name="backpack_add">添加到背包</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">在此处插入 API 密钥</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">正在检查登录数据…</string>
-    <string formatted="false" name="loading_google_exchange_code">正在交换 Google 登录数据…</string>
-    <string formatted="false" name="loading_google_login">已在我们的服务器上完成 Google 登录…</string>
     <string formatted="false" name="logout_successful">已成功退出登录</string>
     <string formatted="false" name="degrees">度</string>
     <string formatted="false" name="background">背景</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">新建项目</string>
     <string formatted="false" name="main_menu_programs">项目</string>
     <string formatted="false" name="main_menu_help">帮助</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">上传项目</string>
     <string formatted="false" name="main_menu_play">运行项目</string>
     <string formatted="false" name="main_menu_rate_app">给我们评分！</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">当前场景（%1$s）</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">登录</string>
     <string formatted="false" name="username">用户名</string>
     <string formatted="false" name="password">密码</string>
     <string formatted="false" name="reset_password">重置密码</string>
-    <string formatted="false" name="new_user_registered">新账户已创建</string>
-    <string formatted="false" name="user_logged_in">登录成功</string>
-    <string formatted="false" name="register_error">登录信息无效</string>
     <string formatted="false" name="register_terms">注册即表示您同意我们的</string>
     <string formatted="false" name="register_code_terms_of_use_text">使用和服务条款</string>
     <string formatted="false" name="login">登录</string>
     <string formatted="false" name="register">注册</string>
-    <string formatted="false" name="password_confirm">确认密码</string>
-    <string formatted="false" name="accountName">电子邮件</string>
-    <string formatted="false" name="signin_thanks">感谢您的注册！</string>
-    <string formatted="false" name="signin_choose_username">请选择您的用户名：</string>
-    <string formatted="false" name="signin_choose_username_empty">请输入用户名。</string>
-    <string formatted="false" name="signin_choose_username_hint">用户名不应是您的真实姓名，也不应是电子邮件地址。</string>
-    <string formatted="false" name="oauth_username_taken">此用户名已被他人使用，请另选一个！</string>
     <string formatted="false" name="show_password">显示密码</string>
     <string formatted="false" name="sign_in_error">登录时出错。</string>
     <string formatted="false" name="error_google_plus_sign_in">Google 登录错误。状态：%s</string>
-    <string formatted="false" name="error_session_expired">会话已过期，请登录。</string>
     <string formatted="false" name="error_register_empty_username">用户名为空</string>
-    <string formatted="false" name="error_register_username_as_email">电子邮件地址不能用作用户名</string>
     <string formatted="false" name="error_register_invalid_username">用户名只能包含字母（a–z）、数字（0–9）、连字符（-）、下划线（_）和句点（.）。</string>
-    <string formatted="false" name="error_register_username_start_with">用户名不能以连字符（-）、下划线（_）或句点（.）开头。</string>
-    <string formatted="false" name="error_register_invalid_email_format">电子邮件格式无效</string>
     <string formatted="false" name="error_register_empty_password">密码字段为空</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">密码长度至少为 6 个字符</string>
-    <string formatted="false" name="error_register_passwords_mismatch">两次输入的密码不一致</string>
-    <string formatted="false" name="error_register_empty_confirm_password">确认密码字段为空</string>
-    <string formatted="false" name="error_register_username_already_exists">用户名已存在</string>
-    <string formatted="false" name="error_register_email_exists">电子邮件地址已存在</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">项目已存在。</string>

@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Tanlovni bekor qilish</string>
     <string formatted="false" name="skip">oʻtkazib yuborish</string>
     <string formatted="false" name="warning">Ogohlantirish</string>
-    <string formatted="false" name="error">Xato</string>
     <string formatted="false" name="loading">Yuklanmoqda…</string>
-    <string formatted="false" name="please_wait">Iltimos, kuting</string>
     <string formatted="false" name="search_hint">Qidirish</string>
     <string formatted="false" name="backpack_add">Ryukzakka qoʻshish</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API kalitini shu yerga kiriting</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kirish maʼlumotlari tekshirilmoqda…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google kirish maʼlumotlari almashilmoqda…</string>
-    <string formatted="false" name="loading_google_login">Serverimizga Google orqali kirish yakunlandi…</string>
     <string formatted="false" name="logout_successful">Hisobdan chiqildi</string>
     <string formatted="false" name="degrees">daraja</string>
     <string formatted="false" name="background">Fon</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Yangi loyiha</string>
     <string formatted="false" name="main_menu_programs">Loyihalar</string>
     <string formatted="false" name="main_menu_help">Yordam</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Loyihani yuklash</string>
     <string formatted="false" name="main_menu_play">Loyihani ishga tushirish</string>
     <string formatted="false" name="main_menu_rate_app">Bizni baholang!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Joriy koʻrinish (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Kirish</string>
     <string formatted="false" name="username">Foydalanuvchi nomi</string>
     <string formatted="false" name="password">Parol</string>
     <string formatted="false" name="reset_password">Parolni tiklash</string>
-    <string formatted="false" name="new_user_registered">Yangi hisob yaratildi</string>
-    <string formatted="false" name="user_logged_in">Muvaffaqiyatli kirildi</string>
-    <string formatted="false" name="register_error">Kirish maʼlumotlari notoʻgʻri</string>
     <string formatted="false" name="register_terms">Roʻyxatdan oʻtish orqali siz quyidagilarga rozilik bildirasiz:</string>
     <string formatted="false" name="register_code_terms_of_use_text">Foydalanish va xizmat koʻrsatish shartlari</string>
     <string formatted="false" name="login">Kirish</string>
     <string formatted="false" name="register">Roʻyxatdan oʻtish</string>
-    <string formatted="false" name="password_confirm">Parolni tasdiqlang</string>
-    <string formatted="false" name="accountName">E-pochta</string>
-    <string formatted="false" name="signin_thanks">Roʻyxatdan oʻtganingiz uchun rahmat!</string>
-    <string formatted="false" name="signin_choose_username">Foydalanuvchi nomini tanlang:</string>
-    <string formatted="false" name="signin_choose_username_empty">Foydalanuvchi nomini kiriting.</string>
-    <string formatted="false" name="signin_choose_username_hint">Foydalanuvchi nomi haqiqiy ismingiz ham, e-pochta manzili ham boʻlmasligi kerak.</string>
-    <string formatted="false" name="oauth_username_taken">Bu nom boshqa foydalanuvchida bor. Boshqa nom tanlang!</string>
     <string formatted="false" name="show_password">Parolni koʻrsatish</string>
     <string formatted="false" name="sign_in_error">Kirishda xatolik yuz berdi.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google orqali kirishda xato. Holat: %s</string>
-    <string formatted="false" name="error_session_expired">Seans muddati tugadi, qaytadan kiring.</string>
     <string formatted="false" name="error_register_empty_username">Foydalanuvchi nomi boʻsh</string>
-    <string formatted="false" name="error_register_username_as_email">E-pochta manzilini foydalanuvchi nomi sifatida ishlatib boʻlmaydi</string>
     <string formatted="false" name="error_register_invalid_username">Foydalanuvchi nomida faqat harflar (a–z), raqamlar (0–9), chiziqcha (-), pastki chiziq (_) va nuqta (.) boʻlishi mumkin.</string>
-    <string formatted="false" name="error_register_username_start_with">Foydalanuvchi nomi chiziqcha (-), pastki chiziq (_) yoki nuqta (.) bilan boshlanmasligi kerak.</string>
-    <string formatted="false" name="error_register_invalid_email_format">E-pochta formati notoʻgʻri</string>
     <string formatted="false" name="error_register_empty_password">Parol maydoni boʻsh</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Parol kamida 6 ta belgidan iborat boʻlishi kerak</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Parollar mos kelmadi</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Parolni tasdiqlash maydoni boʻsh</string>
-    <string formatted="false" name="error_register_username_already_exists">Bu foydalanuvchi nomi allaqachon mavjud</string>
-    <string formatted="false" name="error_register_email_exists">Bu e-pochta manzili allaqachon mavjud</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Loyiha mavjud.</string>

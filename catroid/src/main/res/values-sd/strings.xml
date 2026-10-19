@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">سڀ اڻچونڊيا ڪريو</string>
     <string formatted="false" name="skip">ڇڏيو</string>
     <string formatted="false" name="warning">خبرداري</string>
-    <string formatted="false" name="error">غلطي</string>
     <string formatted="false" name="loading">لوڊ ٿي رهيو آهي…</string>
-    <string formatted="false" name="please_wait">مهرباني ڪري انتظار ڪريو</string>
     <string formatted="false" name="search_hint">ڳوليو</string>
     <string formatted="false" name="backpack_add">ٿيلهي ۾ وجهو</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">هتي API ڪي داخل ڪريو</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">لاگ ان ڊيٽا جي جانچ ٿي رهي آهي…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google لاگ ان ڊيٽا جي مٽاسٽا ٿي رهي آهي…</string>
-    <string formatted="false" name="loading_google_login">اسان جي سرور تي Google لاگ ان مڪمل ٿي ويو آهي…</string>
     <string formatted="false" name="logout_successful">ڪاميابيءَ سان لاگ آئوٽ ٿي ويو</string>
     <string formatted="false" name="degrees">درجا</string>
     <string formatted="false" name="background">پس منظر</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">نئون پروجيڪٽ</string>
     <string formatted="false" name="main_menu_programs">پروجيڪٽ</string>
     <string formatted="false" name="main_menu_help">مدد</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">پروجيڪٽ اپلوڊ ڪريو</string>
     <string formatted="false" name="main_menu_play">پروجيڪٽ هلايو</string>
     <string formatted="false" name="main_menu_rate_app">اسان کي ريٽ ڪريو!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">موجوده منظر (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">سائن ان ڪريو</string>
     <string formatted="false" name="username">يوزرنيم</string>
     <string formatted="false" name="password">پاسورڊ</string>
     <string formatted="false" name="reset_password">پاسورڊ ري سيٽ ڪريو</string>
-    <string formatted="false" name="new_user_registered">نئون اڪائونٽ ٺهي ويو</string>
-    <string formatted="false" name="user_logged_in">ڪاميابيءَ سان لاگ ان ٿي ويو</string>
-    <string formatted="false" name="register_error">لاگ ان غلط آهي</string>
     <string formatted="false" name="register_terms">رجسٽر ٿيڻ سان اوهان اسان جي هن دستاويز سان اتفاق ڪريو ٿا:</string>
     <string formatted="false" name="register_code_terms_of_use_text">استعمال ۽ خدمت جا شرط</string>
     <string formatted="false" name="login">لاگ ان</string>
     <string formatted="false" name="register">رجسٽر ڪريو</string>
-    <string formatted="false" name="password_confirm">پاسورڊ جي تصديق ڪريو</string>
-    <string formatted="false" name="accountName">اي ميل</string>
-    <string formatted="false" name="signin_thanks">سائن اپ ڪرڻ جي مهرباني!</string>
-    <string formatted="false" name="signin_choose_username">مهرباني ڪري پنهنجو يوزرنيم چونڊيو:</string>
-    <string formatted="false" name="signin_choose_username_empty">مهرباني ڪري يوزرنيم داخل ڪريو.</string>
-    <string formatted="false" name="signin_choose_username_hint">يوزرنيم اوهان جو اصل نالو نه هجڻ گهرجي، ۽ نه ئي ڪا اي ميل ايڊريس.</string>
-    <string formatted="false" name="oauth_username_taken">هي نالو اڳ ۾ ئي ڪو ٻيو استعمال ڪري رهيو آهي. مهرباني ڪري ڪو ٻيو نالو چونڊيو!</string>
     <string formatted="false" name="show_password">پاسورڊ ڏيکاريو</string>
     <string formatted="false" name="sign_in_error">سائن ان دوران ڪجهه غلط ٿي ويو.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google سائن ان ۾ غلطي. اسٽيٽس: %s</string>
-    <string formatted="false" name="error_session_expired">سيشن ختم ٿي ويو، مهرباني ڪري لاگ ان ڪريو.</string>
     <string formatted="false" name="error_register_empty_username">يوزرنيم خالي آهي</string>
-    <string formatted="false" name="error_register_username_as_email">اي ميل ايڊريس کي يوزرنيم طور استعمال نٿو ڪري سگهجي</string>
     <string formatted="false" name="error_register_invalid_username">يوزرنيم ۾ رڳو اکر (a–z)، انگ (0–9)، ڊيش (-)، انڊر اسڪور (_) ۽ نقطا (.) هجڻ گهرجن.</string>
-    <string formatted="false" name="error_register_username_start_with">يوزرنيم ڊيش (-)، انڊر اسڪور (_) يا نقطي (.) سان شروع نه ٿيڻ گهرجي.</string>
-    <string formatted="false" name="error_register_invalid_email_format">اي ميل جو فارميٽ غلط آهي</string>
     <string formatted="false" name="error_register_empty_password">پاسورڊ جو خانو خالي آهي</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">پاسورڊ گهٽ ۾ گهٽ 6 اکرن جو هجڻ گهرجي</string>
-    <string formatted="false" name="error_register_passwords_mismatch">پاسورڊ هڪجهڙا ناهن</string>
-    <string formatted="false" name="error_register_empty_confirm_password">پاسورڊ جي تصديق جو خانو خالي آهي</string>
-    <string formatted="false" name="error_register_username_already_exists">هي يوزرنيم اڳ ۾ ئي موجود آهي</string>
-    <string formatted="false" name="error_register_email_exists">هي اي ميل ايڊريس اڳ ۾ ئي موجود آهي</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروجيڪٽ موجود آهي.</string>

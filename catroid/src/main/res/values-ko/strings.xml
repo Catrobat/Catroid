@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">모두 선택 해제</string>
     <string formatted="false" name="skip">건너뛰기</string>
     <string formatted="false" name="warning">경고</string>
-    <string formatted="false" name="error">오류</string>
     <string formatted="false" name="loading">불러오는 중…</string>
-    <string formatted="false" name="please_wait">잠시 기다려 주세요</string>
     <string formatted="false" name="search_hint">검색</string>
     <string formatted="false" name="backpack_add">백팩에 추가</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">여기에 API 키 입력</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">로그인 정보 확인 중…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google 로그인 정보 교환 중…</string>
-    <string formatted="false" name="loading_google_login">서버에서 Google 로그인이 완료되었습니다…</string>
     <string formatted="false" name="logout_successful">로그아웃되었습니다</string>
     <string formatted="false" name="degrees">도</string>
     <string formatted="false" name="background">배경</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">새 프로젝트</string>
     <string formatted="false" name="main_menu_programs">프로젝트</string>
     <string formatted="false" name="main_menu_help">도움말</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">프로젝트 업로드</string>
     <string formatted="false" name="main_menu_play">프로젝트 실행</string>
     <string formatted="false" name="main_menu_rate_app">평가하기</string>
@@ -641,39 +635,20 @@
     <string formatted="false" name="play_scene_dialog_current">현재 장면(%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">로그인</string>
     <string formatted="false" name="username">사용자 이름</string>
     <string formatted="false" name="password">비밀번호</string>
     <string formatted="false" name="reset_password">비밀번호 재설정</string>
-    <string formatted="false" name="new_user_registered">새 계정을 만들었습니다</string>
-    <string formatted="false" name="user_logged_in">로그인되었습니다</string>
-    <string formatted="false" name="register_error">로그인 정보가 올바르지 않습니다</string>
     <string formatted="false" name="register_terms">가입하면 다음에 동의하는 것입니다:</string>
     <string formatted="false" name="register_code_terms_of_use_text">이용 약관</string>
     <string formatted="false" name="login">로그인</string>
     <string formatted="false" name="register">가입</string>
-    <string formatted="false" name="password_confirm">비밀번호 확인</string>
-    <string formatted="false" name="accountName">이메일</string>
-    <string formatted="false" name="signin_thanks">가입해 주셔서 감사합니다!</string>
-    <string formatted="false" name="signin_choose_username">사용자 이름을 정하세요:</string>
-    <string formatted="false" name="signin_choose_username_empty">사용자 이름을 입력하세요.</string>
-    <string formatted="false" name="signin_choose_username_hint">사용자 이름으로 실명이나 이메일 주소를 사용하지 마세요.</string>
-    <string formatted="false" name="oauth_username_taken">다른 사람이 이미 이 이름을 사용하고 있습니다. 다른 이름을 선택하세요!</string>
     <string formatted="false" name="show_password">비밀번호 표시</string>
     <string formatted="false" name="sign_in_error">로그인하는 동안 문제가 발생했습니다.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google 로그인 오류. 상태: %s</string>
-    <string formatted="false" name="error_session_expired">세션이 만료되었습니다. 다시 로그인하세요.</string>
     <string formatted="false" name="error_register_empty_username">사용자 이름이 비어 있습니다</string>
-    <string formatted="false" name="error_register_username_as_email">이메일 주소는 사용자 이름으로 사용할 수 없습니다</string>
     <string formatted="false" name="error_register_invalid_username">사용자 이름에는 영문자(a–z), 숫자(0–9), 하이픈(-), 밑줄(_), 마침표(.)만 사용할 수 있습니다.</string>
-    <string formatted="false" name="error_register_username_start_with">사용자 이름은 하이픈(-), 밑줄(_), 마침표(.)로 시작할 수 없습니다.</string>
-    <string formatted="false" name="error_register_invalid_email_format">이메일 형식이 올바르지 않습니다</string>
     <string formatted="false" name="error_register_empty_password">비밀번호 입력란이 비어 있습니다</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">비밀번호는 6자 이상이어야 합니다</string>
-    <string formatted="false" name="error_register_passwords_mismatch">비밀번호가 일치하지 않습니다</string>
-    <string formatted="false" name="error_register_empty_confirm_password">비밀번호 확인 입력란이 비어 있습니다</string>
-    <string formatted="false" name="error_register_username_already_exists">이미 있는 사용자 이름입니다</string>
-    <string formatted="false" name="error_register_email_exists">이미 등록된 이메일 주소입니다</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">프로젝트가 이미 있습니다.</string>

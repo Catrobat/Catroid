@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Gyaa ne nyinaa</string>
     <string formatted="false" name="skip">twa so</string>
     <string formatted="false" name="warning">Kɔkɔbɔ</string>
-    <string formatted="false" name="error">Mfomsoɔ</string>
     <string formatted="false" name="loading">Ɛreyɛ krado…</string>
-    <string formatted="false" name="please_wait">Mesrɛ wo, twɛn</string>
     <string formatted="false" name="search_hint">Hwehwɛ</string>
     <string formatted="false" name="backpack_add">Fa gu kotokuo mu</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">hyɛ API key wɔ ha</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Ɛrehwɛ wuramu nsɛm…</string>
-    <string formatted="false" name="loading_google_exchange_code">Ɛresesa Google wuramu nsɛm…</string>
-    <string formatted="false" name="loading_google_login">Google wuramu wɔ yɛn server so awie…</string>
     <string formatted="false" name="logout_successful">Woafiri mu yie</string>
     <string formatted="false" name="degrees">digrii</string>
     <string formatted="false" name="background">Akyiri mfonini</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Dwumadie foforɔ</string>
     <string formatted="false" name="main_menu_programs">Dwumadie ahodoɔ</string>
     <string formatted="false" name="main_menu_help">Mmoa</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Fa dwumadie to intanɛt so</string>
     <string formatted="false" name="main_menu_play">Hyɛ dwumadie ase</string>
     <string formatted="false" name="main_menu_rate_app">Ka wo adwene kyerɛ yɛn!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Ɔfa a ɛwɔ hɔ seesei (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Wura mu</string>
     <string formatted="false" name="username">Ɔdefoɔ din</string>
     <string formatted="false" name="password">Ahintasɛm</string>
     <string formatted="false" name="reset_password">Yɛ ahintasɛm foforɔ</string>
-    <string formatted="false" name="new_user_registered">Woayɛ akawnt foforɔ</string>
-    <string formatted="false" name="user_logged_in">Woawura mu yie</string>
-    <string formatted="false" name="register_error">Wuramu no nnyɛ papa</string>
     <string formatted="false" name="register_terms">Sɛ wokyerɛw wo din a, na wopene yɛn</string>
     <string formatted="false" name="register_code_terms_of_use_text">Mmara a ɛfa app yi ho</string>
     <string formatted="false" name="login">Wura mu</string>
     <string formatted="false" name="register">Kyerɛw wo din</string>
-    <string formatted="false" name="password_confirm">Si ahintasɛm no so dua</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Yɛda wo ase sɛ wokyerɛɛ wo din!</string>
-    <string formatted="false" name="signin_choose_username">Mesrɛ wo, yi wo ɔdefoɔ din:</string>
-    <string formatted="false" name="signin_choose_username_empty">Mesrɛ wo, kyerɛw ɔdefoɔ din.</string>
-    <string formatted="false" name="signin_choose_username_hint">Ɛnsɛ sɛ ɔdefoɔ din no yɛ wo din ankasa, na ɛnsɛ sɛ ɛyɛ email address.</string>
-    <string formatted="false" name="oauth_username_taken">Obi foforɔ de din yi redi dwuma dada. Mesrɛ wo, yi din foforɔ!</string>
     <string formatted="false" name="show_password">Kyerɛ ahintasɛm no</string>
     <string formatted="false" name="sign_in_error">Biribi anyɛ yie berɛ a na worewura mu.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google wuramu mfomsoɔ. Tebea: %s</string>
-    <string formatted="false" name="error_session_expired">Berɛ no atwam, mesrɛ wo, san wura mu.</string>
     <string formatted="false" name="error_register_empty_username">Ɔdefoɔ din nni hɔ</string>
-    <string formatted="false" name="error_register_username_as_email">Wontumi mfa email address nyɛ ɔdefoɔ din</string>
     <string formatted="false" name="error_register_invalid_username">Ɛsɛ sɛ ɔdefoɔ din no wɔ nkyerɛwnsɛm (a–z), nɔma (0–9), dashes (-), underscores (_), ne periods (.) nko ara.</string>
-    <string formatted="false" name="error_register_username_start_with">Ɛnsɛ sɛ ɔdefoɔ din no fi ase de dashes (-), underscores (_), anaa periods (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Email no nhyehyɛ nnyɛ papa</string>
     <string formatted="false" name="error_register_empty_password">Ahintasɛm baabi no da mpan</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Ɛsɛ sɛ ahintasɛm no wɔ nkyerɛwnsɛm 6 anaa deɛ ɛboro saa</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Ahintasɛm no nhyia</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Ahintasɛm nsi so dua baabi no da mpan</string>
-    <string formatted="false" name="error_register_username_already_exists">Ɔdefoɔ din yi wɔ hɔ dada</string>
-    <string formatted="false" name="error_register_email_exists">Email address yi wɔ hɔ dada</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Dwumadie no wɔ hɔ dada.</string>

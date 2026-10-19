@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Prekliči izbiro vseh</string>
     <string formatted="false" name="skip">preskoči</string>
     <string formatted="false" name="warning">Opozorilo</string>
-    <string formatted="false" name="error">Napaka</string>
     <string formatted="false" name="loading">Nalaganje …</string>
-    <string formatted="false" name="please_wait">Počakajte</string>
     <string formatted="false" name="search_hint">Iskanje</string>
     <string formatted="false" name="backpack_add">Dodaj v nahrbtnik</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">tukaj vstavite ključ API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Preverjanje podatkov za prijavo …</string>
-    <string formatted="false" name="loading_google_exchange_code">Izmenjava podatkov za prijavo Google …</string>
-    <string formatted="false" name="loading_google_login">Prijava z Googlom na našem strežniku je končana …</string>
     <string formatted="false" name="logout_successful">Odjava je uspela</string>
     <string formatted="false" name="degrees">stopinj</string>
     <string formatted="false" name="background">Ozadje</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nov projekt</string>
     <string formatted="false" name="main_menu_programs">Projekti</string>
     <string formatted="false" name="main_menu_help">Pomoč</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Naloži projekt</string>
     <string formatted="false" name="main_menu_play">Predvajaj projekt</string>
     <string formatted="false" name="main_menu_rate_app">Ocenite nas!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Trenutna scena (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Prijava</string>
     <string formatted="false" name="username">Uporabniško ime</string>
     <string formatted="false" name="password">Geslo</string>
     <string formatted="false" name="reset_password">Ponastavi geslo</string>
-    <string formatted="false" name="new_user_registered">Nov račun je ustvarjen</string>
-    <string formatted="false" name="user_logged_in">Prijava je uspela</string>
-    <string formatted="false" name="register_error">Neveljavna prijava</string>
     <string formatted="false" name="register_terms">Z registracijo se strinjate z našimi</string>
     <string formatted="false" name="register_code_terms_of_use_text">pogoji uporabe in storitve</string>
     <string formatted="false" name="login">Prijava</string>
     <string formatted="false" name="register">Registracija</string>
-    <string formatted="false" name="password_confirm">Potrdite geslo</string>
-    <string formatted="false" name="accountName">E-pošta</string>
-    <string formatted="false" name="signin_thanks">Hvala za registracijo!</string>
-    <string formatted="false" name="signin_choose_username">Izberite uporabniško ime:</string>
-    <string formatted="false" name="signin_choose_username_empty">Vnesite uporabniško ime.</string>
-    <string formatted="false" name="signin_choose_username_hint">Uporabniško ime naj ne bo vaše pravo ime niti e-poštni naslov.</string>
-    <string formatted="false" name="oauth_username_taken">To ime že uporablja nekdo drug. Izberite drugo!</string>
     <string formatted="false" name="show_password">Pokaži geslo</string>
     <string formatted="false" name="sign_in_error">Pri prijavi je prišlo do napake.</string>
     <string formatted="false" name="error_google_plus_sign_in">Napaka pri prijavi z Googlom. Stanje: %s</string>
-    <string formatted="false" name="error_session_expired">Seja je potekla. Prijavite se.</string>
     <string formatted="false" name="error_register_empty_username">Uporabniško ime je prazno</string>
-    <string formatted="false" name="error_register_username_as_email">E-poštnega naslova ni mogoče uporabiti kot uporabniško ime</string>
     <string formatted="false" name="error_register_invalid_username">Uporabniško ime sme vsebovati samo črke (a–z), številke (0–9), vezaje (-), podčrtaje (_) in pike (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Uporabniško ime se ne sme začeti z vezajem (-), podčrtajem (_) ali piko (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Neveljavna oblika e-poštnega naslova</string>
     <string formatted="false" name="error_register_empty_password">Polje za geslo je prazno</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Geslo mora imeti vsaj 6 znakov</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Gesli se ne ujemata</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Polje za potrditev gesla je prazno</string>
-    <string formatted="false" name="error_register_username_already_exists">Uporabniško ime že obstaja</string>
-    <string formatted="false" name="error_register_email_exists">E-poštni naslov že obstaja</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekt že obstaja.</string>

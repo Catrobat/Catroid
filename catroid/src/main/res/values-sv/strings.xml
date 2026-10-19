@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Avmarkera alla</string>
     <string formatted="false" name="skip">hoppa över</string>
     <string formatted="false" name="warning">Varning</string>
-    <string formatted="false" name="error">Fel</string>
     <string formatted="false" name="loading">Läser in…</string>
-    <string formatted="false" name="please_wait">Vänta lite</string>
     <string formatted="false" name="search_hint">Sök</string>
     <string formatted="false" name="backpack_add">Lägg i ryggsäcken</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">infoga API-nyckel här</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Kontrollerar inloggningsuppgifter…</string>
-    <string formatted="false" name="loading_google_exchange_code">Utbyter Google-inloggningsuppgifter…</string>
-    <string formatted="false" name="loading_google_login">Google-inloggningen på vår server är klar…</string>
     <string formatted="false" name="logout_successful">Du är utloggad</string>
     <string formatted="false" name="degrees">grader</string>
     <string formatted="false" name="background">Bakgrund</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nytt projekt</string>
     <string formatted="false" name="main_menu_programs">Projekt</string>
     <string formatted="false" name="main_menu_help">Hjälp</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Ladda upp projekt</string>
     <string formatted="false" name="main_menu_play">Spela projekt</string>
     <string formatted="false" name="main_menu_rate_app">Betygsätt oss!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aktuell scen (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Logga in</string>
     <string formatted="false" name="username">Användarnamn</string>
     <string formatted="false" name="password">Lösenord</string>
     <string formatted="false" name="reset_password">Återställ lösenord</string>
-    <string formatted="false" name="new_user_registered">Nytt konto har skapats</string>
-    <string formatted="false" name="user_logged_in">Du är inloggad</string>
-    <string formatted="false" name="register_error">Ogiltig inloggning</string>
     <string formatted="false" name="register_terms">Genom att registrera dig godkänner du våra</string>
     <string formatted="false" name="register_code_terms_of_use_text">användarvillkor</string>
     <string formatted="false" name="login">Logga in</string>
     <string formatted="false" name="register">Registrera</string>
-    <string formatted="false" name="password_confirm">Bekräfta lösenord</string>
-    <string formatted="false" name="accountName">E-post</string>
-    <string formatted="false" name="signin_thanks">Tack för att du registrerade dig!</string>
-    <string formatted="false" name="signin_choose_username">Välj ditt användarnamn:</string>
-    <string formatted="false" name="signin_choose_username_empty">Ange ett användarnamn.</string>
-    <string formatted="false" name="signin_choose_username_hint">Användarnamnet ska inte vara ditt riktiga namn och inte heller en e-postadress.</string>
-    <string formatted="false" name="oauth_username_taken">Någon annan använder redan det här namnet. Välj ett annat!</string>
     <string formatted="false" name="show_password">Visa lösenord</string>
     <string formatted="false" name="sign_in_error">Något gick fel under inloggningen.</string>
     <string formatted="false" name="error_google_plus_sign_in">Fel vid Google-inloggning. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessionen har gått ut. Logga in igen.</string>
     <string formatted="false" name="error_register_empty_username">Tomt användarnamn</string>
-    <string formatted="false" name="error_register_username_as_email">E-postadressen kan inte användas som användarnamn</string>
     <string formatted="false" name="error_register_invalid_username">Användarnamnet får bara innehålla bokstäver (a–z), siffror (0–9), bindestreck (-), understreck (_) och punkter (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Användarnamnet får inte börja med bindestreck (-), understreck (_) eller punkt (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Ogiltigt e-postformat</string>
     <string formatted="false" name="error_register_empty_password">Lösenordsfältet är tomt</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Lösenordet måste ha minst 6 tecken</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Lösenorden matchar inte</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Fältet för att bekräfta lösenordet är tomt</string>
-    <string formatted="false" name="error_register_username_already_exists">Användarnamnet finns redan</string>
-    <string formatted="false" name="error_register_email_exists">E-postadressen finns redan</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projektet finns redan.</string>

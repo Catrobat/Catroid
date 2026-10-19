@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Odznacz wszystko</string>
     <string formatted="false" name="skip">pomiń</string>
     <string formatted="false" name="warning">Ostrzeżenie</string>
-    <string formatted="false" name="error">Błąd</string>
     <string formatted="false" name="loading">Ładowanie…</string>
-    <string formatted="false" name="please_wait">Proszę czekać</string>
     <string formatted="false" name="search_hint">Szukaj</string>
     <string formatted="false" name="backpack_add">Dodaj do plecaka</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">wstaw klucz API tutaj</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Sprawdzanie danych logowania…</string>
-    <string formatted="false" name="loading_google_exchange_code">Wymiana danych logowania Google…</string>
-    <string formatted="false" name="loading_google_login">Logowanie przez Google na naszym serwerze zakończone…</string>
     <string formatted="false" name="logout_successful">Pomyślnie wylogowano</string>
     <string formatted="false" name="degrees">stopni</string>
     <string formatted="false" name="background">Tło</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Nowy projekt</string>
     <string formatted="false" name="main_menu_programs">Projekty</string>
     <string formatted="false" name="main_menu_help">Pomoc</string>
-    <string formatted="false" name="main_menu_web">Społeczność Catrobat</string>
     <string formatted="false" name="main_menu_upload">Prześlij projekt</string>
     <string formatted="false" name="main_menu_play">Uruchom projekt</string>
     <string formatted="false" name="main_menu_rate_app">Oceń nas!</string>
@@ -755,39 +749,20 @@
     <string formatted="false" name="play_scene_dialog_current">Bieżąca plansza (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Zaloguj się</string>
     <string formatted="false" name="username">Nazwa użytkownika</string>
     <string formatted="false" name="password">Hasło</string>
     <string formatted="false" name="reset_password">Zresetuj hasło</string>
-    <string formatted="false" name="new_user_registered">Utworzono nowe konto</string>
-    <string formatted="false" name="user_logged_in">Logowanie powiodło się</string>
-    <string formatted="false" name="register_error">Nieprawidłowe dane logowania</string>
     <string formatted="false" name="register_terms">Rejestrując się, zgadzasz się na nasze</string>
     <string formatted="false" name="register_code_terms_of_use_text">Warunki korzystania z usługi</string>
     <string formatted="false" name="login">Logowanie</string>
     <string formatted="false" name="register">Rejestracja</string>
-    <string formatted="false" name="password_confirm">Potwierdź hasło</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Dziękujemy za rejestrację!</string>
-    <string formatted="false" name="signin_choose_username">Wybierz swoją nazwę użytkownika:</string>
-    <string formatted="false" name="signin_choose_username_empty">Wpisz nazwę użytkownika.</string>
-    <string formatted="false" name="signin_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym imieniem ani adresem e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Ktoś już używa tej nazwy. Wybierz inną!</string>
     <string formatted="false" name="show_password">Pokaż hasło</string>
     <string formatted="false" name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string formatted="false" name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sesja wygasła, zaloguj się.</string>
     <string formatted="false" name="error_register_empty_username">Pusta nazwa użytkownika</string>
-    <string formatted="false" name="error_register_username_as_email">Adres e-mail nie może być użyty jako nazwa użytkownika</string>
     <string formatted="false" name="error_register_invalid_username">Nazwa użytkownika może zawierać tylko litery (a–z), cyfry (0–9), myślniki (-), podkreślenia (_) i kropki (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Nazwa użytkownika nie może zaczynać się od myślnika (-), podkreślenia (_) ani kropki (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Nieprawidłowy format adresu e-mail</string>
     <string formatted="false" name="error_register_empty_password">Pole hasła jest puste</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Hasło powinno mieć co najmniej 6 znaków</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Hasła się nie zgadzają</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Pole potwierdzenia hasła jest puste</string>
-    <string formatted="false" name="error_register_username_already_exists">Ta nazwa użytkownika już istnieje</string>
-    <string formatted="false" name="error_register_email_exists">Ten adres e-mail już istnieje</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekt już istnieje.</string>

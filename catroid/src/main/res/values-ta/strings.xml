@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">அனைத்தையும் தேர்வுநீக்கு</string>
     <string formatted="false" name="skip">தவிர்</string>
     <string formatted="false" name="warning">எச்சரிக்கை</string>
-    <string formatted="false" name="error">பிழை</string>
     <string formatted="false" name="loading">ஏற்றுகிறது…</string>
-    <string formatted="false" name="please_wait">தயவுசெய்து காத்திருக்கவும்</string>
     <string formatted="false" name="search_hint">தேடு</string>
     <string formatted="false" name="backpack_add">முதுகுப்பையில் சேர்</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">API விசையை இங்கே செருகவும்</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">உள்நுழைவுத் தரவைச் சரிபார்க்கிறது…</string>
-    <string formatted="false" name="loading_google_exchange_code">Google உள்நுழைவுத் தரவைப் பரிமாறுகிறது…</string>
-    <string formatted="false" name="loading_google_login">எங்கள் சேவையகத்தில் Google உள்நுழைவு முடிந்தது…</string>
     <string formatted="false" name="logout_successful">வெற்றிகரமாக வெளியேறினீர்கள்</string>
     <string formatted="false" name="degrees">பாகைகள்</string>
     <string formatted="false" name="background">பின்னணி</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">புதிய திட்டம்</string>
     <string formatted="false" name="main_menu_programs">திட்டங்கள்</string>
     <string formatted="false" name="main_menu_help">உதவி</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">திட்டத்தைப் பதிவேற்று</string>
     <string formatted="false" name="main_menu_play">திட்டத்தை இயக்கு</string>
     <string formatted="false" name="main_menu_rate_app">எங்களை மதிப்பிடுங்கள்!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">தற்போதைய காட்சி (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">உள்நுழை</string>
     <string formatted="false" name="username">பயனர் பெயர்</string>
     <string formatted="false" name="password">கடவுச்சொல்</string>
     <string formatted="false" name="reset_password">கடவுச்சொல்லை மீட்டமை</string>
-    <string formatted="false" name="new_user_registered">புதிய கணக்கு உருவாக்கப்பட்டது</string>
-    <string formatted="false" name="user_logged_in">வெற்றிகரமாக உள்நுழைந்தீர்கள்</string>
-    <string formatted="false" name="register_error">உள்நுழைவுத் தகவல் தவறானது</string>
     <string formatted="false" name="register_terms">பதிவுசெய்வதன் மூலம் நீங்கள் இவற்றை ஏற்கிறீர்கள்:</string>
     <string formatted="false" name="register_code_terms_of_use_text">பயன்பாட்டு மற்றும் சேவை விதிமுறைகள்</string>
     <string formatted="false" name="login">உள்நுழை</string>
     <string formatted="false" name="register">பதிவுசெய்</string>
-    <string formatted="false" name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்து</string>
-    <string formatted="false" name="accountName">மின்னஞ்சல்</string>
-    <string formatted="false" name="signin_thanks">பதிவுசெய்ததற்கு நன்றி!</string>
-    <string formatted="false" name="signin_choose_username">உங்கள் பயனர் பெயரைத் தேர்ந்தெடுக்கவும்:</string>
-    <string formatted="false" name="signin_choose_username_empty">பயனர் பெயரை உள்ளிடவும்.</string>
-    <string formatted="false" name="signin_choose_username_hint">பயனர் பெயர் உங்கள் உண்மையான பெயராகவோ மின்னஞ்சல் முகவரியாகவோ இருக்கக்கூடாது.</string>
-    <string formatted="false" name="oauth_username_taken">இந்தப் பெயரை ஏற்கனவே வேறொருவர் பயன்படுத்துகிறார். வேறு பெயரைத் தேர்ந்தெடுக்கவும்!</string>
     <string formatted="false" name="show_password">கடவுச்சொல்லைக் காட்டு</string>
     <string formatted="false" name="sign_in_error">உள்நுழையும்போது ஏதோ தவறு நடந்தது.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google உள்நுழைவுப் பிழை. நிலை: %s</string>
-    <string formatted="false" name="error_session_expired">அமர்வு காலாவதியானது, மீண்டும் உள்நுழையவும்.</string>
     <string formatted="false" name="error_register_empty_username">பயனர் பெயர் காலியாக உள்ளது</string>
-    <string formatted="false" name="error_register_username_as_email">மின்னஞ்சல் முகவரியைப் பயனர் பெயராகப் பயன்படுத்த முடியாது</string>
     <string formatted="false" name="error_register_invalid_username">பயனர் பெயரில் எழுத்துகள் (a–z), எண்கள் (0–9), சிறுகோடுகள் (-), அடிக்கோடுகள் (_), புள்ளிகள் (.) மட்டுமே இருக்க வேண்டும்.</string>
-    <string formatted="false" name="error_register_username_start_with">பயனர் பெயர் சிறுகோடு (-), அடிக்கோடு (_) அல்லது புள்ளியில் (.) தொடங்கக்கூடாது.</string>
-    <string formatted="false" name="error_register_invalid_email_format">தவறான மின்னஞ்சல் வடிவம்</string>
     <string formatted="false" name="error_register_empty_password">கடவுச்சொல் புலம் காலியாக உள்ளது</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">கடவுச்சொல் குறைந்தது 6 எழுத்துகளாக இருக்க வேண்டும்</string>
-    <string formatted="false" name="error_register_passwords_mismatch">கடவுச்சொற்கள் பொருந்தவில்லை</string>
-    <string formatted="false" name="error_register_empty_confirm_password">கடவுச்சொல் உறுதிப்படுத்தல் புலம் காலியாக உள்ளது</string>
-    <string formatted="false" name="error_register_username_already_exists">இந்தப் பயனர் பெயர் ஏற்கனவே உள்ளது</string>
-    <string formatted="false" name="error_register_email_exists">மின்னஞ்சல் முகவரி ஏற்கனவே உள்ளது</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">திட்டம் ஏற்கனவே உள்ளது.</string>

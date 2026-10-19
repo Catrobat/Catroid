@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Kkes afran meṛṛa</string>
     <string formatted="false" name="skip">zgel</string>
     <string formatted="false" name="warning">Ḥader</string>
-    <string formatted="false" name="error">Tuccḍa</string>
     <string formatted="false" name="loading">Yessalay-d…</string>
-    <string formatted="false" name="please_wait">Ma ulac aɣilif, rǧu</string>
     <string formatted="false" name="search_hint">Anadi…</string>
     <string formatted="false" name="backpack_add">Rnu ɣer uqrab</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -68,9 +66,6 @@
     <string formatted="false" name="api_replacement">sekcem tasarut API dagi</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Asenqed n yisefka n tuqqna…</string>
-    <string formatted="false" name="loading_google_exchange_code">Asemmeskel n yisefka n tuqqna Google…</string>
-    <string formatted="false" name="loading_google_login">Tuqqna s Google ɣer uqeddac-nneɣ temmed…</string>
     <string formatted="false" name="logout_successful">Tuffɣa tedda akken iwata</string>
     <string formatted="false" name="degrees">tiseddarin</string>
     <string formatted="false" name="background">Agilal</string>
@@ -84,7 +79,6 @@
     <string formatted="false" name="main_menu_new">Asenfar amaynut</string>
     <string formatted="false" name="main_menu_programs">Isenfaren</string>
     <string formatted="false" name="main_menu_help">Tallelt</string>
-    <string formatted="false" name="main_menu_web">Catrobat</string>
     <string formatted="false" name="main_menu_upload">Sali asenfar</string>
     <string formatted="false" name="main_menu_play">Urar asenfar</string>
     <string formatted="false" name="main_menu_rate_app">Mudd-aɣ tazmilt!</string>
@@ -679,39 +673,20 @@
     <string formatted="false" name="play_scene_dialog_current">Aḥric amiran (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Qqen</string>
     <string formatted="false" name="username">Isem n useqdac</string>
     <string formatted="false" name="password">Awal uffir</string>
     <string formatted="false" name="reset_password">Wennez awal uffir</string>
-    <string formatted="false" name="new_user_registered">Amiḍan amaynut yettwarna</string>
-    <string formatted="false" name="user_logged_in">Tuqqna tedda akken iwata</string>
-    <string formatted="false" name="register_error">Tuqqna d tarameɣtut</string>
     <string formatted="false" name="register_terms">S ujerred, ad tqebleḍ</string>
     <string formatted="false" name="register_code_terms_of_use_text">Tiwtilin n useqdec d tenfa</string>
     <string formatted="false" name="login">Qqen</string>
     <string formatted="false" name="register">Jerred</string>
-    <string formatted="false" name="password_confirm">Sentem awal uffir</string>
-    <string formatted="false" name="accountName">Imayl</string>
-    <string formatted="false" name="signin_thanks">Tanemmirt ɣef ujerred!</string>
-    <string formatted="false" name="signin_choose_username">Ma ulac aɣilif, fren isem-ik·im n useqdac:</string>
-    <string formatted="false" name="signin_choose_username_empty">Ma ulac aɣilif, sekcem isem n useqdac.</string>
-    <string formatted="false" name="signin_choose_username_hint">Isem n useqdac ur ilaq ara ad yili d isem-ik·im n tidet, ur ilaq ara daɣen ad yili d tansa n yimayl.</string>
-    <string formatted="false" name="oauth_username_taken">Yella win iseqdacen yakan isem-a. Ma ulac aɣilif, fren wayeḍ!</string>
     <string formatted="false" name="show_password">Sken awal uffir</string>
     <string formatted="false" name="sign_in_error">Yella wayen ur neddi ara deg tuqqna.</string>
     <string formatted="false" name="error_google_plus_sign_in">Tuccḍa deg tuqqna s Google. Addad: %s</string>
-    <string formatted="false" name="error_session_expired">Tiɣimit temmut, ma ulac aɣilif qqen.</string>
     <string formatted="false" name="error_register_empty_username">Isem n useqdac d ilem</string>
-    <string formatted="false" name="error_register_username_as_email">Tansa n yimayl ur tezmir ara ad tettwaseqdec d isem n useqdac</string>
     <string formatted="false" name="error_register_invalid_username">Isem n useqdac ilaq ad yegber kan isekkilen (a–z), uṭṭunen (0–9), ijerriden (-), ijerriden n wadda (_), d tenqiḍin (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Isem n useqdac ur ilaq ara ad yebdu s yijerriden (-), s yijerriden n wadda (_), neɣ s tenqiḍin (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Amasal n yimayl d arameɣtu</string>
     <string formatted="false" name="error_register_empty_password">Urti n wawal uffir d ilem</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Awal uffir ilaq ad yesɛu ma drus 6 n yisekkilen</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Awalen uffiren ur mṣadan ara</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Urti n usentem n wawal uffir d ilem</string>
-    <string formatted="false" name="error_register_username_already_exists">Isem n useqdac yella yakan</string>
-    <string formatted="false" name="error_register_email_exists">Tansa n yimayl tella yakan</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Asenfar yella.</string>
