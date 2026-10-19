@@ -52,7 +52,7 @@ class HttpResponseTest : WebConnection.WebRequestListener {
 
     @Test
     fun testHttp() {
-        WebConnection(okHttpClient, this, "https://catrobat.org/bot").sendWebRequest()
+        WebConnection(okHttpClient, this, "http://catrobat.org/bot").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
         assertTrue(response.get().endsWith(HTML_RESPONSE_END))
     }
