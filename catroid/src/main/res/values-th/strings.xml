@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ที่ตำแหน่ง</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ด้วย</string>
     <string formatted="false" name="brick_web_request">ส่งคำขอทางเว็บไปที่</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">และเก็บคำตอบไว้ใน</string>
     <string formatted="false" name="web_request_warning_title">อนุญาตการเข้าถึงเว็บหรือไม่</string>
     <string formatted="false" name="web_request_warning_message">โปรดระมัดระวังอย่างยิ่งก่อนอนุญาตให้เข้าถึง เนื่องจากลิงก์อาจเปิดเผยข้อมูลส่วนตัวของคุณ เช่น ตำแหน่งทางภูมิศาสตร์ที่แม่นยำ หรือข้อความใดๆ ที่คุณป้อนไว้ ให้แก่ผู้ไม่หวังดีหรือต่อสาธารณะ ดู&lt;a href=%1s&gt;วิกิ&lt;/a&gt;ของเราสำหรับข้อมูลเพิ่มเติมว่าทำไมสิ่งนี้จึงอาจเป็นอันตรายอย่างยิ่ง</string>

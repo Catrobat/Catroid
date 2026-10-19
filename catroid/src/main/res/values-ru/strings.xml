@@ -1172,7 +1172,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиции</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">на</string>
     <string formatted="false" name="brick_web_request">Отправить веб-запрос на</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">и сохранить ответ в</string>
     <string formatted="false" name="web_request_warning_title">Разрешить веб-доступ?</string>
     <string formatted="false" name="web_request_warning_message">Будьте очень осторожны, прежде чем разрешить доступ: ссылка может раскрыть злоумышленникам или всем желающим вашу личную информацию, например точное местоположение или любой введенный вами текст. Подробнее о том, почему это может быть крайне опасно, читайте в нашей &lt;a href=%1s&gt;вики&lt;/a&gt;.</string>

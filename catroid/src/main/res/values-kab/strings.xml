@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">deg wadeg</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">s</string>
     <string formatted="false" name="brick_web_request">Azen asuter Web ɣer</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">yerna ḥrez tiririt deg</string>
     <string formatted="false" name="web_request_warning_title">Sireg anekcum ɣer Web?</string>
     <string formatted="false" name="web_request_warning_message">Ḥader aṭas send ad tsirgeḍ anekcum, acku aseɣwen yezmer ad d-isbeggen talɣut-ik·im tudmawant, am wadeg-ik·im aɣeggaf neɣ yal aḍris i d-teskecmeḍ, i yemdanen n diri neɣ i yal yiwen. Wali &lt;a href=%1s&gt;wiki&lt;/a&gt;-nneɣ i wugar n telɣut ɣef wacimi aya yezmer ad yili d aɣbel ameqqran.</string>

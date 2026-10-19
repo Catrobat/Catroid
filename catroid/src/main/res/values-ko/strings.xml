@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">위치:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">새 값:</string>
     <string formatted="false" name="brick_web_request">웹 요청 보내기:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">응답을 저장할 곳:</string>
     <string formatted="false" name="web_request_warning_title">웹 액세스를 허용할까요?</string>
     <string formatted="false" name="web_request_warning_message">액세스를 허용하기 전에 매우 조심하세요. 이 링크를 통해 정확한 위치나 입력한 텍스트 같은 개인 정보가 악의적인 사람이나 다른 사람들에게 노출될 수 있습니다. 이것이 왜 매우 위험할 수 있는지 자세히 알아보려면 &lt;a href=%1s&gt;위키&lt;/a&gt;를 참조하세요.</string>

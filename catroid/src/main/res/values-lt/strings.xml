@@ -1172,7 +1172,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pozicijoje</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">į</string>
     <string formatted="false" name="brick_web_request">Siųsti interneto užklausą į</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ir atsakymą išsaugoti į</string>
     <string formatted="false" name="web_request_warning_title">Leisti prieigą prie interneto?</string>
     <string formatted="false" name="web_request_warning_message">Prieš leisdamas prieigą būk labai atsargus, nes nuoroda gali atskleisti tavo asmeninę informaciją, pavyzdžiui, tikslią geografinę vietą ar bet kokį įvestą tekstą, piktavaliams arba visiems. Daugiau apie tai, kodėl tai gali būti itin pavojinga, skaityk mūsų &lt;a href=%1s&gt;vikyje&lt;/a&gt;.</string>

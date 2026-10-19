@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">స్థానం:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">కొత్త విలువ:</string>
     <string formatted="false" name="brick_web_request">ఈ చిరునామాకు వెబ్ అభ్యర్థన పంపు:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">మరియు సమాధానాన్ని దీనిలో నిల్వ చేయి:</string>
     <string formatted="false" name="web_request_warning_title">వెబ్ యాక్సెస్‌ను అనుమతించాలా?</string>
     <string formatted="false" name="web_request_warning_message">యాక్సెస్‌ను అనుమతించే ముందు చాలా జాగ్రత్తగా ఉండండి, ఎందుకంటే ఈ లింక్ మీ ఖచ్చితమైన భౌగోళిక స్థానం లేదా మీరు నమోదు చేసిన ఏదైనా టెక్స్ట్ వంటి మీ వ్యక్తిగత సమాచారాన్ని దురుద్దేశం గల ఇతరులకు లేదా అందరికీ బహిర్గతం చేయవచ్చు. ఇది ఎందుకు చాలా ప్రమాదకరమో మరింత సమాచారం కోసం మా &lt;a href=%1s&gt;వికీ&lt;/a&gt;ని చూడండి.</string>

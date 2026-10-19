@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиция</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">с</string>
     <string formatted="false" name="brick_web_request">Изпрати уеб заявка до</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">и запиши отговора в</string>
     <string formatted="false" name="web_request_warning_title">Да се разреши ли достъп до интернет?</string>
     <string formatted="false" name="web_request_warning_message">Бъди много внимателен, преди да разрешиш достъпа, защото връзката може да разкрие твои лични данни, като точното ти местоположение или текст, който си въвел, на злонамерени хора или на всички. Виж нашето &lt;a href=%1s&gt;уики&lt;/a&gt;, за да разбереш защо това може да е изключително опасно.</string>

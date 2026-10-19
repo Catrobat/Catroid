@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">هن جاءِ تي:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">هن سان:</string>
     <string formatted="false" name="brick_web_request">هن پتي تي ويب درخواست موڪليو:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">۽ جواب هن ۾ محفوظ ڪريو:</string>
     <string formatted="false" name="web_request_warning_title">ويب تائين رسائي جي اجازت ڏيو؟</string>
     <string formatted="false" name="web_request_warning_message">رسائي جي اجازت ڏيڻ کان اڳ ڏاڍو محتاط رهو، ڇاڪاڻ ته هي لنڪ اوهان جي ذاتي معلومات، جهڙوڪ اوهان جو صحيح جاگرافيائي هنڌ يا اوهان جو داخل ڪيل ڪو به متن، بدنيت ماڻهن يا عام ماڻهن تائين پهچائي سگهي ٿي. اهو انتهائي خطرناڪ ڇو ٿي سگهي ٿو، ان بابت وڌيڪ معلومات لاءِ اسان جي &lt;a href=%1s&gt;وڪي&lt;/a&gt; ڏسو.</string>

@@ -52,27 +52,27 @@ class HttpResponseTest : WebConnection.WebRequestListener {
 
     @Test
     fun testHttp() {
-        WebConnection(okHttpClient, this, "http://catrob.at/bot").sendWebRequest()
+        WebConnection(okHttpClient, this, "http://catrobat.org/bot").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
         assertTrue(response.get().endsWith(HTML_RESPONSE_END))
     }
 
     @Test
     fun testHttps() {
-        WebConnection(okHttpClient, this, "https://catrob.at/bot").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://catrobat.org/bot").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
         assertTrue(response.get().endsWith(HTML_RESPONSE_END))
     }
 
     @Test
     fun testLook() {
-        WebConnection(okHttpClient, this, "https://catrob.at/penguin").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://catrobat.org/penguin").sendWebRequest()
         assertTrue(response.get().contains("PNG"))
     }
 
     @Test
     fun testBackground() {
-        WebConnection(okHttpClient, this, "https://catrob.at/HalloweenPortrait").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://catrobat.org/HalloweenPortrait").sendWebRequest()
         assertTrue(response.get().contains("PNG"))
     }
 
