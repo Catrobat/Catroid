@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Iltimos, kuting</string>
     <string formatted="false" name="search_hint">Qidirish</string>
     <string formatted="false" name="backpack_add">Ryukzakka qoʻshish</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Siz yuklab olgan loyiha fonda ovozingizni tinglaydi va internetga maʼlumot yuboradi. Bu zararsiz va loyihaning moʻljallangan ishlashi uchun zarur boʻlishi mumkin. Biroq loyiha ishlayotgan paytda aytayotgan gaplaringiz xavfsiz ekanligiga ishonch hosil qiling. Shubha boʻlsa, yuklab olingan loyihani oʻchirib tashlang. Agar loyiha zararli ekaniga amin boʻlsangiz, Catrobat hamjamiyati platformasidagi loyiha sahifasida u haqida xabar berishingiz ham mumkin.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">oʻrni:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">yangi qiymat:</string>
     <string formatted="false" name="brick_web_request">Veb soʻrov yubor:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">va javobni saqla:</string>
     <string formatted="false" name="web_request_warning_title">Internetga kirishga ruxsat berilsinmi?</string>
     <string formatted="false" name="web_request_warning_message">Ruxsat berishdan oldin juda ehtiyot boʻling, chunki havola shaxsiy maʼlumotlaringizni, masalan, aniq geografik joylashuvingiz yoki kiritgan har qanday matningizni yomon niyatli odamlarga yoki hammaga oshkor qilishi mumkin. Bu nima uchun juda xavfli boʻlishi mumkinligi haqida batafsil maʼlumot uchun &lt;a href=%1s&gt;vikimizga&lt;/a&gt; qarang.</string>

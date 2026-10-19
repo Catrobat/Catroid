@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Por favor, aguarde</string>
     <string formatted="false" name="search_hint">Pesquisar</string>
     <string formatted="false" name="backpack_add">Adicionar à mochila</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">O projeto que você baixou ouve a sua voz em segundo plano e também envia dados para a internet. Isso pode ser inofensivo e necessário para o funcionamento pretendido. No entanto, certifique-se de que o que você diz enquanto o projeto está em execução é seguro. Em caso de dúvida, exclua o projeto baixado. Você também pode denunciar o projeto na página dele na plataforma da comunidade Catrobat, caso tenha certeza de que ele é prejudicial.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na posição</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">com</string>
     <string formatted="false" name="brick_web_request">Enviar requisição web para</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/piada</string>
     <string formatted="false" name="brick_web_request_result">e armazenar a resposta em</string>
     <string formatted="false" name="web_request_warning_title">Permitir acesso à web?</string>
     <string formatted="false" name="web_request_warning_message">Tenha muito cuidado antes de permitir o acesso, pois o link pode expor suas informações pessoais, como sua localização geográfica exata ou qualquer texto que você tenha digitado, a pessoas mal-intencionadas ou ao público. Veja nossa &lt;a href=%1s&gt;wiki&lt;/a&gt; para saber mais sobre por que isso pode ser extremamente perigoso.</string>

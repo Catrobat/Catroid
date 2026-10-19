@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Patiente un instant</string>
     <string formatted="false" name="search_hint">Rechercher</string>
     <string formatted="false" name="backpack_add">Ajouter au sac à dos</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Le projet que tu as téléchargé écoute ta voix en arrière-plan et envoie aussi des données sur Internet. Cela peut être sans danger et nécessaire à son fonctionnement. Fais cependant attention à ce que tu dis pendant que le projet est en cours d\'exécution. En cas de doute, supprime le projet téléchargé. Si tu es sûr qu\'il est malveillant, tu peux aussi le signaler sur sa page de la plateforme communautaire Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">à la position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">par</string>
     <string formatted="false" name="brick_web_request">Envoyer une requête Web à</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">et enregistrer la réponse dans</string>
     <string formatted="false" name="web_request_warning_title">Autoriser l\'accès Web ?</string>
     <string formatted="false" name="web_request_warning_message">Sois très prudent avant d\'autoriser l\'accès, car le lien peut révéler tes informations personnelles, comme ta position géographique précise ou tout texte que tu as saisi, à des personnes malveillantes ou au public. Consulte notre &lt;a href=%1s&gt;wiki&lt;/a&gt; pour savoir pourquoi cela peut être extrêmement dangereux.</string>

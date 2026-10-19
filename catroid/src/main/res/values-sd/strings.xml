@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">مهرباني ڪري انتظار ڪريو</string>
     <string formatted="false" name="search_hint">ڳوليو</string>
     <string formatted="false" name="backpack_add">ٿيلهي ۾ وجهو</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">اوهان جيڪو پروجيڪٽ ڊائونلوڊ ڪيو آهي، اهو پس منظر ۾ اوهان جو آواز ٻڌي ٿو ۽ انٽرنيٽ تي ڊيٽا به موڪلي ٿو. اهو بي ضرر ٿي سگهي ٿو ۽ ان جي مقصد لاءِ ضروري به. تڏهن به، مهرباني ڪري پڪ ڪريو ته پروجيڪٽ هلڻ دوران جيڪو ڪجهه اوهان ڳالهايو ٿا، اهو محفوظ آهي. شڪ جي صورت ۾ مهرباني ڪري ڊائونلوڊ ٿيل پروجيڪٽ ڊاهي ڇڏيو. جيڪڏهن اوهان کي پڪ آهي ته اهو نقصانڪار آهي ته اوهان Catrobat ڪميونٽي پليٽ فارم تي ان جي صفحي تي پروجيڪٽ جي شڪايت به ڪري سگهو ٿا.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">هن جاءِ تي:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">هن سان:</string>
     <string formatted="false" name="brick_web_request">هن پتي تي ويب درخواست موڪليو:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">۽ جواب هن ۾ محفوظ ڪريو:</string>
     <string formatted="false" name="web_request_warning_title">ويب تائين رسائي جي اجازت ڏيو؟</string>
     <string formatted="false" name="web_request_warning_message">رسائي جي اجازت ڏيڻ کان اڳ ڏاڍو محتاط رهو، ڇاڪاڻ ته هي لنڪ اوهان جي ذاتي معلومات، جهڙوڪ اوهان جو صحيح جاگرافيائي هنڌ يا اوهان جو داخل ڪيل ڪو به متن، بدنيت ماڻهن يا عام ماڻهن تائين پهچائي سگهي ٿي. اهو انتهائي خطرناڪ ڇو ٿي سگهي ٿو، ان بابت وڌيڪ معلومات لاءِ اسان جي &lt;a href=%1s&gt;وڪي&lt;/a&gt; ڏسو.</string>

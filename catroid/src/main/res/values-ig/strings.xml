@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Biko chere</string>
     <string formatted="false" name="search_hint">Chọọ</string>
     <string formatted="false" name="backpack_add">Tinye n\'akpa azụ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ọrụ ị budatara na-ege olu gị n\'azụ ma na-ezigakwa data n\'ịntanetị. Nke a nwere ike ịbụ ihe na-adịghị njọ, nke dị mkpa maka ihe ọ na-eme. Otú ọ dị, biko hụ na ihe ị na-ekwu mgbe ọrụ ahụ na-agba dị mma. Ọ bụrụ na obi abụọ dị gị, biko hichapụ ọrụ ị budatara. Ị nwekwara ike ịkọ banyere ọrụ ahụ na peeji ya n\'ikpo okwu obodo Catrobat ma ọ bụrụ na o doro gị anya na ọ na-emerụ ahụ.</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">n\'ọnọdụ</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">jiri</string>
     <string formatted="false" name="brick_web_request">Zipụ arịrịọ weebụ na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ma chekwaa azịza na</string>
     <string formatted="false" name="web_request_warning_title">Kwe ka e nweta ịntanetị?</string>
     <string formatted="false" name="web_request_warning_message">Kpachara anya nke ukwuu tupu i nye ohere, n\'ihi na njikọ ahụ nwere ike ikpughe ozi gbasara onwe gị, dị ka ebe ị nọ kpọmkwem ma ọ bụ ederede ọ bụla i tinyere, nye ndị ọjọọ ma ọ bụ ọha mmadụ. Lee &lt;a href=%1s&gt;wiki&lt;/a&gt; anyị maka ozi ndị ọzọ gbasara ihe kpatara nke a ji dị ize ndụ nke ukwuu.</string>

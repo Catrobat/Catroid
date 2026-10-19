@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">잠시 기다려 주세요</string>
     <string formatted="false" name="search_hint">검색</string>
     <string formatted="false" name="backpack_add">백팩에 추가</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">다운로드한 프로젝트가 백그라운드에서 사용자의 목소리를 듣고 인터넷으로 데이터를 보냅니다. 이것은 해롭지 않을 수 있고, 프로젝트가 의도한 대로 작동하는 데 필요할 수도 있습니다. 하지만 프로젝트가 실행되는 동안 말하는 내용이 안전한지 꼭 확인하세요. 의심스러우면 다운로드한 프로젝트를 삭제하세요. 프로젝트가 해롭다고 확신하면 Catrobat 커뮤니티 플랫폼의 해당 프로젝트 페이지에서 신고할 수도 있습니다.</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">위치:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">새 값:</string>
     <string formatted="false" name="brick_web_request">웹 요청 보내기:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">응답을 저장할 곳:</string>
     <string formatted="false" name="web_request_warning_title">웹 액세스를 허용할까요?</string>
     <string formatted="false" name="web_request_warning_message">액세스를 허용하기 전에 매우 조심하세요. 이 링크를 통해 정확한 위치나 입력한 텍스트 같은 개인 정보가 악의적인 사람이나 다른 사람들에게 노출될 수 있습니다. 이것이 왜 매우 위험할 수 있는지 자세히 알아보려면 &lt;a href=%1s&gt;위키&lt;/a&gt;를 참조하세요.</string>

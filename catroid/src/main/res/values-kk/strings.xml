@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Күте тұрыңыз</string>
     <string formatted="false" name="search_hint">Іздеу</string>
     <string formatted="false" name="backpack_add">Рюкзакқа салу</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Сіз жүктеп алған жоба фондық режимде дауысыңызды тыңдайды және интернетке деректер жібереді. Бұл зиянсыз болуы және жобаның мақсатына қажет болуы мүмкін. Дегенмен жоба жұмыс істеп тұрғанда айтып жатқан сөздеріңіздің қауіпсіз екеніне көз жеткізіңіз. Күмәніңіз болса, жүктеп алынған жобаны жойыңыз. Егер жобаның зиянды екеніне сенімді болсаңыз, ол туралы Catrobat қауымдастығы платформасындағы жоба бетінде хабарлай аласыз.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">орны:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">жаңа мәні:</string>
     <string formatted="false" name="brick_web_request">Веб-сұраныс жіберу:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">және жауапты мынаған сақтау:</string>
     <string formatted="false" name="web_request_warning_title">Вебке қол жеткізуге рұқсат ету керек пе?</string>
     <string formatted="false" name="web_request_warning_message">Рұқсат бермес бұрын өте мұқият болыңыз: сілтеме нақты орналасқан жеріңіз немесе сіз енгізген кез келген мәтін сияқты жеке ақпаратыңызды қаскөйлерге немесе көпшілікке ашып беруі мүмкін. Мұның неліктен аса қауіпті болуы мүмкін екені туралы толығырақ ақпаратты біздің &lt;a href=%1s&gt;wiki&lt;/a&gt; бетімізден қараңыз.</string>

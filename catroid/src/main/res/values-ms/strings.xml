@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Sila tunggu</string>
     <string formatted="false" name="search_hint">Cari</string>
     <string formatted="false" name="backpack_add">Tambah ke beg galas</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projek yang anda muat turun mendengar suara anda di latar belakang dan juga menghantar data ke internet. Ini mungkin tidak berbahaya dan diperlukan untuk fungsinya. Walau bagaimanapun, pastikan apa yang anda katakan semasa projek berjalan adalah selamat. Jika ragu-ragu, sila padamkan projek yang dimuat turun. Anda juga boleh melaporkan projek itu di halamannya pada platform komuniti Catrobat jika anda pasti bahawa ia berbahaya.</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pada kedudukan</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">dengan</string>
     <string formatted="false" name="brick_web_request">Hantar permintaan web ke</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">dan simpan jawapan dalam</string>
     <string formatted="false" name="web_request_warning_title">Benarkan akses web?</string>
     <string formatted="false" name="web_request_warning_message">Berhati-hati sebelum membenarkan akses, kerana pautan itu mungkin mendedahkan maklumat peribadi anda, seperti lokasi geografi tepat anda atau sebarang teks yang telah anda masukkan, kepada orang lain yang berniat jahat atau kepada umum. Lihat &lt;a href=%1s&gt;wiki&lt;/a&gt; kami untuk maklumat lanjut mengapa ini boleh menjadi sangat berbahaya.</string>

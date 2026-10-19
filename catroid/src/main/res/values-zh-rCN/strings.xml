@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">请稍候</string>
     <string formatted="false" name="search_hint">搜索</string>
     <string formatted="false" name="backpack_add">添加到背包</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">您下载的项目会在后台收听您的声音，并向互联网发送数据。这可能是无害的，也可能是项目正常运行所必需的。但是，请确保您在项目运行时所说的内容是安全的。如有疑问，请删除下载的项目。如果您确定该项目有害，也可以在 Catrobat 社区平台上该项目的页面中举报它。</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">中位置</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">的项替换为</string>
     <string formatted="false" name="brick_web_request">发送网络请求到</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">，并将响应存入</string>
     <string formatted="false" name="web_request_warning_title">允许访问网络吗？</string>
     <string formatted="false" name="web_request_warning_message">允许访问之前请务必小心，因为该链接可能会将您的个人信息（例如您的精确地理位置或您输入的任何文字）泄露给恶意的他人或公众。有关为什么这可能极其危险的更多信息，请参阅我们的 &lt;a href=%1s&gt;wiki&lt;/a&gt;。</string>

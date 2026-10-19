@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">يُرجى الانتظار</string>
     <string formatted="false" name="search_hint">بحث</string>
     <string formatted="false" name="backpack_add">إضافة إلى حقيبة الظهر</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">المشروع الذي نزّلته يستمع إلى صوتك في الخلفية ويرسل أيضًا بيانات إلى الإنترنت. قد يكون هذا غير ضار وضروريًا لعمل المشروع كما هو مقصود. ومع ذلك، تأكد من أن ما تقوله أثناء تشغيل المشروع آمن. إذا كنت في شك، فاحذف المشروع الذي نزّلته. ويمكنك أيضًا الإبلاغ عن المشروع في صفحته على موقع مجتمع Catrobat إذا كنت متأكدًا من أنه ضار.</string>
     <!-- Replace Api dialog -->
@@ -1262,7 +1262,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">في الموضع</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">بالقيمة</string>
     <string formatted="false" name="brick_web_request">أرسل طلب ويب إلى</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">واحفظ الإجابة في</string>
     <string formatted="false" name="web_request_warning_title">هل تريد السماح بالوصول إلى الويب؟</string>
     <string formatted="false" name="web_request_warning_message">كن حذرًا جدًا قبل السماح بالوصول، لأن الرابط قد يكشف معلوماتك الشخصية، مثل موقعك الجغرافي الدقيق أو أي نص أدخلته، لأشخاص ذوي نوايا سيئة أو للعامة. راجع &lt;a href=%1s&gt;الويكي&lt;/a&gt; الخاص بنا لمعرفة المزيد عن سبب الخطورة الشديدة لذلك.</string>

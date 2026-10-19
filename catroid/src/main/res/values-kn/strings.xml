@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ</string>
     <string formatted="false" name="search_hint">ಹುಡುಕಿ</string>
     <string formatted="false" name="backpack_add">ಬ್ಯಾಕ್‌ಪ್ಯಾಕ್‌ಗೆ ಸೇರಿಸಿ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ನೀವು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ಪ್ರಾಜೆಕ್ಟ್ ಹಿನ್ನೆಲೆಯಲ್ಲಿ ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ಆಲಿಸುತ್ತದೆ ಮತ್ತು ಇಂಟರ್ನೆಟ್‌ಗೆ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುತ್ತದೆ. ಇದು ಹಾನಿಕರವಲ್ಲದಿರಬಹುದು ಮತ್ತು ಅದರ ಉದ್ದೇಶಿತ ಕೆಲಸಕ್ಕೆ ಅಗತ್ಯವಾಗಿರಬಹುದು. ಆದರೂ, ಪ್ರಾಜೆಕ್ಟ್ ಚಾಲನೆಯಲ್ಲಿರುವಾಗ ನೀವು ಹೇಳುವುದು ಸುರಕ್ಷಿತವಾಗಿದೆಯೇ ಎಂದು ದಯವಿಟ್ಟು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. ಸಂದೇಹವಿದ್ದರೆ, ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು ಅಳಿಸಿ. ಅದು ಹಾನಿಕರ ಎಂದು ನಿಮಗೆ ಖಚಿತವಾಗಿದ್ದರೆ, Catrobat ಸಮುದಾಯ ವೇದಿಕೆಯಲ್ಲಿರುವ ಅದರ ಪುಟದಲ್ಲಿ ಪ್ರಾಜೆಕ್ಟ್ ಬಗ್ಗೆ ವರದಿ ಮಾಡಬಹುದು.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ಈ ಸ್ಥಾನದಲ್ಲಿ:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ಇದರೊಂದಿಗೆ:</string>
     <string formatted="false" name="brick_web_request">ಈ ವಿಳಾಸಕ್ಕೆ ವೆಬ್ ವಿನಂತಿ ಕಳುಹಿಸಿ:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">ಮತ್ತು ಉತ್ತರವನ್ನು ಇದರಲ್ಲಿ ಉಳಿಸಿ:</string>
     <string formatted="false" name="web_request_warning_title">ವೆಬ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಬೇಕೇ?</string>
     <string formatted="false" name="web_request_warning_message">ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸುವ ಮೊದಲು ತುಂಬಾ ಜಾಗರೂಕರಾಗಿರಿ, ಏಕೆಂದರೆ ಈ ಲಿಂಕ್ ನಿಮ್ಮ ನಿಖರವಾದ ಭೌಗೋಳಿಕ ಸ್ಥಳ ಅಥವಾ ನೀವು ನಮೂದಿಸಿದ ಯಾವುದೇ ಪಠ್ಯದಂತಹ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ದುರುದ್ದೇಶಪೂರಿತ ಇತರರಿಗೆ ಅಥವಾ ಸಾರ್ವಜನಿಕರಿಗೆ ಬಹಿರಂಗಪಡಿಸಬಹುದು. ಇದು ಏಕೆ ಅತ್ಯಂತ ಅಪಾಯಕಾರಿಯಾಗಬಹುದು ಎಂಬುದರ ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ನಮ್ಮ &lt;a href=%1s&gt;ವಿಕಿ&lt;/a&gt; ನೋಡಿ.</string>

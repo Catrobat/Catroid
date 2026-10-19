@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">অনুগ্রহ করে অপেক্ষা করুন</string>
     <string formatted="false" name="search_hint">অনুসন্ধান</string>
     <string formatted="false" name="backpack_add">ব্যাকপ্যাকে রাখুন</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">আপনার ডাউনলোড করা প্রজেক্টটি পটভূমিতে আপনার কণ্ঠস্বর শোনে এবং ইন্টারনেটে ডেটা পাঠায়। এটি ক্ষতিকর নাও হতে পারে এবং প্রজেক্টটির কাজের জন্য প্রয়োজনীয় হতে পারে। তবে প্রজেক্ট চলার সময় আপনি যা বলছেন তা নিরাপদ কি না, অনুগ্রহ করে নিশ্চিত হয়ে নিন। সন্দেহ হলে ডাউনলোড করা প্রজেক্টটি মুছে ফেলুন। প্রজেক্টটি ক্ষতিকর বলে নিশ্চিত হলে Catrobat কমিউনিটি প্ল্যাটফর্মে প্রজেক্টটির পৃষ্ঠায় এটি রিপোর্টও করতে পারেন।</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">অবস্থান:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">নতুন মান:</string>
     <string formatted="false" name="brick_web_request">ওয়েব অনুরোধ পাঠান এই ঠিকানায়:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">এবং উত্তর রাখুন এতে:</string>
     <string formatted="false" name="web_request_warning_title">ওয়েব অ্যাক্সেসের অনুমতি দেবেন?</string>
     <string formatted="false" name="web_request_warning_message">অনুমতি দেওয়ার আগে খুব সাবধান থাকুন, কারণ লিংকটি আপনার ব্যক্তিগত তথ্য, যেমন আপনার সঠিক ভৌগোলিক অবস্থান বা আপনার লেখা যেকোনো টেক্সট, অসৎ লোকদের কাছে বা সবার সামনে প্রকাশ করে দিতে পারে। এটি কেন অত্যন্ত বিপজ্জনক হতে পারে, সে বিষয়ে আরও জানতে আমাদের &lt;a href=%1s&gt;উইকি&lt;/a&gt; দেখুন।</string>

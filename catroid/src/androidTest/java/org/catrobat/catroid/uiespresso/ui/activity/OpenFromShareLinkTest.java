@@ -72,12 +72,12 @@ public class OpenFromShareLinkTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"https://share.catrob.at/pocketcode/"},
-				{"https://share.catrob.at/pocketcode/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrob.at/pocketcode/program/817"},
-				{"https://share.catrob.at/luna/"},
-				{"https://share.catrob.at/luna/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrob.at/luna/program/817"},
+				{"https://share.catrobat.org/pocketcode/"},
+				{"https://share.catrobat.org/pocketcode/program/817?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/pocketcode/program/817"},
+				{"https://share.catrobat.org/luna/"},
+				{"https://share.catrobat.org/luna/program/817?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/luna/program/817"},
 		});
 	}
 

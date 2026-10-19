@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">براہ کرم انتظار کریں</string>
     <string formatted="false" name="search_hint">تلاش کریں</string>
     <string formatted="false" name="backpack_add">بستے میں ڈالیں</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">آپ کا ڈاؤن لوڈ کیا ہوا پروجیکٹ پس منظر میں آپ کی آواز سنتا ہے اور انٹرنیٹ پر ڈیٹا بھی بھیجتا ہے۔ ہو سکتا ہے یہ بے ضرر ہو اور پروجیکٹ کے کام کے لیے ضروری ہو۔ پھر بھی براہ کرم یقینی بنائیں کہ پروجیکٹ چلتے وقت آپ جو کچھ کہہ رہے ہیں وہ محفوظ ہے۔ شک کی صورت میں ڈاؤن لوڈ کیا ہوا پروجیکٹ حذف کر دیں۔ اگر آپ کو یقین ہو کہ یہ نقصان دہ ہے تو آپ Catrobat کمیونٹی پلیٹ فارم پر اس پروجیکٹ کے صفحے پر اس کی رپورٹ بھی کر سکتے ہیں۔</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">اس مقام پر:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">اس سے:</string>
     <string formatted="false" name="brick_web_request">اس پتے پر ویب درخواست بھیجیں:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">اور جواب اس میں محفوظ کریں:</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ یہ لنک آپ کی ذاتی معلومات، جیسے آپ کا درست جغرافیائی محل وقوع یا آپ کا درج کیا ہوا کوئی بھی متن، بدنیت لوگوں یا عام لوگوں تک پہنچا سکتا ہے۔ یہ انتہائی خطرناک کیوں ہو سکتا ہے، اس کی مزید معلومات کے لیے ہماری &lt;a href=%1s&gt;وکی&lt;/a&gt; دیکھیں۔</string>

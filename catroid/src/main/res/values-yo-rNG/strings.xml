@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Jọ̀wọ́ dúró</string>
     <string formatted="false" name="search_hint">Wá</string>
     <string formatted="false" name="backpack_add">Fi sínú àpò ẹ̀yìn</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Iṣẹ́ àkànṣe tí o gbà sílẹ̀ ń tẹ́tí sí ohùn rẹ ní abẹ́lẹ̀, ó sì ń fi dátà ránṣẹ́ sí íńtánẹ́ẹ̀tì. Èyí lè má léwu, ó sì lè jẹ́ dandan fún iṣẹ́ rẹ̀. Síbẹ̀, jọ̀wọ́ rí i dájú pé ohun tí ò ń sọ nígbà tí iṣẹ́ àkànṣe náà ń ṣiṣẹ́ kò léwu. Tí o bá ṣiyèméjì, jọ̀wọ́ pa iṣẹ́ àkànṣe tí o gbà sílẹ̀ náà rẹ́. O tún lè fi ẹjọ́ iṣẹ́ àkànṣe náà sùn lójú ìwé rẹ̀ lórí pèpéle àwùjọ Catrobat tí o bá dá ọ lójú pé ó léwu.</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ní ipò</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">pẹ̀lú</string>
     <string formatted="false" name="brick_web_request">Fi ìbéèrè wẹ́ẹ̀bù ránṣẹ́ sí</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">kí o sì fi ìdáhùn pamọ́ sí</string>
     <string formatted="false" name="web_request_warning_title">Ṣé kí a gba ìráyèsí íńtánẹ́ẹ̀tì láàyè?</string>
     <string formatted="false" name="web_request_warning_message">Ṣọ́ra gidigidi kí o tó gba ìráyèsí láàyè, nítorí pé ìtọ́ka náà lè ṣí àwọn ìsọfúnni àdáni rẹ payá, bíi ibi tí o wà gẹ́lẹ́ tàbí ọ̀rọ̀ èyíkéyìí tí o ti kọ, fún àwọn ènìyàn búburú tàbí fún gbogbo ayé. Wo &lt;a href=%1s&gt;wiki&lt;/a&gt; wa fún àlàyé síwájú sí i nípa ìdí tí èyí fi lè léwu gidigidi.</string>

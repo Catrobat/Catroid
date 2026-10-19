@@ -74,7 +74,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
             .addMigrations(DatabaseMigrations.MIGRATION_2_3)
             .build()
     }
-    single { CatroidWebServer.getWebService("https://share.catrob.at/api/") }
+    single { CatroidWebServer.getWebService("https://share.catrobat.org/api/") }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }

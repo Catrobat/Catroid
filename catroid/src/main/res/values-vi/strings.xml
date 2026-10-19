@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Vui lòng đợi</string>
     <string formatted="false" name="search_hint">Tìm kiếm</string>
     <string formatted="false" name="backpack_add">Thêm vào ba lô</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Dự án bạn vừa tải xuống sẽ nghe giọng nói của bạn khi chạy ngầm và còn gửi dữ liệu lên internet. Điều này có thể vô hại và cần thiết để dự án hoạt động đúng như dự định. Tuy nhiên, hãy chắc chắn rằng những gì bạn nói trong lúc dự án đang chạy là an toàn. Nếu còn nghi ngờ, hãy xóa dự án đã tải xuống. Nếu bạn chắc chắn rằng dự án có hại, bạn cũng có thể báo cáo dự án trên trang của nó tại nền tảng cộng đồng Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">tại vị trí</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">bằng</string>
     <string formatted="false" name="brick_web_request">Gửi yêu cầu web đến</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">và lưu câu trả lời vào</string>
     <string formatted="false" name="web_request_warning_title">Cho phép truy cập web?</string>
     <string formatted="false" name="web_request_warning_message">Hãy hết sức cẩn thận trước khi cho phép truy cập, vì liên kết có thể làm lộ thông tin cá nhân của bạn, chẳng hạn như vị trí địa lý chính xác hoặc bất kỳ văn bản nào bạn đã nhập, cho kẻ xấu hoặc cho công chúng. Xem &lt;a href=%1s&gt;wiki&lt;/a&gt; của chúng tôi để biết thêm vì sao điều này có thể cực kỳ nguy hiểm.</string>

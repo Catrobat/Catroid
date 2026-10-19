@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Vänta lite</string>
     <string formatted="false" name="search_hint">Sök</string>
     <string formatted="false" name="backpack_add">Lägg i ryggsäcken</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Projektet som du har laddat ner lyssnar på din röst i bakgrunden och skickar dessutom data till internet. Det kan vara ofarligt och nödvändigt för att projektet ska fungera som tänkt. Se ändå till att det du säger medan projektet körs är ofarligt. Om du är osäker, ta bort det nedladdade projektet. Om du är säker på att projektet är skadligt kan du också anmäla det på dess sida på Catrobats communityplattform.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">på position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">med</string>
     <string formatted="false" name="brick_web_request">Skicka webbförfrågan till</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
     <string formatted="false" name="brick_web_request_result">och spara svaret i</string>
     <string formatted="false" name="web_request_warning_title">Tillåt webbåtkomst?</string>
     <string formatted="false" name="web_request_warning_message">Var mycket försiktig innan du tillåter åtkomst, eftersom länken kan avslöja personlig information om dig, till exempel din exakta position eller text du har skrivit, för personer med onda avsikter eller för allmänheten. Läs mer i vår &lt;a href=%1s&gt;wiki&lt;/a&gt; om varför det kan vara mycket farligt.</string>
