@@ -101,6 +101,12 @@ public final class UiUtils {
 				return R.drawable.ic_library_add_small;
 			case R.string.menu_rate_us:
 				return R.drawable.ic_star_rate;
+			case R.string.brick_context_dialog_collapse_script:
+			case R.string.brick_context_dialog_collapse_brick:
+				return R.drawable.ic_collapse;
+			case R.string.brick_context_dialog_expand_script:
+			case R.string.brick_context_dialog_expand_brick:
+				return R.drawable.ic_expand;
 			default:
 				return R.drawable.ic_placeholder;
 		}
