@@ -73,11 +73,11 @@ public class OpenFromShareLinkTest {
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{"https://share.catrobat.org/pocketcode/"},
-				{"https://share.catrobat.org/pocketcode/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrobat.org/pocketcode/program/817"},
+				{"https://share.catrobat.org/pocketcode/project/582aade7-476f-4b50-ac81-eb3052494f13?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/pocketcode/project/582aade7-476f-4b50-ac81-eb3052494f13"},
 				{"https://share.catrobat.org/luna/"},
-				{"https://share.catrobat.org/luna/program/817?rec_by_page_id=1&rec_user_specific=0"},
-				{"https://share.catrobat.org/luna/program/817"},
+				{"https://share.catrobat.org/luna/project/582aade7-476f-4b50-ac81-eb3052494f13?rec_by_page_id=1&rec_user_specific=0"},
+				{"https://share.catrobat.org/luna/project/582aade7-476f-4b50-ac81-eb3052494f13"},
 		});
 	}
 
