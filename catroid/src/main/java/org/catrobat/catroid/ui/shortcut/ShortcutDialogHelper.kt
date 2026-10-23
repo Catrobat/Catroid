@@ -213,7 +213,9 @@ object ShortcutDialogHelper {
         val isCaseOnlyRename = projectName.equals(newName, ignoreCase = true)
         val isSameUnderlyingDirectory = isCaseOnlyRename && try {
             destinationDir.canonicalPath == projectDir.canonicalPath
-        } catch (_: Exception) {
+        } catch (_: java.io.IOException) {
+            true
+        } catch (_: SecurityException) {
             true
         }
         if (destinationDir.exists() && !isSameUnderlyingDirectory) {

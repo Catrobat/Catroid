@@ -525,8 +525,10 @@ object ShortcutHelper {
                 MIUI_INSTALL_SHORTCUT_OP_CODE,
                 android.os.Process.myUid(),
                 context.packageName
-            ) as Int
-            return result == android.app.AppOpsManager.MODE_ALLOWED
+            ) as? Int
+            if (result != null) {
+                return result == android.app.AppOpsManager.MODE_ALLOWED
+            }
         } catch (e: Exception) {
             Log.w(TAG, "checkOpNoThrow failed, trying checkOp", e)
         }
@@ -544,8 +546,12 @@ object ShortcutHelper {
                 MIUI_INSTALL_SHORTCUT_OP_CODE,
                 android.os.Process.myUid(),
                 context.packageName
-            ) as Int
-            result == android.app.AppOpsManager.MODE_ALLOWED
+            ) as? Int
+            if (result != null) {
+                result == android.app.AppOpsManager.MODE_ALLOWED
+            } else {
+                null
+            }
         } catch (e: Exception) {
             Log.w(TAG, "MIUI reflection failed", e)
             null

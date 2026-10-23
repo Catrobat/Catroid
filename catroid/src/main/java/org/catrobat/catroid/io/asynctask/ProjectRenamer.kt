@@ -93,13 +93,17 @@ fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
             if (projectDirectory.renameTo(tempDirectory)) {
                 if (tempDirectory.renameTo(destinationDirectory)) {
                     return true
-                } else {
-                    tempDirectory.renameTo(projectDirectory)
+                }
+                if (!tempDirectory.renameTo(projectDirectory)) {
+                    Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
                 }
             }
         }
         false
-    } catch (e: Exception) {
+    } catch (e: IOException) {
+        Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
+        false
+    } catch (e: SecurityException) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
     }
