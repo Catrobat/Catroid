@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ní ipò</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">pẹ̀lú</string>
     <string formatted="false" name="brick_web_request">Fi ìbéèrè wẹ́ẹ̀bù ránṣẹ́ sí</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">kí o sì fi ìdáhùn pamọ́ sí</string>
     <string formatted="false" name="web_request_warning_title">Ṣé kí a gba ìráyèsí íńtánẹ́ẹ̀tì láàyè?</string>
     <string formatted="false" name="web_request_warning_message">Ṣọ́ra gidigidi kí o tó gba ìráyèsí láàyè, nítorí pé ìtọ́ka náà lè ṣí àwọn ìsọfúnni àdáni rẹ payá, bíi ibi tí o wà gẹ́lẹ́ tàbí ọ̀rọ̀ èyíkéyìí tí o ti kọ, fún àwọn ènìyàn búburú tàbí fún gbogbo ayé. Wo &lt;a href=%1s&gt;wiki&lt;/a&gt; wa fún àlàyé síwájú sí i nípa ìdí tí èyí fi lè léwu gidigidi.</string>

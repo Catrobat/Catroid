@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">په ځای</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">په دې یې بدل کړئ</string>
     <string formatted="false" name="brick_web_request">ویب غوښتنه ولېږئ</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">او ځواب په دې کې وساتئ</string>
     <string formatted="false" name="web_request_warning_title">ویب ته لاسرسی ورکړئ؟</string>
     <string formatted="false" name="web_request_warning_message">د لاسرسي له ورکولو مخکې ډېر پام وکړئ، ځکه چې لینک ښايي ستاسو شخصي معلومات، لکه ستاسو دقیق جغرافیایي ځای یا هر هغه متن چې تاسو لیکلی، بدنیتو کسانو یا خلکو ته ښکاره کړي. د دې لپاره چې پوه شئ ولې دا ډېر خطرناک کېدای شي، زموږ &lt;a href=%1s&gt;ویکي&lt;/a&gt; وګورئ.</string>

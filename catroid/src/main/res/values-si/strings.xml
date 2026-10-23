@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ස්ථානය:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">නව අගය:</string>
     <string formatted="false" name="brick_web_request">වෙබ් ඉල්ලීම යවන්න:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">සහ පිළිතුර මෙහි ගබඩා කරන්න:</string>
     <string formatted="false" name="web_request_warning_title">වෙබ් ප්‍රවේශයට ඉඩ දෙන්නද?</string>
     <string formatted="false" name="web_request_warning_message">ප්‍රවේශයට ඉඩ දීමට පෙර ඉතා ප්‍රවේශම් වන්න, මන්ද මෙම සබැඳිය ඔබේ නිශ්චිත භූගෝලීය ස්ථානය හෝ ඔබ ඇතුළත් කළ ඕනෑම පෙළක් වැනි ඔබේ පෞද්ගලික තොරතුරු නරක අදහස් ඇති අයට හෝ මහජනයාට හෙළි කළ හැකි බැවිනි. මෙය අතිශයින් අනතුරුදායක විය හැක්කේ ඇයිදැයි වැඩි විස්තර සඳහා අපගේ &lt;a href=%1s&gt;විකිය&lt;/a&gt; බලන්න.</string>

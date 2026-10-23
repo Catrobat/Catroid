@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">con</string>
     <string formatted="false" name="brick_web_request">Invia una richiesta web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">e memorizza la risposta in</string>
     <string formatted="false" name="web_request_warning_title">Consentire l\'accesso al web?</string>
     <string formatted="false" name="web_request_warning_message">Fai molta attenzione prima di consentire l\'accesso, perché il link potrebbe rivelare a malintenzionati o al pubblico le tue informazioni personali, come la tua posizione geografica precisa o qualsiasi testo che hai inserito. Consulta il nostro &lt;a href=%1s&gt;wiki&lt;/a&gt; per sapere perché questo può essere estremamente pericoloso.</string>

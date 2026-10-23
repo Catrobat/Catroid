@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">mu wɔ gyinabea</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">fa yei si ananmu:</string>
     <string formatted="false" name="brick_web_request">Fa intanɛt abisadeɛ kɔ</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">na kora mmuaeɛ no wɔ</string>
     <string formatted="false" name="web_request_warning_title">Ma kwan ma intanɛt?</string>
     <string formatted="false" name="web_request_warning_message">Hwɛ yie paa ansa na wode kwan bɛma, ɛfiri sɛ link no bɛtumi ada wo ho nsɛm adi akyerɛ nnipa bɔne anaa ɔmanfoɔ, te sɛ baabi pɔtee a wowɔ anaa nkyerɛwee biara a woakyerɛw. Hwɛ yɛn &lt;a href=%1s&gt;wiki&lt;/a&gt; na hunu deɛ enti a yei bɛtumi ayɛ asiane kɛseɛ.</string>

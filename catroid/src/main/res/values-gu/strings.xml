@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">સ્થાન:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">નવું મૂલ્ય:</string>
     <string formatted="false" name="brick_web_request">આ સરનામે વેબ વિનંતી મોકલો:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">અને જવાબ આમાં રાખો:</string>
     <string formatted="false" name="web_request_warning_title">વેબ ઍક્સેસની મંજૂરી આપવી છે?</string>
     <string formatted="false" name="web_request_warning_message">ઍક્સેસની મંજૂરી આપતા પહેલાં ખૂબ સાવચેત રહો, કારણ કે આ લિંક તમારી અંગત માહિતી, જેમ કે તમારું ચોક્કસ ભૌગોલિક સ્થાન અથવા તમે દાખલ કરેલું કોઈપણ ટેક્સ્ટ, ખરાબ ઇરાદાવાળા લોકો સામે અથવા જાહેરમાં ખુલ્લી પાડી શકે છે. આ શા માટે અત્યંત જોખમી હોઈ શકે તે વિશે વધુ માહિતી માટે અમારી &lt;a href=%1s&gt;વિકિ&lt;/a&gt; જુઓ.</string>

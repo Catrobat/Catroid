@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">në pozicionin</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">me</string>
     <string formatted="false" name="brick_web_request">Dërgo kërkesë në internet te</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">dhe ruaj përgjigjen te</string>
     <string formatted="false" name="web_request_warning_title">Të lejohet qasja në internet?</string>
     <string formatted="false" name="web_request_warning_message">Ki shumë kujdes para se të lejosh qasjen, sepse lidhja mund t\'u zbulojë të dhënat e tua personale, si vendndodhjen tënde të saktë gjeografike ose çdo tekst që ke shkruar, personave keqdashës ose publikut. Shiko &lt;a href=%1s&gt;wikin&lt;/a&gt; tonë për më shumë informacion se pse kjo mund të jetë jashtëzakonisht e rrezikshme.</string>

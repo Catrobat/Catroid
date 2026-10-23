@@ -1127,7 +1127,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">de la poziția</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">cu</string>
     <string formatted="false" name="brick_web_request">Trimite o cerere web către</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">și salvează răspunsul în</string>
     <string formatted="false" name="web_request_warning_title">Permiți accesul la internet?</string>
     <string formatted="false" name="web_request_warning_message">Fii foarte atent înainte de a permite accesul, deoarece linkul poate dezvălui informațiile tale personale, cum ar fi locația ta geografică exactă sau orice text pe care l-ai introdus, unor persoane rău intenționate sau publicului. Vezi &lt;a href=%1s&gt;wiki&lt;/a&gt;-ul nostru pentru mai multe informații despre motivul pentru care acest lucru poate fi extrem de periculos.</string>

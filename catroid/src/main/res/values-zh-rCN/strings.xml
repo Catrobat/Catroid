@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">中位置</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">的项替换为</string>
     <string formatted="false" name="brick_web_request">发送网络请求到</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">，并将响应存入</string>
     <string formatted="false" name="web_request_warning_title">允许访问网络吗？</string>
     <string formatted="false" name="web_request_warning_message">允许访问之前请务必小心，因为该链接可能会将您的个人信息（例如您的精确地理位置或您输入的任何文字）泄露给恶意的他人或公众。有关为什么这可能极其危险的更多信息，请参阅我们的 &lt;a href=%1s&gt;wiki&lt;/a&gt;。</string>

@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиција</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">со</string>
     <string formatted="false" name="brick_web_request">Испрати веб-барање до</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">и зачувај го одговорот во</string>
     <string formatted="false" name="web_request_warning_title">Да се дозволи пристап до интернет?</string>
     <string formatted="false" name="web_request_warning_message">Биди многу внимателен пред да дозволиш пристап, бидејќи врската може да ги открие твоите лични податоци, како што се твојата точна географска локација или кој било текст што си го внел, на злонамерни луѓе или на јавноста. Види ја нашата &lt;a href=%1s&gt;вики-страница&lt;/a&gt; за повеќе информации зошто ова може да биде исклучително опасно.</string>

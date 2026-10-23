@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">pada kedudukan</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">dengan</string>
     <string formatted="false" name="brick_web_request">Hantar permintaan web ke</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">dan simpan jawapan dalam</string>
     <string formatted="false" name="web_request_warning_title">Benarkan akses web?</string>
     <string formatted="false" name="web_request_warning_message">Berhati-hati sebelum membenarkan akses, kerana pautan itu mungkin mendedahkan maklumat peribadi anda, seperti lokasi geografi tepat anda atau sebarang teks yang telah anda masukkan, kepada orang lain yang berniat jahat atau kepada umum. Lihat &lt;a href=%1s&gt;wiki&lt;/a&gt; kami untuk maklumat lanjut mengapa ini boleh menjadi sangat berbahaya.</string>

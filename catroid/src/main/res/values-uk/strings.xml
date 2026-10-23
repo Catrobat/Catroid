@@ -1172,7 +1172,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиції</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">значенням</string>
     <string formatted="false" name="brick_web_request">Надіслати вебзапит на</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">і зберегти відповідь у</string>
     <string formatted="false" name="web_request_warning_title">Дозволити доступ до вебу?</string>
     <string formatted="false" name="web_request_warning_message">Будьте дуже обережні, перш ніж дозволити доступ: посилання може розкрити зловмисникам або всім охочим вашу особисту інформацію, наприклад ваше точне місцезнаходження чи будь-який введений вами текст. Чому це може бути надзвичайно небезпечно, читайте в нашій &lt;a href=%1s&gt;вікі&lt;/a&gt;.</string>

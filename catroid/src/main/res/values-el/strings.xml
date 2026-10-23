@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">στη θέση</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">με</string>
     <string formatted="false" name="brick_web_request">Στείλε αίτημα ιστού στο</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">και αποθήκευσε την απάντηση σε</string>
     <string formatted="false" name="web_request_warning_title">Να επιτραπεί η πρόσβαση στο διαδίκτυο;</string>
     <string formatted="false" name="web_request_warning_message">Να είσαι πολύ προσεκτικός πριν επιτρέψεις την πρόσβαση, γιατί ο σύνδεσμος μπορεί να αποκαλύψει προσωπικές σου πληροφορίες, όπως την ακριβή γεωγραφική σου θέση ή οποιοδήποτε κείμενο έχεις γράψει, σε κακόβουλους άλλους ή στο κοινό. Δες το &lt;a href=%1s&gt;wiki&lt;/a&gt; μας για περισσότερες πληροφορίες σχετικά με το γιατί αυτό μπορεί να είναι εξαιρετικά επικίνδυνο.</string>

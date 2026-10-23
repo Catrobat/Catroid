@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">इस स्थान पर:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">इससे:</string>
     <string formatted="false" name="brick_web_request">इस पते पर वेब अनुरोध भेजें</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">और जवाब इसमें रखें</string>
     <string formatted="false" name="web_request_warning_title">वेब एक्सेस की अनुमति दें?</string>
     <string formatted="false" name="web_request_warning_message">अनुमति देने से पहले बहुत सावधान रहें, क्योंकि यह लिंक आपकी निजी जानकारी, जैसे आपकी सटीक भौगोलिक जगह या आपका लिखा कोई भी टेक्स्ट, बुरी नीयत वाले लोगों या सबके सामने ला सकता है। यह बेहद खतरनाक क्यों हो सकता है, इसकी ज़्यादा जानकारी के लिए हमारी &lt;a href=%1s>विकि&lt;/a&gt; देखें।</string>

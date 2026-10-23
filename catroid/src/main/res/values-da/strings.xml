@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">på position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">med</string>
     <string formatted="false" name="brick_web_request">Send webanmodning til</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">og gem svaret i</string>
     <string formatted="false" name="web_request_warning_title">Tillad internetadgang?</string>
     <string formatted="false" name="web_request_warning_message">Vær meget forsigtig, før du tillader adgang, for linket kan afsløre dine personlige oplysninger, fx din præcise geografiske position eller tekst, du har skrevet, til ondsindede personer eller til offentligheden. Se vores &lt;a href=%1s&gt;wiki&lt;/a&gt; for at læse mere om, hvorfor det kan være meget farligt.</string>

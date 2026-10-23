@@ -1172,7 +1172,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na pozici</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">hodnotou</string>
     <string formatted="false" name="brick_web_request">Pošli webový požadavek na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">a ulož odpověď do</string>
     <string formatted="false" name="web_request_warning_title">Povolit přístup na web?</string>
     <string formatted="false" name="web_request_warning_message">Než přístup povolíš, buď velmi opatrný, protože odkaz může prozradit tvoje osobní údaje, například tvou přesnou polohu nebo jakýkoli text, který jsi zadal, zlým lidem nebo celé veřejnosti. Na naší &lt;a href=%1s&gt;wiki&lt;/a&gt; zjistíš, proč to může být velmi nebezpečné.</string>

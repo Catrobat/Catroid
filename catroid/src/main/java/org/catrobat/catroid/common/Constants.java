@@ -152,12 +152,12 @@ public final class Constants {
 	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
-	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrobat.org/HuaweiAppGallery";
+	public static final String HUAWEI_APP_GALLERY_LINK = "appmarket://details?id=org.catrobat.catroid";
 
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
 
-	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrobat.org/bot)";
+	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrobat.org/about/)";
 
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;
