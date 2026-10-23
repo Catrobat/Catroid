@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "develop"
-  pull_request:
   schedule:
     - cron: "0 0 * * *" # Daily at midnight
   workflow_dispatch:
