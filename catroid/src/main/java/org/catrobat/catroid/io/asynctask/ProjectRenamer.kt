@@ -57,32 +57,53 @@ class ProjectRenamer(
 }
 
 fun renameProject(projectDirectory: File, destinationName: String): File? {
-    val destinationDirectory = File(
-        projectDirectory.parent,
-        FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
-    )
-    val file = File(
-        destinationDirectory,
-        Constants.CODE_XML_FILE_NAME
-    )
+    synchronized(projectSaveLock) {
+        val destinationDirectory = File(
+            projectDirectory.parent,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
+        )
+        val file = File(
+            destinationDirectory,
+            Constants.CODE_XML_FILE_NAME
+        )
 
-    val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
-        file,
-        destinationName
-    )
-    if (!success) {
-        return null
+        val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
+            file,
+            destinationName
+        )
+        if (!success) {
+            return null
+        }
+
+        ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
+        return destinationDirectory
     }
-
-    ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
-    return destinationDirectory
 }
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     return try {
-        projectDirectory.renameTo(destinationDirectory)
-        true
+        if (projectDirectory.renameTo(destinationDirectory)) {
+            return true
+        }
+        if (projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true)) {
+            val tempDirectory = File(
+                projectDirectory.parentFile,
+                "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
+            )
+            if (projectDirectory.renameTo(tempDirectory)) {
+                if (tempDirectory.renameTo(destinationDirectory)) {
+                    return true
+                }
+                if (!tempDirectory.renameTo(projectDirectory)) {
+                    Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
+                }
+            }
+        }
+        false
     } catch (e: IOException) {
+        Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
+        false
+    } catch (e: SecurityException) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
     }
