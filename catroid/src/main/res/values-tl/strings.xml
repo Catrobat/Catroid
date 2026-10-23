@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Pakiusap maghintay</string>
     <string formatted="false" name="search_hint">Maghanap</string>
     <string formatted="false" name="backpack_add">Idagdag sa backpack</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Ang na-download mong project ay nakikinig sa boses mo
         sa background at nagpapadala ng data sa internet. Maaaring hindi naman ito nakakapanakit,at kailangan
@@ -1137,7 +1137,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">with</string>
     <string formatted="false" name="brick_web_request">Send web request to</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">and store answer in</string>
     <string formatted="false" name="web_request_warning_title">Allow web access?</string>
     <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the

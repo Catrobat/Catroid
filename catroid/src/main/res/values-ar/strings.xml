@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">الرجاء الانتظار</string>
     <string formatted="false" name="search_hint">جاري البحث…</string>
     <string formatted="false" name="backpack_add">إضافة الى حزمة الظهر</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">المشروع الذي قمت بتنزيله، يستمع إلى صوتك
         في الخلفية وكذلك يرسل معلومات إلى الإنترنت. هذا قد يكون غير ضار، وضروري
@@ -1312,7 +1312,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">في الموقع</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">مع</string>
     <string formatted="false" name="brick_web_request">إرسال طلب ويب إلى</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">وتخزين الإجابة في</string>
     <string formatted="false" name="web_request_warning_title">السماح بالوصول إلى الويب؟</string>
     <string formatted="false" name="web_request_warning_message">كن حذراً جداً قبل السماح بالوصول، لأن الرابط

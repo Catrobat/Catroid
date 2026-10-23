@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
     <string formatted="false" name="search_hint">ਖੋਜ ਕਰੋ…</string>
     <string formatted="false" name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ਤੁਹਾਡੇ ਦੁਆਰਾ ਡਾedਨਲੋਡ ਕੀਤਾ ਪ੍ਰੋਜੈਕਟ ਤੁਹਾਡੀ ਆਵਾਜ਼ ਸੁਣਦਾ ਹੈ
          ਦੀ ਪਿੱਠਭੂਮੀ ਵਿਚ ਹੈ ਅਤੇ ਇਹ ਵੀ ਇੰਟਰਨੈੱਟ \'ਤੇ ਡਾਟਾ ਭੇਜਦਾ ਹੈ. ਇਹ ਨੁਕਸਾਨਦੇਹ ਅਤੇ ਜ਼ਰੂਰੀ ਹੋ ਸਕਦਾ ਹੈ
@@ -1139,7 +1139,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ਸਥਿਤੀ \'ਤੇ</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ਦੇ ਨਾਲ</string>
     <string formatted="false" name="brick_web_request">ਨੂੰ ਵੈੱਬ ਬੇਨਤੀ ਭੇਜੋ</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
     <string formatted="false" name="web_request_warning_title">ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
     <string formatted="false" name="web_request_warning_message">ਪਹੁੰਚ ਤੋਂ ਪਹਿਲਾਂ ਬਹੁਤ ਸਾਵਧਾਨ ਰਹੋ, ਕਿਉਂਕਿ

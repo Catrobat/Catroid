@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Пожалуйста, подождите</string>
     <string formatted="false" name="search_hint">Поиск</string>
     <string formatted="false" name="backpack_add">Положить в портфель</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проект который вы скачали, прослушивает голос
         в фоновом режиме, а также отправляет данные в интернет. Это может быть безвредным и необходимым
@@ -1229,7 +1229,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">с позиции</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">на</string>
     <string formatted="false" name="brick_web_request">Отправить веб-запрос</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">и сохранить ответ в</string>
     <string formatted="false" name="web_request_warning_title">Разрешить веб-доступ?</string>
     <string formatted="false" name="web_request_warning_message">Будьте очень внимательны перед предоставлением доступа, поскольку ссылка
