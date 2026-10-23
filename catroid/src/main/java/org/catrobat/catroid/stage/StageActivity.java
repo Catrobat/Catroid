@@ -42,6 +42,8 @@ import android.os.PowerManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.util.SparseArray;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -83,6 +85,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
@@ -134,6 +137,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		isFromShortcut = getIntent().getBooleanExtra(EXTRA_IS_FROM_SHORTCUT, false);
 		StageLifeCycleController.stageCreate(this);
 		activeStageActivity = new WeakReference<>(this);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			registerOnBackInvokedCallback();
+		}
+	}
+
+	@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+	private void registerOnBackInvokedCallback() {
+		OnBackInvokedCallback onBackInvokedCallback = this::handleBackEvent;
+		getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+				OnBackInvokedDispatcher.PRIORITY_DEFAULT, onBackInvokedCallback);
 	}
 
 	@Override
@@ -243,6 +257,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onBackPressed() {
+		handleBackEvent();
+	}
+
+	public void handleBackEvent() {
 		if (isFromShortcut) {
 			manageLoadAndFinish();
 			finish();
@@ -427,7 +445,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		for (Scene scene: project.getSceneList()) {
+		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Brick brick : sprite.getAllBricks()) {
 					brick.addRequiredResources(requiredResources);

@@ -27,12 +27,13 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.awaitSuccessfulResponse
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 
 interface FeaturedProjectsSync {
 
-    fun sync(force: Boolean = false)
+    suspend fun sync(force: Boolean = false)
 }
 
 class DefaultFeaturedProjectSync(
@@ -42,9 +43,11 @@ class DefaultFeaturedProjectSync(
 ) : FeaturedProjectsSync {
 
     @WorkerThread
-    override fun sync(force: Boolean) {
+    override suspend fun sync(force: Boolean) {
         val localHashVersion = localHashVersionRepository.getFeaturedProjectsHashVersion()
-        val response = webService.getFeaturedProjects().execute()
+        val response =
+            webService.getFeaturedProjects().awaitSuccessfulResponse(javaClass.simpleName)
+
         val serverHashVersion = response.headers().get("x-response-hash")
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")
@@ -59,10 +62,7 @@ class DefaultFeaturedProjectSync(
     private fun update(body: List<FeaturedProject>?) {
         Log.d(javaClass.simpleName, "updating feature projects")
         Log.d(javaClass.simpleName, "$body")
-        body?.let {
-            appDatabase.featuredProjectDao().deleteAll()
-            appDatabase.featuredProjectDao().insertFeaturedProjects(it)
-        }
+        body?.let { appDatabase.featuredProjectDao().replaceAll(it) }
     }
 
     private fun requireUpdate(localHashVersion: String?, serverHashVersion: String?) =

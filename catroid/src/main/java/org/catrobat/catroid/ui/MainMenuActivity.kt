@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui
 
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -35,7 +34,6 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -127,19 +125,16 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             Html.fromHtml(termsOfUseUrl)
         }
 
-        AlertDialog.Builder(this)
+        val termsOfUseDialog = AlertDialog.Builder(this)
             .setNegativeButton(R.string.decline) { _, _ -> handleDeclinedPrivacyPolicyButton() }
             .setPositiveButton(R.string.accept) { _, _ -> handleAgreedToPrivacyPolicyButton() }
-            .setCancelable(false)
-            .setOnKeyListener { _, keyCode: Int, _ ->
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    finish()
-                    return@setOnKeyListener true
-                }
-                false
-            }
+            .setCancelable(true)
+            .setOnCancelListener { finish() }
             .setView(view)
-            .show()
+            .create()
+
+        termsOfUseDialog.setCanceledOnTouchOutside(false)
+        termsOfUseDialog.show()
     }
 
     fun handleAgreedToPrivacyPolicyButton() {
@@ -174,19 +169,15 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             Html.fromHtml(linkString)
         }
 
-        AlertDialog.Builder(this)
+        val declinedTermsDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .setPositiveButton(R.string.ok) { _, _ -> showTermsOfUseDialog() }
-            .setCancelable(false)
-            .setOnKeyListener { dialog: DialogInterface, keyCode: Int, _ ->
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    dialog.cancel()
-                    showTermsOfUseDialog()
-                    return@setOnKeyListener true
-                }
-                false
-            }
-            .show()
+            .setCancelable(true)
+            .setOnCancelListener { showTermsOfUseDialog() }
+            .create()
+
+        declinedTermsDialog.setCanceledOnTouchOutside(false)
+        declinedTermsDialog.show()
     }
 
     private fun loadContent() {
