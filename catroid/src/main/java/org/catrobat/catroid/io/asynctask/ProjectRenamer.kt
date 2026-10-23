@@ -82,9 +82,24 @@ fun renameProject(projectDirectory: File, destinationName: String): File? {
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     return try {
-        projectDirectory.renameTo(destinationDirectory)
-        true
-    } catch (e: IOException) {
+        if (projectDirectory.renameTo(destinationDirectory)) {
+            return true
+        }
+        if (projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true)) {
+            val tempDirectory = File(
+                projectDirectory.parentFile,
+                "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
+            )
+            if (projectDirectory.renameTo(tempDirectory)) {
+                if (tempDirectory.renameTo(destinationDirectory)) {
+                    return true
+                } else {
+                    tempDirectory.renameTo(projectDirectory)
+                }
+            }
+        }
+        false
+    } catch (e: Exception) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
     }

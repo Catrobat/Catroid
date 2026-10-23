@@ -507,73 +507,10 @@ object ShortcutHelper {
         }
     }
 
-    /**
-     * Verifies if shortcut permission is granted on Xiaomi/MIUI/HyperOS.
-     * Tries reflection first, and gracefully falls back to the silent probe when
-     * reflection is blocked on newer Android/HyperOS versions.
-     */
-    suspend fun verifyShortcutPermission(
-        context: Context,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ): Boolean = withContext(dispatcher) {
-        if (!isXiaomiDevice()) return@withContext true
-
+    internal fun checkMiuiAppOpPermission(context: Context): Boolean? {
         val appOpsManager =
             context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
-                ?: return@withContext true
-
-        // Try checkOpNoThrow first (API 19+)
-        try {
-            val method = appOpsManager.javaClass.getMethod(
-                "checkOpNoThrow",
-                Int::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType,
-                String::class.java
-            )
-            val result = method.invoke(
-                appOpsManager,
-                MIUI_INSTALL_SHORTCUT_OP_CODE,
-                android.os.Process.myUid(),
-                context.packageName
-            ) as Int
-            return@withContext result == android.app.AppOpsManager.MODE_ALLOWED
-        } catch (e: Exception) {
-            Log.w(TAG, "checkOpNoThrow failed, trying checkOp", e)
-        }
-
-        // Fallback to checkOp
-        try {
-            val method = appOpsManager.javaClass.getMethod(
-                "checkOp",
-                Int::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType,
-                String::class.java
-            )
-            val result = method.invoke(
-                appOpsManager,
-                MIUI_INSTALL_SHORTCUT_OP_CODE,
-                android.os.Process.myUid(),
-                context.packageName
-            ) as Int
-            return@withContext result == android.app.AppOpsManager.MODE_ALLOWED
-        } catch (e: Exception) {
-            Log.w(TAG, "MIUI reflection failed, falling back to silent probe", e)
-        }
-
-        // Silent probe fallback when reflection is blocked
-        !probeIsShortcutCreationBlocked(context)
-    }
-
-    /**
-     * Checks if the "Install shortcut" permission is granted on MIUI (synchronous fast path).
-     * Uses reflection to access the hidden 'checkOp' method in AppOpsManager.
-     */
-    fun isShortcutPermissionGranted(context: Context): Boolean {
-        if (!isXiaomiDevice()) return true
-
-        val appOpsManager =
-            context.getSystemService(Context.APP_OPS_SERVICE) as? android.app.AppOpsManager
-                ?: return true
+                ?: return null
 
         // Try checkOpNoThrow first (API 19+)
         try {
@@ -591,7 +528,7 @@ object ShortcutHelper {
             ) as Int
             return result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.w(TAG, "checkOpNoThrow failed or blocked, trying fallback", e)
+            Log.w(TAG, "checkOpNoThrow failed, trying checkOp", e)
         }
 
         // Fallback to checkOp
@@ -610,13 +547,39 @@ object ShortcutHelper {
             ) as Int
             result == android.app.AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "MIUI permission reflection failed completely. Defaulting to 'granted' for safety.",
-                e
-            )
-            true
+            Log.w(TAG, "MIUI reflection failed", e)
+            null
         }
+    }
+
+    /**
+     * Verifies if shortcut permission is granted on Xiaomi/MIUI/HyperOS.
+     * Tries reflection first, and gracefully falls back to the silent probe when
+     * reflection is blocked on newer Android/HyperOS versions.
+     */
+    suspend fun verifyShortcutPermission(
+        context: Context,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): Boolean = withContext(dispatcher) {
+        if (!isXiaomiDevice()) return@withContext true
+
+        val appOpResult = checkMiuiAppOpPermission(context)
+        if (appOpResult != null) {
+            return@withContext appOpResult
+        }
+
+        // Silent probe fallback when reflection is blocked
+        !probeIsShortcutCreationBlocked(context)
+    }
+
+    /**
+     * Checks if the "Install shortcut" permission is granted on MIUI (synchronous fast path).
+     * Uses reflection to access the hidden 'checkOp' method in AppOpsManager.
+     */
+    fun isShortcutPermissionGranted(context: Context): Boolean {
+        if (!isXiaomiDevice()) return true
+
+        return checkMiuiAppOpPermission(context) ?: true
     }
 
     /**

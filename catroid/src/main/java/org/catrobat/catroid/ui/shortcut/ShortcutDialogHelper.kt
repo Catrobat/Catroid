@@ -45,6 +45,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.projectSaveLock
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.utils.FileMetaDataExtractor
@@ -205,23 +206,31 @@ object ShortcutDialogHelper {
             FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
         )
-        if (destinationDir.exists()) {
-            ToastUtil.showError(context, R.string.name_already_exists)
-            return
-        }
-
         val projectDir = File(
             FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         )
+        val isCaseOnlyRename = projectName.equals(newName, ignoreCase = true)
+        val isSameUnderlyingDirectory = isCaseOnlyRename && try {
+            destinationDir.canonicalPath == projectDir.canonicalPath
+        } catch (_: Exception) {
+            true
+        }
+        if (destinationDir.exists() && !isSameUnderlyingDirectory) {
+            ToastUtil.showError(context, R.string.name_already_exists)
+            return
+        }
 
         dialog.dismiss()
 
         CoroutineScope(ioDispatcher).launch {
             val success = synchronized(projectSaveLock) {
+                val currentProject = ProjectManager.getInstance()?.currentProject
+                if (currentProject != null && currentProject.name == projectName) {
+                    XstreamSerializer.getInstance().saveProject(currentProject)
+                }
                 val renamedDir = renameProject(projectDir, newName)
                 if (renamedDir != null) {
-                    val currentProject = ProjectManager.getInstance()?.currentProject
                     if (currentProject != null && currentProject.name == projectName) {
                         relocateOpenProject(currentProject, newName)
                     }
@@ -262,6 +271,7 @@ object ShortcutDialogHelper {
         project.directory = newDirectory
 
         project.sceneList.forEach { scene ->
+            scene.project = project
             scene.spriteList.forEach { sprite ->
                 sprite.lookList.forEach { look ->
                     look.file = relocateFile(look.file, oldDirectory, newDirectory)

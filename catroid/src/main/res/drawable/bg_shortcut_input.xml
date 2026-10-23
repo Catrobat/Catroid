@@ -32,7 +32,7 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="#14171F" />
-            <stroke android:width="1.5dp" android:color="#FFAB08" />
+            <stroke android:width="1.5dp" android:color="#3B485A" />
             <corners android:radius="12dp" />
         </shape>
     </item>

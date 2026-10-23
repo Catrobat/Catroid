@@ -184,25 +184,27 @@ class ProjectActivity : BaseCastActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (pendingShortcutProjectName != null) {
-            val projectName = pendingShortcutProjectName!!
+        val projectName = pendingShortcutProjectName
+        if (projectName != null) {
             val icon = pendingShortcutIcon
             pendingShortcutProjectName = null
             pendingShortcutIcon = null
             lifecycleScope.launch {
                 val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
-                if (isGranted) {
-                    ShortcutDialogHelper.showPinShortcutDialog(
-                        this@ProjectActivity,
-                        layoutInflater,
-                        projectName,
-                        icon,
-                        isGranted,
-                        onProjectRenamed = { _, newName ->
-                            supportActionBar?.title = newName
-                        }
-                    )
-                }
+                ShortcutDialogHelper.showPinShortcutDialog(
+                    this@ProjectActivity,
+                    layoutInflater,
+                    projectName,
+                    icon,
+                    isGranted,
+                    onSettingsClicked = {
+                        pendingShortcutProjectName = projectName
+                        pendingShortcutIcon = icon
+                    },
+                    onProjectRenamed = { _, newName ->
+                        supportActionBar?.title = newName
+                    }
+                )
             }
         }
     }

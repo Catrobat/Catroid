@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.ui.shortcut
 
+import android.app.AppOpsManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -282,6 +284,23 @@ class ShortcutHelperTest {
         // The method should default to TRUE to avoid blocking the user.
         val result = ShortcutHelper.isShortcutPermissionGranted(context)
         assertTrue("Should default to granted when reflection fails", result)
+    }
+
+    @Test
+    fun `verifyShortcutPermission falls back to probe when reflection fails`() = runTest {
+        ShadowBuild.setManufacturer("Xiaomi")
+        val mockContext = mockk<Context>()
+        val mockAppOps = mockk<AppOpsManager>()
+        every { mockContext.getSystemService(Context.APP_OPS_SERVICE) } returns mockAppOps
+        every { mockContext.packageName } returns "org.catrobat.catroid"
+
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns emptyList()
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
+
+        val granted = ShortcutHelper.verifyShortcutPermission(mockContext)
+        assertFalse("Should return false when reflection fails and probe detects blocked state", granted)
     }
 
     // Should: Probe cleans up dummy shortcut

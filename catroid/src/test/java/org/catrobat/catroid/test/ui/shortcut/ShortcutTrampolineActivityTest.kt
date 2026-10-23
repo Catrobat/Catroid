@@ -53,6 +53,8 @@ class ShortcutTrampolineActivityTest {
     @Before
     fun setUp() {
         mockkStatic(ShortcutManagerCompat::class)
+        every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
         every { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) } just Runs
     }
 

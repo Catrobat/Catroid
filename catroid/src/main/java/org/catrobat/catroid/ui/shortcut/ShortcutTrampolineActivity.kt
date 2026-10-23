@@ -28,7 +28,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.pm.ShortcutManagerCompat
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -162,16 +161,9 @@ class ShortcutTrampolineActivity : Activity() {
 
     private fun disableShortcutAndFinish(projectName: String) {
         val targetIds = ShortcutHelper.findShortcutIdsForProject(this, projectName)
+            .ifEmpty { listOf(FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)) }
 
-        try {
-            ShortcutManagerCompat.disableShortcuts(
-                this,
-                targetIds,
-                getString(R.string.shortcut_project_not_found)
-            )
-        } catch (e: Exception) {
-            Log.w(TAG, "Could not disable shortcut: ${e.message}")
-        }
+        ShortcutHelper.disableShortcutIds(this, targetIds)
         Toast.makeText(this, R.string.shortcut_project_not_found, Toast.LENGTH_SHORT).show()
         finish()
     }

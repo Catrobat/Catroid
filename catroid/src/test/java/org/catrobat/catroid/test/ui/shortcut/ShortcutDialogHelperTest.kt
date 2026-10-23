@@ -411,4 +411,139 @@ class ShortcutDialogHelperTest {
             newProjectDir.deleteRecursively()
         }
     }
+
+    @Test
+    fun `saveProject via XstreamSerializer directly shares projectSaveLock during rename`() {
+        val rootDir = activity.filesDir
+        val oldProjectDir = File(rootDir, "DirectSaveOriginal").apply { mkdirs() }
+        val newProjectDir = File(rootDir, "DirectSaveRenamed")
+
+        val project = Project(activity, "DirectSaveOriginal")
+        project.directory = oldProjectDir
+        XstreamSerializer.getInstance().saveProject(project)
+
+        ProjectManager.getInstance().currentProject = project
+
+        val saveStarted = CountDownLatch(1)
+        val saveCompleted = CountDownLatch(1)
+        var saveResult = false
+
+        project.description = "Direct serializer save"
+
+        thread {
+            saveStarted.countDown()
+            saveResult = XstreamSerializer.getInstance().saveProject(project)
+            saveCompleted.countDown()
+        }
+
+        synchronized(projectSaveLock) {
+            saveStarted.await()
+            Thread.sleep(50)
+
+            val renamedDir = renameProject(oldProjectDir, "DirectSaveRenamed")
+            assertNotNull(renamedDir)
+            ShortcutDialogHelper.relocateOpenProject(project, "DirectSaveRenamed")
+        }
+
+        saveCompleted.await()
+
+        assertTrue("Direct saveProject should succeed after rename completes", saveResult)
+        assertFalse(
+            "Old project directory must not be recreated by concurrent direct save",
+            oldProjectDir.exists()
+        )
+        assertTrue("New project directory must exist", newProjectDir.exists())
+        assertEquals("DirectSaveRenamed", project.name)
+        assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
+
+        newProjectDir.deleteRecursively()
+    }
+
+    @Test
+    fun `relocateOpenProject sets project reference on each scene to update scene directory`() {
+        val rootDir = activity.filesDir
+        val oldProjectDir = File(rootDir, "SceneTestOld").apply { mkdirs() }
+        val newProjectDir = File(rootDir, "SceneTestNew")
+
+        val project = Project(activity, "SceneTestOld")
+        project.directory = oldProjectDir
+        val scene = project.defaultScene
+
+        ShortcutDialogHelper.relocateOpenProject(project, "SceneTestNew")
+
+        assertEquals(project, scene.project)
+        assertEquals(
+            File(newProjectDir, scene.name).absolutePath,
+            scene.directory.absolutePath
+        )
+
+        oldProjectDir.deleteRecursively()
+        newProjectDir.deleteRecursively()
+    }
+
+    @Test
+    fun `pin button with case-only rename succeeds and flushes in-memory edits`() {
+        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val oldProjectDir = File(rootDir, "dialogcaseold").apply { mkdirs() }
+        val newProjectDir = File(rootDir, "DialogCaseOld")
+
+        val project = Project(activity, "dialogcaseold")
+        project.directory = oldProjectDir
+        XstreamSerializer.getInstance().saveProject(project)
+
+        ProjectManager.getInstance().currentProject = project
+
+        every { ShortcutHelper.isXiaomiDevice() } returns false
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+
+        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
+        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+
+        try {
+            var renamedOld = ""
+            var renamedNew = ""
+
+            project.description = "Unsaved memory edit that must be flushed"
+
+            ShortcutDialogHelper.showPinShortcutDialog(
+                context = activity,
+                layoutInflater = activity.layoutInflater,
+                projectName = "dialogcaseold",
+                icon = null,
+                isPermissionGranted = true,
+                onProjectRenamed = { oldName, newName ->
+                    renamedOld = oldName
+                    renamedNew = newName
+                }
+            )
+
+            val dialog = ShadowAlertDialog.getLatestAlertDialog()
+            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
+            val renameCheckbox =
+                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
+
+            nameEdit.setText("DialogCaseOld")
+            renameCheckbox.isChecked = true
+            pinBtn.performClick()
+
+            assertEquals("dialogcaseold", renamedOld)
+            assertEquals("DialogCaseOld", renamedNew)
+            assertEquals("DialogCaseOld", project.name)
+            assertTrue(newProjectDir.exists())
+
+            // Verify memory edit was flushed to code.xml
+            val loadedProject = XstreamSerializer.getInstance().loadProject(
+                newProjectDir,
+                activity
+            )
+            assertEquals("Unsaved memory edit that must be flushed", loadedProject.description)
+        } finally {
+            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
+            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
+            oldProjectDir.deleteRecursively()
+            newProjectDir.deleteRecursively()
+        }
+    }
 }
