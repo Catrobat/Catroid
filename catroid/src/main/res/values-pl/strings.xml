@@ -1201,7 +1201,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">z</string>
     <string formatted="false" name="brick_web_request">Wyślij żądanie do strony internetowej</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">i przechowaj odpowiedź w</string>
     <string formatted="false" name="web_request_warning_title">Zezwolić na dostęp do sieci?</string>
     <string formatted="false" name="web_request_warning_message">Bądź bardzo ostrożny przed dopuszczeniem dostępu, ponieważ link

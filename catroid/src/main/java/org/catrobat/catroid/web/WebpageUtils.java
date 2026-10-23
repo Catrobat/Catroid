@@ -33,7 +33,7 @@ public final class WebpageUtils {
 	private WebpageUtils() {
 	}
 
-	private static final String REGEX_WIKI = "https://catrobat.org/regex";
+	private static final String REGEX_WIKI = "https://catrobat.org/docs/";
 
 	public static void openWikiPage(Context context) {
 		startActivity(context, new Intent(Intent.ACTION_VIEW,

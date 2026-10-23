@@ -1229,7 +1229,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">с позиции</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">на</string>
     <string formatted="false" name="brick_web_request">Отправить веб-запрос</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">и сохранить ответ в</string>
     <string formatted="false" name="web_request_warning_title">Разрешить веб-доступ?</string>
     <string formatted="false" name="web_request_warning_message">Будьте очень внимательны перед предоставлением доступа, поскольку ссылка

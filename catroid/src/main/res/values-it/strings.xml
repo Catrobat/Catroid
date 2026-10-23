@@ -1139,7 +1139,7 @@ app
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">con</string>
     <string formatted="false" name="brick_web_request">Invia richiesta web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">e memorizza la risposta in</string>
     <string formatted="false" name="web_request_warning_title">Consentire l\'accesso al web?</string>
     <string formatted="false" name="web_request_warning_message">Fai molta attenzione prima di permettere l\'accesso, poiché il link

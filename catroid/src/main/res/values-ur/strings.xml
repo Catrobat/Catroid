@@ -1115,7 +1115,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">پوزیشن پر</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">کے ساتھ</string>
     <string formatted="false" name="brick_web_request">کو ویب درخواست بھیجیں۔</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">اور جواب میں اسٹور</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ 

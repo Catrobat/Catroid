@@ -1138,7 +1138,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">स्थिति पर</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">साथ से</string>
     <string formatted="false" name="brick_web_request">को वेब अनुरोध भेजें</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">और उत्तर में स्टोर करें</string>
     <string formatted="false" name="web_request_warning_title">वेब एक्सेस की अनुमति दें?</string>
     <string formatted="false" name="web_request_warning_message">उपयोग की अनुमति देने से पहले बहुत सावधान रहें, चूंकि

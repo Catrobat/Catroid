@@ -1076,7 +1076,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">的位置</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">以</string>
     <string formatted="false" name="brick_web_request">发送网络请求到</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">并存储答案</string>
     <string formatted="false" name="web_request_warning_title">是否允许访问网页？</string>
     <string formatted="false" name="web_request_warning_message">在允许进入之前要非常小心，因为

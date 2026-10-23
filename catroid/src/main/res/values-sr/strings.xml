@@ -653,7 +653,7 @@
             any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
             legal institutions request it based on applicable law. Each case will be thoroughly checked on an
             individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrobat.org/newsletter provided
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrobat.org/news/ provided
             by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
             receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
             the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
@@ -673,7 +673,7 @@
         In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
         Catrobat\'s official English language privacy policy is available on the web under
-        https://catrobat.org/privacypolicy.\n\n
+        https://share.catrobat.org/app/privacypolicy.\n\n
 
         Version 2.2, 17 October 2019\n\n
 
@@ -1126,7 +1126,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">with</string>
     <string formatted="false" name="brick_web_request">Send web request to</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrobat.org/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">and store answer in</string>
     <string formatted="false" name="web_request_warning_title">Allow web access?</string>
     <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the
@@ -1144,9 +1144,9 @@
         the settings of this app.
     </string>
     <string formatted="false" name="brick_look_request">Get image from</string>
-    <string formatted="false" name="brick_look_request_default_value">https://catrobat.org/penguin</string>
-    <string formatted="false" name="brick_background_request_default_value_portrait">https://catrobat.org/HalloweenPortrait</string>
-    <string formatted="false" name="brick_background_request_default_value_landscape">https://catrobat.org/HalloweenLandscape</string>
+    <string formatted="false" name="brick_look_request_default_value">https://share.catrobat.org/brick-defaults/penguin.png</string>
+    <string formatted="false" name="brick_background_request_default_value_portrait">https://share.catrobat.org/brick-defaults/halloween-portrait.png</string>
+    <string formatted="false" name="brick_background_request_default_value_landscape">https://share.catrobat.org/brick-defaults/halloween-landscape.png</string>
     <string formatted="false" name="brick_look_request_result">and use as current look</string>
     <string formatted="false" name="brick_background_request_result">and use as current background</string>
     <string formatted="false" name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
