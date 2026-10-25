@@ -41,7 +41,6 @@ import org.koin.java.KoinJavaComponent
 class GlideToPositionBrick(var destinationSprite: Sprite? = null) : FormulaBrick(),
     OnItemSelectedListener<Sprite?> {
     private var spinnerSelection: Int = 0
-    private val MILLI_SECONDS_TO_SECONDS = 1000
 
     init {
         addAllowedBrickField(
