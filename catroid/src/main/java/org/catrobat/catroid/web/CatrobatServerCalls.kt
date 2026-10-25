@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.web
 import android.content.Context
 import android.preference.PreferenceManager
 import android.util.Log
+import androidx.core.content.edit
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -141,10 +142,10 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
 
                 if (tokenAvailable && oauthProvider == Constants.GOOGLE_PLUS) {
                     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    sharedPreferences.edit()
-                        .putString(Constants.GOOGLE_USERNAME, serverUsername)
-                        .putString(Constants.GOOGLE_EMAIL, serverEmail)
-                        .apply()
+                    sharedPreferences.edit {
+                        putString(Constants.GOOGLE_USERNAME, serverUsername)
+                        putString(Constants.GOOGLE_EMAIL, serverEmail)
+                    }
                 }
 
                 return tokenAvailable

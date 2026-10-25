@@ -254,9 +254,7 @@ android {
 
     lint {
         abortOnError = false
-        baseline = file('config/lint-baseline.xml')
-
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        ignore 'GradleDependency', 'AndroidGradlePluginVersion', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'ObsoleteLintCustomCheck'
         lintConfig = file('config/lint.xml')
 
         htmlReport = true

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment.scratchconverter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +70,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY;
 
+@SuppressLint("NotifyDataSetChanged")
 public class ScratchSearchResultsFragment extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
@@ -179,12 +181,10 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -279,20 +279,18 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.convert:
-				startActionMode(CONVERT);
-				break;
-			case R.id.show_details:
-				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(getActivity())
-						.edit()
-						.putBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, adapter.showDetails)
-						.apply();
-				adapter.notifyDataSetChanged();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.convert) {
+			startActionMode(CONVERT);
+		} else if (itemId == R.id.show_details) {
+			adapter.showDetails = !adapter.showDetails;
+			PreferenceManager.getDefaultSharedPreferences(getActivity())
+					.edit()
+					.putBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, adapter.showDetails)
+					.apply();
+			adapter.notifyDataSetChanged();
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}

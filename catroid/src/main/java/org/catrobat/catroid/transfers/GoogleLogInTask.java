@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -41,6 +42,8 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = GoogleLogInTask.class.getSimpleName();
 
+	// The task reports its result in this context and does not outlive it for long.
+	@SuppressLint("StaticFieldLeak")
 	private Context context;
 	private ProgressDialog progressDialog;
 	private String mail;

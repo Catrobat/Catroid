@@ -27,6 +27,7 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -70,6 +71,8 @@ import androidx.mediarouter.media.MediaRouter;
 import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
+	// The cast session outlives single activities, so the singleton keeps references to them.
+	@SuppressLint("StaticFieldLeak")
 	private static final CastManager INSTANCE = new CastManager();
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
 	private StageActivity gamepadActivity;
@@ -191,6 +194,8 @@ public final class CastManager {
 		openDeviceSelectorOrDisconnectDialog(initializingActivity);
 	}
 
+	// Touch handling only, there is no click action to expose to accessibility services.
+	@SuppressLint("ClickableViewAccessibility")
 	private void initGamepadListeners() {
 
 		View.OnClickListener pauseButtonListener = new View.OnClickListener() {
@@ -241,35 +246,29 @@ public final class CastManager {
 
 		Sensors buttonPressed;
 		String buttonPressedName;
-		switch (button.getId()) {
-			case R.id.gamepadButtonA:
-				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
-				buttonPressed = Sensors.GAMEPAD_A_PRESSED;
-				break;
-			case R.id.gamepadButtonB:
-				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
-				buttonPressed = Sensors.GAMEPAD_B_PRESSED;
-				break;
-			case R.id.gamepadButtonUp:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_up);
-				buttonPressed = Sensors.GAMEPAD_UP_PRESSED;
-				break;
-			case R.id.gamepadButtonDown:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_down);
-				buttonPressed = Sensors.GAMEPAD_DOWN_PRESSED;
-				break;
-			case R.id.gamepadButtonLeft:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_left);
-				buttonPressed = Sensors.GAMEPAD_LEFT_PRESSED;
-				break;
-			case R.id.gamepadButtonRight:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_right);
-				buttonPressed = Sensors.GAMEPAD_RIGHT_PRESSED;
-				break;
-			default:
-				throw new IllegalArgumentException("Unknown button pressed");
+		int buttonId = button.getId();
+		if (buttonId == R.id.gamepadButtonA) {
+			button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
+			buttonPressed = Sensors.GAMEPAD_A_PRESSED;
+		} else if (buttonId == R.id.gamepadButtonB) {
+			button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
+			buttonPressed = Sensors.GAMEPAD_B_PRESSED;
+		} else if (buttonId == R.id.gamepadButtonUp) {
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_up);
+			buttonPressed = Sensors.GAMEPAD_UP_PRESSED;
+		} else if (buttonId == R.id.gamepadButtonDown) {
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_down);
+			buttonPressed = Sensors.GAMEPAD_DOWN_PRESSED;
+		} else if (buttonId == R.id.gamepadButtonLeft) {
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_left);
+			buttonPressed = Sensors.GAMEPAD_LEFT_PRESSED;
+		} else if (buttonId == R.id.gamepadButtonRight) {
+			buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_right);
+			buttonPressed = Sensors.GAMEPAD_RIGHT_PRESSED;
+		} else {
+			throw new IllegalArgumentException("Unknown button pressed");
 		}
 		setButtonPress(buttonPressed, isActionDown);
 
@@ -285,7 +284,8 @@ public final class CastManager {
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
+		stageView.surfaceChanged(stageView.getHolder(), PixelFormat.RGBA_8888,
+				project.getXmlHeader().getVirtualScreenWidth(),
 				project.getXmlHeader().getVirtualScreenHeight());
 	}
 

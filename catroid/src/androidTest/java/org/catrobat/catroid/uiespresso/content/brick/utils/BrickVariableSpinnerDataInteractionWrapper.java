@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,6 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -98,7 +97,6 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 			onData(allOf(is(instanceOf(UserVariable.class)), withUserVariableName(variableName)))
 					.check(matches(isDisplayed()));
 		}
-		pressBack();
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
@@ -106,7 +104,6 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		dataInteraction.perform(click());
 		onData(allOf(is(instanceOf(UserVariable.class)), withUserVariableName(variableName)))
 				.check(matches(isDisplayed()));
-		pressBack();
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 }

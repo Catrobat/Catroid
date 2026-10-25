@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.transfers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -49,6 +50,8 @@ public class FetchScratchProgramDetailsTask extends AsyncTask<Long, Void, Scratc
 
 	private static final String TAG = FetchScratchProgramDetailsTask.class.getSimpleName();
 
+	// The task reports its result in this context and does not outlive it for long.
+	@SuppressLint("StaticFieldLeak")
 	private Context context;
 	private Handler handler;
 	private ScratchProgramListTaskDelegate delegate = null;

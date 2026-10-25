@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,6 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -52,14 +50,7 @@ class NetworkConnectionMonitor(private val context: Context) : LiveData<Boolean>
             as ConnectivityManager
         postValue(checkConnection(connectivityManager))
         callback = ConnectionNetworkCallback()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(callback)
-        } else {
-            val request = NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                .build()
-            connectivityManager.registerNetworkCallback(request, callback)
-        }
+        connectivityManager.registerDefaultNetworkCallback(callback)
     }
 
     private fun checkConnection(connectivityManager: ConnectivityManager): Boolean {

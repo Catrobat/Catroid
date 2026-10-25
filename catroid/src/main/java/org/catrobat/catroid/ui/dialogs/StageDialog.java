@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -106,31 +107,23 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.stage_dialog_button_back:
-				onBackPressed();
-				break;
-			case R.id.stage_dialog_button_continue:
-				onContinuePressed();
-				break;
-			case R.id.stage_dialog_button_restart:
-				onRestartPressed();
-				break;
-			case R.id.stage_dialog_button_toggle_axes:
-				toggleAxes();
-				break;
-			case R.id.stage_dialog_button_maximize:
-				stageListener.toggleScreenMode();
-				break;
-			case R.id.stage_dialog_button_screenshot:
-				makeScreenshot();
-				break;
-			case R.id.stage_dialog_button_share:
-				shareEmbroideryFile();
-				break;
-			default:
-				Log.w(TAG, "Unimplemented button clicked! This shouldn't happen!");
-				break;
+		int viewId = view.getId();
+		if (viewId == R.id.stage_dialog_button_back) {
+			onBackPressed();
+		} else if (viewId == R.id.stage_dialog_button_continue) {
+			onContinuePressed();
+		} else if (viewId == R.id.stage_dialog_button_restart) {
+			onRestartPressed();
+		} else if (viewId == R.id.stage_dialog_button_toggle_axes) {
+			toggleAxes();
+		} else if (viewId == R.id.stage_dialog_button_maximize) {
+			stageListener.toggleScreenMode();
+		} else if (viewId == R.id.stage_dialog_button_screenshot) {
+			makeScreenshot();
+		} else if (viewId == R.id.stage_dialog_button_share) {
+			shareEmbroideryFile();
+		} else {
+			Log.w(TAG, "Unimplemented button clicked! This shouldn't happen!");
 		}
 	}
 
@@ -249,6 +242,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 	}
 
+	// Short-lived task that reports back to its enclosing instance.
+	@SuppressLint("StaticFieldLeak")
 	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {

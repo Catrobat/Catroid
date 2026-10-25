@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment.scratchconverter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
+@SuppressLint("NotifyDataSetChanged")
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
 		RVAdapter.OnItemClickListener<Job>,

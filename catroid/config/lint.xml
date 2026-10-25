@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -40,12 +40,52 @@
     </issue >
 
     <issue id="UnusedQuantity">
-        <ignore regexp=".*/values-(cs|sk|lt)/strings.xml$" />
+        <ignore regexp=".*/values-(cs|sk|lt|iw)/strings.xml$" />
     </issue>
 
     <issue id="Typos">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+        <!-- Names of media library files, not typos. -->
+        <ignore regexp="Clouds1|Tweet1|Wolken1|Zwitscher1" />
     </issue >
+
+    <issue id="TypographyEllipsis">
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue>
+
+    <!-- The screen orientation is fixed on purpose: the editor is portrait only and the stage
+         uses the orientation of the project. -->
+    <issue id="LockedOrientationActivity" severity="ignore" />
+    <issue id="SourceLockedOrientationActivity" severity="ignore" />
+    <issue id="DiscouragedApi">
+        <ignore regexp=".*/src/main/AndroidManifest.xml$" />
+    </issue>
+
+    <!-- Partial photo access (Android 14+) is not supported yet, the system falls back to a
+         temporary grant of the selected photos. -->
+    <issue id="SelectedPhotoAccess" severity="ignore" />
+
+    <!-- The app switches the language itself (language setting, English brick category names).
+         If it is ever published as an app bundle, language splits have to be disabled. -->
+    <issue id="AppBundleLocaleChanges" severity="ignore" />
+
+    <!-- Third party code of the AndroidAsync library. -->
+    <issue id="TrustAllX509TrustManager">
+        <ignore regexp="androidasync" />
+    </issue>
+
+    <!-- values/styles.xml still contains the old PNG brick theme, which is overridden by
+         values-v25 on all supported devices. Merging both needs a separate clean-up of the
+         theme and of the PNG bricks. -->
+    <issue id="ObsoleteSdkInt">
+        <ignore regexp=".*/src/main/res/(values-v25|mipmap-anydpi-v26)$" />
+    </issue>
+    <issue id="IconDensities">
+        <ignore regexp="brick_" />
+    </issue>
+    <issue id="IconXmlAndPng">
+        <ignore regexp="brick_1h_winered" />
+    </issue>
 
     <issue id="InvalidPackage">
         <ignore path="*/com.thoughtworks.xstream/xstream/*"/>

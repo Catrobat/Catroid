@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.recyclerview.dialog
 
 import android.app.Dialog
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -37,7 +36,6 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.databinding.DialogAboutBinding
 import org.catrobat.catroid.utils.Utils
 
-private const val SDK_VERSION = 24
 
 class AboutDialogFragment : DialogFragment() {
     private var _binding: DialogAboutBinding? = null
@@ -52,11 +50,7 @@ class AboutDialogFragment : DialogFragment() {
             R.string.about_link_template, Constants.ABOUT_POCKETCODE_LICENSE_URL,
             getString(R.string.dialog_about_license_link_text)
         )
-        developerUrlView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(developerUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(developerUrl)
-        }
+        developerUrlView.text = Html.fromHtml(developerUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         val aboutCatrobatView = binding.dialogAboutTextCatrobatUrl
         aboutCatrobatView.movementMethod = LinkMovementMethod.getInstance()
@@ -64,11 +58,7 @@ class AboutDialogFragment : DialogFragment() {
             R.string.about_link_template, Constants.CATROBAT_ABOUT_URL,
             getString(R.string.dialog_about_catrobat_link_text)
         )
-        aboutCatrobatView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(aboutCatrobatUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(aboutCatrobatUrl)
-        }
+        aboutCatrobatView.text = Html.fromHtml(aboutCatrobatUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         val aboutVersionNameTextView = binding.dialogAboutTextViewVersionName
         val versionCode =

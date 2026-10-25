@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
@@ -38,6 +37,8 @@ import android.view.View
 import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EndBrick
@@ -219,10 +220,10 @@ class BrickListView : ListView {
         if (view == null) {
             return
         }
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(view.width, view.height)
         view.draw(Canvas(bitmap))
 
-        val drawable = BitmapDrawable(resources, bitmap)
+        val drawable = bitmap.toDrawable(resources)
         drawable.setBounds(view.left, view.top, view.right, view.bottom)
         drawable.draw(canvas!!)
     }
@@ -231,11 +232,11 @@ class BrickListView : ListView {
         if (view == null) {
             return
         }
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(view.width, view.height)
         view.draw(Canvas(bitmap))
 
         viewBounds[view.left, view.top, view.right] = view.bottom
-        val drawable = BitmapDrawable(resources, bitmap)
+        val drawable = bitmap.toDrawable(resources)
         drawable.bounds = viewBounds
         hoveringDrawable = drawable
         setOffsetToCenter(viewBounds)

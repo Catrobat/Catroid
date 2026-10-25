@@ -91,7 +91,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.annotation.VisibleForTesting;
+import kotlinx.coroutines.DelicateCoroutinesApi;
 import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
@@ -526,6 +528,8 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	// The screenshot has to be written completely even if the stage is closed in the meantime.
+	@OptIn(markerClass = DelicateCoroutinesApi.class)
 	@Override
 	public void render() {
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,9 @@ import androidx.annotation.IntDef
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.edit
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
@@ -65,6 +68,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
 
+@SuppressLint("NotifyDataSetChanged")
 class DataListFragment<T : UserData<String>> : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
     RVAdapter.OnItemClickListener<T> {
@@ -247,10 +251,9 @@ class DataListFragment<T : UserData<String>> : Fragment(),
                 globalLists, localLists
             )
             indexVariable = true
-            PreferenceManager.getDefaultSharedPreferences(activity)
-                .edit()
-                .putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, indexVariable)
-                .apply()
+            PreferenceManager.getDefaultSharedPreferences(activity).edit {
+                putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, indexVariable)
+            }
         }
 
         sortVariableAndList(
@@ -375,8 +378,8 @@ class DataListFragment<T : UserData<String>> : Fragment(),
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        for (index in 0 until menu.size()) {
-            menu.getItem(index).isVisible = false
+        for (index in 0 until menu.size) {
+            menu[index].isVisible = false
         }
         menu.findItem(R.id.delete).isVisible = true
         if (context != null) {
@@ -393,10 +396,9 @@ class DataListFragment<T : UserData<String>> : Fragment(),
             R.id.delete -> startActionMode(DELETE)
             R.id.sort -> {
                 sortData = !sortData
-                PreferenceManager.getDefaultSharedPreferences(activity)
-                    .edit()
-                    .putBoolean(SORT_VARIABLE_PREFERENCE_KEY, sortData)
-                    .apply()
+                PreferenceManager.getDefaultSharedPreferences(activity).edit {
+                    putBoolean(SORT_VARIABLE_PREFERENCE_KEY, sortData)
+                }
                 indexAndSort()
             }
 

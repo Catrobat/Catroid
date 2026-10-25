@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@ package org.catrobat.catroid.ui.recyclerview.dialog
 
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -77,7 +77,7 @@ class AppStoreDialogFragment : DialogFragment() {
 
         builder.setPositiveButton(buttonText) { _, _ ->
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(getCorrectUrl())
+            intent.data = getCorrectUrl().toUri()
             startActivity(intent)
         }
 

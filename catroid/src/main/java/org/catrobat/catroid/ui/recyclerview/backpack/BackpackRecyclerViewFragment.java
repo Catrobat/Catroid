@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -61,6 +62,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressLint("NotifyDataSetChanged")
 public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements ActionMode.Callback, RVAdapter.SelectionListener, RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
@@ -120,12 +122,10 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -216,26 +216,22 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.unpack:
-				startActionMode(UNPACK);
-				break;
-			case R.id.delete:
-				startActionMode(DELETE);
-				break;
-			case R.id.menu_undo:
-				undo();
-				ToastUtil.showSuccess(getActivity(), "Last delete was successfully undone");
-				((BackpackActivity) requireActivity()).toggleUndo(false);
-				adapter.notifyDataSetChanged();
-				break;
-			case R.id.show_details:
-				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
-				adapter.notifyDataSetChanged();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.unpack) {
+			startActionMode(UNPACK);
+		} else if (itemId == R.id.delete) {
+			startActionMode(DELETE);
+		} else if (itemId == R.id.menu_undo) {
+			undo();
+			ToastUtil.showSuccess(getActivity(), "Last delete was successfully undone");
+			((BackpackActivity) requireActivity()).toggleUndo(false);
+			adapter.notifyDataSetChanged();
+		} else if (itemId == R.id.show_details) {
+			adapter.showDetails = !adapter.showDetails;
+			PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
+			adapter.notifyDataSetChanged();
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
@@ -330,16 +326,11 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		int[] hiddenOptionMenuIds = {R.id.show_details, R.id.menu_undo};
 		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu.menu_backpack_activity, hiddenOptionMenuIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
-			switch (menuItem.getItemId()) {
-				case R.id.unpack:
-					unpackItems(itemList);
-					break;
-				case R.id.delete:
-					deleteItem(itemList);
-
-					break;
-				default:
-					break;
+			int itemId = menuItem.getItemId();
+			if (itemId == R.id.unpack) {
+				unpackItems(itemList);
+			} else if (itemId == R.id.delete) {
+				deleteItem(itemList);
 			}
 			return true;
 		});

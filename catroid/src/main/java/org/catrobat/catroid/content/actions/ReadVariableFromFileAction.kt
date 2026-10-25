@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,6 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import androidx.documentfile.provider.DocumentFile
 import com.badlogic.gdx.scenes.scene2d.Action
@@ -133,7 +132,6 @@ class ReadVariableFromFileAction : Action(), IntentListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun getTargetIntent(): Intent {
         val context = StageActivity.activeStageActivity.get()?.context
         val title = context?.getString(R.string.brick_read_variable_from_file_top) ?: ""

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.web
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import androidx.core.content.edit
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE
@@ -111,15 +112,14 @@ class ServerAuthenticator(
         }
 
         val tokenReceived = resultJsonObject.optString(JSON_TOKEN)
-        val sharedPreferencesEditor = sharedPreferences.edit()
-        sharedPreferencesEditor.putString(Constants.TOKEN, tokenReceived)
-        sharedPreferencesEditor.putString(Constants.USERNAME, username)
-
         val eMail = resultJsonObject.optString(Constants.EMAIL)
-        if (eMail.isNotEmpty()) {
-            sharedPreferencesEditor.putString(Constants.EMAIL, eMail)
+        sharedPreferences.edit {
+            putString(Constants.TOKEN, tokenReceived)
+            putString(Constants.USERNAME, username)
+            if (eMail.isNotEmpty()) {
+                putString(Constants.EMAIL, eMail)
+            }
         }
-        sharedPreferencesEditor.apply()
         taskListener.onSuccess()
     }
 

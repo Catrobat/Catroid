@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,13 +63,11 @@ public class SelectActionModeCallback implements ActionMode.Callback {
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.toggle_selection:
-				clickListener.onToggleSelection();
-				break;
-			case R.id.confirm:
-				clickListener.onConfirm();
-				break;
+		int itemId = item.getItemId();
+		if (itemId == R.id.toggle_selection) {
+			clickListener.onToggleSelection();
+		} else if (itemId == R.id.confirm) {
+			clickListener.onConfirm();
 		}
 		return true;
 	}

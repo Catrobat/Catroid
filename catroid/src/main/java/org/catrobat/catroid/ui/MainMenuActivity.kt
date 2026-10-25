@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.Html
@@ -39,6 +38,8 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
@@ -72,7 +73,6 @@ import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
 
-private const val SDK_VERSION = 24
 
 class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
@@ -121,11 +121,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             termsOfUseUrlStringText
         )
 
-        termsOfUseUrlTextView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(termsOfUseUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(termsOfUseUrl)
-        }
+        termsOfUseUrlTextView.text = Html.fromHtml(termsOfUseUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         AlertDialog.Builder(this)
             .setNegativeButton(R.string.decline) { _, _ -> handleDeclinedPrivacyPolicyButton() }
@@ -143,13 +139,12 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
     }
 
     fun handleAgreedToPrivacyPolicyButton() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .edit()
-            .putInt(
+        PreferenceManager.getDefaultSharedPreferences(this).edit {
+            putInt(
                 SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
                 Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
             )
-            .apply()
+        }
         if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
             prepareStandaloneProject()
         }
@@ -168,11 +163,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
         val linkTextView = declinedTermsOfUseViewBinding.shareWebsiteView
         linkTextView.movementMethod = LinkMovementMethod.getInstance()
-        linkTextView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(linkString, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(linkString)
-        }
+        linkTextView.text = Html.fromHtml(linkString, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         AlertDialog.Builder(this)
             .setView(dialogView)
@@ -269,7 +260,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=$packageName")
+                            "market://details?id=$packageName".toUri()
                         )
                     )
                 } catch (e: ActivityNotFoundException) {
@@ -284,7 +275,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             R.id.menu_privacy_policy -> {
                 val browserIntent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(FlavoredConstants.PRIVACY_POLICY_URL)
+                    FlavoredConstants.PRIVACY_POLICY_URL.toUri()
                 )
                 startActivity(browserIntent)
             }
@@ -299,7 +290,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             R.id.menu_help -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(CATROBAT_HELP_URL)
+                    CATROBAT_HELP_URL.toUri()
                 )
             )
             else -> return super.onOptionsItemSelected(item)

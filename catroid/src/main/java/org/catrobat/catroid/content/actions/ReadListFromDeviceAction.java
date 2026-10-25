@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.actions;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
@@ -59,6 +60,8 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 		this.userList = userList;
 	}
 
+	// Short-lived task that reports back to its enclosing instance.
+	@SuppressLint("StaticFieldLeak")
 	private class ReadTask extends AsyncTask<UserList, Void, Void> {
 
 		@Override

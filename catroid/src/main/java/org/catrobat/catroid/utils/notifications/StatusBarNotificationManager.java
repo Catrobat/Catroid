@@ -307,23 +307,21 @@ public final class StatusBarNotificationManager {
 	}
 
 	public void createNotificationChannel(Context context) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			CharSequence name = context.getResources().getString(R.string.app_name);
-			String description = context.getResources().getString(R.string.channel_description, name);
+		CharSequence name = context.getResources().getString(R.string.app_name);
+		String description = context.getResources().getString(R.string.channel_description, name);
 
-			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-			if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
-				return;
-			}
-
-			int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-			channel.setDescription(description);
-			channel.enableVibration(false);
-			channel.enableLights(false);
-			channel.setSound(null, null);
-			notificationManager.createNotificationChannel(channel);
+		NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+		if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
+			return;
 		}
+
+		int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+		NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+		channel.setDescription(description);
+		channel.enableVibration(false);
+		channel.enableLights(false);
+		channel.setSound(null, null);
+		notificationManager.createNotificationChannel(channel);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.content.Intent;
 public class BluetoothManager {
 
 	public static final int REQUEST_ENABLE_BT = 2000;
+	public static final int BLUETOOTH_PERMISSION_MISSING = -2;
 	public static final int BLUETOOTH_NOT_SUPPORTED = -1;
 	public static final int BLUETOOTH_ALREADY_ON = 1;
 	public static final int BLUETOOTH_ACTIVATING = 0;
@@ -41,6 +42,10 @@ public class BluetoothManager {
 	}
 
 	public int activateBluetooth() {
+		if (!BluetoothPermissions.checkBluetoothPermission(activity)) {
+			return BLUETOOTH_PERMISSION_MISSING;
+		}
+
 		if (bluetoothAdapter == null) {
 			bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		}

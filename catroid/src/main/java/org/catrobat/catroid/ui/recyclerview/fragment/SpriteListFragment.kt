@@ -34,6 +34,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.ProjectManager
@@ -115,8 +116,9 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             val currentScene = projectManager.currentlyEditedScene
             currentProject.name + ": " + currentScene.name
         }
-        PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-            .putBoolean(SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY, false).apply()
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+            putBoolean(SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY, false)
+        }
         (requireActivity() as AppCompatActivity).supportActionBar?.title = title
     }
 

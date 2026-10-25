@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -147,28 +147,22 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		}
 
 		AccessibilityProfile newProfile;
-		switch (v.getId()) {
-			case R.id.argus:
-				newProfile = new AccessibilityProfile(HIGH_CONTRAST, ICONS);
-				break;
-			case R.id.fenrir:
-				newProfile = new AccessibilityProfile(ELEMENT_SPACING, DRAGNDROP_DELAY);
-				break;
-			case R.id.odin:
-				newProfile = new AccessibilityProfile(LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ELEMENT_SPACING);
-				break;
-			case R.id.tiro:
-				newProfile = new AccessibilityProfile(BEGINNER_BRICKS);
-				break;
-			case R.id.custom_profile:
-				newProfile = AccessibilityProfile.fromCustomProfile(sharedPreferences);
-				sharedPreferences.edit()
-						.putBoolean(CUSTOM_PROFILE, true)
-						.apply();
-				break;
-			case R.id.default_profile:
-			default:
-				newProfile = new AccessibilityProfile();
+		int vId = v.getId();
+		if (vId == R.id.argus) {
+			newProfile = new AccessibilityProfile(HIGH_CONTRAST, ICONS);
+		} else if (vId == R.id.fenrir) {
+			newProfile = new AccessibilityProfile(ELEMENT_SPACING, DRAGNDROP_DELAY);
+		} else if (vId == R.id.odin) {
+			newProfile = new AccessibilityProfile(LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ELEMENT_SPACING);
+		} else if (vId == R.id.tiro) {
+			newProfile = new AccessibilityProfile(BEGINNER_BRICKS);
+		} else if (vId == R.id.custom_profile) {
+			newProfile = AccessibilityProfile.fromCustomProfile(sharedPreferences);
+			sharedPreferences.edit()
+					.putBoolean(CUSTOM_PROFILE, true)
+					.apply();
+		} else {
+			newProfile = new AccessibilityProfile();
 		}
 
 		sharedPreferences.edit()

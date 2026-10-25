@@ -82,28 +82,32 @@ public final class UiUtils {
 	}
 
 	public static @DrawableRes int getDrawableForItem(@StringRes int itemId) {
-		switch (itemId) {
-			case R.string.backpack_add:
-				return R.drawable.ic_content_paste_small;
-			case R.string.brick_context_dialog_copy_brick:
-			case R.string.brick_context_dialog_copy_script:
-				return R.drawable.ic_content_copy;
-			case R.string.brick_context_dialog_delete_brick:
-			case R.string.delete:
-			case R.string.brick_context_dialog_delete_script:
-				return R.drawable.ic_delete;
-			case R.string.brick_context_dialog_formula_edit_brick:
-			case R.string.rename:
-				return R.drawable.ic_edit;
-			case R.string.brick_context_dialog_help:
-				return R.drawable.ic_help_small;
-			case R.string.from_local:
-				return R.drawable.ic_library_add_small;
-			case R.string.menu_rate_us:
-				return R.drawable.ic_star_rate;
-			default:
-				return R.drawable.ic_placeholder;
+		if (itemId == R.string.backpack_add) {
+			return R.drawable.ic_content_paste_small;
 		}
+		if (itemId == R.string.brick_context_dialog_copy_brick
+				|| itemId == R.string.brick_context_dialog_copy_script) {
+			return R.drawable.ic_content_copy;
+		}
+		if (itemId == R.string.brick_context_dialog_delete_brick
+				|| itemId == R.string.delete
+				|| itemId == R.string.brick_context_dialog_delete_script) {
+			return R.drawable.ic_delete;
+		}
+		if (itemId == R.string.brick_context_dialog_formula_edit_brick
+				|| itemId == R.string.rename) {
+			return R.drawable.ic_edit;
+		}
+		if (itemId == R.string.brick_context_dialog_help) {
+			return R.drawable.ic_help_small;
+		}
+		if (itemId == R.string.from_local) {
+			return R.drawable.ic_library_add_small;
+		}
+		if (itemId == R.string.menu_rate_us) {
+			return R.drawable.ic_star_rate;
+		}
+		return R.drawable.ic_placeholder;
 	}
 
 	@NonNull

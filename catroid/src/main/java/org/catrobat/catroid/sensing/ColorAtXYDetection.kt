@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,8 @@
 package org.catrobat.catroid.sensing
 
 import android.graphics.Bitmap
-import android.os.Build
 import android.util.Log
+import androidx.core.graphics.get
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Pixmap
@@ -75,9 +75,6 @@ class ColorAtXYDetection(
             StageActivity.getActiveCameraManager() != null &&
             StageActivity.getActiveCameraManager().isCameraActive
         ) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                return Double.NaN.toString()
-            }
             if (isXPositionOutsideOfScreen() || isYPositionOutsideOfScreen()) {
                 return rgbaColorToRGBHexString(Color.WHITE)
             }
@@ -178,9 +175,9 @@ class ColorAtXYDetection(
         )
 
         val bitmapPixel = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
-            bitmap.getPixel(bitmapXCoordinateLandscape, bitmapYCoordinateLandscape)
+            bitmap[bitmapXCoordinateLandscape, bitmapYCoordinateLandscape]
         } else {
-            bitmap.getPixel(bitmapXCoordinatePortrait, bitmapYCoordinatePortrait)
+            bitmap[bitmapXCoordinatePortrait, bitmapYCoordinatePortrait]
         }
         return argbColorToRGBHexString(Color(bitmapPixel))
     }

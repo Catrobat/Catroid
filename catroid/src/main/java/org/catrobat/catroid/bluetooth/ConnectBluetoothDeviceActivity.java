@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.bluetooth;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -76,6 +77,8 @@ import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_LE;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY;
 
+// The Bluetooth runtime permissions are checked in onCreate; the activity finishes without them.
+@SuppressLint("MissingPermission")
 public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
@@ -96,6 +99,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	FloatingActionButton scanButton;
 	Boolean isDiscovering = false;
+	private boolean receiverRegistered = false;
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -189,6 +193,8 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		}
 	};
 
+	// Short-lived task that reports back to its enclosing instance.
+	@SuppressLint("StaticFieldLeak")
 	private class ConnectDeviceTask extends AsyncTask<String, Void, BluetoothConnection.State> {
 
 		BluetoothConnection btConnection;
@@ -256,6 +262,13 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (!BluetoothPermissions.checkBluetoothPermission(this)) {
+			ToastUtil.showError(this, R.string.bt_connection_failed);
+			setResult(AppCompatActivity.RESULT_CANCELED);
+			finish();
+			return;
+		}
+
 		createAndSetDeviceService();
 
 		setContentView(R.layout.device_list);
@@ -320,6 +333,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		this.registerReceiver(receiver, filter);
+		receiverRegistered = true;
 
 		boolean showMultiplayerInformationDialog = PreferenceManager.getDefaultSharedPreferences(this)
 				.getBoolean(SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY, true);
@@ -345,14 +359,12 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			case R.id.skip_bluetooth:
-				setResult(AppCompatActivity.RESULT_OK);
-				finish();
-				break;
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			onBackPressed();
+		} else if (itemId == R.id.skip_bluetooth) {
+			setResult(AppCompatActivity.RESULT_OK);
+			finish();
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -440,7 +452,9 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			cancelDiscovery();
 		}
 
-		this.unregisterReceiver(receiver);
+		if (receiverRegistered) {
+			this.unregisterReceiver(receiver);
+		}
 		super.onDestroy();
 	}
 
@@ -467,7 +481,8 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		btManager = new BluetoothManager(this);
 
 		int bluetoothState = btManager.activateBluetooth();
-		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
+		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED
+				|| bluetoothState == BluetoothManager.BLUETOOTH_PERMISSION_MISSING) {
 			ToastUtil.showError(this, R.string.notification_blueth_err);
 			setResult(AppCompatActivity.RESULT_CANCELED);
 			finish();

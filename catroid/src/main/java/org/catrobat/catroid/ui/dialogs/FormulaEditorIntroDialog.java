@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,15 +83,11 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 
 	@Override
 	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.intro_dialog_skip_button:
-				onBackPressed();
-				break;
-			case R.id.intro_dialog_next_button:
-				nextSlide();
-				break;
-			default:
-				break;
+		int viewId = view.getId();
+		if (viewId == R.id.intro_dialog_skip_button) {
+			onBackPressed();
+		} else if (viewId == R.id.intro_dialog_next_button) {
+			nextSlide();
 		}
 	}
 

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -37,6 +38,8 @@ import androidx.appcompat.app.AlertDialog;
 public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckOAuthTokenTask.class.getSimpleName();
 
+	// The task reports its result in this context and does not outlive it for long.
+	@SuppressLint("StaticFieldLeak")
 	private Activity activity;
 	private ProgressDialog progressDialog;
 	private String id;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ package android.preference
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -34,6 +33,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import org.catrobat.catroid.R
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
@@ -73,7 +73,7 @@ class TrustListEditorPreference(context: Context, attrs: AttributeSet) : EditTex
             editText.requestFocus()
             setOnShowListener {
                 getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.WEB_REQUEST_WIKI_URL))
+                    val intent = Intent(Intent.ACTION_VIEW, Constants.WEB_REQUEST_WIKI_URL.toUri())
                     startActivity(context, intent, null)
                 }
             }

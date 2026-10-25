@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,17 +98,14 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 						return;
 					}
 
-					switch (radioGroup.getCheckedRadioButtonId()) {
-						case R.id.rename:
-							downloader.downloadOverwriteExistingProject(context, textInput);
-							break;
-						case R.id.replace:
-
-							ProjectManager.getInstance().setCurrentProject(null);
-							downloader.downloadOverwriteExistingProject(context, textInput);
-							break;
-						default:
-							throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
+					int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+					if (checkedRadioButtonId == R.id.rename) {
+						downloader.downloadOverwriteExistingProject(context, textInput);
+					} else if (checkedRadioButtonId == R.id.replace) {
+						ProjectManager.getInstance().setCurrentProject(null);
+						downloader.downloadOverwriteExistingProject(context, textInput);
+					} else {
+						throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
 					}
 				});
 
@@ -119,18 +116,15 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 				.create();
 
 		radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-			switch (checkedId) {
-				case R.id.replace:
-					inputLayout.setVisibility(TextView.GONE);
-					ViewUtils.hideKeyboard(inputLayout.getEditText());
-					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-					break;
-				case R.id.rename:
-					inputLayout.setVisibility(TextView.VISIBLE);
-					ViewUtils.showKeyboard(inputLayout.getEditText());
-					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-							.setEnabled(textWatcher.validateInput(inputLayout.getEditText().getText().toString(), getContext()) == null);
-					break;
+			if (checkedId == R.id.replace) {
+				inputLayout.setVisibility(TextView.GONE);
+				ViewUtils.hideKeyboard(inputLayout.getEditText());
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+			} else if (checkedId == R.id.rename) {
+				inputLayout.setVisibility(TextView.VISIBLE);
+				ViewUtils.showKeyboard(inputLayout.getEditText());
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+						.setEnabled(textWatcher.validateInput(inputLayout.getEditText().getText().toString(), getContext()) == null);
 			}
 		});
 
