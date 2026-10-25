@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,21 +23,29 @@
 
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.utils.TouchUtil;
 
-public class GoToTouchPositionAction extends TemporalAction {
+public class GoToTouchPositionAction extends Action {
 
 	private Sprite sprite;
 
 	@Override
-	protected void update(float percent) {
+	public boolean act(float delta) {
+		if (sprite == null) {
+			throw new NullPointerException("sprite must not be null");
+		}
+
 		int touchIndex = TouchUtil.getLastTouchIndex();
-		float x = TouchUtil.getX(touchIndex);
-		float y = TouchUtil.getY(touchIndex);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(x, y);
+		if (touchIndex == 0) {
+			return false;
+		}
+
+		sprite.look.setPositionInUserInterfaceDimensionUnit(
+				TouchUtil.getX(touchIndex), TouchUtil.getY(touchIndex));
+		return true;
 	}
 
 	public void setSprite(Sprite sprite) {
