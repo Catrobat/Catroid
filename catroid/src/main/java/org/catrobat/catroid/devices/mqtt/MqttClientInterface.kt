@@ -32,4 +32,5 @@ interface MqttClientInterface {
     fun disconnect()
     fun close()
     fun setCallback(callback: MqttCallback)
+    fun publish(topic: String, payload: ByteArray, qos: Int, retained: Boolean)
 }
