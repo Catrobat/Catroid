@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">لطفاً صبر کنید</string>
     <string formatted="false" name="search_hint">جستجو</string>
     <string formatted="false" name="backpack_add">افزودن به کوله‌پشتی</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">پروژه‌ای که دانلود کرده‌اید در پس‌زمینه به صدای شما گوش می‌دهد و داده‌هایی را نیز به اینترنت می‌فرستد. این کار ممکن است بی‌خطر و برای عملکرد مورد نظر پروژه لازم باشد. با این حال، لطفاً مطمئن شوید که آنچه هنگام اجرای پروژه می‌گویید مشکلی ایجاد نمی‌کند. اگر شک دارید، پروژهٔ دانلودشده را حذف کنید. اگر مطمئن هستید که این پروژه آسیب‌رسان است، می‌توانید آن را در صفحهٔ خودش در پلتفرم جامعهٔ Catrobat گزارش دهید.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">در جایگاه</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">با</string>
     <string formatted="false" name="brick_web_request">درخواست وب بفرست به</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">و پاسخ را ذخیره کن در</string>
     <string formatted="false" name="web_request_warning_title">اجازهٔ دسترسی به وب داده شود؟</string>
     <string formatted="false" name="web_request_warning_message">پیش از دادن اجازهٔ دسترسی بسیار مراقب باشید، چون این پیوند ممکن است اطلاعات شخصی شما، مانند موقعیت جغرافیایی دقیق یا هر متنی را که وارد کرده‌اید، در اختیار افراد بدخواه یا همه قرار دهد. برای اینکه بدانید چرا این کار می‌تواند بسیار خطرناک باشد، &lt;a href=%1s&gt;ویکی&lt;/a&gt; ما را ببینید.</string>

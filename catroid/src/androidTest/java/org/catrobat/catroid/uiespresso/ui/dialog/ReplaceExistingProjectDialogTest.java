@@ -65,7 +65,7 @@ public class ReplaceExistingProjectDialogTest {
 
 	String[] projectNames = {"Project1", "Project2", "Project3"};
 
-	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+	private static final String URL = "https://share.catrobat.org/api/projects/582aade7-476f-4b50-ac81-eb3052494f13/catrobat?fname=Piano";
 
 	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
 

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Odota hetki</string>
     <string formatted="false" name="search_hint">Hae</string>
     <string formatted="false" name="backpack_add">Lisää reppuun</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Lataamasi projekti kuuntelee ääntäsi taustalla ja lähettää tietoja myös internetiin. Tämä voi olla vaaratonta ja tarpeellista projektin toiminnan kannalta. Varmista kuitenkin, että se, mitä sanot projektin ollessa käynnissä, on turvallista. Jos olet epävarma, poista ladattu projekti. Jos olet varma, että projekti on haitallinen, voit myös ilmoittaa siitä projektin sivulla Catrobat-yhteisöalustalla.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">kohdan</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">alkio arvolla</string>
     <string formatted="false" name="brick_web_request">Lähetä verkkopyyntö osoitteeseen</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">ja tallenna vastaus muuttujaan</string>
     <string formatted="false" name="web_request_warning_title">Sallitaanko verkkoyhteys?</string>
     <string formatted="false" name="web_request_warning_message">Ole hyvin varovainen ennen kuin sallit yhteyden, sillä linkki voi paljastaa henkilötietojasi, kuten tarkan sijaintisi tai kirjoittamasi tekstit, pahantahtoisille ihmisille tai kaikille. Lue &lt;a href=%1s&gt;wikistämme&lt;/a&gt; lisää siitä, miksi tämä voi olla erittäin vaarallista.</string>

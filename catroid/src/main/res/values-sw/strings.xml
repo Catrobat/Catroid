@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Tafadhali subiri</string>
     <string formatted="false" name="search_hint">Tafuta</string>
     <string formatted="false" name="backpack_add">Ongeza kwenye mkoba</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Mradi uliopakua unasikiliza sauti yako chinichini na pia hutuma data kwenye intaneti. Huenda hili halina madhara na ni muhimu kwa jinsi mradi unavyotakiwa kufanya kazi. Hata hivyo, tafadhali hakikisha kwamba unachosema wakati mradi unaendeshwa ni salama. Ukiwa na shaka, tafadhali futa mradi uliopakua. Ukiwa na uhakika kwamba una madhara, unaweza pia kuripoti mradi huo kwenye ukurasa wake katika jukwaa la jumuiya ya Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">katika nafasi</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">kwa</string>
     <string formatted="false" name="brick_web_request">Tuma ombi la mtandao kwa</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">na uhifadhi jibu katika</string>
     <string formatted="false" name="web_request_warning_title">Ruhusu ufikiaji wa mtandao?</string>
     <string formatted="false" name="web_request_warning_message">Kuwa makini sana kabla ya kuruhusu ufikiaji, kwa sababu kiungo kinaweza kufichua taarifa zako binafsi, kama vile mahali ulipo hasa au maandishi yoyote uliyoandika, kwa watu wenye nia mbaya au kwa umma. Angalia &lt;a href=%1s&gt;wiki&lt;/a&gt; yetu kwa maelezo zaidi kuhusu kwa nini hili linaweza kuwa hatari sana.</string>

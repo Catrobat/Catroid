@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Pričekaj</string>
     <string formatted="false" name="search_hint">Traži</string>
     <string formatted="false" name="backpack_add">Dodaj u ruksak</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Preuzeti projekt u pozadini sluša tvoj glas i šalje podatke na internet. To može biti bezopasno i potrebno za njegovo predviđeno ponašanje. Ipak, pazi da je sigurno ono što govoriš dok je projekt pokrenut. U slučaju sumnje izbriši preuzeti projekt. Ako je projekt sigurno štetan, možeš ga i prijaviti na njegovoj stranici na platformi zajednice Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1127,7 +1127,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na mjestu</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">vrijednošću</string>
     <string formatted="false" name="brick_web_request">Pošalji web-zahtjev na</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">i spremi odgovor u</string>
     <string formatted="false" name="web_request_warning_title">Dopustiti pristup webu?</string>
     <string formatted="false" name="web_request_warning_message">Budi vrlo oprezan prije nego što dopustiš pristup jer poveznica može otkriti tvoje osobne podatke, poput tvoje točne lokacije ili bilo kojeg teksta koji si unio, zlonamjernim osobama ili javnosti. Na našoj &lt;a href=%1s&gt;wiki stranici&lt;/a&gt; saznaj više o tome zašto to može biti iznimno opasno.</string>

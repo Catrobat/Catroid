@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Mesrɛ wo, twɛn</string>
     <string formatted="false" name="search_hint">Hwehwɛ</string>
     <string formatted="false" name="backpack_add">Fa gu kotokuo mu</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Dwumadie a wotwee no tie wo nne wɔ akyiri, na ɛsan de data kɔ intanɛt so. Ebia ɛnni bɔne biara, na ɛho hia na ama dwumadie no ayɛ adwuma sɛdeɛ ɛsɛ. Nanso mesrɛ wo, hwɛ sɛ deɛ woka berɛ a dwumadie no rekɔ so no nni asiane biara. Sɛ wonnye nni a, mesrɛ wo pepa dwumadie a wotwee no. Sɛ wogye di pintinn sɛ ɛwɔ asiane a, wobɛtumi abɔ dwumadie no ho amaneɛ wɔ ne krataafa so wɔ Catrobat kuo no wɛbsaet so.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">mu wɔ gyinabea</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">fa yei si ananmu:</string>
     <string formatted="false" name="brick_web_request">Fa intanɛt abisadeɛ kɔ</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">na kora mmuaeɛ no wɔ</string>
     <string formatted="false" name="web_request_warning_title">Ma kwan ma intanɛt?</string>
     <string formatted="false" name="web_request_warning_message">Hwɛ yie paa ansa na wode kwan bɛma, ɛfiri sɛ link no bɛtumi ada wo ho nsɛm adi akyerɛ nnipa bɔne anaa ɔmanfoɔ, te sɛ baabi pɔtee a wowɔ anaa nkyerɛwee biara a woakyerɛw. Hwɛ yɛn &lt;a href=%1s&gt;wiki&lt;/a&gt; na hunu deɛ enti a yei bɛtumi ayɛ asiane kɛseɛ.</string>

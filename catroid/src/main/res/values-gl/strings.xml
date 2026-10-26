@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Agarda, por favor</string>
     <string formatted="false" name="search_hint">Buscar</string>
     <string formatted="false" name="backpack_add">Engadir á mochila</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">O proxecto que descargaches escoita a túa voz en segundo plano e tamén envía datos a internet. Isto pode ser inofensivo e necesario para o seu funcionamento previsto. Porén, asegúrate de que o que dis mentres se executa o proxecto é seguro. En caso de dúbida, elimina o proxecto descargado. Se estás seguro de que é daniño, tamén podes denunciar o proxecto na súa páxina da plataforma da comunidade Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na posición</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">por</string>
     <string formatted="false" name="brick_web_request">Enviar unha solicitude web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">e gardar a resposta en</string>
     <string formatted="false" name="web_request_warning_title">Permitir o acceso á web?</string>
     <string formatted="false" name="web_request_warning_message">Ten moito coidado antes de permitir o acceso, xa que a ligazón pode expoñer a túa información persoal, como a túa localización xeográfica exacta ou calquera texto que escribiches, a persoas malintencionadas ou ao público. Consulta a nosa &lt;a href=%1s&gt;wiki&lt;/a&gt; para saber por que isto pode ser extremadamente perigoso.</string>

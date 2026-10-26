@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Te rog să aștepți</string>
     <string formatted="false" name="search_hint">Caută</string>
     <string formatted="false" name="backpack_add">Pune în rucsac</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Proiectul pe care l-ai descărcat îți ascultă vocea în fundal și trimite date pe internet. Acest lucru poate fi inofensiv și necesar pentru funcționarea lui. Totuși, asigură-te că ceea ce spui cât timp rulează proiectul este sigur. Dacă ai îndoieli, șterge proiectul descărcat. Poți, de asemenea, să raportezi proiectul pe pagina lui de pe platforma comunității Catrobat, dacă ești sigur că este dăunător.</string>
     <!-- Replace Api dialog -->
@@ -1127,7 +1127,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">de la poziția</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">cu</string>
     <string formatted="false" name="brick_web_request">Trimite o cerere web către</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">și salvează răspunsul în</string>
     <string formatted="false" name="web_request_warning_title">Permiți accesul la internet?</string>
     <string formatted="false" name="web_request_warning_message">Fii foarte atent înainte de a permite accesul, deoarece linkul poate dezvălui informațiile tale personale, cum ar fi locația ta geografică exactă sau orice text pe care l-ai introdus, unor persoane rău intenționate sau publicului. Vezi &lt;a href=%1s&gt;wiki&lt;/a&gt;-ul nostru pentru mai multe informații despre motivul pentru care acest lucru poate fi extrem de periculos.</string>

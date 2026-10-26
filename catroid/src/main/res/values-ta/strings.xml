@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">தயவுசெய்து காத்திருக்கவும்</string>
     <string formatted="false" name="search_hint">தேடு</string>
     <string formatted="false" name="backpack_add">முதுகுப்பையில் சேர்</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">நீங்கள் பதிவிறக்கிய திட்டம் பின்னணியில் உங்கள் குரலைக் கேட்கிறது, மேலும் இணையத்துக்குத் தரவையும் அனுப்புகிறது. இது தீங்கற்றதாகவும், அதன் நோக்கத்திற்குத் தேவையானதாகவும் இருக்கலாம். ஆயினும், திட்டம் இயங்கும்போது நீங்கள் பேசுவது பாதுகாப்பானதா என்பதை உறுதிசெய்யவும். சந்தேகம் இருந்தால், பதிவிறக்கிய திட்டத்தை நீக்கவும். அது தீங்கானது என்று உறுதியாகத் தெரிந்தால், Catrobat சமூகத் தளத்தில் அந்தத் திட்டத்தின் பக்கத்தில் அதைப் புகாரளிக்கவும் செய்யலாம்.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">நிலை:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">புதிய மதிப்பு:</string>
     <string formatted="false" name="brick_web_request">இணையக் கோரிக்கையை அனுப்பு:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">பதிலை இதில் சேமி:</string>
     <string formatted="false" name="web_request_warning_title">இணைய அணுகலை அனுமதிக்கவா?</string>
     <string formatted="false" name="web_request_warning_message">அணுகலை அனுமதிக்கும் முன் மிகவும் கவனமாக இருங்கள்: இந்த இணைப்பு உங்கள் துல்லியமான புவியிருப்பிடம் அல்லது நீங்கள் உள்ளிட்ட எந்த உரையையும் போன்ற உங்கள் தனிப்பட்ட தகவல்களைத் தீங்கு நினைப்பவர்களுக்கோ பொதுமக்களுக்கோ வெளிப்படுத்தக்கூடும். இது ஏன் மிகவும் ஆபத்தானதாக இருக்கலாம் என்பதை அறிய எங்கள் &lt;a href=%1s&gt;விக்கி&lt;/a&gt; பக்கத்தைப் பார்க்கவும்.</string>

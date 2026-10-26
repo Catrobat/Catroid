@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">કૃપા કરીને રાહ જુઓ</string>
     <string formatted="false" name="search_hint">શોધો</string>
     <string formatted="false" name="backpack_add">બૅકપૅકમાં ઉમેરો</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">તમે ડાઉનલોડ કરેલો પ્રોજેક્ટ પૃષ્ઠભૂમિમાં તમારો અવાજ સાંભળે છે અને ઇન્ટરનેટ પર ડેટા પણ મોકલે છે. આ હાનિકારક ન પણ હોય અને તેના હેતુસરના કામ માટે જરૂરી હોઈ શકે. તેમ છતાં, કૃપા કરીને ખાતરી કરો કે પ્રોજેક્ટ ચાલતો હોય ત્યારે તમે જે બોલો છો તે સુરક્ષિત છે. શંકા હોય તો, કૃપા કરીને ડાઉનલોડ કરેલો પ્રોજેક્ટ કાઢી નાખો. જો તમને ખાતરી હોય કે તે હાનિકારક છે, તો તમે Catrobat સમુદાય પ્લૅટફૉર્મ પર તેના પેજ પર પ્રોજેક્ટની જાણ પણ કરી શકો છો.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">સ્થાન:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">નવું મૂલ્ય:</string>
     <string formatted="false" name="brick_web_request">આ સરનામે વેબ વિનંતી મોકલો:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">અને જવાબ આમાં રાખો:</string>
     <string formatted="false" name="web_request_warning_title">વેબ ઍક્સેસની મંજૂરી આપવી છે?</string>
     <string formatted="false" name="web_request_warning_message">ઍક્સેસની મંજૂરી આપતા પહેલાં ખૂબ સાવચેત રહો, કારણ કે આ લિંક તમારી અંગત માહિતી, જેમ કે તમારું ચોક્કસ ભૌગોલિક સ્થાન અથવા તમે દાખલ કરેલું કોઈપણ ટેક્સ્ટ, ખરાબ ઇરાદાવાળા લોકો સામે અથવા જાહેરમાં ખુલ્લી પાડી શકે છે. આ શા માટે અત્યંત જોખમી હોઈ શકે તે વિશે વધુ માહિતી માટે અમારી &lt;a href=%1s&gt;વિકિ&lt;/a&gt; જુઓ.</string>

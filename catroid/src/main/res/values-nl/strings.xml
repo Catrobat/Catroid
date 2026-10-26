@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Even geduld</string>
     <string formatted="false" name="search_hint">Zoeken</string>
     <string formatted="false" name="backpack_add">Toevoegen aan rugzak</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Het project dat je hebt gedownload, luistert op de achtergrond naar je stem en stuurt ook gegevens naar het internet. Dat kan onschuldig zijn en nodig voor wat het project moet doen. Let er toch op dat wat je zegt terwijl het project draait, veilig is. Verwijder bij twijfel het gedownloade project. Als je zeker weet dat het schadelijk is, kun je het project ook melden op zijn pagina op het Catrobat-communityplatform.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">op positie</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">door</string>
     <string formatted="false" name="brick_web_request">Stuur webverzoek naar</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">en sla antwoord op in</string>
     <string formatted="false" name="web_request_warning_title">Webtoegang toestaan?</string>
     <string formatted="false" name="web_request_warning_message">Wees heel voorzichtig voordat je toegang toestaat: de link kan je persoonlijke gegevens, zoals je precieze locatie of tekst die je hebt ingevoerd, doorgeven aan kwaadwillenden of openbaar maken. Lees op onze &lt;a href=%1s&gt;wiki&lt;/a&gt; waarom dit heel gevaarlijk kan zijn.</string>

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
     <string formatted="false" name="search_hint">ਖੋਜੋ</string>
     <string formatted="false" name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਪਾਓ</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ਤੁਹਾਡੇ ਵੱਲੋਂ ਡਾਊਨਲੋਡ ਕੀਤਾ ਪ੍ਰੋਜੈਕਟ ਪਿਛੋਕੜ ਵਿੱਚ ਤੁਹਾਡੀ ਆਵਾਜ਼ ਸੁਣਦਾ ਹੈ ਅਤੇ ਇੰਟਰਨੈੱਟ ਨੂੰ ਡਾਟਾ ਵੀ ਭੇਜਦਾ ਹੈ। ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਇਹ ਨੁਕਸਾਨ ਰਹਿਤ ਹੋਵੇ ਅਤੇ ਪ੍ਰੋਜੈਕਟ ਦੇ ਕੰਮ ਲਈ ਜ਼ਰੂਰੀ ਹੋਵੇ। ਫਿਰ ਵੀ, ਕਿਰਪਾ ਕਰਕੇ ਧਿਆਨ ਰੱਖੋ ਕਿ ਪ੍ਰੋਜੈਕਟ ਚੱਲਦੇ ਸਮੇਂ ਤੁਸੀਂ ਜੋ ਬੋਲਦੇ ਹੋ, ਉਹ ਸੁਰੱਖਿਅਤ ਹੋਵੇ। ਸ਼ੱਕ ਹੋਣ \'ਤੇ ਕਿਰਪਾ ਕਰਕੇ ਡਾਊਨਲੋਡ ਕੀਤਾ ਪ੍ਰੋਜੈਕਟ ਮਿਟਾ ਦਿਓ। ਜੇ ਤੁਹਾਨੂੰ ਪੱਕਾ ਯਕੀਨ ਹੈ ਕਿ ਇਹ ਨੁਕਸਾਨਦੇਹ ਹੈ, ਤਾਂ ਤੁਸੀਂ Catrobat ਕਮਿਊਨਿਟੀ ਪਲੇਟਫਾਰਮ \'ਤੇ ਪ੍ਰੋਜੈਕਟ ਦੇ ਪੰਨੇ ਤੋਂ ਇਸ ਦੀ ਰਿਪੋਰਟ ਵੀ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">ਸਥਾਨ:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ਇਸ ਨਾਲ:</string>
     <string formatted="false" name="brick_web_request">ਇਸ ਪਤੇ \'ਤੇ ਵੈੱਬ ਬੇਨਤੀ ਭੇਜੋ:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">ਅਤੇ ਜਵਾਬ ਇਸ ਵਿੱਚ ਰੱਖੋ:</string>
     <string formatted="false" name="web_request_warning_title">ਕੀ ਵੈੱਬ ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣੀ ਹੈ?</string>
     <string formatted="false" name="web_request_warning_message">ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣ ਤੋਂ ਪਹਿਲਾਂ ਬਹੁਤ ਸਾਵਧਾਨ ਰਹੋ, ਕਿਉਂਕਿ ਇਹ ਲਿੰਕ ਤੁਹਾਡੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ, ਜਿਵੇਂ ਤੁਹਾਡਾ ਸਹੀ ਭੂਗੋਲਿਕ ਟਿਕਾਣਾ ਜਾਂ ਤੁਹਾਡੇ ਵੱਲੋਂ ਲਿਖਿਆ ਕੋਈ ਵੀ ਟੈਕਸਟ, ਬੁਰੀ ਨੀਅਤ ਵਾਲੇ ਲੋਕਾਂ ਜਾਂ ਸਾਰਿਆਂ ਸਾਹਮਣੇ ਜ਼ਾਹਰ ਕਰ ਸਕਦਾ ਹੈ। ਇਹ ਬਹੁਤ ਖ਼ਤਰਨਾਕ ਕਿਉਂ ਹੋ ਸਕਦਾ ਹੈ, ਇਸ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ ਲਈ ਸਾਡੀ &lt;a href=%1s&gt;ਵਿਕੀ&lt;/a&gt; ਦੇਖੋ।</string>

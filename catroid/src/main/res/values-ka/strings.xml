@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">გთხოვ, მოიცადე</string>
     <string formatted="false" name="search_hint">ძიება</string>
     <string formatted="false" name="backpack_add">ზურგჩანთაში ჩადება</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">შენ მიერ ჩამოტვირთული პროექტი ფონურ რეჟიმში გისმენს და მონაცემებს ინტერნეტშიც აგზავნის. ეს შეიძლება უვნებელი იყოს და პროექტის მუშაობისთვის იყოს საჭირო. მაინც დარწმუნდი, რომ ის, რასაც პროექტის მუშაობისას ამბობ, უსაფრთხოა. ეჭვის შემთხვევაში წაშალე ჩამოტვირთული პროექტი. თუ დარწმუნებული ხარ, რომ პროექტი მავნეა, შეგიძლია მის შესახებ შეატყობინო მის გვერდზე Catrobat-ის საზოგადოების პლატფორმაზე.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">პოზიციაზე:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ამით:</string>
     <string formatted="false" name="brick_web_request">გაგზავნე ვებმოთხოვნა მისამართზე:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">და პასუხი შეინახე აქ:</string>
     <string formatted="false" name="web_request_warning_title">დავუშვა ინტერნეტზე წვდომა?</string>
     <string formatted="false" name="web_request_warning_message">წვდომის დაშვებამდე ძალიან ფრთხილად იყავი, რადგან ბმულმა შეიძლება შენი პირადი ინფორმაცია, მაგალითად, შენი ზუსტი მდებარეობა ან შენ მიერ შეყვანილი ნებისმიერი ტექსტი, ბოროტგანზრახულ ადამიანებს ან ყველას გაუმხილოს. დამატებითი ინფორმაცია იმის შესახებ, თუ რატომ შეიძლება იყოს ეს უკიდურესად საშიში, იხილე ჩვენს &lt;a href=%1s&gt;ვიკიში&lt;/a&gt;.</string>

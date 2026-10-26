@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">נא להמתין</string>
     <string formatted="false" name="search_hint">חיפוש…</string>
     <string formatted="false" name="backpack_add">הוספה לתרמיל</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">המיזם שהורדת מאזין לקול שלך ברקע וגם שולח נתונים לאינטרנט. ייתכן שזה לא מזיק ונחוץ לפעולה המתוכננת שלו. עם זאת, כדאי לוודא שמה שנאמר בזמן שהמיזם פועל הוא בטוח. במקרה של ספק, מומלץ למחוק את המיזם שהורד. אם ברור לך שהמיזם מזיק, אפשר גם לדווח עליו בעמוד שלו בפלטפורמת הקהילה של Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1127,7 +1127,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">במיקום</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">ב־</string>
     <string formatted="false" name="brick_web_request">שלח בקשת רשת אל</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">ושמור את התשובה ב־</string>
     <string formatted="false" name="web_request_warning_title">לאפשר גישה לרשת?</string>
     <string formatted="false" name="web_request_warning_message">יש לנקוט זהירות רבה לפני מתן הגישה, כי הקישור עלול לחשוף את המידע האישי שלך, כמו המיקום הגאוגרפי המדויק שלך או כל טקסט שהזנת, לגורמים זדוניים או לציבור. מידע נוסף על הסיבות לכך שזה עלול להיות מסוכן מאוד זמין ב&lt;a href=%1s&gt;ויקי&lt;/a&gt; שלנו.</string>

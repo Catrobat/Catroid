@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Espera, si us plau</string>
     <string formatted="false" name="search_hint">Cerca…</string>
     <string formatted="false" name="backpack_add">Afegeix a la motxilla</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">El projecte que has baixat t\'escolta en segon pla i també envia dades a internet. Pot ser inofensiu i necessari per al seu funcionament. Tanmateix, assegura\'t que el que dius mentre el projecte s\'executa no comporta cap risc. En cas de dubte, elimina el projecte baixat. Si estàs segur que és perjudicial, també pots denunciar el projecte a la seva pàgina de la plataforma de la comunitat Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">a la posició</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">per</string>
     <string formatted="false" name="brick_web_request">Envia una sol·licitud web a</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">i desa la resposta a</string>
     <string formatted="false" name="web_request_warning_title">Vols permetre l\'accés a la web?</string>
     <string formatted="false" name="web_request_warning_message">Ves amb molt de compte abans de permetre l\'accés, perquè l\'enllaç pot revelar la teva informació personal, com ara la teva ubicació geogràfica exacta o qualsevol text que hagis escrit, a persones malintencionades o al públic. Consulta la nostra &lt;a href=%1s&gt;wiki&lt;/a&gt; per saber per què això pot ser extremadament perillós.</string>

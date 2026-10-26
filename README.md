@@ -27,7 +27,7 @@ A first training ticket usually consists of writing a new Catrobat language test
 # Resources and links #
 * [Apple Store Download](https://apps.apple.com/us/developer/international-catrobat-association-verein-zur-foerderung/id1117935891)
 * [Google Play Store Download](https://play.google.com/store/apps/developer?id=Catrobat)
-* [Community website with sample programs](https://share.catrob.at/)
+* [Community website with sample programs](https://share.catrobat.org/)
 * [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions-(Developers))
 * [Credits](https://developer.catrobat.org/contributors/)
 * [Statistics on OpenHub](https://www.openhub.net/p/catrobat/)

@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Itxaron, mesedez</string>
     <string formatted="false" name="search_hint">Bilatu</string>
     <string formatted="false" name="backpack_add">Gehitu motxilara</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Deskargatu duzun proiektuak zure ahotsa entzuten du atzeko planoan, eta datuak bidaltzen ditu Internetera. Baliteke kaltegabea izatea eta proiektuak behar bezala funtzionatzeko beharrezkoa izatea. Hala ere, ziurtatu proiektua exekutatzen ari den bitartean esaten duzuna segurua dela. Zalantzarik baduzu, ezabatu deskargatutako proiektua. Kaltegarria dela ziur bazaude, proiektua salatu dezakezu Catrobat komunitatearen plataformako bere orrian.</string>
     <!-- Replace Api dialog -->
@@ -1082,7 +1082,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">posizio honetan:</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">balio honekin:</string>
     <string formatted="false" name="brick_web_request">Bidali web-eskaera hona:</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">eta gorde erantzuna hemen:</string>
     <string formatted="false" name="web_request_warning_title">Web-sarbidea baimendu?</string>
     <string formatted="false" name="web_request_warning_message">Kontu handiz ibili sarbidea baimendu aurretik: estekak zure informazio pertsonala agerian utz dezake, adibidez zure kokapen geografiko zehatza edo idatzi duzun edozein testu, asmo txarreko beste batzuen edo jendaurrean. Ikusi gure &lt;a href=%1s&gt;wikia&lt;/a&gt; hau oso arriskutsua izan daitekeen jakiteko.</string>

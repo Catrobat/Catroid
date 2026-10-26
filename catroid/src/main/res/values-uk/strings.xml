@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">Проєкт, який ви завантажили, слухає ваш голос у фоновому режимі та надсилає дані в інтернет. Це може бути нешкідливим і потрібним для роботи проєкту. Проте переконайтеся, що те, що ви говорите під час роботи проєкту, безпечно. Якщо сумніваєтеся, видаліть завантажений проєкт. Якщо ви впевнені, що проєкт шкідливий, можете також поскаржитися на нього на його сторінці на платформі спільноти Catrobat.</string>
     <!-- Replace Api dialog -->
@@ -1172,7 +1172,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">на позиції</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">значенням</string>
     <string formatted="false" name="brick_web_request">Надіслати вебзапит на</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">і зберегти відповідь у</string>
     <string formatted="false" name="web_request_warning_title">Дозволити доступ до вебу?</string>
     <string formatted="false" name="web_request_warning_message">Будьте дуже обережні, перш ніж дозволити доступ: посилання може розкрити зловмисникам або всім охочим вашу особисту інформацію, наприклад ваше точне місцезнаходження чи будь-який введений вами текст. Чому це може бути надзвичайно небезпечно, читайте в нашій &lt;a href=%1s&gt;вікі&lt;/a&gt;.</string>

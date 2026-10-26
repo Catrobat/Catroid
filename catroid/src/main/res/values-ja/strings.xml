@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">しばらくお待ちください</string>
     <string formatted="false" name="search_hint">検索</string>
     <string formatted="false" name="backpack_add">バックパックに追加</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">ダウンロードしたプロジェクトは、バックグラウンドであなたの声を聞き、インターネットにデータを送信します。これは問題のない動作で、プロジェクトに必要なものかもしれません。ただし、プロジェクトの実行中に話す内容が知られても安全であることを確認してください。疑わしい場合は、ダウンロードしたプロジェクトを削除してください。有害であることが確かな場合は、Catrobat コミュニティプラットフォームのプロジェクトページで報告することもできます。</string>
     <!-- Replace Api dialog -->
@@ -1037,7 +1037,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">位置</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">新しい値</string>
     <string formatted="false" name="brick_web_request">ウェブリクエストを送信</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">答えの保存先</string>
     <string formatted="false" name="web_request_warning_title">ウェブアクセスを許可しますか？</string>
     <string formatted="false" name="web_request_warning_message">アクセスを許可する前によく注意してください。リンクによって、正確な位置情報や入力したテキストなどの個人情報が、悪意のある人や一般の人に知られてしまうおそれがあります。これがなぜとても危険なのかについては、&lt;a href=%1s&gt;wiki&lt;/a&gt; をご覧ください。</string>
