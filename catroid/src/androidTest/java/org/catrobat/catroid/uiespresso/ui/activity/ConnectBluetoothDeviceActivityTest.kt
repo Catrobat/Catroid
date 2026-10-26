@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.uiespresso.ui.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
@@ -33,8 +34,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ui.ConnectBluetoothDeviceTestActivity
 import org.catrobat.catroid.R
+import org.catrobat.catroid.bluetooth.BluetoothPermissions
 import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity.DEVICE_TO_CONNECT
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice.MULTIPLAYER
 import org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY
@@ -56,6 +59,11 @@ class ConnectBluetoothDeviceActivityTest {
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
         ConnectBluetoothDeviceTestActivity::class.java, false, false
+    )
+
+    @get:Rule
+    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        *BluetoothPermissions.getRequiredPermissions(Build.VERSION.SDK_INT).toTypedArray()
     )
 
     @Before

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.content.SharedPreferences
 import android.os.Process
 import android.preference.PreferenceManager
 import android.util.Log
+import androidx.core.content.edit
 import kotlin.system.exitProcess
 
 private const val EXIT_CODE = 10
@@ -37,9 +38,9 @@ open class BaseExceptionHandler(context: Context) : Thread.UncaughtExceptionHand
 
     override fun uncaughtException(thread: Thread, exception: Throwable) {
         Log.e(TAG, "uncaughtException: ", exception)
-        preferences.edit()
-            .putBoolean(RECOVERED_FROM_CRASH, true)
-            .apply()
+        preferences.edit {
+            putBoolean(RECOVERED_FROM_CRASH, true)
+        }
         exit()
     }
 

@@ -714,7 +714,6 @@
     <!-- NewLookDialog -->
     <string formatted="false" name="new_look_dialog_title">Add look</string>
     <string formatted="false" name="add_look_from_camera">Camera</string>
-    <string formatted="false" name="add_look_object_library">Library</string>
     <string formatted="false" name="add_look_draw_new_image">Draw</string>
     <string formatted="false" name="add_look_choose_image">Gallery</string>
     <string formatted="false" name="add_look_media_library">Looks</string>
@@ -1134,7 +1133,6 @@
     <string formatted="false" name="brick_start_engrave">Start to engrave</string>
 
     <string formatted="false" name="brick_default_plot_file">plot.svg</string>
-    <string formatted="false" name="brick_share">Share</string>
     <string formatted="false" name="brick_share_laser">Share laser cutter data as SVG</string>
     <string formatted="false" name="brick_default_laser_file">laser.svg</string>
 
@@ -1149,8 +1147,6 @@
     <string formatted="false" name="brick_default_embroidery_file">embroidery.dst</string>
     <string formatted="false" name="brick_sew_up">Sew up</string>
     <string formatted="false" name="brick_thread_color">Set thread color to</string>
-    <string formatted="false" name="embroider_arc_direction">Stitch arc going</string>
-    <string formatted="false" name="embroidery_through">Create arc going through</string>
     <!--  -->
 
     <!-- Device bricks -->
@@ -1471,8 +1467,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_outdated_version">This app version is outdated. Update now?</string>
     <string formatted="false" name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
         Please rename the project.</string>
-    <string formatted="false" name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Something went wrong while adding this brick.</string>
     <string formatted="false" name="error_copying_brick">Something went wrong while copying this brick.</string>
     <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
@@ -2015,7 +2009,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_background_name">background name</string>
     <string formatted="false" name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string formatted="false" name="formula_editor_object_distance_to">distance to touch position</string>
-    <string formatted="false" name="formula_editor_confirm">Confirm</string>
     <string formatted="false" name="formula_editor_object">Properties</string>
     <string formatted="false" name="formula_editor_functions">Functions</string>
     <string formatted="false" name="formula_editor_logic">Logic</string>

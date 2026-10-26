@@ -100,7 +100,7 @@
         android:theme="@style/Catroid"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="false"
-        tools:ignore="UnusedAttribute"
+        tools:ignore="UnusedAttribute,DataExtractionRules"
         tools:replace="android:label,android:allowBackup,android:name,android:theme"
         android:usesCleartextTraffic="true">
 
@@ -118,7 +118,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
+            <!-- Verified app links need a Digital Asset Links file on the server. -->
+            <intent-filter tools:ignore="AppLinkWarning">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />

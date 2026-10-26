@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.pocketmusic.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -48,6 +49,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressLint("NotifyDataSetChanged")
 public class TactScrollRecyclerView extends RecyclerView {
 
 	private static final int TACTS_PER_SCREEN = 2;
@@ -93,6 +95,8 @@ public class TactScrollRecyclerView extends RecyclerView {
 		return e.getActionMasked() != MotionEvent.ACTION_SCROLL && isPlaying || super.onInterceptTouchEvent(e);
 	}
 
+	// Touch handling only, there is no click action to expose to accessibility services.
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		if (!isPlaying()) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,11 @@ package org.catrobat.catroid.formulaeditor
 import android.content.Context
 import android.graphics.Bitmap
 import android.text.style.ImageSpan
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.graphics.scale
+import androidx.core.graphics.set
 
 private const val COLOR_SQUARE_PADDING_LEFT = 15
 private const val COLOR_SQUARE_PADDING_TOP = 0
@@ -46,15 +49,10 @@ class VisualizeColorString(
 
     init {
         colorValue = getColorValueFromColorString(colorString)
-        val squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
-        squareBitmap.setPixel(0, 0, colorValue)
+        val squareBitmap = createBitmap(1, 1, Bitmap.Config.RGB_565)
+        squareBitmap[0, 0] = colorValue
         drawable = RoundedBitmapDrawableFactory.create(
-            context.resources, Bitmap.createScaledBitmap(
-                squareBitmap,
-                bitmapSize.toInt(),
-                bitmapSize.toInt(),
-                false
-            )
+            context.resources, squareBitmap.scale(bitmapSize.toInt(), bitmapSize.toInt(), false)
         )
         drawable.cornerRadius = bitmapSize / COLOR_SQUARE_ROUNDED_CORNER_DIVIDER
         drawable.setBounds(

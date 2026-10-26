@@ -26,7 +26,6 @@ package org.catrobat.catroid.web
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
@@ -122,11 +121,7 @@ class ProjectDownloader(
         statusBarNotificationManager.showOrUpdateNotification(context, notificationData, 0, null)
 
         callbackWeakReference.get()?.onDownloadStarted(url)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(downloadIntent)
-        } else {
-            context.startService(downloadIntent)
-        }
+        context.startForegroundService(downloadIntent)
     }
 
     @SuppressLint("ParcelCreator")

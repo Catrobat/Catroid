@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,9 +37,10 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import org.catrobat.catroid.ProjectManager
@@ -202,8 +203,8 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        for (index in 0 until menu.size()) {
-            menu.getItem(index).isVisible = false
+        for (index in 0 until menu.size) {
+            menu[index].isVisible = false
         }
         super.onPrepareOptionsMenu(menu)
     }
@@ -280,7 +281,6 @@ class ProjectOptionsFragment : Fragment() {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private fun exportUsingSystemFilePicker() {
         val fileName = project?.name + Constants.CATROBAT_EXTENSION
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)

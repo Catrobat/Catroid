@@ -39,6 +39,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.edit
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
@@ -57,6 +58,9 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     private val permissionRequestActivityExtension = PermissionRequestActivityExtension()
     protected var savedInstanceStateExpected = false
 
+    // BaseExceptionHandler ends the process itself so that the crash recovery runs on restart
+    // instead of the system crash dialog, so it must not delegate to the previous handler.
+    @SuppressLint("DefaultUncaughtExceptionDelegation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SettingsFragment.setToChosenLanguage(this)
@@ -125,6 +129,8 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         surveyCampaign?.startAppTime(this)
     }
 
+    // The Google Analytics library marks its public API as visible for testing only.
+    @SuppressLint("VisibleForTests")
     protected fun googleAnalyticsTrackScreenResume() {
         val googleTracker = (application as CatroidApplication).defaultTracker
         googleTracker.setScreenName(this.javaClass.name)
@@ -142,9 +148,9 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     private fun checkIfCrashRecoveryAndFinishActivity(activity: Activity) {
         if (isRecoveringFromCrash) {
             if (activity is MainMenuActivity) {
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                    .putBoolean(RECOVERED_FROM_CRASH, false)
-                    .apply()
+                PreferenceManager.getDefaultSharedPreferences(this).edit {
+                    putBoolean(RECOVERED_FROM_CRASH, false)
+                }
             } else {
                 activity.finish()
             }
@@ -164,6 +170,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionRequestActivityExtension.onRequestPermissionsResult(
             this,
             requestCode,

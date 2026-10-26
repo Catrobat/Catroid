@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -36,6 +37,8 @@ import androidx.appcompat.app.AlertDialog;
 public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = DeleteTestUserTask.class.getSimpleName();
 
+	// The task reports its result in this context and does not outlive it for long.
+	@SuppressLint("StaticFieldLeak")
 	private Context context;
 
 	private WebConnectionException exception;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
@@ -49,6 +50,7 @@ import org.koin.android.ext.android.inject
 import java.io.IOException
 import java.util.ArrayList
 
+@SuppressLint("NotifyDataSetChanged")
 class LookListFragment : RecyclerViewFragment<LookData?>() {
     private val lookController = LookController()
     private var currentItem: LookData? = null

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -231,7 +231,7 @@ object FormulaElementOperations {
             stringBuilder.append(trimTrailingCharacters(userListStringValue))
             stringBuilder.append(separator)
         }
-        return stringBuilder.toString().trim { it <= ' ' }
+        return stringBuilder.toString().trim()
     }
 
     private fun listConsistsOfSingleCharacters(userListStringValues: List<String>) =

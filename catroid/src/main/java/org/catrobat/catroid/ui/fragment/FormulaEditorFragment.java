@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -351,6 +352,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				return true;
 			}
 
+			// Touch handling only, there is no click action to expose to accessibility services.
+			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -363,58 +366,69 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					view.setPressed(true);
 
-					switch (view.getId()) {
-						case R.id.formula_editor_keyboard_compute:
-							showComputeDialog();
-							return true;
-						case R.id.formula_editor_keyboard_confirm:
-							exitFormulaEditorFragment();
-							return true;
-						case R.id.formula_editor_keyboard_function:
-							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
-									R.string.formula_editor_functions);
-							return true;
-						case R.id.formula_editor_keyboard_logic:
-							showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
-									R.string.formula_editor_logic);
-							return true;
-						case R.id.formula_editor_keyboard_object:
-							showCategoryListFragment(CategoryListFragment.OBJECT_TAG,
-									R.string.formula_editor_choose_object_variable);
-							return true;
-						case R.id.formula_editor_keyboard_sensors:
-							showCategoryListFragment(CategoryListFragment.SENSOR_TAG,
-									R.string.formula_editor_device);
-							return true;
-						case R.id.formula_editor_keyboard_data:
-							showDataFragment();
-							return true;
-						case R.id.formula_editor_keyboard_functional_button_toggle:
-							toggleFunctionalButtons();
-							return true;
-						case R.id.formula_editor_keyboard_string:
-							if (isSelectedTextFirstParamOfRegularExpression()) {
-								showNewRegexAssistantDialog();
-							} else {
-								showNewStringDialog();
-							}
-							return true;
-						case R.id.formula_editor_keyboard_delete:
-							formulaEditorEditText.handleKeyEvent(view.getId(), "");
-							return handleLongClick(view, event);
-						case R.id.formula_editor_keyboard_color_picker:
-							showColorPickerDialog(view);
-							return true;
-						case R.id.formula_editor_keyboard_paste:
-							formulaEditorClipboard.paste();
-							return true;
-						case R.id.formula_editor_keyboard_copy:
-							formulaEditorClipboard.checkIfSelectedAndCopy();
-							return true;
-						default:
-							formulaEditorEditText.handleKeyEvent(view.getId(), "");
-							return true;
+					int viewId = view.getId();
+					if (viewId == R.id.formula_editor_keyboard_compute) {
+						showComputeDialog();
+						return true;
 					}
+					if (viewId == R.id.formula_editor_keyboard_confirm) {
+						exitFormulaEditorFragment();
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_function) {
+						showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
+								R.string.formula_editor_functions);
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_logic) {
+						showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
+								R.string.formula_editor_logic);
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_object) {
+						showCategoryListFragment(CategoryListFragment.OBJECT_TAG,
+								R.string.formula_editor_choose_object_variable);
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_sensors) {
+						showCategoryListFragment(CategoryListFragment.SENSOR_TAG,
+								R.string.formula_editor_device);
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_data) {
+						showDataFragment();
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_functional_button_toggle) {
+						toggleFunctionalButtons();
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_string) {
+						if (isSelectedTextFirstParamOfRegularExpression()) {
+							showNewRegexAssistantDialog();
+						} else {
+							showNewStringDialog();
+						}
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_delete) {
+						formulaEditorEditText.handleKeyEvent(view.getId(), "");
+						return handleLongClick(view, event);
+					}
+					if (viewId == R.id.formula_editor_keyboard_color_picker) {
+						showColorPickerDialog(view);
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_paste) {
+						formulaEditorClipboard.paste();
+						return true;
+					}
+					if (viewId == R.id.formula_editor_keyboard_copy) {
+						formulaEditorClipboard.checkIfSelectedAndCopy();
+						return true;
+					}
+					formulaEditorEditText.handleKeyEvent(view.getId(), "");
+					return true;
 				}
 				return false;
 			}
@@ -763,13 +777,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_undo:
-				formulaEditorEditText.undo();
-				break;
-			case R.id.menu_redo:
-				formulaEditorEditText.redo();
-				break;
+		int itemId = item.getItemId();
+		if (itemId == R.id.menu_undo) {
+			formulaEditorEditText.undo();
+		} else if (itemId == R.id.menu_redo) {
+			formulaEditorEditText.redo();
 		}
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		return super.onOptionsItemSelected(item);

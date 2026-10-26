@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.dialogs
 
 import android.app.Dialog
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -35,7 +34,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.databinding.DialogTermsOfUseBinding
 
-private const val SDK_VERSION = 24
 
 class TermsOfUseDialogFragment : DialogFragment() {
     private var _binding: DialogTermsOfUseBinding? = null
@@ -63,11 +61,7 @@ class TermsOfUseDialogFragment : DialogFragment() {
             R.string.terms_of_use_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
             termsOfUseUrlStringText
         )
-        termsOfUseUrlTextView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(termsOfUseUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(termsOfUseUrl)
-        }
+        termsOfUseUrlTextView.text = Html.fromHtml(termsOfUseUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         val termsOfUseDialog = termsOfUseDialogBuilder.create()
         termsOfUseDialog.setCanceledOnTouchOutside(true)

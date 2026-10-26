@@ -36,6 +36,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.ListFragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -223,8 +225,8 @@ class BrickSearchFragment : ListFragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        for (index in 0 until menu.size()) {
-            menu.getItem(index).setVisible(false)
+        for (index in 0 until menu.size) {
+            menu[index].setVisible(false)
         }
         menu.findItem(R.id.search_bar).isVisible = true
     }

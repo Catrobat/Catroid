@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
@@ -61,9 +62,8 @@ class DefaultLocalHashVersionRepository(
         encryptedPref.getString(FEATURED_PROJECTS_HASH_VERSION, null)
 
     override fun setFeaturedProjectsHashVersion(hashVersion: String?) {
-        with(encryptedPref.edit()) {
+        encryptedPref.edit {
             putString(FEATURED_PROJECTS_HASH_VERSION, hashVersion)
-            apply()
         }
     }
 
@@ -71,16 +71,14 @@ class DefaultLocalHashVersionRepository(
         encryptedPref.getString(PROJECT_CATEGORIES_HASH_VERSION, null)
 
     override fun setProjectsCategoriesHashVersion(hashVersion: String?) {
-        with(encryptedPref.edit()) {
+        encryptedPref.edit {
             putString(PROJECT_CATEGORIES_HASH_VERSION, hashVersion)
-            apply()
         }
     }
 
     override fun reset() {
-        with(encryptedPref.edit()) {
+        encryptedPref.edit {
             clear()
-            apply()
         }
     }
 }

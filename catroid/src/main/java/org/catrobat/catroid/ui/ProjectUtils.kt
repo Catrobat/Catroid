@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ package org.catrobat.catroid.ui
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
@@ -146,19 +147,17 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
             .setMessage(context.resources.getString(R.string.security_warning_dialog_msg))
             .setCancelable(false)
             .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
-                sharedPreferences
-                    .edit()
-                    .putString(projectUrl, projectUrl)
-                    .apply()
+                sharedPreferences.edit {
+                    putString(projectUrl, projectUrl)
+                }
                 dialog.dismiss()
             }
             .show()
     } else if (isDownloadedProject) {
         // add it anyway to avoid showing this dialog for downloaded projects, but have
         // suspicious bricks added by the user afterwards..
-        sharedPreferences
-            .edit()
-            .putString(projectUrl, projectUrl)
-            .apply()
+        sharedPreferences.edit {
+            putString(projectUrl, projectUrl)
+        }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026  The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import java.math.BigDecimal
 object FormatNumberUtil {
     @JvmStatic
     fun cutTrailingZeros(number: String): String {
-        var decimal = BigDecimal(number.trim { it <= ' ' })
+        var decimal = BigDecimal(number.trim())
         decimal = decimal.stripTrailingZeros()
 
         // compare with Zero because of faulty implementation of stripTrailingZeros in the library

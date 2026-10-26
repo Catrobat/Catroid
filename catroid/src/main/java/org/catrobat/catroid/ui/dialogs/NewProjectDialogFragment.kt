@@ -35,6 +35,8 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.DialogFragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -165,8 +167,8 @@ class NewProjectDialogFragment : DialogFragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        for (index in 0 until menu.size()) {
-            menu.getItem(index).isVisible = false
+        for (index in 0 until menu.size) {
+            menu[index].isVisible = false
         }
 
         val confirm = menu.findItem(R.id.confirm)

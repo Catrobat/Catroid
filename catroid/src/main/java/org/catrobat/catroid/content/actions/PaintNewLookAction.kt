@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,10 @@ package org.catrobat.catroid.content.actions
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.createBitmap
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
@@ -72,9 +72,9 @@ class PaintNewLookAction : PocketPaintAction() {
             Log.e(TAG, "Failed to create directory!")
         }
         val currentProject = ProjectManager.getInstance().currentProject
-        val bitmap = Bitmap.createBitmap(
+        val bitmap = createBitmap(
             currentProject.xmlHeader.virtualScreenWidth,
-            currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
+            currentProject.xmlHeader.virtualScreenHeight
         )
         return StorageOperations.compressBitmapToPng(
             bitmap, File(Constants.POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName))

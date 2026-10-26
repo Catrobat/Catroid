@@ -219,18 +219,13 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
 				R.menu.menu_project_activity, hiddenMenuOptionIds);
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
-			switch (menuItem.getItemId()) {
-				case R.id.copy:
-					copyItems(itemList);
-					break;
-				case R.id.rename:
-					showRenameDialog(item);
-					break;
-				case R.id.delete:
-					deleteItems(itemList);
-					break;
-				default:
-					break;
+			int itemId = menuItem.getItemId();
+			if (itemId == R.id.copy) {
+				copyItems(itemList);
+			} else if (itemId == R.id.rename) {
+				showRenameDialog(item);
+			} else if (itemId == R.id.delete) {
+				deleteItems(itemList);
 			}
 			return true;
 		});

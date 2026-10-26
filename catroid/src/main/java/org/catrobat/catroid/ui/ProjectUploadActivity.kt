@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -39,6 +38,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import org.catrobat.catroid.ProjectManager
@@ -447,7 +448,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
     private val projectName: String
         get() {
-            val name = binding.inputProjectName.editText?.text.toString().trim { it <= ' ' }
+            val name = binding.inputProjectName.editText?.text.toString().trim()
             if (project.name != name) {
                 val renamedDirectory = renameProject(project.directory, name)
                 if (renamedDirectory == null) {
@@ -461,10 +462,10 @@ open class ProjectUploadActivity : BaseActivity(),
         }
 
     private val projectDescription: String
-        get() = binding.inputProjectDescription.editText?.text.toString().trim { it <= ' ' }
+        get() = binding.inputProjectDescription.editText?.text.toString().trim()
 
     private val notesAndCredits: String
-        get() = binding.inputProjectNotesAndCredits.editText?.text.toString().trim { it <= ' ' }
+        get() = binding.inputProjectNotesAndCredits.editText?.text.toString().trim()
 
     fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
@@ -537,9 +538,9 @@ open class ProjectUploadActivity : BaseActivity(),
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1
-        sharedPreferences.edit()
-            .putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
-            .apply()
+        sharedPreferences.edit {
+            putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
+        }
 
         if (numberOfUploadedProjects != 2) {
             return
@@ -553,7 +554,7 @@ open class ProjectUploadActivity : BaseActivity(),
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=$packageName")
+                            "market://details?id=$packageName".toUri()
                         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     )
                 } catch (e: ActivityNotFoundException) {
@@ -561,16 +562,15 @@ open class ProjectUploadActivity : BaseActivity(),
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse(Constants.PLAY_STORE_PAGE_LINK + packageName)
+                            (Constants.PLAY_STORE_PAGE_LINK + packageName).toUri()
                         )
                     )
                 }
             }
             .setNeutralButton(getString(R.string.rating_dialog_rate_later)) { _, _ ->
-                sharedPreferences
-                    .edit()
-                    .putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
-                    .apply()
+                sharedPreferences.edit {
+                    putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
+                }
             }
             .setNegativeButton(getString(R.string.rating_dialog_rate_never), null)
             .setCancelable(false)
@@ -640,7 +640,7 @@ open class ProjectUploadActivity : BaseActivity(),
             if (name.isEmpty()) {
                 return getString(R.string.name_empty)
             }
-            name = name.trim { it <= ' ' }
+            name = name.trim()
             if (name.isEmpty()) {
                 return getString(R.string.name_consists_of_spaces_only)
             }

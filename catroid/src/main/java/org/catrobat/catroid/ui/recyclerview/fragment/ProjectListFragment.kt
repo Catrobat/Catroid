@@ -38,7 +38,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
-import androidx.annotation.RequiresApi
+import androidx.core.content.edit
 import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -221,13 +221,12 @@ class ProjectListFragment(
     private fun sortProjects() {
         if (adapter != null) {
             adapter.projectsSorted = !adapter.projectsSorted
-            PreferenceManager.getDefaultSharedPreferences(requireContext())
-                .edit()
-                .putBoolean(
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+                putBoolean(
                     SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY,
                     adapter.projectsSorted
                 )
-                .apply()
+            }
             setAdapterItems(adapter.projectsSorted)
         }
     }
@@ -241,7 +240,6 @@ class ProjectListFragment(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun importUsingSystemFilePicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)

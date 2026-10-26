@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,9 @@
  */
 package org.catrobat.catroid;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -40,24 +39,27 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
 
+// The Google Analytics library marks its public API as visible for testing only.
+@SuppressLint("VisibleForTests")
 public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
+	// Holds the application context, which lives as long as the process.
+	@SuppressLint("StaticFieldLeak")
 	private static Context context;
 	public static String defaultSystemLanguage;
 
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
-	@TargetApi(31)
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
 		Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO);
 
-		if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+		if (BuildConfig.DEBUG) {
 			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
 					.detectNonSdkApiUsage()
 					.penaltyLog()

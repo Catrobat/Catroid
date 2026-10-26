@@ -38,6 +38,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Nameable
@@ -275,7 +277,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     val isOpen: Boolean
-        get() = visibility == VISIBLE
+        get() = isVisible
 
     fun open() {
         this.visibility = VISIBLE
@@ -300,7 +302,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     val isClosed: Boolean
-        get() = visibility == GONE
+        get() = isGone
 
     fun setOnResultFoundListener(onResultFoundListener: OnResultFoundListener?) {
         this.onResultFoundListener = onResultFoundListener

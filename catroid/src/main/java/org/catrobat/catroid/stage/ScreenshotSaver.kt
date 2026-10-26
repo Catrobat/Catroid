@@ -26,6 +26,7 @@ package org.catrobat.catroid.stage
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
+import androidx.core.graphics.scale
 import com.badlogic.gdx.Files
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -109,7 +110,7 @@ class ScreenshotSaver(
             newWidth = MAX_SCREEN_SHOT_WIDTH
         }
 
-        val resizedBitMap = Bitmap.createScaledBitmap(fullScreenBitmap, newWidth, MAX_SCREEN_SHOT_HEIGHT, false)
+        val resizedBitMap = fullScreenBitmap.scale(newWidth, MAX_SCREEN_SHOT_HEIGHT, false)
 
         val imageScene = gdxFileHandler.absolute(folder + fileName)
         try {

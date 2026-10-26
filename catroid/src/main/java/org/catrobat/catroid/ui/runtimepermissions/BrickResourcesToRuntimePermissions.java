@@ -24,8 +24,8 @@
 package org.catrobat.catroid.ui.runtimepermissions;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 
+import org.catrobat.catroid.bluetooth.BluetoothPermissions;
 import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.ArrayList;
@@ -39,11 +39,6 @@ import java.util.Set;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
-import static android.Manifest.permission.BLUETOOTH;
-import static android.Manifest.permission.BLUETOOTH_ADMIN;
-import static android.Manifest.permission.BLUETOOTH_ADVERTISE;
-import static android.Manifest.permission.BLUETOOTH_CONNECT;
-import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
@@ -64,9 +59,7 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(
 				Brick.SENSOR_GPS, Arrays.asList(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION));
 
-		List<String> bluetoothPermissions = apiLevel >= Build.VERSION_CODES.S
-				? Arrays.asList(BLUETOOTH_ADVERTISE, BLUETOOTH_SCAN, BLUETOOTH_CONNECT)
-				: Arrays.asList(BLUETOOTH_ADMIN, BLUETOOTH);
+		List<String> bluetoothPermissions = BluetoothPermissions.getRequiredPermissions(apiLevel);
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_LEGO_NXT, bluetoothPermissions);
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_LEGO_EV3, bluetoothPermissions);
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_PHIRO, bluetoothPermissions);

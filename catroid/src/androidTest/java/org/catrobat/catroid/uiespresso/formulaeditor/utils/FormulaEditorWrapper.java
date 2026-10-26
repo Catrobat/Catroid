@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -135,9 +135,11 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		try {
 			onView(allOf(withText(R.string.warning),
 					withParent(allOf(withId(R.id.title_template),
-					withParent(withId(R.id.topPanel)))), isDisplayed()));
+					withParent(withId(R.id.topPanel)))), isDisplayed()))
+					.check(matches(isDisplayed()));
 			onView(allOf(withText(R.string.warning_formula_recognized),
-					withParent(withParent(withId(R.id.scrollView))), isDisplayed()));
+					withParent(withParent(withId(R.id.scrollView))), isDisplayed()))
+					.check(matches(isDisplayed()));
 			ViewInteraction button = onView(
 					allOf(withText(R.string.ok),
 					withParent(withParent(withId(R.id.buttonPanel))), isDisplayed()));

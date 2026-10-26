@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.ProjectManager
@@ -193,10 +194,9 @@ class NewSpriteDialogFragment(
 
         visuallyPlaceSwitch?.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             visualTextViewVisibility(isChecked)
-            PreferenceManager.getDefaultSharedPreferences(activity)
-                .edit()
-                .putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, isPlaceVisually)
-                .apply()
+            PreferenceManager.getDefaultSharedPreferences(activity).edit {
+                putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, isPlaceVisually)
+            }
         }
     }
 

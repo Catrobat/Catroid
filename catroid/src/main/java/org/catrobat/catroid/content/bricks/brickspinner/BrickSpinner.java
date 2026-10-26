@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks.brickspinner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -228,6 +229,8 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 			final Nameable item = getItem(position);
 			((TextView) convertView).setText(item.getName());
 			convertView.setOnTouchListener(new View.OnTouchListener() {
+				// Touch handling only, there is no click action to expose to accessibility services.
+				@SuppressLint("ClickableViewAccessibility")
 				@Override
 				public boolean onTouch(View view, MotionEvent event) {
 					if (event.getActionIndex() == MotionEvent.ACTION_DOWN) {

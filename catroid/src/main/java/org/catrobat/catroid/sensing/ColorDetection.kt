@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,10 @@
 package org.catrobat.catroid.sensing
 
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.PixelCopy
-import androidx.annotation.RequiresApi
+import androidx.core.graphics.createBitmap
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
@@ -106,7 +105,6 @@ abstract class ColorDetection(
         cameraBitmap = bitmap
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun callPixelCopyWithSurfaceView(callback: (Bitmap?) -> Unit) {
         val surfaceView = StageActivity.getActiveCameraManager().previewView.surfaceView
         val bitmap: Bitmap = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
@@ -133,11 +131,7 @@ abstract class ColorDetection(
     }
 
     private fun createNewBitmap(width: Int, height: Int): Bitmap {
-        return Bitmap.createBitmap(
-            width,
-            height,
-            Bitmap.Config.ARGB_8888
-        )
+        return createBitmap(width, height)
     }
 
     abstract fun setBufferParameters()

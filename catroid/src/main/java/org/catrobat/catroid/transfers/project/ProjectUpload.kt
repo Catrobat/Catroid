@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.transfers.project
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.core.content.edit
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
@@ -71,10 +72,10 @@ class ProjectUpload(
         serverCalls.uploadProject(
             projectUploadData,
             { projectId, successUsername, successToken ->
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, successToken)
-                    .putString(Constants.USERNAME, successUsername)
-                    .apply()
+                sharedPreferences.edit {
+                    putString(Constants.TOKEN, successToken)
+                    putString(Constants.USERNAME, successUsername)
+                }
 
                 successCallback(projectId)
                 projectArchive.delete()

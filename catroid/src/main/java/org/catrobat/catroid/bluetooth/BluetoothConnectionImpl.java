@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,13 +75,9 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 		try {
 			bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
 		} catch (IOException ioException) {
-			if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {
-				return (state = State.ERROR_NOT_BONDED);
-			} else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
-				return (state = State.ERROR_STILL_BONDING);
-			} else {
-				return (state = State.ERROR_SOCKET);
-			}
+			return (state = getSocketCreationErrorState());
+		} catch (SecurityException securityException) {
+			return (state = State.ERROR_PERMISSION_MISSING);
 		}
 
 		Log.d(TAG, "Socket was created");
@@ -93,9 +89,27 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 			case ERROR_SOCKET:
 				Log.d(TAG, "error connecting");
 				return State.ERROR_SOCKET;
+			case ERROR_PERMISSION_MISSING:
+				Log.d(TAG, "bluetooth permission missing");
+				return State.ERROR_PERMISSION_MISSING;
 			default:
 				Log.wtf(TAG, "This should never happen!");
 				return State.NOT_CONNECTED;
+		}
+	}
+
+	private State getSocketCreationErrorState() {
+		try {
+			int bondState = bluetoothDevice.getBondState();
+			if (bondState == BluetoothDevice.BOND_NONE) {
+				return State.ERROR_NOT_BONDED;
+			} else if (bondState == BluetoothDevice.BOND_BONDING) {
+				return State.ERROR_STILL_BONDING;
+			} else {
+				return State.ERROR_SOCKET;
+			}
+		} catch (SecurityException securityException) {
+			return State.ERROR_PERMISSION_MISSING;
 		}
 	}
 
@@ -127,8 +141,12 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 				Log.e(TAG, Log.getStackTraceString(illegalAccessException));
 			} catch (IOException secondIOException) {
 				Log.e(TAG, Log.getStackTraceString(secondIOException));
+			} catch (SecurityException securityException) {
+				return (state = State.ERROR_PERMISSION_MISSING);
 			}
 			return (state = State.ERROR_SOCKET);
+		} catch (SecurityException securityException) {
+			return (state = State.ERROR_PERMISSION_MISSING);
 		}
 		return (state = State.CONNECTED);
 	}

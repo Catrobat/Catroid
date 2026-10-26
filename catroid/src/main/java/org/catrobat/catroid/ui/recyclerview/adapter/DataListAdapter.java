@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressLint("NotifyDataSetChanged")
 public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> implements RVAdapter.SelectionListener {
 
 	public boolean allowMultiSelection = true;
@@ -259,16 +261,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	@NonNull
 	@Override
 	public CheckableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @LayoutRes int viewType) {
-		switch (viewType) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
-				return globalVarAdapter.onCreateViewHolder(parent, viewType);
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
-				return globalListAdapter.onCreateViewHolder(parent, viewType);
-			default:
-				throw new IllegalArgumentException("ViewType was not defined correctly.");
+		if (viewType == R.layout.view_holder_variable_with_headline
+				|| viewType == R.layout.view_holder_variable) {
+			return globalVarAdapter.onCreateViewHolder(parent, viewType);
 		}
+		if (viewType == R.layout.view_holder_list_with_headline
+				|| viewType == R.layout.view_holder_list) {
+			return globalListAdapter.onCreateViewHolder(parent, viewType);
+		}
+		throw new IllegalArgumentException("ViewType was not defined correctly.");
 	}
 
 	@Override
@@ -296,27 +297,25 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
 
-		switch (holder.getItemViewType()) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
-				if (dataType == VAR_GLOBAL) {
-					globalVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_LOCAL) {
-					localVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_MULTIPLAYER) {
-					multiplayerVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
-					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
-				}
-				break;
-			case R.layout.view_holder_list_with_headline:
-			case R.layout.view_holder_list:
-				if (dataType == LIST_GLOBAL) {
-					globalListAdapter.onBindViewHolder(holder, position);
-				} else {
-					localListAdapter.onBindViewHolder(holder, position);
-				}
-				break;
+		int itemViewType = holder.getItemViewType();
+		if (itemViewType == R.layout.view_holder_variable_with_headline
+				|| itemViewType == R.layout.view_holder_variable) {
+			if (dataType == VAR_GLOBAL) {
+				globalVarAdapter.onBindViewHolder(holder, position);
+			} else if (dataType == VAR_LOCAL) {
+				localVarAdapter.onBindViewHolder(holder, position);
+			} else if (dataType == VAR_MULTIPLAYER) {
+				multiplayerVarAdapter.onBindViewHolder(holder, position);
+			} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
+				userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
+			}
+		} else if (itemViewType == R.layout.view_holder_list_with_headline
+				|| itemViewType == R.layout.view_holder_list) {
+			if (dataType == LIST_GLOBAL) {
+				globalListAdapter.onBindViewHolder(holder, position);
+			} else {
+				localListAdapter.onBindViewHolder(holder, position);
+			}
 		}
 	}
 

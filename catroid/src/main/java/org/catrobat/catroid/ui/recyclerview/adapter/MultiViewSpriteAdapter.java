@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -48,6 +49,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import static android.view.View.GONE;
 
+@SuppressLint("NotifyDataSetChanged")
 public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 	public static final String TAG = MultiViewSpriteAdapter.class.getSimpleName();

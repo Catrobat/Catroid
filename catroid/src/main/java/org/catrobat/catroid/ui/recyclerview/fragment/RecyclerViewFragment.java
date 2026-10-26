@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -67,6 +68,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 
+@SuppressLint("NotifyDataSetChanged")
 public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements ActionMode.Callback, RVAdapter.SelectionListener, RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
@@ -174,16 +176,14 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			case R.id.toggle_selection:
-				adapter.toggleSelection();
-				updateSelectionToggle(actionMode.getMenu());
-				break;
-			default:
-				return false;
+		int itemId = item.getItemId();
+		if (itemId == R.id.confirm) {
+			handleContextualAction();
+		} else if (itemId == R.id.toggle_selection) {
+			adapter.toggleSelection();
+			updateSelectionToggle(actionMode.getMenu());
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -326,29 +326,23 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.backpack:
-				prepareBackpackActionMode();
-				break;
-			case R.id.copy:
-				prepareActionMode(COPY);
-				break;
-			case R.id.delete:
-				prepareActionMode(DELETE);
-				break;
-			case R.id.rename:
-				startActionMode(RENAME);
-				break;
-			case R.id.merge:
-				startActionMode(MERGE);
-				break;
-			case R.id.show_details:
-				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
-				adapter.notifyDataSetChanged();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.backpack) {
+			prepareBackpackActionMode();
+		} else if (itemId == R.id.copy) {
+			prepareActionMode(COPY);
+		} else if (itemId == R.id.delete) {
+			prepareActionMode(DELETE);
+		} else if (itemId == R.id.rename) {
+			startActionMode(RENAME);
+		} else if (itemId == R.id.merge) {
+			startActionMode(MERGE);
+		} else if (itemId == R.id.show_details) {
+			adapter.showDetails = !adapter.showDetails;
+			PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).apply();
+			adapter.notifyDataSetChanged();
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}

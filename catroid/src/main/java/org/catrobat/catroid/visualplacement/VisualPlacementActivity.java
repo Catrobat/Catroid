@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.visualplacement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -134,17 +135,17 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				break;
-			case R.id.confirm:
-				finishWithResult();
-				break;
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			onBackPressed();
+		} else if (itemId == R.id.confirm) {
+			finishWithResult();
 		}
 		return true;
 	}
 
+	// Touch handling only, there is no click action to expose to accessibility services.
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(null);
@@ -357,6 +358,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		return visualPlacementBitmap;
 	}
 
+	// Touch handling only, there is no click action to expose to accessibility services.
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		return visualPlacementTouchListener.onTouch(imageView, event, this);

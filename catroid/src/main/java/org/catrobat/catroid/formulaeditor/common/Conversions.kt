@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import androidx.core.graphics.toColorInt
 import org.apache.commons.lang3.StringUtils
 import java.util.regex.Pattern
 
@@ -47,8 +48,8 @@ object Conversions {
     @JvmStatic
     @JvmOverloads
     fun tryParseColor(string: String?, defaultValue: Int = Color.BLACK): Int {
-        return if (string.isValidHexColor()) {
-            Color.parseColor(string)
+        return if (string != null && string.isValidHexColor()) {
+            string.toColorInt()
         } else {
             defaultValue
         }

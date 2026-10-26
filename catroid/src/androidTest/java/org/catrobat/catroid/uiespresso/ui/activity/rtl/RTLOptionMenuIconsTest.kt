@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity.rtl
 
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -48,7 +44,6 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import org.catrobat.catroid.utils.dpToPx
-import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -133,8 +128,6 @@ class RTLOptionMenuIconsTest(
                 Assert.assertNotNull(currentItem.icon)
                 currentItem.icon?.let { Assert.assertTrue(it.isVisible) }
                 Assert.assertTrue((currentItem.icon?.minimumWidth ?: 0) >= width)
-
-                onData(withId(currentItem.itemId)).onChildView(hasDescendant(instanceOf(AppCompatImageView::class.java)))
             }
         }
     }

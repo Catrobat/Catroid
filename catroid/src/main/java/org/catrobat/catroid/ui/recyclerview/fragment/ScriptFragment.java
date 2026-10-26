@@ -218,12 +218,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -435,27 +433,21 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		}
-		switch (item.getItemId()) {
-			case R.id.menu_undo:
-				loadProjectAfterUndoOption();
-				break;
-			case R.id.backpack:
-				prepareBackpackActionMode();
-				break;
-			case R.id.copy:
-				prepareActionMode(COPY);
-				break;
-			case R.id.delete:
-				prepareActionMode(DELETE);
-				break;
-			case R.id.comment_in_out:
-				startActionMode(COMMENT);
-				break;
-			case R.id.find:
-				scriptFinder.open();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.menu_undo) {
+			loadProjectAfterUndoOption();
+		} else if (itemId == R.id.backpack) {
+			prepareBackpackActionMode();
+		} else if (itemId == R.id.copy) {
+			prepareActionMode(COPY);
+		} else if (itemId == R.id.delete) {
+			prepareActionMode(DELETE);
+		} else if (itemId == R.id.comment_in_out) {
+			startActionMode(COMMENT);
+		} else if (itemId == R.id.find) {
+			scriptFinder.open();
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
@@ -715,67 +707,55 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
 		showUndo(false);
-		switch (itemId) {
-			case R.string.backpack_add:
-				List<Brick> bricksToPack = new ArrayList<>();
-				brick.addToFlatList(bricksToPack);
-				showNewScriptGroupAlert(bricksToPack);
-				break;
-			case R.string.brick_context_dialog_copy_brick:
-			case R.string.brick_context_dialog_copy_script:
-				try {
-					Brick clonedBrick = brick.getAllParts().get(0).clone();
-					adapter.addItem(position, clonedBrick);
-					listView.startMoving(clonedBrick);
-				} catch (CloneNotSupportedException e) {
-					ToastUtil.showError(getContext(), R.string.error_copying_brick);
-					Log.e(TAG, Log.getStackTraceString(e));
-				}
-				break;
-			case R.string.brick_context_dialog_delete_brick:
-			case R.string.brick_context_dialog_delete_script:
-				showDeleteAlert(brick.getAllParts());
-				break;
-			case R.string.brick_context_dialog_delete_definition:
-				showDeleteAlert(brick.getAllParts());
-				break;
-			case R.string.brick_context_dialog_comment_in:
-			case R.string.brick_context_dialog_comment_in_script:
-				for (Brick brickPart : brick.getAllParts()) {
-					brickPart.setCommentedOut(false);
-				}
-				adapter.notifyDataSetChanged();
-				break;
-			case R.string.brick_context_dialog_comment_out:
-			case R.string.brick_context_dialog_comment_out_script:
-				for (Brick brickPart : brick.getAllParts()) {
-					brickPart.setCommentedOut(true);
-				}
-				adapter.notifyDataSetChanged();
-				break;
-			case R.string.brick_option_place_visually:
-				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
-				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(), visualPlacementBrick.getYBrickField());
-				break;
-			case R.string.brick_context_dialog_formula_edit_brick:
-				((FormulaBrick) brick).onClick(listView);
-				break;
-			case R.string.brick_context_dialog_move_brick:
-			case R.string.brick_context_dialog_move_script:
-			case R.string.brick_context_dialog_move_definition:
-				onBrickLongClick(brick, position);
-				break;
-			case R.string.brick_context_dialog_help:
-				openWebViewWithHelpPage(brick);
-				break;
-			case R.string.brick_context_dialog_highlight_brick_parts:
-				List<Brick> bricksOfControlStructure = brick.getAllParts();
-				List<Integer> positions = new ArrayList<>();
-				for (Brick brickInControlStructure : bricksOfControlStructure) {
-					positions.add(adapter.getPosition(brickInControlStructure));
-				}
-				listView.highlightControlStructureBricks(positions);
-				break;
+		if (itemId == R.string.backpack_add) {
+			List<Brick> bricksToPack = new ArrayList<>();
+			brick.addToFlatList(bricksToPack);
+			showNewScriptGroupAlert(bricksToPack);
+		} else if (itemId == R.string.brick_context_dialog_copy_brick
+				|| itemId == R.string.brick_context_dialog_copy_script) {
+			try {
+				Brick clonedBrick = brick.getAllParts().get(0).clone();
+				adapter.addItem(position, clonedBrick);
+				listView.startMoving(clonedBrick);
+			} catch (CloneNotSupportedException e) {
+				ToastUtil.showError(getContext(), R.string.error_copying_brick);
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		} else if (itemId == R.string.brick_context_dialog_delete_brick
+				|| itemId == R.string.brick_context_dialog_delete_script) {
+			showDeleteAlert(brick.getAllParts());
+		} else if (itemId == R.string.brick_context_dialog_delete_definition) {
+			showDeleteAlert(brick.getAllParts());
+		} else if (itemId == R.string.brick_context_dialog_comment_in
+				|| itemId == R.string.brick_context_dialog_comment_in_script) {
+			for (Brick brickPart : brick.getAllParts()) {
+				brickPart.setCommentedOut(false);
+			}
+			adapter.notifyDataSetChanged();
+		} else if (itemId == R.string.brick_context_dialog_comment_out
+				|| itemId == R.string.brick_context_dialog_comment_out_script) {
+			for (Brick brickPart : brick.getAllParts()) {
+				brickPart.setCommentedOut(true);
+			}
+			adapter.notifyDataSetChanged();
+		} else if (itemId == R.string.brick_option_place_visually) {
+			VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
+			visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(), visualPlacementBrick.getYBrickField());
+		} else if (itemId == R.string.brick_context_dialog_formula_edit_brick) {
+			((FormulaBrick) brick).onClick(listView);
+		} else if (itemId == R.string.brick_context_dialog_move_brick
+				|| itemId == R.string.brick_context_dialog_move_script
+				|| itemId == R.string.brick_context_dialog_move_definition) {
+			onBrickLongClick(brick, position);
+		} else if (itemId == R.string.brick_context_dialog_help) {
+			openWebViewWithHelpPage(brick);
+		} else if (itemId == R.string.brick_context_dialog_highlight_brick_parts) {
+			List<Brick> bricksOfControlStructure = brick.getAllParts();
+			List<Integer> positions = new ArrayList<>();
+			for (Brick brickInControlStructure : bricksOfControlStructure) {
+				positions.add(adapter.getPosition(brickInControlStructure));
+			}
+			listView.highlightControlStructureBricks(positions);
 		}
 	}
 
