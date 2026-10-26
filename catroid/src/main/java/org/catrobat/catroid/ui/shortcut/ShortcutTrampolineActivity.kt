@@ -28,7 +28,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.pm.ShortcutManagerCompat
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -51,10 +51,14 @@ import java.io.File
  * [android:theme="@android:style/Theme.Translucent.NoTitleBar"] works without
  * requiring an AppCompat theme.
  */
+@Suppress("TooGenericExceptionCaught", "SwallowedException")
 class ShortcutTrampolineActivity : Activity() {
 
+    var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+
     private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+    private val scope by lazy { CoroutineScope(mainDispatcher + job) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +71,7 @@ class ShortcutTrampolineActivity : Activity() {
         }
 
         scope.launch {
-            val projectDir = withContext(Dispatchers.IO) {
+            val projectDir = withContext(ioDispatcher) {
                 resolveProjectDirectory(projectName)
             }
 
@@ -77,7 +81,7 @@ class ShortcutTrampolineActivity : Activity() {
             }
 
             val codeXml = File(projectDir, Constants.CODE_XML_FILE_NAME)
-            val isAccessible = withContext(Dispatchers.IO) {
+            val isAccessible = withContext(ioDispatcher) {
                 codeXml.exists() && codeXml.canRead()
             }
 
@@ -104,7 +108,7 @@ class ShortcutTrampolineActivity : Activity() {
             }
 
             val appContext = applicationContext
-            val loaded = withContext(Dispatchers.IO) {
+            val loaded = withContext(ioDispatcher) {
                 try {
                     @Suppress("DEPRECATION")
                     projectManager.loadProject(projectDir, appContext)
@@ -156,16 +160,10 @@ class ShortcutTrampolineActivity : Activity() {
     }
 
     private fun disableShortcutAndFinish(projectName: String) {
-        val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
-        try {
-            ShortcutManagerCompat.disableShortcuts(
-                this,
-                listOf(encodedName),
-                getString(R.string.shortcut_project_not_found)
-            )
-        } catch (e: Exception) {
-            Log.w(TAG, "Could not disable shortcut: ${e.message}")
-        }
+        val targetIds = ShortcutHelper.findShortcutIdsForProject(this, projectName)
+            .ifEmpty { listOf(FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)) }
+
+        ShortcutHelper.disableShortcutIds(this, targetIds)
         Toast.makeText(this, R.string.shortcut_project_not_found, Toast.LENGTH_SHORT).show()
         finish()
     }
