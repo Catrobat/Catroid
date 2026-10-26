@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">براۓ مہربانی انتظار کريں</string>
     <string formatted="false" name="search_hint">تلاش کریں…</string>
     <string formatted="false" name="backpack_add">بستہ میں جمع کریں</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">اس منصوبے نے آپ کو پس منظر میں اپنی آواز پر سنبھال لیا ہے اور انٹرنیٹ کو ڈیٹا بھی بھیجتا ہے. یہ اس کے ارادہ کے لئے نقصان دہ، اور ضروری ہو سکتا ہے.
         تاہم، براہ کرم اس بات کو یقینی بنائیں کہ آپ کیا کہہ رہے ہیں جبکہ منصوبے چل رہا ہے جبکہ محفوظ ہے. شک کی صورت میں، ڈاؤن لوڈ کردہ پروجیکٹ کو خارج کر دیں.
@@ -1115,7 +1115,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">پوزیشن پر</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">کے ساتھ</string>
     <string formatted="false" name="brick_web_request">کو ویب درخواست بھیجیں۔</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">اور جواب میں اسٹور</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ 

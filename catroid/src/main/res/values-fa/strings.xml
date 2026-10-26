@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">لطفا صبر کنید</string>
     <string formatted="false" name="search_hint">جستجو …</string>
     <string formatted="false" name="backpack_add">به کوله پشتی اضافه کنید</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">پروژه ای که دانلود کرده اید به صدای شما گوش می دهد
         در پس زمینه و همچنین اطلاعات را به اینترنت ارسال می کند. این ممکن است بی ضرر و ضروری باشد
@@ -1077,7 +1077,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">در موقعیت</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">با</string>
     <string formatted="false" name="brick_web_request">ارسال درخواست وب به</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">و پاسخ را در آن ذخیره کنید</string>
     <string formatted="false" name="web_request_warning_title">دسترسی به وب مجاز است؟</string>
     <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the

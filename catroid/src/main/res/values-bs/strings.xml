@@ -58,7 +58,7 @@
     <string formatted="false" name="please_wait">De čekaj ba</string>
     <string formatted="false" name="search_hint">Srčaj…</string>
     <string formatted="false" name="backpack_add">Mazni vino</string>
-    <string formatted="false" name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="share_website_text">share.catrobat.org</string>
     <!-- Security warning dialog -->
     <string formatted="false" name="security_warning_dialog_msg">The project you have downloaded listens to your voice
         in the background and also sends data to the internet. This may be harmless, and necessary
@@ -1169,7 +1169,7 @@
     <string formatted="false" name="brick_replace_item_in_userlist_item_at_index">na poziciji</string>
     <string formatted="false" name="brick_replace_item_in_userlist_with_value">sa</string>
     <string formatted="false" name="brick_web_request">Pošaljite web zahtjev</string>
-    <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string formatted="false" name="brick_web_request_default_value">https://share.catrobat.org/brick-defaults/joke.txt</string>
     <string formatted="false" name="brick_web_request_result">i pohranite odgovor u</string>
     <string formatted="false" name="web_request_warning_title">Allow web access?</string>
     <string formatted="false" name="web_request_warning_message">Be very careful before allowing access, since the
