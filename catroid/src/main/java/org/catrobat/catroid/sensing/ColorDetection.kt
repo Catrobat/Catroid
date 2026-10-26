@@ -98,7 +98,11 @@ abstract class ColorDetection(
         return if (project.screenMode == ScreenModes.STRETCH) {
             ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera)
         } else {
-            ExtendViewport(virtualWidth, virtualHeight, camera)
+            // An ExtendViewport gets its world size only from update(), which nothing here calls: without it the
+            // world stays 0 x 0 and apply() leaves nothing to draw, so "touching color" is always false.
+            ExtendViewport(virtualWidth, virtualHeight, camera).apply {
+                setWorldSize(virtualWidth, virtualHeight)
+            }
         }
     }
 
