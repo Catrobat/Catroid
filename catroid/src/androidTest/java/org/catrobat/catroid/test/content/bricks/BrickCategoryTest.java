@@ -24,7 +24,10 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -249,14 +252,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
-
-import static android.content.SharedPreferences.Editor;
-
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {
@@ -543,7 +543,7 @@ public class BrickCategoryTest {
 						SetVariableBrick.class)},
 				{"Arduino", Arrays.asList(ArduinoSendDigitalValueBrick.class,
 						ArduinoSendPWMValueBrick.class)},
-				{"Chromecast", Arrays.asList(WhenGamepadButtonBrick.class)},
+				{"Chromecast", List.of(WhenGamepadButtonBrick.class)},
 				{"Raspberry Pi", Arrays.asList(WhenRaspiPinChangedBrick.class,
 						RaspiIfLogicBeginBrick.class,
 						RaspiSendDigitalValueBrick.class,
@@ -571,8 +571,8 @@ public class BrickCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Editor sharedPreferencesEditor = PreferenceManager
-				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
+		SharedPreferences.Editor sharedPreferencesEditor =
+				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
 
 		sharedPreferencesEditor.clear();
 		// The speech AI settings have to be activated here, because these bricks have no own
@@ -588,21 +588,22 @@ public class BrickCategoryTest {
 
 	@After
 	public void tearDown() {
-		Editor sharedPreferencesEditor = PreferenceManager
+		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
 		sharedPreferencesEditor.clear().commit();
 	}
 
 	public void createProject(Context context) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Project project = new Project(context, getClass().getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test
