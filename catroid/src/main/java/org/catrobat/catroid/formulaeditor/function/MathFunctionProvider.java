@@ -62,17 +62,11 @@ public class MathFunctionProvider implements FunctionProvider {
 			return dividend;
 		}
 
-		if (divisor > 0) {
-			while (dividend < 0) {
-				dividend += Math.abs(divisor);
-			}
-		} else {
-			if (dividend > 0) {
-				return (dividend % divisor) + divisor;
-			}
+		double result = dividend % divisor;
+		if (result != 0 && ((result < 0) ^ (divisor < 0))) {
+			result += divisor;
 		}
-
-		return dividend % divisor;
+		return result == 0.0 ? 0.0 : result;
 	}
 
 	private double interpretFunctionArcTan2(double firstArgument, double secondArgument) {
