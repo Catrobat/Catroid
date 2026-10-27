@@ -30,6 +30,8 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Chronometer
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.content.FileProvider
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.SOUND_RECORDER_CACHE_DIRECTORY
@@ -44,6 +46,7 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
     private var soundRecorder: SoundRecorder? = null
     private lateinit var timeRecorderChronometer: Chronometer
     private lateinit var recordButton: RecordButton
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     companion object {
         private val TAG: String = SoundRecorderActivity::class.java.simpleName
@@ -61,6 +64,11 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
         recordButton = findViewById(R.id.soundrecorder_record_button)
         timeRecorderChronometer = findViewById(R.id.soundrecorder_chronometer_time_recorded)
         recordButton.setOnClickListener(this)
+
+        onBackPressedCallback = onBackPressedDispatcher.addCallback(this, false) {
+            stopRecording()
+            finish()
+        }
     }
 
     override fun onClick(view: View) {
@@ -86,11 +94,6 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
         }.execute(this)
     }
 
-    override fun onBackPressed() {
-        stopRecording()
-        super.onBackPressed()
-    }
-
     @Synchronized
     private fun startRecording() {
         if (soundRecorder?.isRecording == true) {
@@ -112,6 +115,7 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
             soundRecorder = SoundRecorder(soundFile.absolutePath)
             soundRecorder?.start()
             setViewsToRecordingState()
+            onBackPressedCallback.isEnabled = true
         } catch (e: IOException) {
             Log.e(TAG, "Error recording sound.", e)
             ToastUtil.showError(this, R.string.soundrecorder_error)
@@ -137,6 +141,7 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
         }
 
         setViewsToNotRecordingState()
+        onBackPressedCallback.isEnabled = false
         try {
             recorderSnapshot.stop()
 
@@ -160,7 +165,7 @@ class SoundRecorderActivity : BaseActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         }
 

@@ -25,8 +25,10 @@ package org.catrobat.catroid.sync
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.awaitSuccessfulResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
@@ -34,7 +36,11 @@ import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
 interface ProjectsCategoriesSync {
 
     // after language change from settings call it with force = true
-    fun sync(force: Boolean = false)
+    suspend fun sync(force: Boolean = false)
+
+    // blocking bridge for Java callers that already run on a background thread
+    @WorkerThread
+    fun syncBlocking(force: Boolean) = runBlocking { sync(force) }
 }
 
 class DefaultProjectsCategoriesSync(
@@ -44,9 +50,11 @@ class DefaultProjectsCategoriesSync(
 ) : ProjectsCategoriesSync {
 
     @WorkerThread
-    override fun sync(force: Boolean) {
+    override suspend fun sync(force: Boolean) {
         val localHashVersion = localHashVersionRepository.getProjectsCategoriesHashVersion()
-        val response = webService.getProjectCategories().execute()
+        val response =
+            webService.getProjectCategories().awaitSuccessfulResponse(javaClass.simpleName)
+
         val serverHashVersion = response.headers().get("x-response-hash")
         Log.d(javaClass.simpleName, "local stored hash version: $localHashVersion")
         Log.d(javaClass.simpleName, "server hash version: $serverHashVersion")
@@ -63,7 +71,6 @@ class DefaultProjectsCategoriesSync(
         Log.d(javaClass.simpleName, "$body")
 
         body?.toProjectCategoryWithResponsesList()?.let {
-            appDatabase.projectCategoryDao().nukeAll()
             appDatabase.projectCategoryDao().insertProjectCategoriesWithResponses(it)
         }
     }

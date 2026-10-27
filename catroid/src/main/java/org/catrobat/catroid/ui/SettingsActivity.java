@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY;
@@ -58,14 +59,16 @@ public class SettingsActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setTitle(R.string.preference_title);
-	}
 
-	@Override
-	public void onBackPressed() {
-		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-			getSupportFragmentManager().popBackStack();
-		} else {
-			super.onBackPressed();
-		}
+		OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(
+				getFragmentManager().getBackStackEntryCount() > 0) {
+			@Override
+			public void handleOnBackPressed() {
+				getFragmentManager().popBackStack();
+			}
+		};
+		getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+		getFragmentManager().addOnBackStackChangedListener(() ->
+				onBackPressedCallback.setEnabled(getFragmentManager().getBackStackEntryCount() > 0));
 	}
 }
