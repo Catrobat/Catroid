@@ -63,7 +63,7 @@ public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerial
 	@Override
 	public T deserialize(JsonElement json, Type interfaceType, JsonDeserializationContext context) {
 		JsonObject jsonObject = json.getAsJsonObject();
-		String type = jsonObject.get(TYPE).getAsString();
+		String type = RenamedBrickTypes.currentClassName(jsonObject.get(TYPE).getAsString());
 		JsonElement element = jsonObject.get(PROPERTY);
 
 		Class classToDeserialize;
