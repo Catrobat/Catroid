@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ private val objectDetectionClient by lazy {
 
 class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
     override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
-        ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
+        ObjectDetectorResults.updateResult(detectedObjects)
     }
 }
 
@@ -50,7 +50,9 @@ object ObjectDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
+        onCompleteListener: DetectorsCompleteListener,
+        frontCamera: Boolean,
+        onError: (messageResId: Int, exception: Exception) -> Unit
     ) {
         objectDetectionClient.process(inputImage)
             .addOnSuccessListener(ObjectDetectorOnSuccessListener())
@@ -67,6 +69,34 @@ object ObjectDetector : Detector {
 }
 
 object ObjectDetectorResults {
-    @get:Synchronized @set:Synchronized
-    var result: Map<Int?, DetectedObject> = HashMap()
+    @get:Synchronized
+    @set:Synchronized
+    var result: Map<Int?, DetectedObject> = emptyMap()
+        private set
+
+    private val listeners = mutableSetOf<() -> Unit>()
+
+    @Synchronized
+    fun addListener(listener: () -> Unit) {
+        listeners.add(listener)
+    }
+
+    @Synchronized
+    fun removeListener(listener: () -> Unit) {
+        listeners.remove(listener)
+    }
+
+    fun updateResult(detectedObjects: List<DetectedObject>) {
+        synchronized(this) {
+            result = detectedObjects.associateBy { it.trackingId }
+        }
+        notifyListeners()
+    }
+
+    private fun notifyListeners() {
+        val currentListeners = synchronized(this) {
+            listeners.toList()
+        }
+        currentListeners.forEach { it() }
+    }
 }
