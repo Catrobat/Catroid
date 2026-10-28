@@ -38,6 +38,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
@@ -117,7 +118,11 @@ class SpeechAIExtensionSettingsBricksTest(
                 R.string.category_sound,
                 arrayListOf(
                     Pair(SpeakBrick::class.java, R.id.brick_speak_layout),
-                    Pair(SpeakAndWaitBrick::class.java, R.id.brick_speak_and_wait_layout)
+                    Pair(SpeakAndWaitBrick::class.java, R.id.brick_speak_and_wait_layout),
+                    Pair(
+                        SetSpeakingLanguageBrick::class.java,
+                        R.id.brick_set_speaking_language_layout
+                    )
                 )
             ),
             arrayOf(

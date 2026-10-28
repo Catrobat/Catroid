@@ -36,6 +36,7 @@ import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.stage.TextToSpeechHolder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
@@ -69,6 +70,7 @@ public class CatroidApplication extends Application {
 		CatroidKoinHelperKt.start(this, CatroidKoinHelperKt.getMyModules());
 
 		Utils.fetchSpeechRecognitionSupportedLanguages(this);
+		TextToSpeechHolder.getInstance().fetchSupportedLocales(this);
 
 		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 

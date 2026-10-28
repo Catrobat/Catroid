@@ -390,6 +390,10 @@ class FormulaEditorSensorListTest(
             listOf(
                 str(R.string.formula_editor_listening_language_sensor),
                 "", str(R.string.formula_editor_speech_recognition)
+            ),
+            listOf(
+                str(R.string.formula_editor_speaking_language_sensor),
+                "", ""
             )
         )
 

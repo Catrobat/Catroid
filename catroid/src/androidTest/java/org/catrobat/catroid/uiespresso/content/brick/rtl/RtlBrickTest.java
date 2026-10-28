@@ -145,6 +145,7 @@ import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
@@ -445,6 +446,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(StartListeningBrick.class, R.id.brick_start_listening_layout);
 
 		checkIfBrickISRtl(SetListeningLanguageBrick.class, R.id.brick_set_listening_language_layout);
+
+		checkIfBrickISRtl(SetSpeakingLanguageBrick.class, R.id.brick_set_speaking_language_layout);
 
 		checkIfBrickISRtl(PauseForBeatsBrick.class, R.id.brick_pause_for_beats_layout);
 

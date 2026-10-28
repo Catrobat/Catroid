@@ -54,6 +54,7 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
 	private String listeningLanguageTag = "";
+	private String speakingLanguageTag = "";
 
 	// Stable identifier persisted in code.xml for future-proofing (e.g. shortcut IDs).
 	// Lazily generated on first access; older projects will get a UUID assigned on next save.
@@ -277,6 +278,14 @@ public class XmlHeader implements Serializable {
 
 	public void setListeningLanguageTag(String listeningLanguageTag) {
 		this.listeningLanguageTag = listeningLanguageTag;
+	}
+
+	public String getSpeakingLanguageTag() {
+		return speakingLanguageTag;
+	}
+
+	public void setSpeakingLanguageTag(String speakingLanguageTag) {
+		this.speakingLanguageTag = speakingLanguageTag;
 	}
 
 	/**
