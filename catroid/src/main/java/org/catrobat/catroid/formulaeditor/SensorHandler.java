@@ -95,6 +95,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public static double timerPauseValue;
 
 	private static String listeningLanguageSensor;
+	private static String speakingLanguageSensor;
 
 	private SensorLoudness sensorLoudness;
 
@@ -275,7 +276,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
-		if (instance.sensorManager == null) {
+		switch (sensor) {
+			case SPEECH_RECOGNITION_LANGUAGE:
+				return listeningLanguageSensor;
+			case SPEAKING_LANGUAGE:
+				return getSpeakingLanguageSensor();
+			case USER_LANGUAGE:
+				return userLocaleTag;
+			default:
+				break;
+		}
+
+		if (instance == null || instance.sensorManager == null) {
 			return 0d;
 		}
 		float[] rotationMatrixOut = new float[16];
@@ -370,10 +382,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 			case NFC_TAG_ID:
 				return String.valueOf(NfcHandler.getLastNfcTagId());
-			case SPEECH_RECOGNITION_LANGUAGE:
-				return listeningLanguageSensor;
-			case USER_LANGUAGE:
-				return userLocaleTag;
 			case STAGE_WIDTH:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 			case STAGE_HEIGHT:
@@ -525,6 +533,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public static void setListeningLanguageSensor(String listeningLanguageTag) {
 		listeningLanguageSensor = listeningLanguageTag;
 		Log.d(TAG, "listening language sensor changed to: " + listeningLanguageSensor);
+	}
+
+	public static String getSpeakingLanguageSensor() {
+		return speakingLanguageSensor != null ? speakingLanguageSensor : Locale.getDefault().toLanguageTag();
+	}
+
+	public static void setSpeakingLanguageSensor(String speakingLanguageTag) {
+		speakingLanguageSensor = speakingLanguageTag;
+		Log.d(TAG, "speaking language sensor changed to: " + speakingLanguageSensor);
 	}
 
 	@Override

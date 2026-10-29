@@ -66,6 +66,7 @@ open class ProjectUploadController(private val projectUploadInterface: ProjectUp
         project.notesAndCredits = projectNotesAndCredits
         project.setDeviceData(context)
         project.setListeningLanguageTag()
+        project.setSpeakingLanguageTag()
         saveProjectSerial(project, context)
         val uploadIntent = createUploadIntent(projectName, projectDescription, project)
         projectUploadInterface.startUploadService(uploadIntent)

@@ -129,6 +129,7 @@ import org.catrobat.catroid.content.actions.SetCameraFocusPointAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetInstrumentAction;
 import org.catrobat.catroid.content.actions.SetListeningLanguageAction;
+import org.catrobat.catroid.content.actions.SetSpeakingLanguageAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNextLookAction;
@@ -1714,6 +1715,12 @@ public class ActionFactory extends Actions {
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
 		SetListeningLanguageAction action = action(SetListeningLanguageAction.class);
 		action.listeningLanguageTag = listeningLanguageTag;
+		return action;
+	}
+
+	public Action createSetSpeakingLanguageAction(String speakingLanguageTag) {
+		SetSpeakingLanguageAction action = action(SetSpeakingLanguageAction.class);
+		action.speakingLanguageTag = speakingLanguageTag;
 		return action;
 	}
 

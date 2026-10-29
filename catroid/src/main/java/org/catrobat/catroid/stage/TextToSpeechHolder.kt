@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage
 
+import android.content.Context
 import android.content.Intent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
@@ -32,8 +33,10 @@ import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.formulaeditor.SensorHandler
 import java.io.File
 import java.util.HashMap
+import java.util.Locale
 
 class TextToSpeechHolder private constructor() {
 
@@ -42,6 +45,7 @@ class TextToSpeechHolder private constructor() {
                 if (status == TextToSpeech.SUCCESS) {
                     utteranceProgressListenerContainer = UtteranceProgressListenerContainer()
                     textToSpeech?.setOnUtteranceProgressListener(utteranceProgressListenerContainer)
+                    forceSetLanguage()
                     stageResourceHolder.resourceInitialized()
                 } else {
                     val builder = AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
@@ -67,14 +71,66 @@ class TextToSpeechHolder private constructor() {
             textToSpeech?.shutdown()
     }
 
+    fun setLanguage(languageTag: String?) {
+        if (languageTag.isNullOrEmpty()) return
+        val locale = Locale.forLanguageTag(languageTag)
+        val result = textToSpeech?.setLanguage(locale)
+        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            Log.w(TAG, "Language $languageTag is not supported or missing data")
+        }
+    }
+
+    fun forceSetLanguage() {
+        setLanguage(SensorHandler.getSpeakingLanguageSensor())
+    }
+
     fun textToSpeech(text: String?, speechFile: File, listener: UtteranceProgressListener, speakParameter: HashMap<String, String?>) {
         if (utteranceProgressListenerContainer?.addUtteranceProgressListener(speechFile, listener,
             speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID]) == true) {
+            forceSetLanguage()
             val status = textToSpeech?.synthesizeToFile(text ?: "", speakParameter, speechFile.absolutePath)
             if (status == TextToSpeech.ERROR) {
                 Log.e(TAG, "File synthesizing failed")
             }
         }
+    }
+
+    fun fetchSupportedLocales(context: Context) {
+        if (supportedLocales.isNotEmpty()) {
+            return
+        }
+        var ttsInit: TextToSpeech? = null
+        ttsInit = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val defaultLocale = ttsInit?.defaultVoice?.locale ?: Locale.getDefault()
+                val available = ttsInit?.availableLanguages
+                if (!available.isNullOrEmpty()) {
+                    supportedLocales.clear()
+                    supportedLocales.addAll(available.sortedBy { it.displayName })
+                    supportedLocales.remove(defaultLocale)
+                    supportedLocales.add(0, defaultLocale)
+                }
+                SensorHandler.setSpeakingLanguageSensor(defaultLocale.toLanguageTag())
+                ttsInit?.shutdown()
+            }
+        }
+    }
+
+    fun getSupportedLocales(): List<Locale> {
+        if (supportedLocales.isEmpty()) {
+            val defaultLocale = Locale.getDefault()
+            return listOf(
+                defaultLocale,
+                Locale.US,
+                Locale.GERMANY,
+                Locale.UK,
+                Locale.FRANCE,
+                Locale.ITALY,
+                Locale.forLanguageTag("es-ES"),
+                Locale.forLanguageTag("zh-CN")
+            ).distinct()
+        }
+        return supportedLocales
     }
 
     fun deleteSpeechFiles() {
@@ -90,6 +146,7 @@ class TextToSpeechHolder private constructor() {
         private val TAG = TextToSpeechHolder::class.java.simpleName
         private var textToSpeech: TextToSpeech? = null
         private var utteranceProgressListenerContainer: UtteranceProgressListenerContainer? = null
+        private val supportedLocales = mutableListOf<Locale>()
         @JvmStatic
         var instance = TextToSpeechHolder()
     }

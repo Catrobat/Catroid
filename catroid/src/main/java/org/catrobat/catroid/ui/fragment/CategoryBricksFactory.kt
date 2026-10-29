@@ -174,6 +174,7 @@ import org.catrobat.catroid.content.bricks.SetFrictionBrick
 import org.catrobat.catroid.content.bricks.SetGravityBrick
 import org.catrobat.catroid.content.bricks.SetInstrumentBrick
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetMassBrick
@@ -526,6 +527,7 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)) {
             soundBrickList.add(SpeakBrick(context.getString(R.string.brick_speak_default_value)))
             soundBrickList.add(SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)))
+            soundBrickList.add(SetSpeakingLanguageBrick())
         }
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
             soundBrickList.add(

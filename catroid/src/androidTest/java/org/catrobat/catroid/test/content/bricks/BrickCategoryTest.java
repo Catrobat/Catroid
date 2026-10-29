@@ -169,6 +169,7 @@ import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.content.bricks.SetInstrumentBrick;
 import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
@@ -419,6 +420,7 @@ public class BrickCategoryTest {
 						AskSpeechBrick.class,
 						StartListeningBrick.class,
 						SetListeningLanguageBrick.class,
+						SetSpeakingLanguageBrick.class,
 						SetInstrumentBrick.class,
 						PlayNoteForBeatsBrick.class,
 						PlayDrumForBeatsBrick.class,

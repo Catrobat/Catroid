@@ -293,12 +293,22 @@ class CategoryListItems {
     }
 
     private fun getSpeechRecognitionItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
-        return if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(
-                activity.applicationContext
-            )
-        ) {
+        val speechRecognitionEnabled = SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(
+            activity.applicationContext
+        )
+        val speechSynthetizationEnabled = SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(
+            activity.applicationContext
+        )
+        val items = mutableListOf<Int>()
+        if (speechRecognitionEnabled) {
+            items.add(R.string.formula_editor_listening_language_sensor)
+        }
+        if (speechSynthetizationEnabled) {
+            items.add(R.string.formula_editor_speaking_language_sensor)
+        }
+        return if (items.isNotEmpty()) {
             addHeader(
-                toCategoryListItems(activity, SENSORS_SPEECH_RECOGNITION),
+                toCategoryListItems(activity, items),
                 activity.getString(R.string.formula_editor_speech_recognition)
             )
         } else {
@@ -914,8 +924,5 @@ class CategoryListItems {
             R.string.formula_editor_sensor_gamepad_left_pressed,
             R.string.formula_editor_sensor_gamepad_right_pressed
         )
-
-        private val SENSORS_SPEECH_RECOGNITION =
-            listOf(R.string.formula_editor_listening_language_sensor)
     }
 }

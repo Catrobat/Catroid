@@ -57,6 +57,7 @@ object FormulaElementResources {
             Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA -> Brick.TEXT_DETECTION
 
             Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
+            Sensors.SPEAKING_LANGUAGE -> Brick.TEXT_TO_SPEECH
 
             else -> return
         }.let { resources.add(it) }
