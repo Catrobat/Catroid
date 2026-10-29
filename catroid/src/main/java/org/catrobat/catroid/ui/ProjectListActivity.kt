@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,9 +34,14 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment
 
 class ProjectListActivity : BaseCastActivity() {
     private lateinit var binding: ActivityRecyclerBinding
+    private var isUndoMenuItemVisible = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            savedInstanceStateExpected = true
+        }
         super.onCreate(savedInstanceState)
+        isUndoMenuItemVisible = savedInstanceState?.getBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, false) ?: false
         binding = ActivityRecyclerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar.toolbar)
@@ -70,18 +75,43 @@ class ProjectListActivity : BaseCastActivity() {
             .commit()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_undo).isVisible = isUndoMenuItemVisible
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_projects_activity, menu)
         menu.findItem(R.id.merge).isVisible = BuildConfig.FEATURE_MERGE_ENABLED
         return super.onCreateOptionsMenu(menu)
     }
 
+    fun showUndo(visible: Boolean) {
+        isUndoMenuItemVisible = visible
+        if (::binding.isInitialized) {
+            val menuItem = binding.toolbar.toolbar.menu.findItem(R.id.menu_undo)
+            menuItem?.isVisible = visible
+
+            binding.toolbar.toolbar.invalidate()
+            binding.toolbar.toolbar.requestLayout()
+        } else {
+            invalidateOptionsMenu()
+        }
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
+            (supportFragmentManager.findFragmentByTag(ProjectListFragment.TAG) as? ProjectListFragment)
+                ?.clearDeletedProjectUndo()
             super.onBackPressed()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -93,5 +123,6 @@ class ProjectListActivity : BaseCastActivity() {
     companion object {
         const val IMPORT_LOCAL_INTENT: String = "merge"
         val TAG: String = ProjectListActivity::class.java.simpleName
+        private const val BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE = "isUndoMenuItemVisible"
     }
 }
