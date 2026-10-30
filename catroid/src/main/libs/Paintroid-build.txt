@@ -1,0 +1,29 @@
+Paintroid libraries for the Catroid 1.4.2 photo-permission hotfix
+
+Source: https://github.com/wslany/Paintroid/tree/hotfix/catroid-1.4.2-media-picker
+Commit: fab10b17d48a81bc8bf8f672bcaef2d16a052089
+Upstream PR: https://github.com/Catrobat/Paintroid/pull/1373
+Base: Paintroid v2.12.0, e656dab87cffa7111f91a8ffb1d88cd52bd0e60c
+
+The previously bundled AAR has no Git commit ID. v2.12.0 was the strongest
+source match found from compiler metadata, source line mappings and resources.
+
+Build with Java 11 and the checked-in Gradle wrapper:
+  ./gradlew --no-daemon -Dorg.gradle.jvmargs=-Xmx2g :Paintroid:assembleSignedRelease :colorpicker:assembleSignedRelease
+
+Both AARs come from the same source checkout. The colorpicker source is unchanged.
+The signedRelease filename refers to the Gradle library variant.
+
+SHA-256:
+  Paintroid-signedRelease.aar
+    5ac57b0e1067ec41d4eb79d9bd7a2c6519ca64b45052f8b5a26e20721c867c3f
+  colorpicker-signedRelease.aar
+    31c79e95fcde7d53abe8f55ce0eb88aa4df6041a068988b596034bb5b24f5fcb
+
+Paintroid removes READ_MEDIA_IMAGES from its manifests and runtime gate.
+System-picker imports/replacements and modern saves need no broad photo access.
+Legacy READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are capped at API 28.
+
+Paintroid validation: 265 unit tests, 3 FileIO tests on Android 14, and
+PMD, Checkstyle, lint and Detekt passed. Catroid integration/device checks
+are tracked separately in the Catroid pull request.
