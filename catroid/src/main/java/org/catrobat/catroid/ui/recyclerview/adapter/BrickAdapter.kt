@@ -22,18 +22,27 @@
  */
 package org.catrobat.catroid.ui.recyclerview.adapter
 
+import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.annotation.IntDef
+import androidx.core.content.ContextCompat
+import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
@@ -53,7 +62,7 @@ class BrickAdapter(private val sprite: Sprite) :
     AdapterView.OnItemClickListener,
     OnItemLongClickListener {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
-    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY)
+    @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY, COLLAPSE_EXPAND)
     internal annotation class CheckBoxMode
 
     @CheckBoxMode
@@ -70,6 +79,7 @@ class BrickAdapter(private val sprite: Sprite) :
     private var selectionListener: SelectionListener? = null
 
     val items: MutableList<Brick> = ArrayList()
+    private val squashedBricks = mutableSetOf<Brick>()
 
     init {
         updateItems(sprite)
@@ -81,6 +91,9 @@ class BrickAdapter(private val sprite: Sprite) :
         const val ALL = 1
         const val SCRIPTS_ONLY = 2
         const val CONNECTED_ONLY = 3
+        const val COLLAPSE_EXPAND = 4
+        const val COLLAPSE_INDICATOR_TAG = "collapse_indicator"
+        const val SQUASHED_HEIGHT_DP = 16
 
         @JvmStatic
         fun colorAsCommentedOut(background: Drawable) {
@@ -117,7 +130,68 @@ class BrickAdapter(private val sprite: Sprite) :
             script.setParents()
             script.addToFlatList(items)
         }
+        filterCollapsedCompositeBricks()
         notifyDataSetChanged()
+    }
+
+    private fun filterCollapsedCompositeBricks() {
+        val filteredItems = ArrayList<Brick>()
+        squashedBricks.clear()
+        
+        var skipDepth = 0
+        var skipEndBricks = 0
+        var squashedRemaining = 0
+
+        for (item in items) {
+            if (item is ScriptBrick) {
+                filteredItems.add(item)
+                squashedRemaining = if (item.script.isCollapsed) 3 else 0
+                skipDepth = 0
+                continue
+            }
+            
+            if (squashedRemaining > 0 && skipDepth == 0) {
+                filteredItems.add(item)
+                squashedBricks.add(item)
+                squashedRemaining--
+                continue
+            }
+
+            if (skipDepth > 0) {
+                if (item is CompositeBrick) {
+                    skipDepth++
+                    skipEndBricks++
+                }
+                if (item is EndBrick) {
+                    if (skipEndBricks > 0) {
+                        skipEndBricks--
+                    } else {
+                        skipDepth--
+                        if (skipDepth == 0) {
+                            filteredItems.add(item)
+                            continue
+                        }
+                    }
+                }
+                
+                if (squashedRemaining > 0) {
+                    filteredItems.add(item)
+                    squashedBricks.add(item)
+                    squashedRemaining--
+                }
+                continue
+            }
+
+            filteredItems.add(item)
+            if (item is CompositeBrick && item is BrickBaseType && (item as BrickBaseType).isCollapsed) {
+                skipDepth = 1
+                skipEndBricks = 0
+                squashedRemaining = 3
+            }
+        }
+
+        items.clear()
+        items.addAll(filteredItems)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -150,7 +224,122 @@ class BrickAdapter(private val sprite: Sprite) :
         }
         item.checkBox.isChecked = selectionManager.isPositionSelected(position)
         item.checkBox.isEnabled = viewStateManager.isEnabled(position)
+
+        addCollapseIndicator(itemView, item)
+
         return itemView
+    }
+
+    private fun addCollapseIndicator(itemView: View, item: Brick) {
+        val brickViewContainer = itemView.findViewWithTag<View>("brick_view_container")
+            ?: (itemView as? ViewGroup)?.let { if (it.childCount > 1) it.getChildAt(1) else it.getChildAt(0) }
+            ?: return
+
+        val isCollapsed = (item is ScriptBrick && item.script.isCollapsed) ||
+            (item is CompositeBrick && item is BrickBaseType && (item as BrickBaseType).isCollapsed)
+        val isSquashed = squashedBricks.contains(item)
+
+        val existingIndicator = itemView.findViewWithTag<View>(COLLAPSE_INDICATOR_TAG)
+        if (existingIndicator != null) {
+            (existingIndicator.parent as? ViewGroup)?.removeView(existingIndicator)
+        }
+
+        if (isSquashed) {
+            val density = itemView.resources.displayMetrics.density
+            val squashedHeight = (SQUASHED_HEIGHT_DP * density).toInt()
+            itemView.layoutParams = AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT,
+                squashedHeight
+            )
+            if (itemView is ViewGroup) {
+                itemView.clipChildren = true
+                // Hide checkbox
+                if (itemView.childCount > 0) {
+                    itemView.getChildAt(0).visibility = View.GONE
+                }
+                // Show colored brick layout but hide its internal text/icons
+                brickViewContainer.visibility = View.VISIBLE
+                if (brickViewContainer is ViewGroup) {
+                    for (i in 0 until brickViewContainer.childCount) {
+                        brickViewContainer.getChildAt(i).visibility = View.GONE
+                    }
+                }
+            }
+            return
+        } else {
+            // Reset to normal state
+            itemView.layoutParams = AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT,
+                AbsListView.LayoutParams.WRAP_CONTENT
+            )
+            if (itemView is ViewGroup) {
+                itemView.clipChildren = false
+                if (itemView.childCount > 0) {
+                    itemView.getChildAt(0).visibility = View.VISIBLE
+                }
+                brickViewContainer.visibility = View.VISIBLE
+                if (brickViewContainer is ViewGroup) {
+                    for (i in 0 until brickViewContainer.childCount) {
+                        val child = brickViewContainer.getChildAt(i)
+                        if (child.tag != COLLAPSE_INDICATOR_TAG) {
+                            child.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+
+        val canCollapse = item is ScriptBrick || item is CompositeBrick
+        if (!canCollapse) return
+
+        val containerParent = brickViewContainer.parent as? ViewGroup ?: return
+        val containerIndex = containerParent.indexOfChild(brickViewContainer)
+
+        val indicatorIcon = ImageView(itemView.context).apply {
+            tag = COLLAPSE_INDICATOR_TAG
+            setImageResource(if (isCollapsed) R.drawable.ic_collapse else R.drawable.ic_expand)
+            scaleType = ImageView.ScaleType.CENTER_INSIDE
+            val density = resources.displayMetrics.density
+            layoutParams = FrameLayout.LayoutParams(
+                (32 * density).toInt(),
+                (32 * density).toInt()
+            ).apply {
+                gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                marginEnd = (8 * density).toInt()
+            }
+            setColorFilter(Color.WHITE)
+            alpha = if (isCollapsed) 0.8f else 0.5f
+
+            setOnClickListener {
+                if (item is ScriptBrick) {
+                    item.script.isCollapsed = !item.script.isCollapsed
+                } else if (item is CompositeBrick && item is BrickBaseType) {
+                    (item as BrickBaseType).isCollapsed = !(item as BrickBaseType).isCollapsed
+                }
+                updateItems(sprite)
+            }
+        }
+
+        val wrapper: FrameLayout
+        if (containerParent is FrameLayout && containerParent.tag == "collapse_wrapper") {
+            wrapper = containerParent
+        } else {
+            wrapper = FrameLayout(itemView.context).apply {
+                tag = "collapse_wrapper"
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1.0f
+                )
+            }
+            containerParent.removeView(brickViewContainer)
+            wrapper.addView(brickViewContainer)
+            containerParent.addView(wrapper, containerIndex)
+        }
+
+        if (wrapper.findViewWithTag<View>(COLLAPSE_INDICATOR_TAG) == null) {
+            wrapper.addView(indicatorIcon)
+        }
     }
 
     private fun checkBoxClickListener(item: Brick, itemView: ViewGroup, position: Int) {
@@ -165,6 +354,7 @@ class BrickAdapter(private val sprite: Sprite) :
             CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
             ALL -> handleCheckBoxModeAll(item)
             SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
+            COLLAPSE_EXPAND -> handleCheckBoxModeAll(item)
         }
     }
 
@@ -346,6 +536,42 @@ class BrickAdapter(private val sprite: Sprite) :
             setSelectionTo(items[i].isCommentedOut, i)
         }
         notifyDataSetChanged()
+    }
+
+    fun selectAllCollapsedScripts() {
+        for (i in items.indices) {
+            val item = items[i]
+            if (item is ScriptBrick) {
+                val script = item.script
+                if (script != null && script.isCollapsed) {
+                    selectionManager.setSelectionTo(true, i)
+                }
+            } else if (item is CompositeBrick && item is BrickBaseType) {
+                if ((item as BrickBaseType).isCollapsed) {
+                    selectionManager.setSelectionTo(true, i)
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun toggleCollapseExpand(selectedItems: List<Brick>) {
+        for (brick in selectedItems) {
+            if (brick is ScriptBrick) {
+                val script = brick.script
+                if (script != null) {
+                    script.isCollapsed = !script.isCollapsed
+                }
+            } else if (brick is CompositeBrick && brick is BrickBaseType) {
+                (brick as BrickBaseType).isCollapsed = !(brick as BrickBaseType).isCollapsed
+            }
+        }
+        updateItemsFromCurrentScripts()
+    }
+
+    private fun handleCheckBoxModeCollapseExpand(item: Brick) {
+        item.checkBox.visibility = View.VISIBLE
+        item.disableSpinners()
     }
 
     fun addItem(position: Int, item: Brick?) {
