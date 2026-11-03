@@ -915,6 +915,27 @@ public final class XstreamSerializer {
 		return xmlString;
 	}
 
+	public String getXmlAsStringFromSprite(Sprite sprite) {
+		loadSaveLock.lock();
+		try {
+			return xstream.toXML(sprite);
+		} finally {
+			loadSaveLock.unlock();
+		}
+	}
+
+	public Sprite getSpriteFromXmlString(String xml) {
+		loadSaveLock.lock();
+		try {
+			return (Sprite) xstream.fromXML(xml);
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to parse sprite XML from string.", e);
+			return null;
+		} finally {
+			loadSaveLock.unlock();
+		}
+	}
+
 	public static String extractDefaultSceneNameFromXml(File projectDir) {
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 

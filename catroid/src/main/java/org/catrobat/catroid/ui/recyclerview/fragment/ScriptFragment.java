@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.aiassist.merge.AiTutorSpriteMerger;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -180,6 +181,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private transient List<UserVariable> savedLocalUserVariables;
 	private transient List<UserList> savedLocalLists;
 
+	private enum LoadSource {UNDO, AI_TUTOR}
+
+	private LoadSource pendingLoadSource = null;
+
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		MenuInflater inflater = mode.getMenuInflater();
@@ -269,7 +274,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 		int bottomListPadding;
-		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED
+				&& SettingsFragment.isAiTutorSharedPreferenceEnabled(getContext())) {
 			bottomListPadding = (int) (ScreenValues.currentScreenResolution.getHeight() / 2.5);
 		} else {
 			bottomListPadding = ScreenValues.currentScreenResolution.getHeight() / 3;
@@ -391,7 +397,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 
-		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+		if (BuildConfig.FEATURE_AI_ASSIST_ENABLED
+				&& SettingsFragment.isAiTutorSharedPreferenceEnabled(getContext())) {
 			BottomBar.showAiAssistButton(getActivity());
 		}
 
@@ -922,23 +929,52 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null) {
-					spriteActivity.setUndoMenuItemVisibility(false);
-					spriteActivity.showUndo(false);
-				}
-				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
+				setUndoControlsVisible(spriteActivity, false);
+				pendingLoadSource = LoadSource.UNDO;
+				reloadProjectFromDisk();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
 				ToastUtil.showError(context, R.string.error_load_project);
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null && undoCodeFile.exists()) {
-					spriteActivity.setUndoMenuItemVisibility(true);
-					spriteActivity.showUndo(true);
+				if (undoCodeFile.exists()) {
+					setUndoControlsVisible(spriteActivity, true);
 				}
 			}
 		}
 	}
 
+	private void reloadProjectFromDisk() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Context context = getContext();
+		if (!isAdded() || context == null) {
+			return;
+		}
+		new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
+	}
+
+	public void applyProjectFromAiTutor(String spriteXml) {
+		Sprite newSprite = XstreamSerializer.getInstance().getSpriteFromXmlString(spriteXml);
+		if (newSprite == null || !copyProjectForUndoOption()) {
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			return;
+		}
+		showUndo(true);
+
+		ProjectManager pm = ProjectManager.getInstance();
+		Scene currentScene = pm.getCurrentlyEditedScene();
+		Sprite currentSprite = pm.getCurrentSprite();
+		int index = currentScene.getSpriteList().indexOf(currentSprite);
+		if (index >= 0) {
+			AiTutorSpriteMerger.preserveOriginalIdentityAndMedia(currentSprite, newSprite);
+			currentScene.getSpriteList().set(index, newSprite);
+			pm.setCurrentSprite(newSprite);
+		}
+
+		XstreamSerializer.getInstance().saveProject(pm.getCurrentProject());
+
+		pendingLoadSource = LoadSource.AI_TUTOR;
+		reloadProjectFromDisk();
+	}
 
 	@Override
 	public void onLoadFinished(boolean success) {
@@ -950,33 +986,54 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (!success) {
 			Log.e(TAG, "Loading project after undo failed.");
 			ToastUtil.showError(getContext(), R.string.error_load_project);
-			if (spriteActivity != null) {
-				spriteActivity.setUndoMenuItemVisibility(true);
-				spriteActivity.showUndo(true);
-			}
+			setUndoControlsVisible(spriteActivity, true);
 			return;
 		}
 
 		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
 			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+			pendingLoadSource = null;
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			setUndoControlsVisible(spriteActivity, true);
+			return;
+		}
+
+		if (spriteActivity != null) {
+			spriteActivity.refreshFromProjectManager();
 		}
 
 		loadVariables();
 
-		if (spriteActivity != null) {
-			spriteActivity.setUndoMenuItemVisibility(false);
-			spriteActivity.showUndo(false);
-		}
+		boolean isAiTutorLoad = (pendingLoadSource == LoadSource.AI_TUTOR);
+		pendingLoadSource = null;
 
-		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
-		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
-			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
+		if (!isAiTutorLoad) {
+			setUndoControlsVisible(spriteActivity, false);
+			deleteUndoCodeFile();
 		}
 
 		if (getView() == null || listView == null) {
 			return;
 		}
 		refreshFragmentAfterUndo();
+
+		if (isAiTutorLoad) {
+			setUndoControlsVisible(spriteActivity, true);
+		}
+	}
+
+	private void setUndoControlsVisible(SpriteActivity spriteActivity, boolean visible) {
+		if (spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(visible);
+			spriteActivity.showUndo(visible);
+		}
+	}
+
+	private void deleteUndoCodeFile() {
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+		if (undoCodeFile.exists() && !undoCodeFile.delete()) {
+			Log.w(TAG, "Could not delete undo code file: " + undoCodeFile.getAbsolutePath());
+		}
 	}
 
 	private void saveVariables() {

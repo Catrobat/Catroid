@@ -33,12 +33,12 @@ class ErrorInterceptor : Interceptor {
         val response = chain.proceed(chain.request())
 
         if (response.isSuccessful.not() and response.isRedirect.not()) {
-            val contentType = response.body()?.contentType()
-            val body = response.body()?.toString() ?: ""
+            val contentType = response.body?.contentType()
+            val body = response.body?.toString() ?: ""
 
             return response.newBuilder()
                 .body(ResponseBody.create(contentType, body))
-                .code(response.code())
+                .code(response.code)
                 .build()
         }
         return response

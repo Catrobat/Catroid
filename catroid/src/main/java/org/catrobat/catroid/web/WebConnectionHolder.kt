@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.web
 
-import okhttp3.ConnectionSpec.CLEARTEXT
-import okhttp3.ConnectionSpec.COMPATIBLE_TLS
-import okhttp3.ConnectionSpec.MODERN_TLS
+import okhttp3.ConnectionSpec
+import okhttp3.ConnectionSpec.Companion.CLEARTEXT
+import okhttp3.ConnectionSpec.Companion.COMPATIBLE_TLS
+import okhttp3.ConnectionSpec.Companion.MODERN_TLS
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import java.util.ArrayList
@@ -48,8 +49,8 @@ class WebConnectionHolder {
             .dispatcher(Dispatcher())
             .build()
 
-        okHttpClient.dispatcher().maxRequests = MAX_CONNECTIONS
-        okHttpClient.dispatcher().maxRequestsPerHost = MAX_CONNECTIONS
+        okHttpClient.dispatcher.maxRequests = MAX_CONNECTIONS
+        okHttpClient.dispatcher.maxRequestsPerHost = MAX_CONNECTIONS
     }
 
     @Synchronized
