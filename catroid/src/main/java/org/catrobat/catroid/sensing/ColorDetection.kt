@@ -45,6 +45,7 @@ import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.stage.PenActor
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 
@@ -67,16 +68,19 @@ abstract class ColorDetection(
     protected fun createPicture(
         lookList: List<Look>,
         projectionMatrix: Matrix4,
-        batch: SpriteBatch
+        batch: SpriteBatch,
+        includePenLayer: Boolean = false
     ):
         Pixmap {
+        val penActor = if (includePenLayer) stageListener?.penActor else null
+        penActor?.updatePenBuffer()
         val buffer = FrameBuffer(Pixmap.Format.RGBA8888, bufferWidth, bufferHeight, false)
 
         batch.projectionMatrix = projectionMatrix
         buffer.begin()
         batch.begin()
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        drawSprites(lookList, batch)
+        drawSprites(lookList, batch, penActor)
         batch.end()
         val pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, buffer.width, buffer.height)
         buffer.end()
@@ -84,9 +88,19 @@ abstract class ColorDetection(
         return pixmap
     }
 
-    private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
+    private fun drawSprites(lookList: List<Look>, batch: SpriteBatch, penActor: PenActor?) {
+        var penActorDrawn = false
         val sortedLookList = lookList.sortedBy { it.zIndex }
-        sortedLookList.forEach { it.draw(batch, 1f) }
+        sortedLookList.forEach { look ->
+            if (penActor != null && !penActorDrawn && penActor.zIndex < look.zIndex) {
+                penActor.drawPenBuffer(batch, 1f)
+                penActorDrawn = true
+            }
+            look.draw(batch, 1f)
+        }
+        if (penActor != null && !penActorDrawn) {
+            penActor.drawPenBuffer(batch, 1f)
+        }
     }
 
     protected fun createViewport(
