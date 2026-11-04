@@ -63,7 +63,9 @@ class ColorCollisionDetection(
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
         val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
-        matcher.stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
+        matcher.stagePixmap = projectionMatrix?.let {
+            createPicture(lookList, it, batch, includePenLayer = true)
+        }
         val wasLookVisible = look.isLookVisible
         look.isLookVisible = true
         matcher.spritePixmap = projectionMatrix?.let {

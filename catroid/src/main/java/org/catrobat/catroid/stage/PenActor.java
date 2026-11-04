@@ -60,19 +60,27 @@ public class PenActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		updatePenBuffer();
+
+		batch.end();
+		batch.begin();
+		drawPenBuffer(batch, parentAlpha);
+	}
+
+	public void updatePenBuffer() {
 		buffer.begin();
 		for (Sprite sprite : StageActivity.stageListener.getSpritesFromStage()) {
 			PenConfiguration pen = sprite.penConfiguration;
 			pen.drawLinesForSprite(screenRatio, getStage().getViewport().getCamera());
 		}
 		buffer.end();
+	}
 
-		batch.end();
+	public void drawPenBuffer(Batch batch, float parentAlpha) {
 		TextureRegion region = new TextureRegion(buffer.getColorBufferTexture());
 		region.flip(false, true);
 		Image image = new Image(region);
 		image.setPosition(-buffer.getWidth() / 2, -buffer.getHeight() / 2);
-		batch.begin();
 		image.draw(batch, parentAlpha);
 	}
 

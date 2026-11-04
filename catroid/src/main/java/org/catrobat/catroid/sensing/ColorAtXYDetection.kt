@@ -119,7 +119,9 @@ class ColorAtXYDetection(
 
         val batch = SpriteBatch()
         val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
-        val stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
+        val stagePixmap = projectionMatrix?.let {
+            createPicture(lookList, it, batch, includePenLayer = true)
+        }
         val color = stagePixmap?.let { Color(stagePixmap.getPixel(0, 0)) } ?: return HEX_COLOR_BLACK
         return tryRgbaColorToRGBHexString(color, batch, stagePixmap)
     }
