@@ -515,6 +515,7 @@ class CategoryListItems {
             R.string.formula_editor_function_list_item,
             R.string.formula_editor_function_contains,
             R.string.formula_editor_function_index_of_item,
+            R.string.formula_editor_function_is_empty,
             R.string.formula_editor_function_flatten
         )
         private val LIST_PARAMS = listOf(
@@ -522,6 +523,7 @@ class CategoryListItems {
             R.string.formula_editor_function_list_item_parameter,
             R.string.formula_editor_function_contains_parameter,
             R.string.formula_editor_function_index_of_item_parameter,
+            R.string.formula_editor_function_is_empty_parameter,
             R.string.formula_editor_function_flatten_parameter
         )
         private val LOGIC_BOOL = listOf(
