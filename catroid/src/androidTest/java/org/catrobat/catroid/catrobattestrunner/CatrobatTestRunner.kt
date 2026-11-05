@@ -44,6 +44,7 @@ import org.junit.runners.Parameterized
 import java.io.File
 import java.io.IOException
 import java.util.ArrayList
+import org.catrobat.catroid.test.utils.ParameterizedTestData
 
 @RunWith(Parameterized::class)
 class CatrobatTestRunner {
@@ -70,7 +71,11 @@ class CatrobatTestRunner {
         @JvmStatic
         @Parameterized.Parameters(name = "{0} - {1}")
         @Throws(IOException::class)
-        fun data(): Iterable<Array<Any>> = getCatrobatAssetsFromPath(TEST_ASSETS_ROOT)
+        fun data(): Iterable<Array<Any>> = ParameterizedTestData.requireNonEmpty(
+            getCatrobatAssetsFromPath(TEST_ASSETS_ROOT),
+            CatrobatTestRunner::class.java,
+            "Catrobat test assets from assets/catrobatTests"
+        )
 
         @Throws(IOException::class)
         private fun getCatrobatAssetsFromPath(path: String): List<Array<Any>> {
