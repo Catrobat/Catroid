@@ -283,6 +283,29 @@ public class ParserTestUserLists {
 	}
 
 	@Test
+	public void testFunctionIsEmpty() {
+		assertTrue(Functions.LIST.contains(Functions.IS_EMPTY));
+		assertTrue(Functions.isBoolean(Functions.IS_EMPTY));
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.IS_EMPTY, InternTokenType.USER_LIST,
+				"[]", 1d, scope);
+
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.IS_EMPTY, InternTokenType.USER_LIST,
+				PROJECT_USER_LIST_NAME, 1d, scope);
+
+		List<Object> values = new ArrayList<>();
+		values.add(42d);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(values);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.IS_EMPTY, InternTokenType.USER_LIST,
+				PROJECT_USER_LIST_NAME, 0d, scope);
+
+		values.add("text");
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(values);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.IS_EMPTY, InternTokenType.USER_LIST,
+				PROJECT_USER_LIST_NAME, 0d, scope);
+	}
+
+	@Test
 	public void testFunctionContains() {
 		List<Object> userListValuesMultipleNumbers = new ArrayList<>();
 		userListValuesMultipleNumbers.add(1.0);

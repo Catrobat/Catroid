@@ -310,6 +310,7 @@
         <item>@string/formula_editor_function_floor</item>
         <item>@string/formula_editor_function_if_then_else</item>
         <item>@string/formula_editor_function_index_of_item</item>
+        <item>@string/formula_editor_function_is_empty</item>
         <item>@string/formula_editor_function_join</item>
         <item>@string/formula_editor_function_join3</item>
         <item>@string/formula_editor_function_length</item>

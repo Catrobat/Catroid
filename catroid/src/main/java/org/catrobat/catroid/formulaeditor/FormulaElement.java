@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025  The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -328,6 +328,7 @@ public class FormulaElement implements Serializable {
 				&& !element.value.equals(Functions.NUMBER_OF_ITEMS.name())
 				&& !element.value.equals(Functions.LIST_ITEM.name())
 				&& !element.value.equals(Functions.INDEX_OF_ITEM.name())
+				&& !element.value.equals(Functions.IS_EMPTY.name())
 				&& !element.value.equals(Functions.FLATTEN.name()));
 	}
 
@@ -471,6 +472,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionContains(arguments.get(1), scope);
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(arguments.get(0), scope);
+			case IS_EMPTY:
+				return interpretFunctionIsEmpty(scope);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(arguments.get(0), scope);
 			case FLATTEN:
@@ -531,6 +534,18 @@ public class FormulaElement implements Serializable {
 			return (double) handleNumberOfItemsOfUserListParameter(userList);
 		}
 		return interpretFunctionLength(left, scope);
+	}
+
+	private Object interpretFunctionIsEmpty(Scope scope) {
+		if (leftChild == null || leftChild.type != ElementType.USER_LIST) {
+			return FALSE;
+		}
+
+		UserList userList = getUserListOfChild(leftChild, scope);
+		if (userList == null && "[]".equals(leftChild.value)) {
+			return TRUE;
+		}
+		return userList != null && userList.getValue().isEmpty() ? TRUE : FALSE;
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(UserList userList) {

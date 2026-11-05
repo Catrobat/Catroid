@@ -1911,6 +1911,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string formatted="false" name="formula_editor_function_number_of_items">number of items</string>
     <string formatted="false" name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string formatted="false" name="formula_editor_function_is_empty">is empty</string>
+    <string formatted="false" name="formula_editor_function_is_empty_parameter">( [] )</string>
     <string formatted="false" name="formula_editor_function_flatten">flatten</string>
     <string formatted="false" name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string formatted="false" name="formula_editor_function_collision">touches actor or object</string>

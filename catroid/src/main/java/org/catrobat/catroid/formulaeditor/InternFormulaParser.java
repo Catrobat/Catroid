@@ -333,7 +333,12 @@ public class InternFormulaParser {
 
 		if (currentToken.isFunctionParameterBracketOpen()) {
 			getNextToken();
-			functionTree.setLeftChild(termList(scope));
+			if (isEmptyListLiteral(scope, functionTree)) {
+				functionTree.setLeftChild(new FormulaElement(FormulaElement.ElementType.USER_LIST, "[]", null));
+				getNextToken();
+			} else {
+				functionTree.setLeftChild(termList(scope));
+			}
 			if (currentToken.isFunctionParameterDelimiter()) {
 				getNextToken();
 				functionTree.setRightChild(termList(scope));
@@ -348,6 +353,13 @@ public class InternFormulaParser {
 			getNextToken();
 		}
 		return functionTree;
+	}
+
+	private boolean isEmptyListLiteral(Scope scope, FormulaElement functionTree) {
+		return Functions.IS_EMPTY.name().equals(functionTree.getValue())
+				&& currentToken.isUserList()
+				&& "[]".equals(currentToken.getTokenStringValue())
+				&& UserDataWrapper.getUserList("[]", scope) == null;
 	}
 
 	private String number() throws InternFormulaParserException {
