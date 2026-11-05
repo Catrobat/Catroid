@@ -72,6 +72,10 @@ public class InternFormulaKeyboardAdapter {
 			return buildString(name);
 		}
 
+		if (resource == R.string.formula_editor_function_is_empty) {
+			return buildSingleParameterFunction(Functions.IS_EMPTY, USER_LIST, "[]");
+		}
+
 		switch (resource) {
 			case R.id.formula_editor_keyboard_0:
 				return buildNumber("0");
