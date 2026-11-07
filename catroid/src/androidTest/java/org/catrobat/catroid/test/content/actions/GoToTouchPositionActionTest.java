@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,6 +53,7 @@ public class GoToTouchPositionActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TouchUtil.reset();
 		sprite = new Sprite("testSprite");
 		dummySprite = new Sprite("dummySprite");
 		action = sprite.getActionFactory().createGoToAction(sprite, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
@@ -70,6 +71,22 @@ public class GoToTouchPositionActionTest {
 
 		action.act(1f);
 
+		assertEquals(EXPECTED_X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(EXPECTED_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	@Test
+	public void testActionWaitsUntilTouchExists() {
+		sprite.look.setXInUserInterfaceDimensionUnit(0f);
+		sprite.look.setYInUserInterfaceDimensionUnit(0f);
+
+		assertEquals(false, action.act(1f));
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		TouchUtil.setDummyTouchForTest(EXPECTED_X_POSITION, EXPECTED_Y_POSITION);
+
+		assertEquals(true, action.act(1f));
 		assertEquals(EXPECTED_X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(EXPECTED_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
