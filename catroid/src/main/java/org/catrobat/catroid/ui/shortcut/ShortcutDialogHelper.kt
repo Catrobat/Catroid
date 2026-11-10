@@ -210,13 +210,14 @@ object ShortcutDialogHelper {
             FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         )
-        val isCaseOnlyRename = projectName.equals(newName, ignoreCase = true)
-        val isSameUnderlyingDirectory = isCaseOnlyRename && try {
+        val isCaseOnlyRename = projectName.equals(newName, ignoreCase = true) ||
+            projectDir.name.equals(destinationDir.name, ignoreCase = true)
+        val isSameUnderlyingDirectory = (isCaseOnlyRename || destinationDir.name == projectDir.name) && try {
             destinationDir.canonicalPath == projectDir.canonicalPath
         } catch (_: java.io.IOException) {
-            true
+            isCaseOnlyRename
         } catch (_: SecurityException) {
-            true
+            isCaseOnlyRename
         }
         if (destinationDir.exists() && !isSameUnderlyingDirectory) {
             ToastUtil.showError(context, R.string.name_already_exists)

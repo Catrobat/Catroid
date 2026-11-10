@@ -82,10 +82,9 @@ fun renameProject(projectDirectory: File, destinationName: String): File? {
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     return try {
-        if (projectDirectory.renameTo(destinationDirectory)) {
-            return true
-        }
-        if (projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true)) {
+        if (projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true) &&
+            projectDirectory.name != destinationDirectory.name
+        ) {
             val tempDirectory = File(
                 projectDirectory.parentFile,
                 "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
@@ -98,8 +97,9 @@ fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
                     Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
                 }
             }
+            return false
         }
-        false
+        projectDirectory.renameTo(destinationDirectory)
     } catch (e: IOException) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false

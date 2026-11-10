@@ -45,8 +45,10 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.projectSaveLock
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.io.asynctask.tryRenameTo
 import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
+import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -539,6 +541,93 @@ class ShortcutDialogHelperTest {
                 activity
             )
             assertEquals("Unsaved memory edit that must be flushed", loadedProject.description)
+        } finally {
+            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
+            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
+            oldProjectDir.deleteRecursively()
+            newProjectDir.deleteRecursively()
+        }
+    }
+
+    @Test
+    fun `tryRenameTo executes temporary hop for case-only rename`() {
+        val rootDir = activity.filesDir
+        val sourceDir = File(rootDir, "testcasehop").apply { mkdirs() }
+        val destDir = File(rootDir, "TestCaseHop")
+
+        val result = tryRenameTo(sourceDir, destDir)
+        assertTrue(result)
+        assertTrue(destDir.exists())
+        assertEquals("TestCaseHop", destDir.canonicalFile.name)
+
+        destDir.deleteRecursively()
+    }
+
+    @Test
+    fun `tryRenameTo standard rename succeeds`() {
+        val rootDir = activity.filesDir
+        val sourceDir = File(rootDir, "standard_old").apply { mkdirs() }
+        val destDir = File(rootDir, "standard_new")
+
+        val result = tryRenameTo(sourceDir, destDir)
+        assertTrue(result)
+        assertFalse(sourceDir.exists())
+        assertTrue(destDir.exists())
+
+        destDir.deleteRecursively()
+    }
+
+    @Test
+    fun `pin button with encoded special character case-only rename succeeds`() {
+        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val encodedOldName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("dialog:case")
+        val encodedNewName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Dialog:Case")
+        val oldProjectDir = File(rootDir, encodedOldName).apply { mkdirs() }
+        val newProjectDir = File(rootDir, encodedNewName)
+
+        val project = Project(activity, "dialog:case")
+        project.directory = oldProjectDir
+        XstreamSerializer.getInstance().saveProject(project)
+
+        ProjectManager.getInstance().currentProject = project
+
+        every { ShortcutHelper.isXiaomiDevice() } returns false
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+
+        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
+        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+
+        try {
+            var renamedOld = ""
+            var renamedNew = ""
+
+            ShortcutDialogHelper.showPinShortcutDialog(
+                context = activity,
+                layoutInflater = activity.layoutInflater,
+                projectName = "dialog:case",
+                icon = null,
+                isPermissionGranted = true,
+                onProjectRenamed = { oldName, newName ->
+                    renamedOld = oldName
+                    renamedNew = newName
+                }
+            )
+
+            val dialog = ShadowAlertDialog.getLatestAlertDialog()
+            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
+            val renameCheckbox =
+                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
+
+            nameEdit.setText("Dialog:Case")
+            renameCheckbox.isChecked = true
+            pinBtn.performClick()
+
+            assertEquals("dialog:case", renamedOld)
+            assertEquals("Dialog:Case", renamedNew)
+            assertEquals("Dialog:Case", project.name)
+            assertTrue(newProjectDir.exists())
         } finally {
             ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
             ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
