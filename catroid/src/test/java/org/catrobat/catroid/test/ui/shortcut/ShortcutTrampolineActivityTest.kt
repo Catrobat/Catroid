@@ -42,7 +42,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
-import org.robolectric.android.controller.ActivityController
 import java.io.File
 
 /**
@@ -54,6 +53,8 @@ class ShortcutTrampolineActivityTest {
     @Before
     fun setUp() {
         mockkStatic(ShortcutManagerCompat::class)
+        every { ShortcutManagerCompat.removeLongLivedShortcuts(any(), any()) } just Runs
+        every { ShortcutManagerCompat.removeDynamicShortcuts(any(), any()) } just Runs
         every { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) } just Runs
     }
 
@@ -123,8 +124,42 @@ class ShortcutTrampolineActivityTest {
         }
         shadowOf(android.os.Looper.getMainLooper()).idle()
 
-        assertTrue("Activity should be finishing after missing directory", controller.get().isFinishing)
+        assertTrue(
+            "Activity should be finishing after missing directory",
+            controller.get().isFinishing
+        )
         verify { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
+    }
+
+    @Test
+    fun `missing directory disables shortcut matching renamed project`() {
+        val originalId = "OriginalId_123"
+        val existingShortcut = io.mockk.mockk<androidx.core.content.pm.ShortcutInfoCompat> {
+            every { id } returns originalId
+            every { shortLabel } returns "RenamedProject_123"
+            every { intent } returns Intent().apply {
+                putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "RenamedProject_123")
+            }
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(existingShortcut)
+
+        val intent = Intent().apply {
+            putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "RenamedProject_123")
+        }
+        val controller = Robolectric.buildActivity(
+            ShortcutTrampolineActivity::class.java, intent
+        ).create()
+
+        repeat(5) {
+            shadowOf(android.os.Looper.getMainLooper()).idle()
+            Thread.sleep(50)
+        }
+        shadowOf(android.os.Looper.getMainLooper()).idle()
+
+        assertTrue(controller.get().isFinishing)
+        verify {
+            ShortcutManagerCompat.disableShortcuts(any(), match { it.contains(originalId) }, any())
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -171,7 +206,10 @@ class ShortcutTrampolineActivityTest {
             }
             shadowOf(android.os.Looper.getMainLooper()).idle()
 
-            assertTrue("Activity should be finishing after locked code.xml", controller.get().isFinishing)
+            assertTrue(
+                "Activity should be finishing after locked code.xml",
+                controller.get().isFinishing
+            )
         } finally {
             codeXml.setReadable(true)
             projectDir.deleteRecursively()
@@ -205,4 +243,3 @@ class ShortcutTrampolineActivityTest {
         // on the stageIntent before calling startActivity().
     }
 }
-

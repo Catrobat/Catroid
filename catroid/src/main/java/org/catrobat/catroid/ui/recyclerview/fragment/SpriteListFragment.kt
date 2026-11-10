@@ -340,7 +340,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
         val hiddenMenuOptionIds = mutableListOf<Int>(
-            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
+            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit,
+            R.id.pin_to_home_screen
         )
         if (item is GroupSprite) {
             hiddenMenuOptionIds.add(R.id.backpack)
