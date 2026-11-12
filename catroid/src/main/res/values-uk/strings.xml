@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Зняти всі виділення</string>
     <string formatted="false" name="skip">пропустити</string>
     <string formatted="false" name="warning">Попередження</string>
-    <string formatted="false" name="error">Помилка</string>
     <string formatted="false" name="loading">Завантаження&#8230;</string>
-    <string formatted="false" name="please_wait">Будь ласка, зачекайте</string>
     <string formatted="false" name="search_hint">Пошук</string>
     <string formatted="false" name="backpack_add">Додати до рюкзака</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">вставте ключ API тут</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Перевірка даних входу&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Обмін даними входу в Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">Вхід в Google на нашому сервері завершено&#8230;</string>
     <string formatted="false" name="logout_successful">Вихід виконано</string>
     <string formatted="false" name="degrees">градусів</string>
     <string formatted="false" name="background">Тло</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Новий проєкт</string>
     <string formatted="false" name="main_menu_programs">Проєкти на пристрої</string>
     <string formatted="false" name="main_menu_help">Довідка</string>
-    <string formatted="false" name="main_menu_web">Спільнота Catrobat</string>
+    <string formatted="false" name="explore_share">Відкрийте нашу спільноту</string>
     <string formatted="false" name="main_menu_upload">Вивантажити проєкт</string>
     <string formatted="false" name="main_menu_play">Грати в проєкт</string>
     <string formatted="false" name="main_menu_rate_app">Оцініть нас!</string>
@@ -807,41 +802,24 @@
     <string formatted="false" name="play_scene_dialog_current">Поточна сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Увійти</string>
     <string formatted="false" name="username">Імʼя користувача</string>
     <string formatted="false" name="password">Пароль</string>
     <string formatted="false" name="reset_password">Скинути пароль</string>
-    <string formatted="false" name="new_user_registered">Створено новий обліковий запис</string>
-    <string formatted="false" name="user_logged_in">Вхід виконано</string>
-    <string formatted="false" name="register_error">Недійсний логін</string>
     <string formatted="false" name="register_terms">Реєструючись, ви погоджуєтеся з нашими</string>
     <string formatted="false" name="register_code_terms_of_use_text">умовами використання та послугами</string>
     <string formatted="false" name="login">Увійти в обліковий запис</string>
     <string formatted="false" name="register">Зареєструватися</string>
-    <string formatted="false" name="password_confirm">Підтвердьте пароль</string>
-    <string formatted="false" name="accountName">Електронна пошта</string>
-    <string formatted="false" name="signin_thanks">Дякуємо за реєстрацію!</string>
-    <string formatted="false" name="signin_choose_username">Будь ласка, виберіть імʼя користувача:</string>
-    <string formatted="false" name="signin_choose_username_empty">Будь ласка, введіть імʼя користувача.</string>
-    <string formatted="false" name="signin_choose_username_hint">Імʼя користувача не повинно бути вашим справжнім імʼям, а також не повинно бути адресою електронної пошти.</string>
-    <string formatted="false" name="oauth_username_taken">Хтось уже використовує таке імʼя. Будь ласка, виберіть інше!</string>
+    <string formatted="false" name="sign_in_or">або</string>
     <string formatted="false" name="show_password">Показати пароль</string>
     <string formatted="false" name="sign_in_error">Щось пішло не так під час входу.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Неправильне ім’я користувача або пароль.</string>
+    <string formatted="false" name="sign_in_account_suspended">Ваш обліковий запис заблоковано, тому зараз ви не можете увійти.</string>
     <string formatted="false" name="error_google_plus_sign_in">Помилка входу Google. Стан: %s</string>
-    <string formatted="false" name="error_session_expired">Термін дії сесії минув, будь ласка, увійдіть.</string>
     <string formatted="false" name="error_register_empty_username">Поле імʼя користувача порожнє</string>
-    <string formatted="false" name="error_register_username_as_email">Адресу електронної пошти не можна використовувати як імʼя користувача</string>
     <string formatted="false" name="error_register_invalid_username">Імʼя користувача має містити лише літери (a–z), цифри (0–9),
         тире (-), підкреслення (_) і крапки (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Імʼя користувача не повинно починатися з тире (-), підкреслення (_) або
-        крапок (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Недійсний формат електронної пошти</string>
     <string formatted="false" name="error_register_empty_password">Поле пароля порожнє</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Пароль повинен бути не менше 6 символів</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Паролі не збігаються</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Поле підтвердження пароля порожнє</string>
-    <string formatted="false" name="error_register_username_already_exists">Імʼя користувача вже існує</string>
-    <string formatted="false" name="error_register_email_exists">Адреса електронної пошти вже існує</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Проєкт існує.</string>
@@ -1387,8 +1365,15 @@
     <!--  -->
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">Для належної роботи цьому додатку потрібно запитані дозволи. Наприклад, блоку камери потрібен доступ до камери пристрою, елементу формули «розташування» потрібен доступ до датчика геолокації пристрою, а щоб імпортувати та експортувати проєкти з локальної памʼяті та в неї, додатку потрібен доступ для зчитування та запису. Ви завжди можете змінити дозволи в налаштуваннях свого пристрою.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Під час вивантаження проєкту сталася помилка.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Забагато вивантажень. Зачекайте кілька хвилин і спробуйте ще раз.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Підтвердьте свою адресу електронної пошти, перш ніж ділитися проєктом. Ми надіслали вам посилання для підтвердження.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Ваш обліковий запис заблоковано, тому зараз ви не можете ділитися проєктами.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Перш ніж ви зможете ділитися проєктами, ваші батьки мають підтвердити ваш обліковий запис.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Завершіть реєстрацію, перш ніж ділитися проєктом.</string>
+    <string formatted="false" name="error_project_upload_login_required">Ваш сеанс завершився. Увійдіть знову й спробуйте вивантажити ще раз.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Розмір проєкту (%1$s) перевищує ліміт вивантаження %2$s МБ. Зменште розмір проєкту, перш ніж ділитися ним.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Під час завантаження проєкту сталася помилка.</string>
     <string formatted="false" name="error_project_already_in_queue">"Проєкт %s вже у черзі."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Ваше завантаження не може бути
@@ -2122,9 +2107,11 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Ваш проєкт вивантажується на сайт застосунку спільного доступу,
         де інші зможуть бачити та завантажувати його. Ви також можете завантажити свій проєкт як окремий застосунок.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Обробка на сервері…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Помилка вивантаження. Будь ласка, перевірте підключення до Інтернету та
         спробуйте ще раз!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Показати проєкт</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Проєкт, який ви намагаєтеся вивантажити, уже існує

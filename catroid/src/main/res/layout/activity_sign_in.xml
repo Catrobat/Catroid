@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,23 @@
     android:orientation="vertical"
     android:gravity="center">
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_google_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:buttonSize="wide"/>
+
+        <TextView
+            android:id="@+id/sign_in_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/material_design_spacing_large"
+            android:layout_marginBottom="@dimen/material_design_spacing_large"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:importantForAccessibility="no"
+            android:text="@string/sign_in_or" />
+
         <Button
             android:id="@+id/sign_in_login"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -46,13 +63,6 @@
             android:text="@string/register"
             android:textSize="?attr/x_large"
             android:onClick="onButtonClick"/>
-
-       <com.google.android.gms.common.SignInButton
-           android:id="@+id/sign_in_google_login_button"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           app:buttonSize="wide"/>
 
         <LinearLayout
             android:layout_width="match_parent"

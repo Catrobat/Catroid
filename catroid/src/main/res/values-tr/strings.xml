@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Seçimleri iptali et</string>
     <string formatted="false" name="skip">atla</string>
     <string formatted="false" name="warning">Uyarı</string>
-    <string formatted="false" name="error">Hata</string>
     <string formatted="false" name="loading">Yükleniyor&#8230;</string>
-    <string formatted="false" name="please_wait">Lütfen bekleyin</string>
     <string formatted="false" name="search_hint">Ara…</string>
     <string formatted="false" name="backpack_add">Sırt çantasına ekle</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">API anahtarını buraya ekleyin</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Giriş verileri kontrol ediliyor&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Google giriş verileri değiş tokuş ediliyor&#8230;</string>
-    <string formatted="false" name="loading_google_login">Sunucumuzdaki Google girişi tamamlandı&#8230;</string>
     <string formatted="false" name="logout_successful">Oturum başarıyla kapatıldı</string>
     <string formatted="false" name="degrees">derece</string>
     <string formatted="false" name="background">Arka plan</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Yeni proje</string>
     <string formatted="false" name="main_menu_programs">Projelerin</string>
     <string formatted="false" name="main_menu_help">Yardım</string>
-    <string formatted="false" name="main_menu_web">Catrobat topluluğu</string>
+    <string formatted="false" name="explore_share">Topluluğumuzu keşfedin</string>
     <string formatted="false" name="main_menu_upload">Projeyi topluluğa yükle</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Bizi değerlendirin!</string>
@@ -707,39 +702,23 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="play_scene_dialog_current">Olduğun sahne (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Giriş yap</string>
     <string formatted="false" name="username">Kullanıcı adı</string>
     <string formatted="false" name="password">Şifre</string>
     <string formatted="false" name="reset_password">Şifre sıfırlama</string>
-    <string formatted="false" name="new_user_registered">Yeni bir hesap oluşturuldu</string>
-    <string formatted="false" name="user_logged_in">Giriş başarılı</string>
-    <string formatted="false" name="register_error">Giriş geçersiz</string>
     <string formatted="false" name="register_terms">Kayıt olarak, bizim koşullarımızı kabul</string>
     <string formatted="false" name="register_code_terms_of_use_text">Kullanım Koşulları ve Hizmetleri</string>
     <string formatted="false" name="login">Oturum aç</string>
     <string formatted="false" name="register">Kayıt olmak</string>
-    <string formatted="false" name="password_confirm">Şifreyi Doğrula</string>
-    <string formatted="false" name="accountName">E-Posta</string>
-    <string formatted="false" name="signin_thanks">Kayıt olduğunuz için teşekkür ederiz!</string>
-    <string formatted="false" name="signin_choose_username">Lütfen kullanıcı adınızı seçiniz:</string>
-    <string formatted="false" name="signin_choose_username_empty">Lütfen bir kullanıcı adı giriniz.</string>
-    <string formatted="false" name="signin_choose_username_hint">Kullanıcı adınız gerçek adınız olmamalıdır.</string>
-    <string formatted="false" name="oauth_username_taken">Başka biri zaten bu adı kullanıyor. Lütfen farklı bir tane seçin!</string>
+    <string formatted="false" name="sign_in_or">veya</string>
     <string formatted="false" name="show_password">Parolayı göster</string>
     <string formatted="false" name="sign_in_error">Oturum açma sırasında bir şeyler ters gitti.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Kullanıcı adı veya şifre yanlış.</string>
+    <string formatted="false" name="sign_in_account_suspended">Hesabınız askıya alındı, bu nedenle şu anda giriş yapamazsınız.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google oturum açma hatası. Durum: %s</string>
-    <string formatted="false" name="error_session_expired">Oturumun süresi doldu, lütfen giriş yapın.</string>
     <string formatted="false" name="error_register_empty_username">Kullanıcı adı boş</string>
-    <string formatted="false" name="error_register_username_as_email">E-posta adresi kullanıcı adı olarak kullanılamaz</string>
     <string formatted="false" name="error_register_invalid_username">Kullanıcı adı yalnızca harf (a–z), rakam (0–9), tire (-), alt çizgi (_) ve nokta (.) İçermelidir.</string>
-    <string formatted="false" name="error_register_username_start_with">Kullanıcı adı tire (-), alt çizgi (_) veya nokta (.) İle başlamamalıdır.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Geçersiz e-posta formatı</string>
     <string formatted="false" name="error_register_empty_password">Şifre alanı boş</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Şifre en az 6 karakterden oluşmalıdır</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Parolalar uyuşmuyor</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Şifreyi onaylama alanı boş</string>
-    <string formatted="false" name="error_register_username_already_exists">Kullanıcı adı zaten var</string>
-    <string formatted="false" name="error_register_email_exists">E-posta adresi zaten var</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proje var.</string>
@@ -1260,8 +1239,15 @@ bekleyin</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">Bu uygulamanın düzgün çalışması için istenen izinlere ihtiyacı var. Ör. Kamera tuğlasının cihazın kamerasına erişmesi gerekiyor, \"konum\" formül öğesinin cihazın coğrafi konum sensörü ve projeleri yerel bellekten ve yerel bellekten içe ve dışa aktarmak için uygulama okuma ve yazma erişimine ihtiyacı var. İzinleri her zaman cihazınızın ayarlarından değiştirebilirsiniz.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Programı yüklerken bir hata oluştu.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Çok fazla yükleme yapıldı. Lütfen birkaç dakika bekleyip tekrar deneyin.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Lütfen bir projeyi paylaşmadan önce e-posta adresinizi onaylayın. Size bir onay bağlantısı gönderdik.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Hesabınız askıya alındı, bu nedenle şu anda proje paylaşamazsınız.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Proje paylaşabilmeniz için ebeveynlerinizin önce hesabınızı onaylaması gerekiyor.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Lütfen bir projeyi paylaşmadan önce kaydınızı tamamlayın.</string>
+    <string formatted="false" name="error_project_upload_login_required">Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın ve yüklemeyi yeniden deneyin.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Proje boyutu (%1$s), %2$s MB yükleme sınırını aşıyor. Lütfen paylaşmadan önce proje boyutunu küçültün.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Programı yüklerken bir hata oluştu.</string>
     <string formatted="false" name="error_project_already_in_queue">"%s projesi zaten sırada."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">İndirme işleminiz başlatılamadı, sunucumuzda bir sorun var gibi görünüyor.</string>
@@ -1983,8 +1969,10 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="progress_upload_dialog_message">Programınız başkalarının kullanabileceği
         ve indirebildiği uygulamanın paylaşım sitesine yüklenir. 
         Aynı zamanda programınızı bağımsız bir uygulama olarak da indirebilirsiniz.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Sunucuda işleniyor…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Yükleme başarısız. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Projeyi göster</string>
+    <string name="upload_progress_percent">%%%1$d</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Yüklemeye çalıştığınız Remix projenizde

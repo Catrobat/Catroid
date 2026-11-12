@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Poništi odabir</string>
     <string formatted="false" name="skip">skipaj</string>
     <string formatted="false" name="warning">Upozorenje</string>
-    <string formatted="false" name="error">Greška</string>
     <string formatted="false" name="loading">Učitavanje&#8230;</string>
-    <string formatted="false" name="please_wait">De čekaj ba</string>
     <string formatted="false" name="search_hint">Srčaj…</string>
     <string formatted="false" name="backpack_add">Mazni vino</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Provjera login podataka&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Svičaj Gugl login podatke&#8230;</string>
-    <string formatted="false" name="loading_google_login">Gugl login na serveru je gotov&#8230;</string>
     <string formatted="false" name="logout_successful">Odjava uspješna</string>
     <string formatted="false" name="degrees">stepeni</string>
     <string formatted="false" name="background">Pozadina</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Novi projekt</string>
     <string formatted="false" name="main_menu_programs">Programi</string>
     <string formatted="false" name="main_menu_help">Pomoć</string>
-    <string formatted="false" name="main_menu_web">Catrobat koalicija</string>
+    <string formatted="false" name="explore_share">Istraži našu zajednicu</string>
     <string formatted="false" name="main_menu_upload">Postavite projekat</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Ocijeni nas!</string>
@@ -758,39 +753,23 @@
     <string formatted="false" name="play_scene_dialog_current">Trenutna scena (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Prijavite se</string>
     <string formatted="false" name="username">Korisničko Ime</string>
     <string formatted="false" name="password">Lozinka</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">Novi račun napravljen</string>
-    <string formatted="false" name="user_logged_in">Prijava uspješna</string>
-    <string formatted="false" name="register_error">Prijava neuspješna</string>
     <string formatted="false" name="register_terms">Registracijom se slažeš sa našim</string>
     <string formatted="false" name="register_code_terms_of_use_text">Uslovi korištenja i servisi</string>
     <string formatted="false" name="login">Prijava</string>
     <string formatted="false" name="register">Registruj se</string>
-    <string formatted="false" name="password_confirm">Potvrdite šifru</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Hvala što ste se prijavili!</string>
-    <string formatted="false" name="signin_choose_username">Molimo Vas da izaberete korisničko ime:</string>
-    <string formatted="false" name="signin_choose_username_empty">Molimo Vas unesite korisničko ime.</string>
-    <string formatted="false" name="signin_choose_username_hint">Korisničko ime ne bi trebalo da bude Vaše pravo ime ni Vaša email adresa.</string>
-    <string formatted="false" name="oauth_username_taken">Neko već koristi ovo korisničko ime. Molimo Vas da izaberete drugo!</string>
+    <string formatted="false" name="sign_in_or">ili</string>
     <string formatted="false" name="show_password">Prikaži šifru</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Pogrešno korisničko ime ili lozinka.</string>
+    <string formatted="false" name="sign_in_account_suspended">Tvoj račun je suspendovan, pa se trenutno ne možeš prijaviti.</string>
     <string formatted="false" name="error_google_plus_sign_in">Greška pri prijavi na Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sesija istekla, molimo Vas da se prijavite.</string>
     <string formatted="false" name="error_register_empty_username">Prazno korisničko ime</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">Korisničko ime treba da sadrži samo slova (a–z), brojeve  (0–9),        crte  (-), donje crte(_), i tačke (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Korisničko ime ne treba da počinje sa crtama (-), donjim crtama (_) ili        tačkama (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Pogrešan format emaila</string>
     <string formatted="false" name="error_register_empty_password">Polje za šifru je prazno</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Šifra mora imati najmanje 6 znakova</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Šifre se ne poklapaju</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Polje za potvrdu šifre je prazno</string>
-    <string formatted="false" name="error_register_username_already_exists">Korisničko ime već postoji</string>
-    <string formatted="false" name="error_register_email_exists">Ova e-mail adresa već postoji</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projekat postoji.</string>
@@ -1330,8 +1309,15 @@
 Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Nešto je pošlo po zlu pri postavljanju projekta.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Previše postavljanja. Sačekaj nekoliko minuta i pokušaj ponovo.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Potvrdi svoju e-mail adresu prije nego što podijeliš projekat. Poslali smo ti link za potvrdu.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Tvoj račun je suspendovan, pa trenutno ne možeš dijeliti projekte.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Prije dijeljenja projekata tvoji roditelji još moraju potvrditi tvoj račun.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Završi registraciju prije nego što podijeliš projekat.</string>
+    <string formatted="false" name="error_project_upload_login_required">Tvoja sesija je istekla. Prijavi se ponovo i pokušaj ponovo postaviti projekat.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Veličina projekta od %1$s prelazi ograničenje za postavljanje od %2$s MB. Smanji veličinu projekta prije dijeljenja.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Došlo je do greške prilikom preuzimanja programa.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -2055,8 +2041,10 @@ needs read and write access to it. You can always change permissions through you
         errors. You can\'t undo this!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Vaš projekat će se objaviti na stranici za dijeljenje gdje ga ostali mogu koristiti i preuzeti. Također možete preuzeti Vaš projekat kao samostalnu aplikaciju.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Obrada na serveru…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Preuzimanje neuspješno. Molimo da provjerite Vašu internet konekciju i pokušate ponovo!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Prikaži projekat</string>
+    <string name="upload_progress_percent">%1$d %%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on

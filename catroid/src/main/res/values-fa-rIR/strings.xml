@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">لغو انتخاب همه</string>
     <string formatted="false" name="skip">رد کردن</string>
     <string formatted="false" name="warning">اخطار</string>
-    <string formatted="false" name="error">خطا</string>
     <string formatted="false" name="loading">در حال بارگذاری&#8230;</string>
-    <string formatted="false" name="please_wait">لطفا صبر کن</string>
     <string formatted="false" name="search_hint">جستجو</string>
     <string formatted="false" name="backpack_add">به کوله پشتی اضافه کنید</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -70,9 +68,6 @@
     <string formatted="false" name="api_replacement">اینجا کلید API را وارد کنید</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">چک کردن فایل های ورود</string>
-    <string formatted="false" name="loading_google_exchange_code">تبادل اطلاعات ورود به سیستم گوگل</string>
-    <string formatted="false" name="loading_google_login">ورود به سیستم گوگل در سرور ما کامل است</string>
     <string formatted="false" name="logout_successful">خروج موفق از سیستم</string>
     <string formatted="false" name="degrees">درجه</string>
     <string formatted="false" name="background">پس زمینه</string>
@@ -86,7 +81,7 @@
     <string formatted="false" name="main_menu_new">پروژه جدید</string>
     <string formatted="false" name="main_menu_programs">برنامه ها</string>
     <string formatted="false" name="main_menu_help">راهنما</string>
-    <string formatted="false" name="main_menu_web">جامعه Catrobat</string>
+    <string formatted="false" name="explore_share">جامعهٔ ما را کاوش کنید</string>
     <string formatted="false" name="main_menu_upload">آپلود کردن برنامه</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">امتیاز بده!</string>
@@ -714,41 +709,24 @@
     <string formatted="false" name="play_scene_dialog_current">صحنه کنونی (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ورود</string>
     <string formatted="false" name="username">نام کاربری</string>
     <string formatted="false" name="password">رمز عبور</string>
     <string formatted="false" name="reset_password">تنظیم مجدد گذرواژه</string>
-    <string formatted="false" name="new_user_registered">حساب جدید ایجاد شد</string>
-    <string formatted="false" name="user_logged_in">ورود موفقیت‌آمیز</string>
-    <string formatted="false" name="register_error">ورود نامعتبر است</string>
     <string formatted="false" name="register_terms">با ثبت نام، تو با ما توافق کردی که</string>
     <string formatted="false" name="register_code_terms_of_use_text">شرایط استفاده و خدمات</string>
     <string formatted="false" name="login">ورود به سیستم</string>
     <string formatted="false" name="register">ثبت نام</string>
-    <string formatted="false" name="password_confirm">تایید رمز عبور</string>
-    <string formatted="false" name="accountName">ایمیل</string>
-    <string formatted="false" name="signin_thanks">با تشکر از شما برای ثبت نام!</string>
-    <string formatted="false" name="signin_choose_username">لطفا نام کاربری خود را انتخاب کنید:</string>
-    <string formatted="false" name="signin_choose_username_empty">لطفا یک نام کاربری وارد کنید.</string>
-    <string formatted="false" name="signin_choose_username_hint">نام کاربری نباید نام واقعی شما باشد و همچنین نباید یک آدرس ایمیل باشد.</string>
-    <string formatted="false" name="oauth_username_taken">شخص دیگری قبلاً از این نام استفاده می کند. لطفاً یکی دیگر را انتخاب کنید!</string>
+    <string formatted="false" name="sign_in_or">یا</string>
     <string formatted="false" name="show_password">نمایش رمز عبور</string>
     <string formatted="false" name="sign_in_error">هنگام ورود به سیستم مشکلی پیش آمد.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">نام کاربری یا رمز عبور اشتباه است.</string>
+    <string formatted="false" name="sign_in_account_suspended">حساب شما تعلیق شده است، بنابراین در حال حاضر نمی‌توانید وارد شوید.</string>
     <string formatted="false" name="error_google_plus_sign_in">خطای ورود به سیستم Google وضعیت:%s</string>
-    <string formatted="false" name="error_session_expired">جلسه به پایان رسید، لطفاً وارد شوید.</string>
     <string formatted="false" name="error_register_empty_username">نام کاربری خالی</string>
-    <string formatted="false" name="error_register_username_as_email">آدرس ایمیل را نمی توان به عنوان نام کاربری استفاده کرد</string>
     <string formatted="false" name="error_register_invalid_username">نام کاربری فقط باید شامل حروف (a – z) ، اعداد (0–9) ، 
         خط تیره (-) ، زیر خط (_) و نقطه (.) باشد.</string>
-    <string formatted="false" name="error_register_username_start_with">نام کاربری نباید با خط تیره (-) ، زیر خط (_) یا نقطه 
-        (.) شروع شود.</string>
-    <string formatted="false" name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string formatted="false" name="error_register_empty_password">قسمت رمز عبور خالی است</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">رمز عبور باید حداقل 6 نویسه باشد</string>
-    <string formatted="false" name="error_register_passwords_mismatch">رمزهای عبور مطابقت ندارند</string>
-    <string formatted="false" name="error_register_empty_confirm_password">تأیید کنید که میدان رمز خالی است</string>
-    <string formatted="false" name="error_register_username_already_exists">نام کاربری از قبل وجود دارد</string>
-    <string formatted="false" name="error_register_email_exists">آدرس ایمیل از قبل موجود است</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروژه وجود دارد</string>
@@ -1282,8 +1260,15 @@
 آجر دوربین نیاز به دسترسی به دوربین دستگاه دارد ، عنصر فرمول \"مکان\" نیاز به دسترسی به
 سنسور موقعیت جغرافیایی دستگاه ، و به منظور واردات و صادرات پروژه ها از و به حافظه محلی ، برنامه
 نیاز به دسترسی به خواندن و نوشتن دارد. همیشه می توانید مجوزها را از طریق تنظیمات دستگاه خود تغییر دهید.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">خطایی هنگام آپلود برنامه رخ داده است.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">تعداد آپلودها خیلی زیاد است. لطفاً چند دقیقه صبر کنید و دوباره امتحان کنید.</string>
+    <string formatted="false" name="error_project_upload_verify_email">لطفاً پیش از اشتراک‌گذاری پروژه، نشانی ایمیل خود را تأیید کنید. پیوند تأیید را برایتان فرستادیم.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">حساب شما تعلیق شده است، بنابراین در حال حاضر نمی‌توانید پروژه‌ای به اشتراک بگذارید.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">والدین شما هنوز باید حسابتان را تأیید کنند تا بتوانید پروژه‌ها را به اشتراک بگذارید.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">لطفاً پیش از اشتراک‌گذاری پروژه، ثبت‌نام خود را کامل کنید.</string>
+    <string formatted="false" name="error_project_upload_login_required">نشست شما منقضی شده است. لطفاً دوباره وارد شوید و آپلود را دوباره امتحان کنید.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">اندازهٔ پروژه (%1$s) از سقف آپلود %2$s مگابایت بیشتر است. لطفاً پیش از اشتراک‌گذاری، حجم پروژه را کم کنید.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">خطایی هنگام دانلود برنامه رخ داده است.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروژه %s در حال حاضر در صف است."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"بارگیری شما شروع نمی شود ، به نظر 
@@ -2005,8 +1990,10 @@
     <string formatted="false" name="deletion_alert_text">حذف یک متغیر یا لیستی که هنوز در حال استفاده است می تواند باعث ایجاد         خطا شود. نمی توانید این را واگرد کنید!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">پروژه شما در سایت اشتراک‌گذاری برنامه آپلود می‌شود، جایی که دیگران می‌توانند         از آن استفاده و دانلود کنند. همچنین می توانید پروژه خود را به عنوان یک برنامه مستقل دانلود کنید.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">در حال پردازش روی سرور…</string>
     <string formatted="false" name="progress_upload_dialog_failed">آپلود انجام نشد. لطفاً اتصال اینترنت خود را بررسی کنید و         دوباره امتحان کنید!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">نمایش پروژه</string>
+    <string name="upload_progress_percent">%1$d٪</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">پروژه ای که می خواهید آپلود کنید در حال حاضر دقیقاً به همان شکل         در پلتفرم انجمن وجود دارد. لطفاً         قبل از آپلود پروژه ریمیکس شده، پروژه خود را تغییر دهید، در حالت ایده آل با تقویت آن.</string>

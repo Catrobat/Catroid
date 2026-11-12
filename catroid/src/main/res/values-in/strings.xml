@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Hapus semua</string>
     <string formatted="false" name="skip">lewati</string>
     <string formatted="false" name="warning">Peringatan</string>
-    <string formatted="false" name="error">Kesalahan</string>
     <string formatted="false" name="loading">Memuat&#8230;</string>
-    <string formatted="false" name="please_wait">Mohon tungggu</string>
     <string formatted="false" name="search_hint">Pencarian…</string>
     <string formatted="false" name="backpack_add">Tambahkan ke ransel</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">masukkan kunci API di sini</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Memeriksa data login&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Bertukar data login Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">Login Google di server kami selesai&#8230;</string>
     <string formatted="false" name="logout_successful">Berhasil keluar</string>
     <string formatted="false" name="degrees">derajat</string>
     <string formatted="false" name="background">Latar belakang</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Proyek baru</string>
     <string formatted="false" name="main_menu_programs">Program</string>
     <string formatted="false" name="main_menu_help">Membantu</string>
-    <string formatted="false" name="main_menu_web">Komunitas Catrobat</string>
+    <string formatted="false" name="explore_share">Jelajahi komunitas kami</string>
     <string formatted="false" name="main_menu_upload">Unggah proyek</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Nilai kami!</string>
@@ -691,41 +686,24 @@
     <string formatted="false" name="play_scene_dialog_current">Adegan saat ini (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Masuk</string>
     <string formatted="false" name="username">Nama pengguna</string>
     <string formatted="false" name="password">Kata sandi</string>
     <string formatted="false" name="reset_password">Setel ulang kata sandi</string>
-    <string formatted="false" name="new_user_registered">Account baru telah dibuat</string>
-    <string formatted="false" name="user_logged_in">Login berhasil</string>
-    <string formatted="false" name="register_error">Login tidak valid</string>
     <string formatted="false" name="register_terms">Dengan mendaftar Anda setuju dengan kami</string>
     <string formatted="false" name="register_code_terms_of_use_text">Syarat Penggunaan dan Layanan</string>
     <string formatted="false" name="login">Gabung</string>
     <string formatted="false" name="register">Daftar</string>
-    <string formatted="false" name="password_confirm">Konfirmasi kata sandi</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Terima kasih telah mendaftar!</string>
-    <string formatted="false" name="signin_choose_username">Silakan pilih nama pengguna anda:</string>
-    <string formatted="false" name="signin_choose_username_empty">Silakan masukkan nama pengguna.</string>
-    <string formatted="false" name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli Anda dan juga bukan alamat email.</string>
-    <string formatted="false" name="oauth_username_taken">Orang lain sudah menggunakan nama ini. Pilih yang lain!</string>
+    <string formatted="false" name="sign_in_or">atau</string>
     <string formatted="false" name="show_password">Tampilkan kata sandi</string>
     <string formatted="false" name="sign_in_error">Ada yang salah saat masuk.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Nama pengguna atau kata sandi salah.</string>
+    <string formatted="false" name="sign_in_account_suspended">Akun Anda ditangguhkan, sehingga Anda tidak dapat masuk saat ini.</string>
     <string formatted="false" name="error_google_plus_sign_in">Kesalahan masuk Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sesi kedaluwarsa, silakan masuk.</string>
     <string formatted="false" name="error_register_empty_username">Nama pengguna kosong</string>
-    <string formatted="false" name="error_register_username_as_email">Alamat email tidak dapat digunakan sebagai nama pengguna</string>
     <string formatted="false" name="error_register_invalid_username">Nama pengguna hanya boleh berisi huruf (a – z), angka (0–9),
         tanda hubung (-), garis bawah (_), dan titik (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Nama pengguna tidak boleh dimulai dengan tanda hubung (-), garis bawah (_), atau
-        periode (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">format email salah</string>
     <string formatted="false" name="error_register_empty_password">Bidang kata sandi kosong</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Kata sandi harus setidaknya 6 karakter</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Sandi tidak cocok</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Konfirmasi bidang kata sandi kosong</string>
-    <string formatted="false" name="error_register_username_already_exists">Nama pengguna sudah ada</string>
-    <string formatted="false" name="error_register_email_exists">Alamat email sudah ada</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Proyek ada.</string>
@@ -1253,8 +1231,15 @@
 Batu bata kamera memerlukan akses ke kamera perangkat, elemen rumus \"lokasi\" memerlukan akses ke
 sensor geolokasi perangkat, dan untuk mengimpor dan mengekspor proyek dari dan ke memori lokal, aplikasi
 membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin melalui pengaturan perangkat Anda.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Terjadi kesalahan pada saat memuat program.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Terlalu banyak unggahan. Silakan tunggu beberapa menit, lalu coba lagi.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Konfirmasi alamat email Anda sebelum membagikan proyek. Kami telah mengirimkan tautan konfirmasi kepada Anda.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Akun Anda ditangguhkan, sehingga Anda tidak dapat membagikan proyek saat ini.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Orang tua Anda masih perlu mengonfirmasi akun Anda sebelum Anda dapat membagikan proyek.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Selesaikan pendaftaran Anda sebelum membagikan proyek.</string>
+    <string formatted="false" name="error_project_upload_login_required">Sesi Anda telah berakhir. Silakan masuk lagi dan coba unggah ulang.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Ukuran proyek %1$s melebihi batas unggah %2$s MB. Kurangi ukuran proyek sebelum membagikannya.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Terjadi kesalahan saat mengunduh program.</string>
     <string formatted="false" name="error_project_already_in_queue">"Proyek %s sudah dalam antrian."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Unduhan Anda tidak bisa
@@ -1983,9 +1968,11 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string formatted="false" name="progress_upload_dialog_message">Program Anda akan diunggah ke situs berbagi aplikasi tempat orang lain dapat menggunakannya
          dan download.
          Anda juga dapat mendownload program Anda sebagai aplikasi mandiri.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Memproses di server…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Gagal mengunggah. Silakan periksa koneksi internet Anda dan coba
         lagi!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Tampilkan program</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Proyek yang Anda coba unggah sudah ada

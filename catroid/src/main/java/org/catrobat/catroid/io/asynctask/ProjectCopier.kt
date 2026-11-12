@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.catrobat.catroid.io.StorageOperations.copyDir
 import org.catrobat.catroid.io.StorageOperations.deleteDir
 import org.catrobat.catroid.io.XstreamSerializer.renameProject
 import org.catrobat.catroid.utils.FileMetaDataExtractor.encodeSpecialCharsForFileSystem
+import org.catrobat.catroid.utils.ProjectIdUtils
 import java.io.File
 import java.io.IOException
 
@@ -63,6 +64,7 @@ class ProjectCopier(
         )
         return try {
             copyDir(sourceDir, destinationDir)
+            ProjectIdUtils.markAsNewProject(destinationDir)
             renameProject(File(destinationDir, Constants.CODE_XML_FILE_NAME), destinationName)
             ProjectManager.getInstance().addNewDownloadedProject(destinationName)
             true

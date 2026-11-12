@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ไม่​เลือก​ทั้ง​หมด</string>
     <string formatted="false" name="skip">ข้าม</string>
     <string formatted="false" name="warning">คำเตือน</string>
-    <string formatted="false" name="error">ผิดพลาด</string>
     <string formatted="false" name="loading">กำลังโหลด&#8230;</string>
-    <string formatted="false" name="please_wait">โปรดรอสักครู่</string>
     <string formatted="false" name="search_hint">ค้นหา…</string>
     <string formatted="false" name="backpack_add">จัดเก็บชุดคำสั่ง</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">ใส่คีย์ API ที่นี่</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">กำลังตรวจสอบข้อมูลการเข้าสู่ระบบ&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">กำลังแลกเปลี่ยนข้อมูลการลงชื่อเข้าใช้ Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">การเข้าสู่ระบบ Google บนเซิร์ฟเวอร์ของเราเสร็จสมบูรณ&#8230;</string>
     <string formatted="false" name="logout_successful">ออกจากระบบสำเร็จ</string>
     <string formatted="false" name="degrees">องศา</string>
     <string formatted="false" name="background">พื้นหลัง</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">โปรเจ็กต์ใหม่</string>
     <string formatted="false" name="main_menu_programs">โปรเจ็กต์บนอุปกรณ์</string>
     <string formatted="false" name="main_menu_help">ช่วยเหลือ</string>
-    <string formatted="false" name="main_menu_web">ชุมชน Catrobat</string>
+    <string formatted="false" name="explore_share">สำรวจชุมชนของเรา</string>
     <string formatted="false" name="main_menu_upload">อัพโหลดโปรเจกต์</string>
     <string formatted="false" name="main_menu_play">รันโครงการ</string>
     <string formatted="false" name="main_menu_rate_app">ให้คะแนนเรา</string>
@@ -679,40 +674,24 @@
     <string formatted="false" name="play_scene_dialog_current">ฉากปัจจุบัน (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">เข้าสู่ระบบ</string>
     <string formatted="false" name="username">ชื่อผู้ใช้</string>
     <string formatted="false" name="password">รหัสผ่าน</string>
     <string formatted="false" name="reset_password">รีเซ็ตรหัสผ่าน</string>
-    <string formatted="false" name="new_user_registered">บัญชีใหม่ถูกสร้างแล้ว</string>
-    <string formatted="false" name="user_logged_in">เข้าสู่ระบบสำเร็จแล้ว</string>
-    <string formatted="false" name="register_error">เข้าสู่ระบบไม่ถูกต้อง</string>
     <string formatted="false" name="register_terms">ในการลงทะเบียนแสดงว่าคุณยอมรับ</string>
     <string formatted="false" name="register_code_terms_of_use_text">เงื่อนไขการใช้งานและบริการ</string>
     <string formatted="false" name="login">เข้าสู่ระบบ</string>
     <string formatted="false" name="register">สมัครสมาชิก</string>
-    <string formatted="false" name="password_confirm">ยืนยันรหัสผ่าน</string>
-    <string formatted="false" name="accountName">อีเมล</string>
-    <string formatted="false" name="signin_thanks">ขอบคุณที่ลงทะเบียน!</string>
-    <string formatted="false" name="signin_choose_username">กรุณาเลือกชื่อผู้ใช้ของคุณ:</string>
-    <string formatted="false" name="signin_choose_username_empty">กรุณาป้อนชื่อผู้ใช้</string>
-    <string formatted="false" name="signin_choose_username_hint">ชื่อผู้ใช้ไม่ควรเป็นชื่อจริงของคุณและไม่ควรเป็นที่อยู่อีเมล</string>
-    <string formatted="false" name="oauth_username_taken">มีคนอื่นใช้ชื่อนี้แล้ว โปรดเลือกอันอื่น!</string>
+    <string formatted="false" name="sign_in_or">หรือ</string>
     <string formatted="false" name="show_password">แสดงรหัสผ่าน</string>
     <string formatted="false" name="sign_in_error">เกิดข้อผิดพลาดระหว่างลงชื่อเข้าใช้</string>
+    <string formatted="false" name="sign_in_wrong_credentials">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</string>
+    <string formatted="false" name="sign_in_account_suspended">บัญชีของคุณถูกระงับ คุณจึงไม่สามารถเข้าสู่ระบบได้ในขณะนี้</string>
     <string formatted="false" name="error_google_plus_sign_in">ข้อผิดพลาดการลงชื่อเข้าใช้ Google สถานะ: %s</string>
-    <string formatted="false" name="error_session_expired">เซสชันหมดอายุโปรดเข้าสู่ระบบ</string>
     <string formatted="false" name="error_register_empty_username">ชื่อผู้ใช้ว่างเปล่า</string>
-    <string formatted="false" name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
     <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9), 
         เครื่องหมายขีดกลาง (-), เครื่องหมายขีดล่าง (_) และจุด (.)</string>
-    <string formatted="false" name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
-    <string formatted="false" name="error_register_invalid_email_format">รูปแบบอีเมลไม่ถูกต้อง</string>
     <string formatted="false" name="error_register_empty_password">ช่องรหัสผ่านว่างเปล่า</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">รหัสผ่านควรมีอย่างน้อย 6 ตัวอักษร</string>
-    <string formatted="false" name="error_register_passwords_mismatch">รหัสผ่านไม่ตรงกัน</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ช่องใส่ยืนยันรหัสผ่านว่างเปล่า</string>
-    <string formatted="false" name="error_register_username_already_exists">ชื่อผู้ใช้นี้มีอยู่ในระบบอยู่แล้ว</string>
-    <string formatted="false" name="error_register_email_exists">มีอีเมลนี้อยู่ในระบบแล้ว</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">มีโครงการ</string>
@@ -1233,8 +1212,15 @@
     <!--  -->
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นคำสั่งของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
+    <string formatted="false" name="error_project_upload_rate_limit">อัปโหลดบ่อยเกินไป โปรดรอสองสามนาทีแล้วลองอีกครั้ง</string>
+    <string formatted="false" name="error_project_upload_verify_email">โปรดยืนยันที่อยู่อีเมลของคุณก่อนแชร์โปรเจกต์ เราได้ส่งลิงก์ยืนยันไปให้คุณแล้ว</string>
+    <string formatted="false" name="error_project_upload_account_suspended">บัญชีของคุณถูกระงับ คุณจึงไม่สามารถแชร์โปรเจกต์ได้ในขณะนี้</string>
+    <string formatted="false" name="error_project_upload_parental_consent">ผู้ปกครองของคุณยังต้องยืนยันบัญชีของคุณก่อน คุณจึงจะแชร์โปรเจกต์ได้</string>
+    <string formatted="false" name="error_project_upload_complete_registration">โปรดลงทะเบียนให้เสร็จสมบูรณ์ก่อนแชร์โปรเจกต์</string>
+    <string formatted="false" name="error_project_upload_login_required">เซสชันของคุณหมดอายุแล้ว โปรดเข้าสู่ระบบอีกครั้งแล้วลองอัปโหลดใหม่</string>
+    <string formatted="false" name="error_project_too_large_for_upload">ขนาดโปรเจกต์ %1$s เกินขีดจำกัดการอัปโหลด %2$s MB โปรดลดขนาดโปรเจกต์ก่อนแชร์</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
     <string formatted="false" name="error_project_already_in_queue">"โครงการ %s อยู่ในคิวแล้ว"</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"การดาวน์โหลดของคุณไม่สามารถเริ่มต้นดูเหมือนว่ามีปัญหากับเซิร์ฟเวอร์ของเรา"</string>
@@ -1961,9 +1947,11 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">โปรเจ็กต์ของคุณจะอัปโหลดไปยังไซต์แชร์ของแอปที่คนอื่น ๆ
         สามารถใช้และดาวน์โหลดได้ คุณยังดาวน์โหลดโปรเจ็กต์ของคุณเป็นแอพแบบสแตนด์อโลนได้อีกด้วย</string>
+    <string formatted="false" name="progress_upload_dialog_processing">กำลังประมวลผลบนเซิร์ฟเวอร์…</string>
     <string formatted="false" name="progress_upload_dialog_failed">การอัพโหลดล้มเหลว. โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลอง
         อีกแล้ว!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">แสดงโครงการ</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">โปรเจ็กต์ที่คุณพยายามอัปโหลดมีอยู่แล้ว

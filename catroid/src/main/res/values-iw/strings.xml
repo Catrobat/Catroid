@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Deselect all</string>
     <string formatted="false" name="skip">דילוג</string>
     <string formatted="false" name="warning">אזהרה</string>
-    <string formatted="false" name="error">שגיאה</string>
     <string formatted="false" name="loading">כעת בטעינה&#8230;</string>
-    <string formatted="false" name="please_wait">נא להמתין</string>
     <string formatted="false" name="search_hint">חיפוש…</string>
     <string formatted="false" name="backpack_add">Add to backpack</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string formatted="false" name="logout_successful">התנתקת בהצלחה</string>
     <string formatted="false" name="degrees">מעלות</string>
     <string formatted="false" name="background">רקע</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">מיזם חדש</string>
     <string formatted="false" name="main_menu_programs">המיזמים השמורים במכשיר</string>
     <string formatted="false" name="main_menu_help">עזרה</string>
-    <string formatted="false" name="main_menu_web">קהילת Catrobat</string>
+    <string formatted="false" name="explore_share">סיור בקהילה שלנו</string>
     <string formatted="false" name="main_menu_upload">העלאת מיזם</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">דרגו אותנו!</string>
@@ -808,41 +803,24 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Sign in</string>
     <string formatted="false" name="username">שם משתמש</string>
     <string formatted="false" name="password">סיסמה</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">חשבון חדש נוצר</string>
-    <string formatted="false" name="user_logged_in">התחברת בהצלחה</string>
-    <string formatted="false" name="register_error">Login invalid</string>
     <string formatted="false" name="register_terms">ההרשמה מביעה את הסכמתך לתנאים שלנו</string>
     <string formatted="false" name="register_code_terms_of_use_text">Terms of use and service</string>
     <string formatted="false" name="login">התחברות</string>
     <string formatted="false" name="register">הרשמה</string>
-    <string formatted="false" name="password_confirm">Confirm password</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Thank you for signing up!</string>
-    <string formatted="false" name="signin_choose_username">Please choose your username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+    <string formatted="false" name="sign_in_or">או</string>
     <string formatted="false" name="show_password">Show password</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">שם המשתמש או הסיסמה שגויים.</string>
+    <string formatted="false" name="sign_in_account_suspended">החשבון הושעה, ולכן אי אפשר להתחבר כרגע.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Session expired, please log in.</string>
     <string formatted="false" name="error_register_empty_username">Empty username</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Invalid email format</string>
     <string formatted="false" name="error_register_empty_password">Password field is empty</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string formatted="false" name="error_register_passwords_mismatch">הסיסמאות לא תואמות</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string formatted="false" name="error_register_username_already_exists">Username already exists</string>
-    <string formatted="false" name="error_register_email_exists">Email address already exists</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Project exists.</string>
@@ -1392,8 +1370,15 @@
 Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">יותר מדי העלאות. נא להמתין כמה דקות ולנסות שוב.</string>
+    <string formatted="false" name="error_project_upload_verify_email">נא לאשר את כתובת הדוא״ל לפני שיתוף מיזם. שלחנו קישור לאישור.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">החשבון הושעה, ולכן אי אפשר לשתף מיזמים כרגע.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">ההורים עדיין צריכים לאשר את החשבון לפני שאפשר יהיה לשתף מיזמים.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">נא להשלים את ההרשמה לפני שיתוף מיזם.</string>
+    <string formatted="false" name="error_project_upload_login_required">תוקף ההתחברות פג. נא להתחבר מחדש ולנסות שוב את ההעלאה.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">גודל המיזם (%1$s) חורג ממגבלת ההעלאה של %2$s MB. נא להקטין את גודל המיזם לפני השיתוף.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -2128,8 +2113,10 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">מתבצע עיבוד בשרת…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on

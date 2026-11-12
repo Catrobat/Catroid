@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">取消选择</string>
     <string formatted="false" name="skip">跳过</string>
     <string formatted="false" name="warning">警告</string>
-    <string formatted="false" name="error">错误</string>
     <string formatted="false" name="loading">载入中&#8230;</string>
-    <string formatted="false" name="please_wait">请等待</string>
     <string formatted="false" name="search_hint">搜索…</string>
     <string formatted="false" name="backpack_add">添加到背包</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">在此输入API密钥</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">正在检查登录数据..。</string>
-    <string formatted="false" name="loading_google_exchange_code">交换 google + 数据..。</string>
-    <string formatted="false" name="loading_google_login">谷歌 + 登录我们的服务器是完整的..。</string>
     <string formatted="false" name="logout_successful">成功登出</string>
     <string formatted="false" name="degrees">度</string>
     <string formatted="false" name="background">背景</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">新建</string>
     <string formatted="false" name="main_menu_programs">Các chương trình</string>
     <string formatted="false" name="main_menu_help">Trợ giúp</string>
-    <string formatted="false" name="main_menu_web">Catrobat社区</string>
+    <string formatted="false" name="explore_share">探索我们的社区</string>
     <string formatted="false" name="main_menu_upload">Tải lên chương trình</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">给我们评分！</string>
@@ -676,41 +671,24 @@
     <string formatted="false" name="play_scene_dialog_current">当前场景(%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">登录</string>
     <string formatted="false" name="username">用户名</string>
     <string formatted="false" name="password">密码</string>
     <string formatted="false" name="reset_password">重置密码</string>
-    <string formatted="false" name="new_user_registered">新账户已创建</string>
-    <string formatted="false" name="user_logged_in">登陆成功</string>
-    <string formatted="false" name="register_error">登录无效</string>
     <string formatted="false" name="register_terms">注册代表你同意我们的</string>
     <string formatted="false" name="register_code_terms_of_use_text">使用与服务条例</string>
     <string formatted="false" name="login">登录</string>
     <string formatted="false" name="register">注册</string>
-    <string formatted="false" name="password_confirm">确认密码</string>
-    <string formatted="false" name="accountName">邮箱</string>
-    <string formatted="false" name="signin_thanks">感谢您的注册 ！</string>
-    <string formatted="false" name="signin_choose_username">请选择一个用户名：</string>
-    <string formatted="false" name="signin_choose_username_empty">请输入用户名。</string>
-    <string formatted="false" name="signin_choose_username_hint">用户名不建议使用您的真实姓名。</string>
-    <string formatted="false" name="oauth_username_taken">其他人已经使用了这个名字。请选择一个不同的名字！</string>
+    <string formatted="false" name="sign_in_or">或</string>
     <string formatted="false" name="show_password">显示密码</string>
     <string formatted="false" name="sign_in_error">在登录时发生了错误。</string>
+    <string formatted="false" name="sign_in_wrong_credentials">用户名或密码错误。</string>
+    <string formatted="false" name="sign_in_account_suspended">您的账户已被停用，因此目前无法登录。</string>
     <string formatted="false" name="error_google_plus_sign_in">谷歌登录错误。状态： %s</string>
-    <string formatted="false" name="error_session_expired">您的会话已过期，请登录。</string>
     <string formatted="false" name="error_register_empty_username">用户名为空</string>
-    <string formatted="false" name="error_register_username_as_email">电子邮件地址不能用作用户名</string>
     <string formatted="false" name="error_register_invalid_username">用户名只能包含字母 (a-z), 数字 (0-9),
 dash(-), 下划线 (_), 和 句号(.).</string>
-    <string formatted="false" name="error_register_username_start_with">用户名不应以破折号 (-), 下划线 (_), 或
-句号(.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">电子邮件格式无效</string>
     <string formatted="false" name="error_register_empty_password">密码字段为空</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">密码长度必须至少为6个字符</string>
-    <string formatted="false" name="error_register_passwords_mismatch">密码不匹配</string>
-    <string formatted="false" name="error_register_empty_confirm_password">确认密码字段为空</string>
-    <string formatted="false" name="error_register_username_already_exists">用户名已存在</string>
-    <string formatted="false" name="error_register_email_exists">电子邮件地址已存在</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">项目已存在。</string>
@@ -1237,8 +1215,15 @@ dash(-), 下划线 (_), 和 句号(.).</string>
 相机积木需要访问设备的相机，“位置”公式元素需要访问
 设备的地理位置传感器。 并且为了从本地内存导入和导出项目，应用程序
 需要读写访问它。 您总是可以通过您的设备的设置更改权限。</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">在上传程序的时候发生了一个错误。</string>
+    <string formatted="false" name="error_project_upload_rate_limit">上传次数过多。请等待几分钟后再试。</string>
+    <string formatted="false" name="error_project_upload_verify_email">分享项目前，请先确认您的电子邮件地址。我们已向您发送确认链接。</string>
+    <string formatted="false" name="error_project_upload_account_suspended">您的账户已被停用，因此目前无法分享项目。</string>
+    <string formatted="false" name="error_project_upload_parental_consent">您的家长还需要确认您的账户，您才能分享项目。</string>
+    <string formatted="false" name="error_project_upload_complete_registration">分享项目前，请先完成注册。</string>
+    <string formatted="false" name="error_project_upload_login_required">您的登录已过期。请重新登录后再次尝试上传。</string>
+    <string formatted="false" name="error_project_too_large_for_upload">项目大小（%1$s）超过了 %2$s MB 的上传限制。请在分享前减小项目大小。</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">下载程序时发生了一个错误。</string>
     <string formatted="false" name="error_project_already_in_queue">"项目 %s 已在队列中。"</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">\"您的下载无法开始，似乎我们的服务器有问题。</string>
@@ -1954,8 +1939,10 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         个错误。您不能撤消这个错误！</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">您的程序被上传到了这个应用程序的共享网站，其他人可以使用并下载它。 您也可以将你的程序作为一个独立的应用程序下载。</string>
+    <string formatted="false" name="progress_upload_dialog_processing">正在服务器上处理…</string>
     <string formatted="false" name="progress_upload_dialog_failed">上传失败. 请检查网络连接后重试.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">显示程序</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">你试图上传的项目已经存在于

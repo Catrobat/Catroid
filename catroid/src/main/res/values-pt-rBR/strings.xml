@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Desmarcar todos</string>
     <string formatted="false" name="skip">pular</string>
     <string formatted="false" name="warning">Atenção</string>
-    <string formatted="false" name="error">Erro</string>
     <string formatted="false" name="loading">Carregando&#8230;</string>
-    <string formatted="false" name="please_wait">Por favor, aguarde</string>
     <string formatted="false" name="search_hint">Procurar</string>
     <string formatted="false" name="backpack_add">Adicionar à mochila</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">inserir chave de API aqui</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Verificando dados de login&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Trocando dados de login do Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">O login do Google em nosso servidor foi completado&#8230;</string>
     <string formatted="false" name="logout_successful">Logout bem sucedido</string>
     <string formatted="false" name="degrees">graus</string>
     <string formatted="false" name="background">Fundo</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Novo projeto</string>
     <string formatted="false" name="main_menu_programs">Projetos</string>
     <string formatted="false" name="main_menu_help">Ajuda</string>
-    <string formatted="false" name="main_menu_web">Comunidade Catrobat</string>
+    <string formatted="false" name="explore_share">Explore nossa comunidade</string>
     <string formatted="false" name="main_menu_upload">Fazer upload do programa</string>
     <string formatted="false" name="main_menu_play">Jogar projeto</string>
     <string formatted="false" name="main_menu_rate_app">Avalie-nos!</string>
@@ -722,41 +717,24 @@
     <string formatted="false" name="play_scene_dialog_current">Cena atual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Iniciar sessão</string>
     <string formatted="false" name="username">Nome de usuário</string>
     <string formatted="false" name="password">Senha</string>
     <string formatted="false" name="reset_password">Redefinir senha</string>
-    <string formatted="false" name="new_user_registered">Nova conta criada</string>
-    <string formatted="false" name="user_logged_in">Login efetuado com sucesso</string>
-    <string formatted="false" name="register_error">Login inválido</string>
     <string formatted="false" name="register_terms">Ao registrar-se, você concorda com nossos</string>
     <string formatted="false" name="register_code_terms_of_use_text">Termos de uso e serviço</string>
     <string formatted="false" name="login">Login</string>
     <string formatted="false" name="register">Cadastre-se</string>
-    <string formatted="false" name="password_confirm">Confirmar senha</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">Obrigado por se registrar!</string>
-    <string formatted="false" name="signin_choose_username">Por favor, escolha seu nome de usuário:</string>
-    <string formatted="false" name="signin_choose_username_empty">Insira um nome de usuário.</string>
-    <string formatted="false" name="signin_choose_username_hint">O nome de usuário não deve ser seu nome real nem deve ser um endereço de e-mail.</string>
-    <string formatted="false" name="oauth_username_taken">Alguém já usa este nome. Por favor, escolha um nome diferente.</string>
+    <string formatted="false" name="sign_in_or">ou</string>
     <string formatted="false" name="show_password">Mostrar senha</string>
     <string formatted="false" name="sign_in_error">Algo deu errado durante o login.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Nome de usuário ou senha incorretos.</string>
+    <string formatted="false" name="sign_in_account_suspended">Sua conta foi suspensa, então você não pode entrar no momento.</string>
     <string formatted="false" name="error_google_plus_sign_in">Erro de login do Google. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Sessão expirada, por favor, faça o login.</string>
     <string formatted="false" name="error_register_empty_username">Usuário vazio</string>
-    <string formatted="false" name="error_register_username_as_email">Endereço de e-mail não pode ser usado como nome de usuário</string>
     <string formatted="false" name="error_register_invalid_username">O nome de usuário deve conter apenas letras (a–z), números (0-9),
         traços (-), sublinhados (_) e pontos (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Nome de usuário não deve começar com traços (-), sublinhados (_) ou
-        pontos (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Formato de e-mail inválido.</string>
     <string formatted="false" name="error_register_empty_password">O campo de senha está vazio</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">A senha deve ter pelo menos 6 caracteres</string>
-    <string formatted="false" name="error_register_passwords_mismatch">As senhas não coincidem</string>
-    <string formatted="false" name="error_register_empty_confirm_password">O campo de confirmação de senha está vazio</string>
-    <string formatted="false" name="error_register_username_already_exists">Nome de usuário já existe</string>
-    <string formatted="false" name="error_register_email_exists">Endereço de e-mail já existe</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Projeto já existe.</string>
@@ -1292,8 +1270,15 @@
 precisa acessar a câmera do dispositivo, o elemento de fórmula \"location\" precisa acessar o sensor de geolocalização do
 dispositivo, e para importar e exportar projetos de e para a memória local, o aplicativo
 precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permissões nas configurações do seu dispositivo.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Algo deu errado ao enviar o projeto.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Muitos envios. Aguarde alguns minutos e tente novamente.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Confirme seu endereço de e-mail antes de compartilhar um projeto. Enviamos um link de confirmação para você.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Sua conta foi suspensa, então você não pode compartilhar projetos no momento.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Seus pais ainda precisam confirmar sua conta antes que você possa compartilhar projetos.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Conclua seu cadastro antes de compartilhar um projeto.</string>
+    <string formatted="false" name="error_project_upload_login_required">Sua sessão expirou. Entre novamente e tente enviar outra vez.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">O tamanho do projeto (%1$s) excede o limite de envio de %2$s MB. Reduza o tamanho do projeto antes de compartilhá-lo.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Algo deu errado durante o download do projeto.</string>
     <string formatted="false" name="error_project_already_in_queue">"Projeto %s já está na fila."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">Não foi possível
@@ -2026,9 +2011,11 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Seu projeto é enviado para o site de compartilhamento do aplicativo onde outros
         podem usar e baixá-lo. Você também pode baixar seu projeto como um aplicativo independente.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Processando no servidor…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Falha ao fazer uploud. Por favor, verifique sua conexão com a internet e tente
         novamente!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Mostrar projeto</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Já existe um projeto exatamente igual a esse enviado

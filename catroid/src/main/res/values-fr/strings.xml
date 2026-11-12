@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Désélectionner tout</string>
     <string formatted="false" name="skip">passer</string>
     <string formatted="false" name="warning">Attention</string>
-    <string formatted="false" name="error">Erreur</string>
     <string formatted="false" name="loading">Chargement&#8230;</string>
-    <string formatted="false" name="please_wait">Merci de patienter</string>
     <string formatted="false" name="search_hint">Recherche en cours…</string>
     <string formatted="false" name="backpack_add">Ajouter au sac à dos</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">insérer la clé API ici</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Vérification des données de connexion&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Échange de données de connexion Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">La connexion Google sur notre serveur est terminée&#8230;</string>
     <string formatted="false" name="logout_successful">Déconnexion résussie</string>
     <string formatted="false" name="degrees">degrés</string>
     <string formatted="false" name="background">Arrière-plan</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Nouveau projet</string>
     <string formatted="false" name="main_menu_programs">Programmes</string>
     <string formatted="false" name="main_menu_help">Aide</string>
-    <string formatted="false" name="main_menu_web">Communauté Catrobat</string>
+    <string formatted="false" name="explore_share">Découvre notre communauté</string>
     <string formatted="false" name="main_menu_upload">Envoyer le programme</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Note-nous !</string>
@@ -725,41 +720,24 @@
     <string formatted="false" name="play_scene_dialog_current">Scène actuelle (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Se connecter</string>
     <string formatted="false" name="username">Nom d\'utilisateur</string>
     <string formatted="false" name="password">Mot de passe</string>
     <string formatted="false" name="reset_password">Réinitialiser le mot de passe</string>
-    <string formatted="false" name="new_user_registered">Nouveau compte créé</string>
-    <string formatted="false" name="user_logged_in">Connexion réussie</string>
-    <string formatted="false" name="register_error">Connexion invalide</string>
     <string formatted="false" name="register_terms">En t\'inscrivant, tu acceptes nos</string>
     <string formatted="false" name="register_code_terms_of_use_text">Conditions d’utilisation et de services</string>
     <string formatted="false" name="login">Se connecter</string>
     <string formatted="false" name="register">S\'inscrire</string>
-    <string formatted="false" name="password_confirm">Confirmer le mot de passe</string>
-    <string formatted="false" name="accountName">E-mail</string>
-    <string formatted="false" name="signin_thanks">Merci pour ton inscription à Pocket Code !</string>
-    <string formatted="false" name="signin_choose_username">Merci de choisir un nom d\'utilisateur :</string>
-    <string formatted="false" name="signin_choose_username_empty">Veuillez entrer un nom d\'utilisateur.</string>
-    <string formatted="false" name="signin_choose_username_hint">Le nom d\'utilisateur ne doit pas être ton vrai nom.</string>
-    <string formatted="false" name="oauth_username_taken">Quelqu\'un d\'autre utilise déjà ce nom. Veuillez en choisir un autre !</string>
+    <string formatted="false" name="sign_in_or">ou</string>
     <string formatted="false" name="show_password">Afficher le mot de passe</string>
     <string formatted="false" name="sign_in_error">Une erreur s\'est produite lors de la connexion.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Nom d\'utilisateur ou mot de passe incorrect.</string>
+    <string formatted="false" name="sign_in_account_suspended">Ton compte a été suspendu, tu ne peux donc pas te connecter pour le moment.</string>
     <string formatted="false" name="error_google_plus_sign_in">Erreur de connexion Google. Statut : %s</string>
-    <string formatted="false" name="error_session_expired">La session a expiré, veuillez vous connecter.</string>
     <string formatted="false" name="error_register_empty_username">Nom d\'utilisateur vide</string>
-    <string formatted="false" name="error_register_username_as_email">L\'adresse e-mail ne peut pas être utilisée comme nom d\'utilisateur</string>
     <string formatted="false" name="error_register_invalid_username">Le nom d\'utilisateur ne doit contenir que des lettres (a–z), des chiffres (0–9),
         tirets (-), des tirets bas (_), et des points (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Le nom d\'utilisateur ne doit pas commencer par des tirets (-), des tirets bas (_), ou
-        points (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Format d\'email invalide</string>
     <string formatted="false" name="error_register_empty_password">Le champ mot de passe est vide</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Le mot de passe doit comporter au moins 6 caractères</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Les mots de passes ne correspondent pas</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Le champ de confirmation du mot de passe est vide</string>
-    <string formatted="false" name="error_register_username_already_exists">Ce nom d’utilisateur existe déjà</string>
-    <string formatted="false" name="error_register_email_exists">Cette adresse e-mail existe déjà</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Le projet existe.</string>
@@ -1294,8 +1272,15 @@
 caméra doit avoir accès à la caméra de l\'appareil, l\'élément de formule \"localisation\" doit avoir accès au capteur de géolocalisation
 capteur de géolocalisation de l\'appareil, et pour importer et exporter des projets depuis et vers la mémoire locale, l\'appli
 doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez toujours modifier les autorisations dans les paramètres de votre appareil.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Trop de mises en ligne. Patiente quelques minutes, puis réessaie.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Confirme ton adresse e-mail avant de partager un projet. Nous t\'avons envoyé un lien de confirmation.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Ton compte a été suspendu, tu ne peux donc pas partager de projets pour le moment.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Tes parents doivent encore confirmer ton compte avant que tu puisses partager des projets.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Termine ton inscription avant de partager un projet.</string>
+    <string formatted="false" name="error_project_upload_login_required">Ta session a expiré. Reconnecte-toi, puis réessaie la mise en ligne.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">La taille du projet (%1$s) dépasse la limite de mise en ligne de %2$s Mo. Réduis la taille du projet avant de le partager.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
     <string formatted="false" name="error_project_already_in_queue">"Le projet %s est déjà en file d'attente."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Votre téléchargement n\'a pas pu être démarré
@@ -2024,9 +2009,11 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Votre projet est téléchargé sur le site de partage de l\'application où d\'autres
         peuvent l\'utiliser et le télécharger. Vous pouvez également télécharger votre projet en tant qu\'application autonome.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Traitement sur le serveur…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Échec du téléchargement. Merci de vérifier votre connexion Internet et essayez 
         à nouveau !</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Afficher le programme</string>
+    <string name="upload_progress_percent">%1$d %%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Le projet que tu essaye de télécharger existe déjà sur

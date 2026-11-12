@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils
 
-package org.catrobat.catroid.transfers.project
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-import java.io.File
+/**
+ * Supplies the [CoroutineDispatcher]s used across the app. Injecting this instead of referencing
+ * [Dispatchers] directly at each coroutine builder keeps those call sites testable — tests can
+ * bind a provider backed by a test dispatcher.
+ */
+interface DispatcherProvider {
+    val io: CoroutineDispatcher
+    val main: CoroutineDispatcher
+}
 
-data class ProjectUploadData(
-    val projectName: String,
-    val projectDescription: String,
-    val projectArchive: File,
-    val userEmail: String,
-    val language: String,
-    val token: String,
-    val username: String
-)
+class DefaultDispatcherProvider : DispatcherProvider {
+    override val io: CoroutineDispatcher = Dispatchers.IO
+    override val main: CoroutineDispatcher = Dispatchers.Main
+}

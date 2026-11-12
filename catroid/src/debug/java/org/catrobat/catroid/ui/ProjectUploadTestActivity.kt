@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2024 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ class ProjectUploadTestActivity : ProjectUploadActivity() {
     }
 
     override fun verifyUserIdentity() {
-        onTokenCheckComplete(true, false)
+        onCreateView()
     }
 
     fun projectUploadController(): ProjectUploadController? = projectUploadController

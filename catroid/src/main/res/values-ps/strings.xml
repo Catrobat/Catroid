@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ټول غیر انتخاب کړئ</string>
     <string formatted="false" name="skip">پرېښودل</string>
     <string formatted="false" name="warning">خبرتیا</string>
-    <string formatted="false" name="error">تیروتنه</string>
     <string formatted="false" name="loading">پورته کیدل&#8230;</string>
-    <string formatted="false" name="please_wait">هیله کوم لږ صبر وکړه</string>
     <string formatted="false" name="search_hint">لټون</string>
     <string formatted="false" name="backpack_add">په کڅوړه کې اضافه کړئ</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -76,9 +74,6 @@
     <string formatted="false" name="api_replacement">د API کیلي دلته دننه کړئ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">د ننوتلو ډاټا چک کول&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">د ګوګل د ننوتلو ډاټا تبادله کول&#8230;</string>
-    <string formatted="false" name="loading_google_login">زموږ په سرور کې د ګوګل ننوت بشپړ شو &#8230;</string>
     <string formatted="false" name="logout_successful">لاګ آوټ بریالی شو</string>
     <string formatted="false" name="degrees">درجې</string>
     <string formatted="false" name="background">شاليد</string>
@@ -92,7 +87,7 @@
     <string formatted="false" name="main_menu_new">نوے</string>
     <string formatted="false" name="main_menu_programs">په وسیله کې پروژې</string>
     <string formatted="false" name="main_menu_help">مرسته</string>
-    <string formatted="false" name="main_menu_web">د کاټروبیټ ټولنه</string>
+    <string formatted="false" name="explore_share">زموږ ټولنه وپلټئ</string>
     <string formatted="false" name="main_menu_upload">پروژه پورته کړئ</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">موږ ته درجه ورکړئ!</string>
@@ -727,41 +722,24 @@
     <string formatted="false" name="play_scene_dialog_current">اوسنی صحنه (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ننوزئ</string>
     <string formatted="false" name="username">کارن نوم</string>
     <string formatted="false" name="password">رمز</string>
     <string formatted="false" name="reset_password">پټنوم بیا تنظیم کړئ</string>
-    <string formatted="false" name="new_user_registered">نوی حساب جوړ شو</string>
-    <string formatted="false" name="user_logged_in">ننوت بریالی شو</string>
-    <string formatted="false" name="register_error">ننوتل ناباوره</string>
     <string formatted="false" name="register_terms">د راجستر کولو سره تاسو زموږ سره موافق یاست</string>
     <string formatted="false" name="register_code_terms_of_use_text">د کارولو او خدماتو شرایط</string>
     <string formatted="false" name="login">د ننه کیدل</string>
     <string formatted="false" name="register">راجستر</string>
-    <string formatted="false" name="password_confirm">پاسورډ تایید کړه</string>
-    <string formatted="false" name="accountName">ای میل</string>
-    <string formatted="false" name="signin_thanks">د لاسلیک کولو لپاره مننه!</string>
-    <string formatted="false" name="signin_choose_username">مهرباني وکړئ خپل کارن نوم غوره کړئ:</string>
-    <string formatted="false" name="signin_choose_username_empty">مهرباني وکړئ یو کارن نوم دننه کړئ.</string>
-    <string formatted="false" name="signin_choose_username_hint">کارن نوم باید ستاسو اصلي نوم نه وي او نه باید دا د بریښنالیک پته وي.</string>
-    <string formatted="false" name="oauth_username_taken">بل څوک لا دمخه دا نوم کاروي. مهرباني وکړئ یو بل غوره کړئ!</string>
+    <string formatted="false" name="sign_in_or">یا</string>
     <string formatted="false" name="show_password">پټنوم ښکاره کړئ</string>
     <string formatted="false" name="sign_in_error">د ننوتلو پرمهال یو څه غلط شو.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">کارن نوم یا پټنوم ناسم دی.</string>
+    <string formatted="false" name="sign_in_account_suspended">ستاسو حساب ځنډول شوی، نو اوس مهال نه شئ ننوتلی.</string>
     <string formatted="false" name="error_google_plus_sign_in">د ګوګل د ننوتلو تېروتنه. حالت: %s</string>
-    <string formatted="false" name="error_session_expired">ناسته پای ته ورسیده، مهرباني وکړئ ننوتل.</string>
     <string formatted="false" name="error_register_empty_username">خالي کارن نوم</string>
-    <string formatted="false" name="error_register_username_as_email">د بریښنالیک پته د کارن نوم په توګه نشي کارول کیدی</string>
     <string formatted="false" name="error_register_invalid_username">د کارن نوم باید یوازې حروف (a-z)، شمیرې (0-9)، 
         ډشز (-)، انډر سکور (_)، او دوره (.) ولري.</string>
-    <string formatted="false" name="error_register_username_start_with">د کارن نوم باید د ډیشونو (-)، انډر سکور (_)، یا دورې 
-        (.) سره پیل نشي.</string>
-    <string formatted="false" name="error_register_invalid_email_format">د بریښنالیک ناسم بڼه</string>
     <string formatted="false" name="error_register_empty_password">د پټنوم ساحه خالي ده</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">پاسورډ باید لږترلږه 6 حروف وي</string>
-    <string formatted="false" name="error_register_passwords_mismatch">پاسورډونه سمون نه خوري</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ډاډ ترلاسه کړئ چې د پټنوم ساحه خالي ده</string>
-    <string formatted="false" name="error_register_username_already_exists">کارن نوم لا وختي شتون لري</string>
-    <string formatted="false" name="error_register_email_exists">د بریښنالیک پته لا دمخه شتون لري</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروژه شتون لري.</string>
@@ -1295,8 +1273,15 @@
 د کیمرې برک د وسیلې کیمرې ته لاسرسی ته اړتیا لري ، د \"ځای\" فارمول عنصر ته لاسرسی ته اړتیا لري
 د وسیلې جیو لوکیشن سینسر، او د محلي حافظې څخه د پروژو د واردولو او صادرولو لپاره، ایپ
 لوستلو او لیکلو ته اړتیا لري. تاسو کولی شئ تل د خپل وسیله تنظیماتو له لارې اجازې بدل کړئ.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">د پروژې د پورته کولو په وخت کې یو څه غلط شو.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">ډېر زیات اپلوډونه. مهرباني وکړئ څو دقیقې انتظار وکړئ او بیا هڅه وکړئ.</string>
+    <string formatted="false" name="error_project_upload_verify_email">مهرباني وکړئ د پروژې له شریکولو مخکې خپل برېښنالیک پته تایید کړئ. موږ تاسو ته د تایید لینک لېږلی دی.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">ستاسو حساب ځنډول شوی، نو اوس مهال پروژې نه شئ شریکولی.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">مخکې له دې چې پروژې شریکې کړئ، ستاسو مور او پلار باید لا هم ستاسو حساب تایید کړي.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">مهرباني وکړئ د پروژې له شریکولو مخکې خپل نوم لیکنه بشپړه کړئ.</string>
+    <string formatted="false" name="error_project_upload_login_required">ستاسو ناسته پای ته رسېدلې. مهرباني وکړئ بیا ننوځئ او اپلوډ بیا هڅه وکړئ.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">د پروژې اندازه %1$s ده، چې د %2$s MB د اپلوډ له حد څخه زیاته ده. مهرباني وکړئ له شریکولو مخکې د پروژې اندازه کمه کړئ.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">د پروژې ډاونلوډ کولو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروژه %s لا دمخه په کتار کې ده."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"ستاسو ډاونلوډ 
@@ -2018,8 +2003,10 @@
     <string formatted="false" name="deletion_alert_text">د یو متغیر یا لیست حذف کول چې لاهم کارول کیږي د         غلطیو لامل کیدی شي. تاسو نشئ کولی دا رد کړئ!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">ستاسو پروژه د اپلیکیشن شریکولو سایټ ته اپلوډ کیږي چیرې چې نور کولی شي دا وکاروي         او ډاونلوډ کړي. تاسو کولی شئ خپله پروژه د سټنډرډ اپلیکیشن په توګه ډاونلوډ کړئ.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">په سرور کې پروسس کېږي…</string>
     <string formatted="false" name="progress_upload_dialog_failed">اپلوډ ناکام شو. مهرباني وکړئ خپل انټرنیټ پیوستون وګورئ او         بیا هڅه وکړئ!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">پروژه ښکاره کړئ</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">هغه پروژه چې تاسو یې د اپلوډ کولو هڅه کوئ دمخه د ټولنې په پلیټ فارم کې په ورته شکل کې شتون لري. مهرباني وکړئ د خپلې ریمکس شوې پروژې اپلوډ کولو دمخه ، په مثالي توګه د دې په لوړولو سره خپل پروژه بدل کړئ.</string>

@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">ਸਭ ਦੀ ਚੋਣ ਕਰੋ</string>
     <string formatted="false" name="skip">ਛੱਡੋ</string>
     <string formatted="false" name="warning">ਚੇਤਾਵਨੀ</string>
-    <string formatted="false" name="error">ਗਲਤੀ</string>
     <string formatted="false" name="loading">ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ&#8230;</string>
-    <string formatted="false" name="please_wait">ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
     <string formatted="false" name="search_hint">ਖੋਜ ਕਰੋ…</string>
     <string formatted="false" name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">ਏਪੀਆਈ ਕੁੰਜੀ ਇੱਥੇ ਪਾਓ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">ਲੌਗਿਨ ਡਾਟਾ ਦੀ ਜਾਂਚ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">ਗੂਗਲ ਲੌਗਇਨ ਡੇਟਾ ਐਕਸਚੇਂਜ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
-    <string formatted="false" name="loading_google_login">ਸਾਡੇ ਸਰਵਰ ਤੇ ਗੂਗਲ ਲੌਗਇਨ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ&#8230;</string>
     <string formatted="false" name="logout_successful">ਲੌਗਆਉਟ ਸਫਲ</string>
     <string formatted="false" name="degrees">ਡਿਗਰੀ</string>
     <string formatted="false" name="background">ਪਿਛੋਕੜ</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
     <string formatted="false" name="main_menu_programs">ਡਿਵਾਈਸ ਤੇ ਪ੍ਰਾਜੈਕਟ</string>
     <string formatted="false" name="main_menu_help">ਮਦਦ ਕਰੋ</string>
-    <string formatted="false" name="main_menu_web">ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ</string>
+    <string formatted="false" name="explore_share">ਸਾਡੀ ਕਮਿਊਨਿਟੀ ਦੇਖੋ</string>
     <string formatted="false" name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਕਰੋ</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
@@ -730,41 +725,24 @@
     <string formatted="false" name="play_scene_dialog_current">ਪਹਿਲਾ ਸੀਨ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">ਸਾਇਨ ਇਨ</string>
     <string formatted="false" name="username">ਯੂਜ਼ਰਨਾਮ</string>
     <string formatted="false" name="password">ਪਾਸਵਰਡ</string>
     <string formatted="false" name="reset_password">ਪਾਸਵਰਡ ਰੀਸੈਟ ਕਰੋ</string>
-    <string formatted="false" name="new_user_registered">ਨਵਾਂ ਖਾਤਾ ਬਣਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="user_logged_in">ਲੌਗਇਨ ਸਫਲ</string>
-    <string formatted="false" name="register_error">ਲਾਗਇਨ ਅਵੈਧ ਹੈ</string>
     <string formatted="false" name="register_terms">ਰਜਿਸਟਰ ਕਰਕੇ ਤੁਸੀਂ ਸਾਡੇ ਨਾਲ ਸਹਿਮਤ ਹੋ</string>
     <string formatted="false" name="register_code_terms_of_use_text">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
     <string formatted="false" name="login">ਲਾਗਿਨ</string>
     <string formatted="false" name="register">ਰਜਿਸਟਰ</string>
-    <string formatted="false" name="password_confirm">ਪਾਸਵਰਡ ਪੱਕਾ ਕਰੋ</string>
-    <string formatted="false" name="accountName">E-Mail</string>
-    <string formatted="false" name="signin_thanks">ਸਾਈਨ ਅਪ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!</string>
-    <string formatted="false" name="signin_choose_username">ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਚੁਣੋ:</string>
-    <string formatted="false" name="signin_choose_username_empty">ਕ੍ਰਿਪਾ ਕਰਕੇ ਜਾਇਜ ਕਰਤਾ ਨਾਮ ਭਰੋ</string>
-    <string formatted="false" name="signin_choose_username_hint">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਤੁਹਾਡਾ ਅਸਲ ਨਾਮ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ ਅਤੇ ਨਾ ਹੀ ਇਹ ਇੱਕ ਈਮੇਲ ਪਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ.</string>
-    <string formatted="false" name="oauth_username_taken">ਕੋਈ ਹੋਰ ਪਹਿਲਾਂ ਹੀ ਇਹ ਨਾਮ ਵਰਤਦਾ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੱਖਰਾ ਚੁਣੋ!</string>
+    <string formatted="false" name="sign_in_or">ਜਾਂ</string>
     <string formatted="false" name="show_password">ਪਾਸਵਰਡ ਦਿਖਾਓ</string>
     <string formatted="false" name="sign_in_error">ਸਾਈਨ ਇਨ ਕਰਨ ਦੌਰਾਨ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">ਗ਼ਲਤ ਵਰਤੋਂਕਾਰ ਨਾਮ ਜਾਂ ਪਾਸਵਰਡ।</string>
+    <string formatted="false" name="sign_in_account_suspended">ਤੁਹਾਡਾ ਖਾਤਾ ਮੁਅੱਤਲ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ, ਇਸ ਲਈ ਤੁਸੀਂ ਇਸ ਵੇਲੇ ਸਾਈਨ ਇਨ ਨਹੀਂ ਕਰ ਸਕਦੇ।</string>
     <string formatted="false" name="error_google_plus_sign_in">ਗੂਗਲ ਸਾਈਨ-ਇਨ ਗਲਤੀ. ਸਥਿਤੀ: %s</string>
-    <string formatted="false" name="error_session_expired">ਸੈਸ਼ਨ ਦੀ ਮਿਆਦ ਖਤਮ, ਕਿਰਪਾ ਕਰਕੇ ਲੌਗਇਨ ਕਰੋ.</string>
     <string formatted="false" name="error_register_empty_username">ਖਾਲੀ ਨਾਂ</string>
-    <string formatted="false" name="error_register_username_as_email">ਈਮੇਲ ਪਤਾ ਉਪਭੋਗਤਾ ਨਾਮ ਵਜੋਂ ਨਹੀਂ ਵਰਤਿਆ ਜਾ ਸਕਦਾ</string>
     <string formatted="false" name="error_register_invalid_username">ਉਪਭੋਗਤਾ ਨਾਮ ਵਿੱਚ ਸਿਰਫ ਅੱਖਰ (a – z), ਨੰਬਰ (0-9) ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ,
          ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰਸ (_), ਅਤੇ ਪੀਰੀਅਡ (.).</string>
-    <string formatted="false" name="error_register_username_start_with">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰਸ (_), ਜਾਂ ਨਾਲ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ
-         ਪੀਰੀਅਡ (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">ਗਲਤ ਈਮੇਲ ਫਾਰਮੈਟ</string>
     <string formatted="false" name="error_register_empty_password">ਪਾਸਵਰਡ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">ਪਾਸਵਰਡ ਘੱਟੋ ਘੱਟ 6 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ</string>
-    <string formatted="false" name="error_register_passwords_mismatch">ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ</string>
-    <string formatted="false" name="error_register_empty_confirm_password">ਪੁਸ਼ਟੀ ਕਰੋ ਕਿ ਪਾਸਵਰਡ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
-    <string formatted="false" name="error_register_username_already_exists">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
-    <string formatted="false" name="error_register_email_exists">ਈਮੇਲ ਪਤਾ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">ਪ੍ਰੋਜੈਕਟ ਮੌਜੂਦ ਹੈ.</string>
@@ -1298,8 +1276,15 @@
 ਕੈਮਰਾ ਇੱਟ ਨੂੰ ਡਿਵਾਈਸ ਦੇ ਕੈਮਰੇ ਤਕ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ, \"ਸਥਾਨ\" ਫਾਰਮੂਲੇ ਤੱਤ ਨੂੰ ਐਕਸੈਸ ਦੀ ਜ਼ਰੂਰਤ ਹੁੰਦੀ ਹੈ
 ਡਿਵਾਈਸ ਦਾ ਭੂ-ਸਥਿਤੀ ਸੰਵੇਦਕ, ਅਤੇ ਸਥਾਨਕ ਮੈਮੋਰੀ ਤੋਂ, ਐਪ ਨੂੰ ਆਯਾਤ ਅਤੇ ਨਿਰਯਾਤ ਕਰਨ ਲਈ
 ਇਸ ਨੂੰ ਪੜ੍ਹਨ ਅਤੇ ਲਿਖਣ ਦੀ ਪਹੁੰਚ ਦੀ ਜ਼ਰੂਰਤ ਹੈ. ਤੁਸੀਂ ਹਮੇਸ਼ਾਂ ਆਪਣੇ ਡਿਵਾਈਸ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਦੁਆਰਾ ਅਨੁਮਤੀਆਂ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਅਪਲੋਡ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">ਬਹੁਤ ਜ਼ਿਆਦਾ ਅੱਪਲੋਡ। ਕਿਰਪਾ ਕਰਕੇ ਕੁਝ ਮਿੰਟ ਉਡੀਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
+    <string formatted="false" name="error_project_upload_verify_email">ਪ੍ਰੋਜੈਕਟ ਸਾਂਝਾ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਈ-ਮੇਲ ਪਤੇ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ। ਅਸੀਂ ਤੁਹਾਨੂੰ ਪੁਸ਼ਟੀ ਲਿੰਕ ਭੇਜਿਆ ਹੈ।</string>
+    <string formatted="false" name="error_project_upload_account_suspended">ਤੁਹਾਡਾ ਖਾਤਾ ਮੁਅੱਤਲ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ, ਇਸ ਲਈ ਤੁਸੀਂ ਇਸ ਵੇਲੇ ਪ੍ਰੋਜੈਕਟ ਸਾਂਝੇ ਨਹੀਂ ਕਰ ਸਕਦੇ।</string>
+    <string formatted="false" name="error_project_upload_parental_consent">ਪ੍ਰੋਜੈਕਟ ਸਾਂਝੇ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਡੇ ਮਾਪਿਆਂ ਨੂੰ ਅਜੇ ਤੁਹਾਡੇ ਖਾਤੇ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨੀ ਪਵੇਗੀ।</string>
+    <string formatted="false" name="error_project_upload_complete_registration">ਪ੍ਰੋਜੈਕਟ ਸਾਂਝਾ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਪੂਰੀ ਕਰੋ।</string>
+    <string formatted="false" name="error_project_upload_login_required">ਤੁਹਾਡਾ ਸੈਸ਼ਨ ਖ਼ਤਮ ਹੋ ਗਿਆ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਲੌਗ ਇਨ ਕਰੋ ਅਤੇ ਅੱਪਲੋਡ ਦੀ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
+    <string formatted="false" name="error_project_too_large_for_upload">ਪ੍ਰੋਜੈਕਟ ਦਾ ਆਕਾਰ %1$s ਹੈ, ਜੋ %2$s MB ਦੀ ਅੱਪਲੋਡ ਸੀਮਾ ਤੋਂ ਵੱਧ ਹੈ। ਸਾਂਝਾ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਪਾ ਕਰਕੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਆਕਾਰ ਘਟਾਓ।</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">ਜਦਕਿ ਪ੍ਰਾਜੈਕਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_project_already_in_queue">"ਪ੍ਰੋਜੈਕਟ%s ਪਹਿਲਾਂ ਹੀ ਕਤਾਰ ਵਿੱਚ ਹੈ."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"ਤੁਹਾਡਾ ਡਾਊਨਲੋਡ ਨਾ ਹੋ ਸਕਦਾ ਹੈ
@@ -2034,9 +2019,11 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">ਤੁਹਾਡਾ ਪ੍ਰੋਜੈਕਟ ਐਪ ਦੀ ਸਾਂਝੀ ਸਾਈਟ ਤੇ ਅਪਲੋਡ ਹੋ ਜਾਂਦਾ ਹੈ ਜਿੱਥੇ ਹੋਰ
          ਇਸ ਨੂੰ ਵਰਤਣ ਅਤੇ ਡਾ canਨਲੋਡ ਕਰ ਸਕਦੇ ਹੋ. ਤੁਹਾਨੂੰ ਇਹ ਵੀ ਇੱਕ ਇੱਕਲੇ ਐਪ ਦੇ ਤੌਰ ਤੇ ਆਪਣੇ ਪ੍ਰਾਜੈਕਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰ ਸਕਦੇ ਹੋ.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">ਸਰਵਰ ਉੱਤੇ ਪ੍ਰੋਸੈਸ ਹੋ ਰਿਹਾ ਹੈ…</string>
     <string formatted="false" name="progress_upload_dialog_failed">ਅਪਲੋਡ ਅਸਫਲ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਕੋਸ਼ਿਸ਼ ਕਰੋ
          ਫੇਰ!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">ਪ੍ਰੋਜੈਕਟ ਦਿਖਾਓ</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">ਜਿਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਤੁਸੀਂ ਅਪਲੋਡ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹੋ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ
