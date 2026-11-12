@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ import java.util.Calendar;
 import androidx.annotation.IntDef;
 import androidx.exifinterface.media.ExifInterface;
 
-import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
@@ -49,11 +48,17 @@ public final class Constants {
 	public static final long PROGESSIVE_INPUT_DELAY = 400;
 	public static final long PROGESSIVE_INPUT_COUNTDOWN_INTERVALL = 500;
 	public static final long RETROFIT_WRITE_TIMEOUT = 15;
+	public static final long RETROFIT_READ_TIMEOUT = 15;
+	// An upload chunk is several MB, and completing an upload processes the whole project before answering
+	public static final long RETROFIT_UPLOAD_TIMEOUT = 300;
+	public static final long RETROFIT_CONNECT_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String CODE_XML_FILE_NAME = "code.xml";
+	/** The share platform's id of the user's own uploaded project; never part of an upload or a copy. */
+	public static final String SERVER_PROJECT_ID_FILE_NAME = ".server_project_id";
 	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String UNDO_CODE_XML_FILE_NAME = "undo_" + CODE_XML_FILE_NAME;
@@ -127,14 +132,15 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrobat.org";
-	public static final String UPLOAD_URL = "https://share.catrobat.org";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
+	// Share links created before the domain change still point here; the host no longer serves them
+	public static final String LEGACY_SHARE_URL_HTTPS = "https://share.catrob.at";
 
-	// Default "flavor" in the web which equals "pocketcode"
-	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
+	public static final String API_BASE_URL = MAIN_URL_HTTPS + "/api/";
+	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/" + FlavoredConstants.FLAVOR_NAME + "/";
 
-	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
+	public static final String SHARE_PROJECT_URL = BASE_APP_URL_HTTPS + "project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String CATROBAT_FORMULA_WIKI_URL = "https://catrobat.org/docs/";
@@ -146,7 +152,7 @@ public final class Constants {
 	public static final String CATROBAT_LOGIC_WIKI_URL = "https://catrobat.org/docs/";
 	public static final String CATROBAT_SENSORS_WIKI_URL = "https://catrobat.org/docs/";
 	public static final String CATROBAT_OBJECT_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
+	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_APP_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";
 	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
@@ -154,13 +160,13 @@ public final class Constants {
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 	public static final String HUAWEI_APP_GALLERY_LINK = "appmarket://details?id=org.catrobat.catroid";
 
-	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
-	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
-
 	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrobat.org/about/)";
 
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;
+	public static final int ERROR_UNAUTHORIZED = 401;
+	public static final int ERROR_FORBIDDEN = 403;
+	public static final int ERROR_UNPROCESSABLE_ENTITY = 422;
 	public static final int ERROR_TOO_MANY_REQUESTS = 429;
 	public static final int ERROR_SERVER_ERROR = 500;
 	public static final int ERROR_TIMEOUT = 504;
@@ -267,6 +273,8 @@ public final class Constants {
 	public static final String EXTRA_UPLOAD_NAME = "uploadName";
 
 	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
+	public static final int UPLOAD_PROGRESS_RESULT_CODE = 2;
+	public static final String EXTRA_UPLOAD_PROGRESS = "uploadProgress";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
@@ -299,6 +307,8 @@ public final class Constants {
 
 	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
+	// The production share server's upload limit. The server has the last word and refuses larger files with 422.
+	public static final long UPLOAD_MAX_SIZE_BYTES = 300L * 1024 * 1024; // 300 MB
 
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 
@@ -307,6 +317,7 @@ public final class Constants {
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
+	public static final int UPDATE_DOWNLOAD_SUCCESS = 106;
 	public static final int MAX_PERCENT = 100;
 
 	//Up-/Download Status Codes

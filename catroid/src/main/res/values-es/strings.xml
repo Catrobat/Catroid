@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Deseleccionar todos</string>
     <string formatted="false" name="skip">saltar</string>
     <string formatted="false" name="warning">Advertencia</string>
-    <string formatted="false" name="error">Error</string>
     <string formatted="false" name="loading">Cargando&#8230;</string>
-    <string formatted="false" name="please_wait">Espere por favor</string>
     <string formatted="false" name="search_hint">Búsqueda…</string>
     <string formatted="false" name="backpack_add">Agregar a la Mochila</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -74,9 +72,6 @@
     <string formatted="false" name="api_replacement">inserte aquí la clave de la API</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Comprobando los datos de inicio de sesión&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Intercambiando datos de inicio de sesión de Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">El inicio de sesión de Google en nuestro servidor está completo&#8230;</string>
     <string formatted="false" name="logout_successful">La sesión se ha cerrado correctamente</string>
     <string formatted="false" name="degrees">grados</string>
     <string formatted="false" name="background">Fondo</string>
@@ -90,7 +85,7 @@
     <string formatted="false" name="main_menu_new">Nuevo proyecto</string>
     <string formatted="false" name="main_menu_programs">Proyectos</string>
     <string formatted="false" name="main_menu_help">Ayuda</string>
-    <string formatted="false" name="main_menu_web">Comunidad Catrobat</string>
+    <string formatted="false" name="explore_share">Explora nuestra comunidad</string>
     <string formatted="false" name="main_menu_upload">Cargar programa</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Valóranos!</string>
@@ -723,41 +718,24 @@
     <string formatted="false" name="play_scene_dialog_current">Escena actual (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Iniciar sesion</string>
     <string formatted="false" name="username">Usuario</string>
     <string formatted="false" name="password">Contraseña</string>
     <string formatted="false" name="reset_password">Restablecer contraseña</string>
-    <string formatted="false" name="new_user_registered">Nueva cuenta creada</string>
-    <string formatted="false" name="user_logged_in">Inicio de sesión correcto</string>
-    <string formatted="false" name="register_error">Inicio de sesión inválido</string>
     <string formatted="false" name="register_terms">Al registrarse, usted acepta nuestra</string>
     <string formatted="false" name="register_code_terms_of_use_text">Términos de uso y servicios</string>
     <string formatted="false" name="login">Login</string>
     <string formatted="false" name="register">Regístrate</string>
-    <string formatted="false" name="password_confirm">Confirma tu contraseña</string>
-    <string formatted="false" name="accountName">Email</string>
-    <string formatted="false" name="signin_thanks">¡Gracias por registrarte!</string>
-    <string formatted="false" name="signin_choose_username">Por favor, elija un nombre de usuario:</string>
-    <string formatted="false" name="signin_choose_username_empty">Por favor, introduzca un nombre de usuario.</string>
-    <string formatted="false" name="signin_choose_username_hint">El nombre de usuario no debe ser tu nombre real ni debe ser una dirección de correo electrónico.</string>
-    <string formatted="false" name="oauth_username_taken">Alguien más ya utiliza este nombre. Por favor, elige otro.</string>
+    <string formatted="false" name="sign_in_or">o</string>
     <string formatted="false" name="show_password">Mostrar Contraseña</string>
     <string formatted="false" name="sign_in_error">Algo ha ido mal durante el inicio de sesión.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Usuario o contraseña incorrectos.</string>
+    <string formatted="false" name="sign_in_account_suspended">Tu cuenta ha sido suspendida, así que por ahora no puedes iniciar sesión.</string>
     <string formatted="false" name="error_google_plus_sign_in">Error de inicio de sesión de Google. Estado: %s</string>
-    <string formatted="false" name="error_session_expired">La sesión expiró. Por favor inicie sesión de nuevo.</string>
     <string formatted="false" name="error_register_empty_username">Nombre de usuario vacío</string>
-    <string formatted="false" name="error_register_username_as_email">La dirección de correo electrónico no se puede utilizar como nombre de usuario</string>
     <string formatted="false" name="error_register_invalid_username">El nombre de usuario solo debe contener letras (a–z), números (0–9),
         guiones (-), guiones bajos (_) y puntos (.).</string>
-    <string formatted="false" name="error_register_username_start_with">El nombre de usuario no debe comenzar con guiones (-), guiones bajos (_), o
-        periodos (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Invalid email format</string>
     <string formatted="false" name="error_register_empty_password">El campo contraseña está vacío</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">La contraseña debe tener al menos 6 caracteres</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Las contraseñas no coinciden</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Confirmar el campo contraseña está vacío</string>
-    <string formatted="false" name="error_register_username_already_exists">El nombre de usuario ya existe</string>
-    <string formatted="false" name="error_register_email_exists">La dirección de correo ya existe</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">El proyecto ya existe.</string>
@@ -1291,8 +1269,15 @@
     <string formatted="false" name="runtime_permission_general">Esta aplicación necesita los permisos solicitados para funcionar correctamente. Por ejemplo, el bloque de cámara
 necesita acceso a la cámara del dispositivo, el elemento de fórmula \"ubicación\" necesita acceso al sensor de geolocalización del dispositivo, y con el fin de importar y exportar proyectos desde y hacia la memoria local, la aplicación
 necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permisos a través de la configuración de tu dispositivo.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Demasiadas subidas. Espera unos minutos e inténtalo de nuevo.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Confirma tu dirección de correo electrónico antes de compartir un proyecto. Te hemos enviado un enlace de confirmación.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Tu cuenta ha sido suspendida, así que por ahora no puedes compartir proyectos.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Tus padres todavía tienen que confirmar tu cuenta para que puedas compartir proyectos.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Completa tu registro antes de compartir un proyecto.</string>
+    <string formatted="false" name="error_project_upload_login_required">Tu sesión ha caducado. Vuelve a iniciar sesión e intenta subirlo de nuevo.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">El tamaño del proyecto (%1$s) supera el límite de subida de %2$s MB. Reduce el tamaño del proyecto antes de compartirlo.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Un error ha ocurrido durante el proceso de descarga.</string>
     <string formatted="false" name="error_project_already_in_queue">"El proyecto %s ya está en cola."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Tu descarga no pudo ser
@@ -2007,9 +1992,11 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         errores. ¡No puedes deshacer esto!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">El programa obtiene subido a nuestra página de comunidad donde otros puedan usar y descargar.         También puede descargar el programa como aplicación independiente.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Procesando en el servidor…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Error al cargar. ¡Comprueba tu conexión a internet e intenta
         de nuevo!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Ver programa</string>
+    <string name="upload_progress_percent">%1$d %%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">El proyecto que está intentando subir ya existe en

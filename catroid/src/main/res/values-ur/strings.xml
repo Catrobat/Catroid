@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">سب منسوخ کریں</string>
     <string formatted="false" name="skip">چھوڑ دو</string>
     <string formatted="false" name="warning">خبردار</string>
-    <string formatted="false" name="error">خرابی</string>
     <string formatted="false" name="loading">لدائی کا عمل ہورہاہے&#8230;</string>
-    <string formatted="false" name="please_wait">براۓ مہربانی انتظار کريں</string>
     <string formatted="false" name="search_hint">تلاش کریں…</string>
     <string formatted="false" name="backpack_add">بستہ میں جمع کریں</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -72,9 +70,6 @@
     <string formatted="false" name="api_replacement">یہاں API کلید داخل کریں</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">لاگ ان کے اعداد و شمار کی جانچ پڑتال&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">گوگل لاگ ان کے اعداد و شمار کو تبدیل کرنے&#8230;</string>
-    <string formatted="false" name="loading_google_login">ہمارے سرور پر گوگل لاگ ان مکمل ہو گیا ہے&#8230;</string>
     <string formatted="false" name="logout_successful">لاگ آؤٹ کامیاب ہوا</string>
     <string formatted="false" name="degrees">ڈگری</string>
     <string formatted="false" name="background">پس پشت</string>
@@ -88,7 +83,7 @@
     <string formatted="false" name="main_menu_new">نیا پروجیکٹ</string>
     <string formatted="false" name="main_menu_programs">پروگرامات</string>
     <string formatted="false" name="main_menu_help">مدد</string>
-    <string formatted="false" name="main_menu_web">کاٹروبٹ کے تمام لوگ                      </string>
+    <string formatted="false" name="explore_share">ہماری کمیونٹی دیکھیں</string>
     <string formatted="false" name="main_menu_upload">پروجیکٹ کو اپ لوڈ کریں</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">ہمیں اعزاز دیں!</string>
@@ -707,41 +702,24 @@
     <string formatted="false" name="play_scene_dialog_current">موجودہ منظر (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">سائن ان کریں</string>
     <string formatted="false" name="username">صارف کا نام</string>
     <string formatted="false" name="password">خفیہ کوڈ</string>
     <string formatted="false" name="reset_password">پاس ورڈ ری سیٹ</string>
-    <string formatted="false" name="new_user_registered">نیا اکاؤنٹ بن گیا</string>
-    <string formatted="false" name="user_logged_in">لاگ ان کامیاب</string>
-    <string formatted="false" name="register_error">غلط لاگ ان کریں</string>
     <string formatted="false" name="register_terms">رجسٹر ہوتے ہوئے آپ متفق ہیں ہمارے</string>
     <string formatted="false" name="register_code_terms_of_use_text">سروس اور استعمال کی شرائط</string>
     <string formatted="false" name="login">لاگ اِن</string>
     <string formatted="false" name="register">رجسٹر کریں</string>
-    <string formatted="false" name="password_confirm">پاس ورڈ کی تصدیق</string>
-    <string formatted="false" name="accountName">ای-میل</string>
-    <string formatted="false" name="signin_thanks">سائن اپ کرنے کے لئے شکریہ!</string>
-    <string formatted="false" name="signin_choose_username">برائے مہربانی صارف نام منتخب کریں</string>
-    <string formatted="false" name="signin_choose_username_empty">برائے مہربانی صارف نام درج کریں</string>
-    <string formatted="false" name="signin_choose_username_hint">صارف نام آپ کا اصلی نام نہیں ہونا چاہئے اور نہ ہی اسے ایک ای میل ایڈریس ہونا چاہیے ۔</string>
-    <string formatted="false" name="oauth_username_taken">کسی اور پہلے ہی اس نام کا استعمال کرتا ہے ۔ ایک مختلف انتخاب کریں!</string>
+    <string formatted="false" name="sign_in_or">یا</string>
     <string formatted="false" name="show_password">پاسورڈ دکھاو</string>
     <string formatted="false" name="sign_in_error">سائن اپ کے دوران کچ غلط ہوگیا</string>
+    <string formatted="false" name="sign_in_wrong_credentials">غلط صارف نام یا پاس ورڈ۔</string>
+    <string formatted="false" name="sign_in_account_suspended">آپ کا اکاؤنٹ معطل کر دیا گیا ہے، اس لیے آپ فی الحال سائن ان نہیں کر سکتے۔</string>
     <string formatted="false" name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ %s</string>
-    <string formatted="false" name="error_session_expired">سیشن ختم ہو گیا، براہ کرم لاگ ان کریں۔</string>
     <string formatted="false" name="error_register_empty_username">خالی صارف نام</string>
-    <string formatted="false" name="error_register_username_as_email">ای میل ایڈریس کو بطور صارف نام استعمال نہیں کیا جا سکتا</string>
     <string formatted="false" name="error_register_invalid_username">صارف کا نام صرف حروف (a-z), نمبروں کا (0-9),
         ڈیش (-)، اجاگر کرتی (_) اور نکتے (.) کا حامل ہونا چاہیے ۔</string>
-    <string formatted="false" name="error_register_username_start_with">صارف کا نام ڈیشز (-)، اندراج (_)، یا کے ساتھ شروع نہیں ہونا چاہئے
-         دور (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">غلط ای میل کی شکل</string>
     <string formatted="false" name="error_register_empty_password">پاس ورڈ خالی ہے</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">پاس ورڈ کی لمبائی کم از کم 6 حروف ہونی چاہئے۔</string>
-    <string formatted="false" name="error_register_passwords_mismatch">پاس ورڈ ایک جیسے نہیں ہیں</string>
-    <string formatted="false" name="error_register_empty_confirm_password">تصدیق کریں کہ پاس ورڈ فیلڈ خالی ہے</string>
-    <string formatted="false" name="error_register_username_already_exists">یوزر/صارف کا نام پہلے سے موجود ہے</string>
-    <string formatted="false" name="error_register_email_exists">ای میل پتہ پہلے سے موجود ہے</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">پروجیکٹ موجود ہے.</string>
@@ -1273,8 +1251,15 @@
 کیمرے کی اینٹ آلہ کی کیمرہ تک رسائی کی ضرورت ہے، \"محل وقوع\" فارمولہ عنصر تک رسائی کی ضرورت ہے
 آلے کے جغرافیائیشن سینسر، اور مقامی میموری سے اور مقامی میموری پر درآمد اور برآمد کرنے کے لئے
 اس تک رسائی پڑھنے اور لکھنے کی ضرورت ہے. آپ ہمیشہ اپنے آلات کی ترتیبات کے ذریعے اجازت کو تبدیل کرسکتے ہیں.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">بہت زیادہ اپ لوڈز۔ براہ کرم چند منٹ انتظار کریں اور دوبارہ کوشش کریں۔</string>
+    <string formatted="false" name="error_project_upload_verify_email">پروجیکٹ شیئر کرنے سے پہلے براہ کرم اپنے ای میل پتے کی تصدیق کریں۔ ہم نے آپ کو تصدیقی لنک بھیج دیا ہے۔</string>
+    <string formatted="false" name="error_project_upload_account_suspended">آپ کا اکاؤنٹ معطل کر دیا گیا ہے، اس لیے آپ فی الحال پروجیکٹس شیئر نہیں کر سکتے۔</string>
+    <string formatted="false" name="error_project_upload_parental_consent">پروجیکٹس شیئر کرنے سے پہلے آپ کے والدین کو ابھی آپ کے اکاؤنٹ کی تصدیق کرنی ہوگی۔</string>
+    <string formatted="false" name="error_project_upload_complete_registration">پروجیکٹ شیئر کرنے سے پہلے براہ کرم اپنی رجسٹریشن مکمل کریں۔</string>
+    <string formatted="false" name="error_project_upload_login_required">آپ کا سیشن ختم ہو گیا ہے۔ براہ کرم دوبارہ لاگ ان کریں اور اپ لوڈ دوبارہ کرنے کی کوشش کریں۔</string>
+    <string formatted="false" name="error_project_too_large_for_upload">پروجیکٹ کا سائز %1$s ہے، جو %2$s MB کی اپ لوڈ حد سے زیادہ ہے۔ براہ کرم شیئر کرنے سے پہلے پروجیکٹ کا سائز کم کریں۔</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروجیکٹ %s پہلے ہی قطار میں ہے۔"</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ 
@@ -1991,8 +1976,10 @@
     <string formatted="false" name="deletion_alert_text">کسی متغیر یا فہرست کو حذف کرنا جو اب بھی استعمال میں ہے         غلطیوں کا سبب بن سکتا ہے۔ آپ اسے کالعدم نہیں کر سکتے!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">آپ کا پروجیکٹ ایپ  شراکت دار سائٹ پر اپ لوڈ ہو جاتا ہے جہاں دوسروں کو اس کا استعمال اور اسے ڈاؤن لوڈ کرسکتا ہے. آپ اپنے منصوبے کو ایک اسٹائل ایپ کے طور پر بھی ڈاؤن لوڈ کرسکتے ہیں.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">سرور پر پروسیس ہو رہا ہے…</string>
     <string formatted="false" name="progress_upload_dialog_failed">اپ لوڈناکام. براہ کرم اپنا انٹرنیٹ کنکشن چیک کریں اور         دوبارہ کوشش کریں!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">منصوبے دکھائیں</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">آپ جس پروجیکٹ کو اپ لوڈ کرنے کی کوشش کر رہے ہیں وہ         کمیونٹی پلیٹ فارم پر بالکل اسی شکل میں پہلے سے موجود ہے۔ براہ کرم اپنا ریمکس شدہ پروجیکٹ اپ لوڈ کرنے سے پہلے اپنے پروجیکٹ کو مثالی طور پر         بہتر بنا کر تبدیل کریں۔</string>

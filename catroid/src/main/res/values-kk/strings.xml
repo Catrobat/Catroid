@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Барлығын қайтару</string>
     <string formatted="false" name="skip">өткізу</string>
     <string formatted="false" name="warning">Ескерту</string>
-    <string formatted="false" name="error">Қате</string>
     <string formatted="false" name="loading">Жүктелуде&#8230;</string>
-    <string formatted="false" name="please_wait">Күте тұрыңыз</string>
     <string formatted="false" name="search_hint">Іздеу</string>
     <string formatted="false" name="backpack_add">Рюкзакқа салу</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">API кілтін еңгізіңіз</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Кіру деректері тексерілуде&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Google кіру деректері алмасуда&#8230;</string>
-    <string formatted="false" name="loading_google_login">Біздің серверде Google-ге кіру&#8230;аяқталды</string>
     <string formatted="false" name="logout_successful">Жүйеден шығу сәтті аяқталды</string>
     <string formatted="false" name="degrees">градус</string>
     <string formatted="false" name="background">Фон</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Жаңа жоба</string>
     <string formatted="false" name="main_menu_programs">Құрылғыдағы жобалар</string>
     <string formatted="false" name="main_menu_help">Жəрдем</string>
-    <string formatted="false" name="main_menu_web">Catrobat қауымдастығы</string>
+    <string formatted="false" name="explore_share">Қауымдастығымызды шолыңыз</string>
     <string formatted="false" name="main_menu_upload">Жобаны жүктеу</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Бізді бағалаңыз!</string>
@@ -706,39 +701,23 @@
     <string formatted="false" name="play_scene_dialog_current">Қазіргі сахна (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Кіру</string>
     <string formatted="false" name="username">Пайдаланушы аты</string>
     <string formatted="false" name="password">Құпиясөз</string>
     <string formatted="false" name="reset_password">Құпиясөзді қалпына келтіру</string>
-    <string formatted="false" name="new_user_registered">Жаңа аккаунт құрылды</string>
-    <string formatted="false" name="user_logged_in">Жүйеге кіру сәтті</string>
-    <string formatted="false" name="register_error">Кіру жарамсыз</string>
     <string formatted="false" name="register_terms">Тіркелу арқылы сіз біздің келісімімізге келісесіз</string>
     <string formatted="false" name="register_code_terms_of_use_text">Пайдалану және қызмет көрсету шарттары</string>
     <string formatted="false" name="login">Кіру</string>
     <string formatted="false" name="register">Тіркелу</string>
-    <string formatted="false" name="password_confirm">Құпиясөзді растау</string>
-    <string formatted="false" name="accountName">Эл. пошта</string>
-    <string formatted="false" name="signin_thanks">Тіркелгеніңізге рахмет!</string>
-    <string formatted="false" name="signin_choose_username">Пайдаланушы атыңызды таңдаңыз:</string>
-    <string formatted="false" name="signin_choose_username_empty">Пайдаланушы атын енгізіңіз.</string>
-    <string formatted="false" name="signin_choose_username_hint">Пайдаланушы аты сіздің шын атыңыз немесе электрондық пошта мекенжайы болмауы керек.</string>
-    <string formatted="false" name="oauth_username_taken">Бұл атауды әлдеқашан басқа біреу қолданады. Басқасын таңдаңыз!</string>
+    <string formatted="false" name="sign_in_or">немесе</string>
     <string formatted="false" name="show_password">Құпиясөзді көрсету</string>
     <string formatted="false" name="sign_in_error">Жүйеге кіру кезінде бірдеңе дұрыс болмады.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Пайдаланушы аты немесе құпиясөз қате.</string>
+    <string formatted="false" name="sign_in_account_suspended">Аккаунтыңыз тоқтатылды, сондықтан қазір жүйеге кіре алмайсыз.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google жүйесіне кіру қатесі. Күйі: %s</string>
-    <string formatted="false" name="error_session_expired">Сеанс аяқталды, жүйеге кіріңіз.</string>
     <string formatted="false" name="error_register_empty_username">Бос пайдаланушы аты</string>
-    <string formatted="false" name="error_register_username_as_email">Электрондық пошта мекенжайын пайдаланушы аты ретінде пайдалану мүмкін емес</string>
     <string formatted="false" name="error_register_invalid_username">Пайдаланушы атында тек әріптер (a–z), сандар (0–9), сызықшалар (-), астын сызулар (_) және нүктелер (.) болуы керек.</string>
-    <string formatted="false" name="error_register_username_start_with">Пайдаланушы аты сызықша (-), астын сызу (_) немесе нүктелерден (.) басталмауы керек.</string>
-    <string formatted="false" name="error_register_invalid_email_format">Жарамсыз эл. пошта пішімі</string>
     <string formatted="false" name="error_register_empty_password">Құпия сөз өрісі бос</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Құпия сөз кемінде 6 таңбадан тұруы керек</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Құпия сөздер сәйкес келмейді</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Құпия сөзді растау өрісі бос</string>
-    <string formatted="false" name="error_register_username_already_exists">Пайдаланушы аты әлдеқашан бар</string>
-    <string formatted="false" name="error_register_email_exists">Эл. пошта мекенжайы бұрыннан бар</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Жоба бар.</string>
@@ -1272,8 +1251,15 @@
 Камера кірпішіне құрылғының камерасына рұқсат қажет, \"орын\" формуласы элементіне рұқсат қажет
 құрылғының геолокация сенсорын және жобаларды жергілікті жадтан және оған импорттау және экспорттау үшін қолданба
 оған оқу және жазу рұқсаты қажет. Рұқсаттарды әрқашан құрылғының параметрлері арқылы өзгертуге болады.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Жобаны жүктеу кезінде бір нәрсе дұрыс болмады :(</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Жүктеп салу тым көп. Бірнеше минут күтіп, қайталап көріңіз.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Жобамен бөліспес бұрын электрондық пошта мекенжайыңызды растаңыз. Сізге растау сілтемесін жібердік.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Аккаунтыңыз тоқтатылды, сондықтан қазір жобалармен бөлісе алмайсыз.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Жобалармен бөлісу үшін ата-анаңыз әлі аккаунтыңызды растауы керек.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Жобамен бөліспес бұрын тіркелуді аяқтаңыз.</string>
+    <string formatted="false" name="error_project_upload_login_required">Сеансыңыздың мерзімі бітті. Қайта кіріп, жүктеп салуды қайталап көріңіз.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Жоба өлшемі (%1$s) %2$s МБ жүктеп салу шегінен асып кетті. Бөліспес бұрын жоба өлшемін азайтыңыз.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Жобаны жүктеп алу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_project_already_in_queue">"%s жобасы әлдеқашан кезекте."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">\"Сіздің жүктеп алуыңыз мүмкін емес
@@ -2003,8 +1989,10 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Жобаңыз басқалармен бөлісетін қолданбаның ортақ сайтына жүктеп
         пайдалана алады және жүктей алады. Сондай-ақ жобаңызды жеке қолданба ретінде жүктеп алуға болады.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Серверде өңделуде…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Жобаны жүктеу мүмкін болмады. Интернет байланысын тексеріп, қайтадан қайталап көріңіз!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Жобаны көрсету</string>
+    <string name="upload_progress_percent">%1$d %%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Жүктеп салуға тырысып жатқан жоба бұрыннан бар

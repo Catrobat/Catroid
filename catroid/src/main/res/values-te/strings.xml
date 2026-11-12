@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Deselect all</string>
     <string formatted="false" name="skip">skip</string>
     <string formatted="false" name="warning">Warning</string>
-    <string formatted="false" name="error">తప్పు</string>
     <string formatted="false" name="loading">లోడ్ అవుతున్నది&#8230;</string>
-    <string formatted="false" name="please_wait">దయచేసి వేచి ఉండుము</string>
     <string formatted="false" name="search_hint">శోధన…</string>
     <string formatted="false" name="backpack_add">తగిలించుకునే బ్యాగులో జోడించండి</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string formatted="false" name="logout_successful">Logout successful</string>
     <string formatted="false" name="degrees">degrees</string>
     <string formatted="false" name="background">తెర వెనుక</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">కొత్త</string>
     <string formatted="false" name="main_menu_programs">Projects on device</string>
     <string formatted="false" name="main_menu_help">సహాయం</string>
-    <string formatted="false" name="main_menu_web">Catrobat community</string>
+    <string formatted="false" name="explore_share">మా కమ్యూనిటీని అన్వేషించండి</string>
     <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">Rate us!</string>
@@ -730,41 +725,24 @@
     <string formatted="false" name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Sign in</string>
     <string formatted="false" name="username">వినియోగదారుని పేరు</string>
     <string formatted="false" name="password">పాస్వర్డ్</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">New account created</string>
-    <string formatted="false" name="user_logged_in">Login successful</string>
-    <string formatted="false" name="register_error">Login invalid</string>
     <string formatted="false" name="register_terms">By registering you agree to our</string>
     <string formatted="false" name="register_code_terms_of_use_text">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
     <string formatted="false" name="login">ప్రవేశించండి</string>
     <string formatted="false" name="register">Register</string>
-    <string formatted="false" name="password_confirm">Confirm password</string>
-    <string formatted="false" name="accountName">ఇ-మెయిల్</string>
-    <string formatted="false" name="signin_thanks">Thank you for signing up!</string>
-    <string formatted="false" name="signin_choose_username">Please choose your username:</string>
-    <string formatted="false" name="signin_choose_username_empty">Please enter a username.</string>
-    <string formatted="false" name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string formatted="false" name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+    <string formatted="false" name="sign_in_or">లేదా</string>
     <string formatted="false" name="show_password">Show password</string>
     <string formatted="false" name="sign_in_error">Something went wrong during sign in.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">వినియోగదారు పేరు లేదా పాస్‌వర్డ్ తప్పు.</string>
+    <string formatted="false" name="sign_in_account_suspended">మీ ఖాతా నిలిపివేయబడింది, కాబట్టి మీరు ప్రస్తుతం సైన్ ఇన్ చేయలేరు.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string formatted="false" name="error_session_expired">Session expired, please log in.</string>
     <string formatted="false" name="error_register_empty_username">Empty username</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Invalid email format</string>
     <string formatted="false" name="error_register_empty_password">Password field is empty</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string formatted="false" name="error_register_username_already_exists">Username already exists</string>
-    <string formatted="false" name="error_register_email_exists">Email address already exists</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Project exists.</string>
@@ -1300,8 +1278,15 @@
 Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">చాలా ఎక్కువ అప్‌లోడ్‌లు. దయచేసి కొన్ని నిమిషాలు ఆగి మళ్లీ ప్రయత్నించండి.</string>
+    <string formatted="false" name="error_project_upload_verify_email">ప్రాజెక్ట్‌ను షేర్ చేసే ముందు దయచేసి మీ ఇ-మెయిల్ చిరునామాను నిర్ధారించండి. మేము మీకు నిర్ధారణ లింక్ పంపాము.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">మీ ఖాతా నిలిపివేయబడింది, కాబట్టి మీరు ప్రస్తుతం ప్రాజెక్ట్‌లను షేర్ చేయలేరు.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">మీరు ప్రాజెక్ట్‌లను షేర్ చేయడానికి ముందు మీ తల్లిదండ్రులు ఇంకా మీ ఖాతాను నిర్ధారించాలి.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">ప్రాజెక్ట్‌ను షేర్ చేసే ముందు దయచేసి మీ రిజిస్ట్రేషన్‌ను పూర్తి చేయండి.</string>
+    <string formatted="false" name="error_project_upload_login_required">మీ సెషన్ గడువు ముగిసింది. దయచేసి మళ్లీ లాగిన్ చేసి అప్‌లోడ్‌ను మళ్లీ ప్రయత్నించండి.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">ప్రాజెక్ట్ పరిమాణం %1$s, ఇది %2$s MB అప్‌లోడ్ పరిమితిని మించిపోయింది. షేర్ చేసే ముందు దయచేసి ప్రాజెక్ట్ పరిమాణాన్ని తగ్గించండి.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
     <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -2036,8 +2021,10 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">సర్వర్‌లో ప్రాసెస్ అవుతోంది…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Upload failed. The upload feature is currently unavailable. Please try again later.</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Show project</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on

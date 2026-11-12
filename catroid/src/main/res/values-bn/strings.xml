@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">সব নির্বাচন প্রত্যাহার করুন</string>
     <string formatted="false" name="skip">এড়িয়ে যান</string>
     <string formatted="false" name="warning">সতর্কতা</string>
-    <string formatted="false" name="error">ভুল</string>
     <string formatted="false" name="loading">লোড হচ্ছে&#8230;</string>
-    <string formatted="false" name="please_wait">অনুগ্রহ করে অপেক্ষা করুন</string>
     <string formatted="false" name="search_hint">অনুসন্ধান</string>
     <string formatted="false" name="backpack_add">ব্যাকপ্যাক যোগ করুন</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">এখানে API কী sertোকান</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">লগইন ডেটা পরীক্ষা করা হচ্ছে</string>
-    <string formatted="false" name="loading_google_exchange_code">গুগল লগইন ডেটা বিনিময় করা</string>
-    <string formatted="false" name="loading_google_login">আমাদের সার্ভারে গুগল লগইন সম্পূর্ণ</string>
     <string formatted="false" name="logout_successful">লগআউট সফল</string>
     <string formatted="false" name="degrees">ডিগ্রী</string>
     <string formatted="false" name="background">ব্যাকগ্রাউন্ড</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">নতুন প্রজেক্ট</string>
     <string formatted="false" name="main_menu_programs">ডিভাইসে প্রজেক্টগুলি</string>
     <string formatted="false" name="main_menu_help">সাহায্য</string>
-    <string formatted="false" name="main_menu_web">ক্যাট্রোব্যাট সম্প্রদায়</string>
+    <string formatted="false" name="explore_share">আমাদের কমিউনিটি ঘুরে দেখুন</string>
     <string formatted="false" name="main_menu_upload">আপলোডকৃত প্রজেক্ট</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">আমাদের মতামত দিন</string>
@@ -707,39 +702,23 @@
     <string formatted="false" name="play_scene_dialog_current">বর্তমান দৃশ্য (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">সাইন ইন</string>
     <string formatted="false" name="username">ব্যবহারকারীর নাম</string>
     <string formatted="false" name="password">পাসওয়ার্ড</string>
     <string formatted="false" name="reset_password">পাসওয়ার্ড রিসেট করুন</string>
-    <string formatted="false" name="new_user_registered">নতুন অ্যাকাউন্ট তৈরি করা হয়েছে</string>
-    <string formatted="false" name="user_logged_in">সফল লগইন</string>
-    <string formatted="false" name="register_error">লগইন অবৈধ</string>
     <string formatted="false" name="register_terms">নিবন্ধন করে আপনি আমাদের সাথে সম্মত হন</string>
     <string formatted="false" name="register_code_terms_of_use_text">ব্যবহার এবং সেবার শর্তাদি</string>
     <string formatted="false" name="login">প্রবেশ করুন</string>
     <string formatted="false" name="register">নিবন্ধন</string>
-    <string formatted="false" name="password_confirm">পাসওয়ার্ড নিশ্চিত করুন</string>
-    <string formatted="false" name="accountName">ই-মেল</string>
-    <string formatted="false" name="signin_thanks">নিবন্ধন করার জন্য আপনাকে ধন্যবাদ!</string>
-    <string formatted="false" name="signin_choose_username">অনুগ্রহ করে একটি ব্যবহারকারীর নাম নির্বাচন করুন।</string>
-    <string formatted="false" name="signin_choose_username_empty">দয়া করে একটি ব্যবহারকারীর নাম লিখুন।</string>
-    <string formatted="false" name="signin_choose_username_hint">ব্যবহারকারীর নামটি আপনার আসল নাম বা ইমেলের ঠিকানা হওয়া উচিত নয়।</string>
-    <string formatted="false" name="oauth_username_taken">ইতিমধ্যে অন্য কেউ এই নামটি ব্যবহার করেছেন। দয়া করে একটি আলাদা নাম নির্বাচন করুন!</string>
+    <string formatted="false" name="sign_in_or">অথবা</string>
     <string formatted="false" name="show_password">পাসওয়ার্ড দেখান</string>
     <string formatted="false" name="sign_in_error">সাইন ইন করার সময় কিছু ভুল হয়েছে</string>
+    <string formatted="false" name="sign_in_wrong_credentials">ব্যবহারকারীর নাম বা পাসওয়ার্ড ভুল।</string>
+    <string formatted="false" name="sign_in_account_suspended">আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে, তাই আপনি এই মুহূর্তে সাইন ইন করতে পারবেন না।</string>
     <string formatted="false" name="error_google_plus_sign_in">গুগল সাইন ইন ভুল। অবস্থান: %s</string>
-    <string formatted="false" name="error_session_expired">সেশনটির মেয়াদ শেষ হয়েছে, দয়া করে লগ ইন করুন।</string>
     <string formatted="false" name="error_register_empty_username">ব্যবহারকারীর নাম খালি</string>
-    <string formatted="false" name="error_register_username_as_email">ইমেল ঠিকানা ব্যবহারকারীর নাম হিসাবে ব্যবহার করা যাবে না</string>
     <string formatted="false" name="error_register_invalid_username">ব্যবহারকারীর নামটিতে শুধুমাত্র থাকা  উচিত অক্ষর (a – z), সংখ্যা (0–9), ড্যাশ (-), আন্ডারস্কোর (_) এবং পিরিয়ড (।).</string>
-    <string formatted="false" name="error_register_username_start_with">ব্যবহারকারীর নামটি শুরু করা উচিত নয় ড্যাশ (-), আন্ডারস্কোর (_), বা  পিরিয়ডস (।) দিয়ে।</string>
-    <string formatted="false" name="error_register_invalid_email_format">ভুল ইমেল ফরম্যাট</string>
     <string formatted="false" name="error_register_empty_password">পাসওয়ার্ড ক্ষেত্রটি খালি</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">পাসওয়ার্ড কমপক্ষে ৬টি অক্ষর হওয়া উচিত</string>
-    <string formatted="false" name="error_register_passwords_mismatch">পাসওয়ার্ড মিলছে না</string>
-    <string formatted="false" name="error_register_empty_confirm_password">নিশ্চিত করুন পাসওয়ার্ড ক্ষেত্রটি খালি</string>
-    <string formatted="false" name="error_register_username_already_exists">ব্যবহারকারীর নাম ইতোমধ্যে রয়েছে</string>
-    <string formatted="false" name="error_register_email_exists">ই-মেইল ঠিকানাটি ইতিমধ্যে ব্যবহার করা হয়েছে</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">প্রজেক্টটি বিদ্যমান।</string>
@@ -1268,8 +1247,15 @@
     <!--  -->
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">এই অ্যাপ্লিকেশনটির সঠিকভাবে কাজ করার জন্য অনুরোধ করা অনুমতিগুলি দরকার। উদাহরণস্বরূপ, ক্যামেরা ব্রিক ডিভাইসের ক্যামেরায় অ্যাক্সেস প্রয়োজন, \"অবস্থান\" সূত্র উপাদানটি ডিভাইসের ভূ-অবস্থান সেন্সরটিতে অ্যাক্সেসের প্রয়োজন, এবং স্থানীয় মেমরি থেকে এবং আমদানি ও রফতানি করতে অ্যাপ্লিকেশনটিকে এটি পড়তে এবং লেখার অ্যাক্সেসের প্রয়োজন । আপনি সর্বদা আপনার ডিভাইসের সেটিংসের মাধ্যমে অনুমতিগুলি পরিবর্তন করতে পারেন।</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">প্রজেক্টটি আপলোড করার সময় কিছু ভুল হয়েছে।</string>
+    <string formatted="false" name="error_project_upload_rate_limit">অনেক বেশি আপলোড হয়েছে। অনুগ্রহ করে কয়েক মিনিট অপেক্ষা করে আবার চেষ্টা করুন।</string>
+    <string formatted="false" name="error_project_upload_verify_email">প্রজেক্ট শেয়ার করার আগে অনুগ্রহ করে আপনার ই-মেইল ঠিকানা নিশ্চিত করুন। আমরা আপনাকে একটি নিশ্চিতকরণ লিংক পাঠিয়েছি।</string>
+    <string formatted="false" name="error_project_upload_account_suspended">আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে, তাই আপনি এই মুহূর্তে প্রজেক্ট শেয়ার করতে পারবেন না।</string>
+    <string formatted="false" name="error_project_upload_parental_consent">আপনি প্রজেক্ট শেয়ার করার আগে আপনার বাবা-মাকে এখনও আপনার অ্যাকাউন্ট নিশ্চিত করতে হবে।</string>
+    <string formatted="false" name="error_project_upload_complete_registration">প্রজেক্ট শেয়ার করার আগে অনুগ্রহ করে আপনার নিবন্ধন সম্পূর্ণ করুন।</string>
+    <string formatted="false" name="error_project_upload_login_required">আপনার সেশনের মেয়াদ শেষ হয়ে গেছে। অনুগ্রহ করে আবার লগ ইন করে আপলোডটি আবার চেষ্টা করুন।</string>
+    <string formatted="false" name="error_project_too_large_for_upload">প্রজেক্টের আকার %1$s, যা %2$s MB আপলোডের সীমা ছাড়িয়ে গেছে। শেয়ার করার আগে অনুগ্রহ করে প্রজেক্টের আকার কমান।</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">প্রজেক্টটি ডাউনলোড করার সময় কিছু ভুল হয়েছে।</string>
     <string formatted="false" name="error_project_already_in_queue">"প্রকল্প %s ইতিমধ্যে সারিতে রয়েছে।"</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"আপনার ডাউনলোড হতে পারে না
@@ -1980,8 +1966,10 @@
         ত্রুটি আপনি এটিকে পূর্বাবস্থায় ফেরাতে পারবেন না!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">আপনার প্রজেক্টি অ্যাপ্লিকেশনটির শেয়ার করে নেওয়ার সাইটে আপলোড হবে যেখানে অন্যরা এটি ব্যবহার এবং ডাউনলোড করতে পারে। আপনি নিজের প্রজেক্টি একটি স্বতন্ত্র অ্যাপ্লিকেশন হিসাবে ডাউনলোড করতে পারেন।</string>
+    <string formatted="false" name="progress_upload_dialog_processing">সার্ভারে প্রক্রিয়া করা হচ্ছে…</string>
     <string formatted="false" name="progress_upload_dialog_failed">আপলোড ব্যর্থ হয়েছে। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।</string>
     <string formatted="false" name="progress_upload_dialog_show_program">প্রজেক্টি দেখান</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">আপনি যে প্রকল্পটি আপলোড করার চেষ্টা করছেন তা ইতিমধ্যে বিদ্যমান

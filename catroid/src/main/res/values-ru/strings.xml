@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">Снять все выделения</string>
     <string formatted="false" name="skip">пропустить</string>
     <string formatted="false" name="warning">Предупреждение</string>
-    <string formatted="false" name="error">Ошибка</string>
     <string formatted="false" name="loading">Загрузка&#8230;</string>
-    <string formatted="false" name="please_wait">Пожалуйста, подождите</string>
     <string formatted="false" name="search_hint">Поиск</string>
     <string formatted="false" name="backpack_add">Положить в портфель</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">вставьте API ключ здесь</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">Проверка данных для входа&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">Обмен данными для входа в Google&#8230;</string>
-    <string formatted="false" name="loading_google_login">Вход в систему Google на нашем сервере был завершен&#8230;</string>
     <string formatted="false" name="logout_successful">Выход выполнен</string>
     <string formatted="false" name="degrees">градусов</string>
     <string formatted="false" name="background">Фон</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">Новый проект</string>
     <string formatted="false" name="main_menu_programs">Проекты на устройстве</string>
     <string formatted="false" name="main_menu_help">Помощь</string>
-    <string formatted="false" name="main_menu_web">Сообщество Catrobat</string>
+    <string formatted="false" name="explore_share">Познакомьтесь с нашим сообществом</string>
     <string formatted="false" name="main_menu_upload">Выложить проект</string>
     <string formatted="false" name="main_menu_play">Запустить проект</string>
     <string formatted="false" name="main_menu_rate_app">Оцените нас!</string>
@@ -806,41 +801,24 @@
     <string formatted="false" name="play_scene_dialog_current">Текущая сцена (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">Войти в аккаунт</string>
     <string formatted="false" name="username">Имя пользователя</string>
     <string formatted="false" name="password">Пароль</string>
     <string formatted="false" name="reset_password">Сбросить пароль</string>
-    <string formatted="false" name="new_user_registered">Новый аккаунт был создан</string>
-    <string formatted="false" name="user_logged_in">Вы успешно вошли в аккаунт</string>
-    <string formatted="false" name="register_error">Неверный логин</string>
     <string formatted="false" name="register_terms">Регистрируясь, вы соглашаетесь с нашими</string>
     <string formatted="false" name="register_code_terms_of_use_text">Условия пользования и обслуживания</string>
     <string formatted="false" name="login">Войти</string>
     <string formatted="false" name="register">Зарегистрироваться</string>
-    <string formatted="false" name="password_confirm">Подтвердить пароль</string>
-    <string formatted="false" name="accountName">Электронная почта</string>
-    <string formatted="false" name="signin_thanks">Спасибо за регистрацию!</string>
-    <string formatted="false" name="signin_choose_username">Пожалуйста, выберите имя пользователя:</string>
-    <string formatted="false" name="signin_choose_username_empty">Пожалуйста, введите имя пользователя.</string>
-    <string formatted="false" name="signin_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем, и не должно являться адресом электронной почты.</string>
-    <string formatted="false" name="oauth_username_taken">Кто-то уже использует это имя. Пожалуйста, выберите другое!</string>
+    <string formatted="false" name="sign_in_or">или</string>
     <string formatted="false" name="show_password">Показать пароль</string>
     <string formatted="false" name="sign_in_error">Что-то пошло не так при входе в аккаунт.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">Неверное имя пользователя или пароль.</string>
+    <string formatted="false" name="sign_in_account_suspended">Ваш аккаунт заблокирован, поэтому сейчас вы не можете войти.</string>
     <string formatted="false" name="error_google_plus_sign_in">Ошибка входа в аккаунт Google. Статус: %s</string>
-    <string formatted="false" name="error_session_expired">Сессия истекла, пожалуйста, войдите в аккаунт.</string>
     <string formatted="false" name="error_register_empty_username">Пустое имя пользователя</string>
-    <string formatted="false" name="error_register_username_as_email">Адрес электронной почты не может быть использован как имя пользователя</string>
     <string formatted="false" name="error_register_invalid_username">Имя пользователя может содержать только буквы (a–z), цифры (0–9),
         тире (-), подчеркивания (_), и точки (.).</string>
-    <string formatted="false" name="error_register_username_start_with">Имя пользователя не должно начинаться с тире (-), подчеркивания (_), или
-        точек (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">Недопустимый формат электронной почты</string>
     <string formatted="false" name="error_register_empty_password">Не заполнено поле \"Пароль\"</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">Пароль должен содержать не менее 6 символов</string>
-    <string formatted="false" name="error_register_passwords_mismatch">Пароли не совпадают</string>
-    <string formatted="false" name="error_register_empty_confirm_password">Не заполнено поле \"Подтвердить пароль\"</string>
-    <string formatted="false" name="error_register_username_already_exists">Это имя пользователя уже зарегистрировано</string>
-    <string formatted="false" name="error_register_email_exists">Этот адрес электронной почты уже зарегистрирован</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">Проект уже существует.</string>
@@ -1388,8 +1366,15 @@
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">Это приложение нуждается в запрашиваемых разрешениях для правильного функционирования.
 Например, блок камеры нуждается в доступе к камере устройства, а \"местоположение\" из редактора формул нуждается в доступе к GPS устройства, также для того, чтобы импортировать или экспортировать проекты с, и на устройство, приложению нужен доступ к внешнему хранилищу. Вы всегда можете поменять разрешения через настройки своего устройства.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">Что-то пошло не так во время выкладывания проекта.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">Слишком много попыток выложить проект. Пожалуйста, подождите несколько минут и повторите попытку.</string>
+    <string formatted="false" name="error_project_upload_verify_email">Пожалуйста, подтвердите адрес электронной почты, прежде чем делиться проектом. Мы отправили вам ссылку для подтверждения.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">Ваш аккаунт заблокирован, поэтому сейчас вы не можете делиться проектами.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">Прежде чем вы сможете делиться проектами, ваши родители должны подтвердить ваш аккаунт.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">Пожалуйста, завершите регистрацию, прежде чем делиться проектом.</string>
+    <string formatted="false" name="error_project_upload_login_required">Срок действия сеанса истёк. Пожалуйста, войдите снова и повторите попытку выложить проект.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">Размер проекта (%1$s) превышает лимит в %2$s МБ. Пожалуйста, уменьшите размер проекта, прежде чем делиться им.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">Что-то пошло не так при скачивании проекта.</string>
     <string formatted="false" name="error_project_already_in_queue">"Проект %s уже в очереди."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">"Ваше скачивание не может быть
@@ -2124,9 +2109,11 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Ваш проект выкладывается на сайт, где другие могут использовать и
         скачивать его. Вы также можете скачать свой проект в качестве отдельного приложения.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">Обработка на сервере…</string>
     <string formatted="false" name="progress_upload_dialog_failed">Выкладывание не удалось. Проверьте подключение к интернету и попробуйте
         снова!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">Показать проект</string>
+    <string name="upload_progress_percent">%1$d %%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">Проект, который вы пытаетесь выложить, уже существует на

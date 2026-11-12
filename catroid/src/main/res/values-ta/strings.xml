@@ -53,9 +53,7 @@
     <string formatted="false" name="deselect_all">அனைத்தையும் தேர்வுநீக்கு</string>
     <string formatted="false" name="skip">தவிர்</string>
     <string formatted="false" name="warning">எச்சரிக்கை</string>
-    <string formatted="false" name="error">பிழை</string>
     <string formatted="false" name="loading">ஏற்றுதல்&#8230;</string>
-    <string formatted="false" name="please_wait">தயவுசெய்து காத்திருக்கவும்</string>
     <string formatted="false" name="search_hint">தேடு…</string>
     <string formatted="false" name="backpack_add">பின்சுமைப்பையில் சேர்</string>
     <string formatted="false" name="share_website_text">share.catrobat.org</string>
@@ -75,9 +73,6 @@
     <string formatted="false" name="api_replacement">பநிஇ (API) விசையை இங்கே செருகவும்</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string formatted="false" name="loading_check_oauth_token">உள்நுழைவு தரவைச் சரிபார்க்கிறது&#8230;</string>
-    <string formatted="false" name="loading_google_exchange_code">கூகுள் உள்நுழைவு தரவைப் பரிமாறிக்கொள்கிறது&#8230;</string>
-    <string formatted="false" name="loading_google_login">எங்கள் சேவையகத்தில் கூகுள் உள்நுழைவு நிறைவடைந்தது&#8230;</string>
     <string formatted="false" name="logout_successful">வெளியேறல் வெற்றியாயிற்று</string>
     <string formatted="false" name="degrees">டிகிரிக்கள்</string>
     <string formatted="false" name="background">பின்னணி</string>
@@ -91,7 +86,7 @@
     <string formatted="false" name="main_menu_new">புதிய</string>
     <string formatted="false" name="main_menu_programs">சாதனத்தில் உள்ள திட்டங்கள்</string>
     <string formatted="false" name="main_menu_help">உதவி</string>
-    <string formatted="false" name="main_menu_web">கற்றோபாட்டுச் சமூகம்</string>
+    <string formatted="false" name="explore_share">எங்கள் சமூகத்தை ஆராயுங்கள்</string>
     <string formatted="false" name="main_menu_upload">திட்டப்பணி ஏற்றுக</string>
     <string formatted="false" name="main_menu_play">Play project</string>
     <string formatted="false" name="main_menu_rate_app">எங்களை மதிப்பிடுக!</string>
@@ -721,41 +716,24 @@
     <string formatted="false" name="play_scene_dialog_current">தற்போதைய காட்சி (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string formatted="false" name="sign_in_dialog_title">உள்நுழைக</string>
     <string formatted="false" name="username">பயனர் பெயர்</string>
     <string formatted="false" name="password">கடவுச்சொல்</string>
     <string formatted="false" name="reset_password">Reset password</string>
-    <string formatted="false" name="new_user_registered">புதிய கணக்கு உருவாக்கப்பட்டது</string>
-    <string formatted="false" name="user_logged_in">உள்நுழைதல் வெற்றி</string>
-    <string formatted="false" name="register_error">உள்நுழைவு தவறானது</string>
     <string formatted="false" name="register_terms">பதிவு செய்வதன் மூலம் நீங்கள் எங்கள் ஒப்புக்கொள்கிறீர்கள்</string>
     <string formatted="false" name="register_code_terms_of_use_text">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
     <string formatted="false" name="login">உள்நுழை</string>
     <string formatted="false" name="register">பதிவு</string>
-    <string formatted="false" name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்தவும்</string>
-    <string formatted="false" name="accountName">மின்னஞ்சல்</string>
-    <string formatted="false" name="signin_thanks">பதிவு செய்ததற்கு நன்றி!</string>
-    <string formatted="false" name="signin_choose_username">உங்கள் பயனர்பெயரைத் தேர்வுசெய்க:</string>
-    <string formatted="false" name="signin_choose_username_empty">பயனர்பெயரை உள்ளிடவும்.</string>
-    <string formatted="false" name="signin_choose_username_hint">பயனர்பெயர் உங்கள் உண்மையான பெயராக இருக்கக்கூடாது அல்லது அது ஒரு மின்னஞ்சல் முகவரியாக இருக்கக்கூடாது.</string>
-    <string formatted="false" name="oauth_username_taken">வேறொருவர் ஏற்கனவே இந்த பெயரைப் பயன்படுத்துகிறார். தயவுசெய்து வேறு ஒன்றைத் தேர்வுசெய்க!</string>
+    <string formatted="false" name="sign_in_or">அல்லது</string>
     <string formatted="false" name="show_password">கடவுச்சொல்லை காட்டவும்</string>
     <string formatted="false" name="sign_in_error">உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string formatted="false" name="sign_in_wrong_credentials">பயனர் பெயர் அல்லது கடவுச்சொல் தவறானது.</string>
+    <string formatted="false" name="sign_in_account_suspended">உங்கள் கணக்கு இடைநிறுத்தப்பட்டுள்ளது, எனவே தற்போது உள்நுழைய முடியாது.</string>
     <string formatted="false" name="error_google_plus_sign_in">Google உள்நுழைவு பிழை. நிலை %s</string>
-    <string formatted="false" name="error_session_expired">அமர்வு காலாவதியானது, தயவுசெய்து உள்நுழைக.</string>
     <string formatted="false" name="error_register_empty_username">வெற்று பயனர்பெயர்</string>
-    <string formatted="false" name="error_register_username_as_email">Email address cannot be used as username</string>
     <string formatted="false" name="error_register_invalid_username">பயனர்பெயரில் எழுத்துக்கள் (a-z), எண்கள் (0–9),
         கோடுகள் (-), அடிக்கோடிட்டுக் காட்டுகின்றன (_) மற்றும் காலங்கள் (.).</string>
-    <string formatted="false" name="error_register_username_start_with">பயனர்பெயர் கோடுகள் (-), அடிக்கோடிட்டுக் காட்டுதல் (_) அல்லது தொடங்கக்கூடாது
-        காலங்கள் (.).</string>
-    <string formatted="false" name="error_register_invalid_email_format">தவறான மின்னஞ்சல் வடிவம்</string>
     <string formatted="false" name="error_register_empty_password">கடவுச்சொல் புலம் காலியாக உள்ளது</string>
     <string formatted="false" name="error_register_password_at_least_6_characters">கடவுச்சொல் குறைந்தது 6 எழுத்துகளாக இருக்க வேண்டும்</string>
-    <string formatted="false" name="error_register_passwords_mismatch">கடவுச்சொற்கள் பொருத்தமாக இல்லை</string>
-    <string formatted="false" name="error_register_empty_confirm_password">கடவுச்சொல் புலம் காலியாக இருப்பதை உறுதிப்படுத்தவும்</string>
-    <string formatted="false" name="error_register_username_already_exists">பெயர் ஏற்கனவே உள்ளது</string>
-    <string formatted="false" name="error_register_email_exists">மின்னஞ்சல் முகவரி ஏற்கனவே உள்ளது</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string formatted="false" name="overwrite_title">திட்டம் உள்ளது.</string>
@@ -1288,8 +1266,15 @@
     <!--  -->
     <!-- Runtime permission messages -->
     <string formatted="false" name="runtime_permission_general">இந்த பயன்பாடு சரியாக செயல்பட கோரப்பட்ட அனுமதிகள் தேவை. எ.கா., கேமரா செங்கலுக்கு சாதனத்தின் கேமராவிற்கு அணுகல் தேவை, \"இருப்பிடம்\" சூத்திர உறுப்புக்கு சாதனத்தின் புவிஇருப்பிட சென்சார் அணுகல் தேவை, மேலும் உள்ளூர் நினைவகம் மற்றும் பயன்பாட்டிலிருந்து திட்டங்களை இறக்குமதி மற்றும் ஏற்றுமதி செய்ய.</string>
-    <!-- Error messages -->
     <string formatted="false" name="error_project_upload">திட்டத்தை பதிவேற்றும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string formatted="false" name="error_project_upload_rate_limit">அதிகமான பதிவேற்றங்கள். சில நிமிடங்கள் காத்திருந்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string formatted="false" name="error_project_upload_verify_email">திட்டத்தைப் பகிர்வதற்கு முன் உங்கள் மின்னஞ்சல் முகவரியை உறுதிப்படுத்தவும். உறுதிப்படுத்தல் இணைப்பை உங்களுக்கு அனுப்பியுள்ளோம்.</string>
+    <string formatted="false" name="error_project_upload_account_suspended">உங்கள் கணக்கு இடைநிறுத்தப்பட்டுள்ளது, எனவே தற்போது திட்டங்களைப் பகிர முடியாது.</string>
+    <string formatted="false" name="error_project_upload_parental_consent">நீங்கள் திட்டங்களைப் பகிர்வதற்கு முன் உங்கள் பெற்றோர் இன்னும் உங்கள் கணக்கை உறுதிப்படுத்த வேண்டும்.</string>
+    <string formatted="false" name="error_project_upload_complete_registration">திட்டத்தைப் பகிர்வதற்கு முன் உங்கள் பதிவை நிறைவு செய்யவும்.</string>
+    <string formatted="false" name="error_project_upload_login_required">உங்கள் அமர்வு காலாவதியாகிவிட்டது. மீண்டும் உள்நுழைந்து பதிவேற்றத்தை மீண்டும் முயற்சிக்கவும்.</string>
+    <string formatted="false" name="error_project_too_large_for_upload">திட்டத்தின் அளவு %1$s, இது %2$s MB பதிவேற்ற வரம்பை மீறுகிறது. பகிர்வதற்கு முன் திட்டத்தின் அளவைக் குறைக்கவும்.</string>
+    <!-- Error messages -->
     <string formatted="false" name="error_project_download">திட்டத்தைப் பதிவிறக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string formatted="false" name="error_project_already_in_queue">"திட்டம் %s ஏற்கனவே வரிசையில் உள்ளது."</string>
     <string formatted="false" name="error_could_not_decode_project_name_from_url">உங்கள் பதிவிறக்கத்தைத் தொடங்க முடியவில்லை, எங்கள் சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது.</string>
@@ -2003,8 +1988,10 @@
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">உங்கள் திட்டம் பயன்பாட்டின் பகிர்வு தளத்தில் பதிவேற்றப்படும்
 மற்றவர்கள் அதைப் பயன்படுத்தலாம் மற்றும் பதிவிறக்கலாம். உங்கள் திட்டத்தை முழுமையான செயலியாகவும் பதிவிறக்கலாம்.</string>
+    <string formatted="false" name="progress_upload_dialog_processing">சேவையகத்தில் செயலாக்கப்படுகிறது…</string>
     <string formatted="false" name="progress_upload_dialog_failed">பதிவேற்றம் தோல்வி. உங்களுடைய இணைப்பை சரி பார்த்து மீண்டும் முயற்சி செய்யவும்!</string>
     <string formatted="false" name="progress_upload_dialog_show_program">திட்டத்தைக் காண்பிக்கவும்</string>
+    <string name="upload_progress_percent">%1$d%%</string>
     <!--  -->
     <!-- unchanged upload dialog -->
     <string formatted="false" name="unchanged_upload_warning">The project you are trying to upload already exists on

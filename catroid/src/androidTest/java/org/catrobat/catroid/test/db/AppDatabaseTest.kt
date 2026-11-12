@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,14 +30,17 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Types
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.FeaturedProjectDao
 import org.catrobat.catroid.db.ProjectsCategoryDao
+import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.retrofit.models.CursorPaginatedResponse
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.FeaturedProjectApi
 import org.catrobat.catroid.retrofit.models.ProjectCategoryWithResponses
-import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryListResponse
+import org.catrobat.catroid.retrofit.models.toRoomEntity
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.utils.getOrAwaitValue
 import org.catrobat.catroid.utils.toProjectCategoryWithResponsesList
@@ -125,16 +128,18 @@ class AppDatabaseTest {
     }
 
     private fun generateFeaturedProjects(): List<FeaturedProject> {
-        val jsonString = context.loadJSONFromAssets(FEATURED_PROJECTS_RESPONSE)
-        val typeToken = object : TypeToken<List<FeaturedProject>>() {}.type
-        return Gson().fromJson(jsonString, typeToken)
+        val type = Types.newParameterizedType(CursorPaginatedResponse::class.java, FeaturedProjectApi::class.java)
+        val response = CatroidWebServer.moshi
+            .adapter<CursorPaginatedResponse<FeaturedProjectApi>>(type)
+            .fromJson(context.loadJSONFromAssets(FEATURED_PROJECTS_RESPONSE))
+        return response!!.data.map { it.toRoomEntity() }
     }
 
     private fun generateProjectsCategories(): List<ProjectCategoryWithResponses> {
-        val jsonString = context.loadJSONFromAssets(PROJECT_CATEGORIES_RESPONSE)
-        val typeToken = object : TypeToken<List<ProjectsCategoryApi>>() {}.type
-        val categories: List<ProjectsCategoryApi> = Gson().fromJson(jsonString, typeToken)
-        return categories.toProjectCategoryWithResponsesList()
+        val response = CatroidWebServer.moshi
+            .adapter(ProjectsCategoryListResponse::class.java)
+            .fromJson(context.loadJSONFromAssets(PROJECT_CATEGORIES_RESPONSE))
+        return response!!.data.toProjectCategoryWithResponsesList()
     }
 
     private fun Context.loadJSONFromAssets(fileName: String): String {
