@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Intent;
-import android.net.Uri;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -41,21 +36,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
-import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -114,31 +103,9 @@ public class RegularExpressionAssistantDialogTest {
 	}
 
 	@Test
-	public void testHelpButton() {
+	public void hidesUnavailableHelp() {
 		clickOnAssistantInFunctionList();
-		onView(withText(R.string.help)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void testOpenWikipageOnHelpButtonClick() {
-		clickOnAssistantInFunctionList();
-
-		try {
-			Intents.init();
-
-			Intent intent = new Intent();
-			Instrumentation.ActivityResult intentResult =
-					new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
-			intending(anyIntent()).respondWith(intentResult);
-
-			onView(withText(R.string.help)).perform(click());
-
-			intended(allOf(
-					hasAction(Intent.ACTION_VIEW),
-					hasData(Uri.parse("https://catrobat.org/docs/"))));
-		} finally {
-			Intents.release();
-		}
+		onView(withText(R.string.help)).check(doesNotExist());
 	}
 
 	@Test

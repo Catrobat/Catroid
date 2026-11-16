@@ -22,14 +22,10 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment
 
-import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 
@@ -40,17 +36,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.LegoSensorType
-import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
 import org.catrobat.catroid.formulaeditor.UserList
-import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog
 import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
@@ -60,10 +53,8 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.AddUserListDialog
 import org.koin.java.KoinJavaComponent.inject
-import java.util.Locale
 import androidx.core.view.get
 import androidx.core.view.size
-import androidx.core.net.toUri
 
 class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListener {
 
@@ -103,7 +94,6 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             menu[index].isVisible = false
         }
         val appCompatActivity = activity as? AppCompatActivity? ?: return
-        appCompatActivity.menuInflater.inflate(R.menu.menu_formulareditor_category, menu)
         appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -130,71 +120,6 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 requireActivity().onBackPressed()
             }
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.wiki_help) {
-            onOptionsMenuClick(tag)
-        }
-        return true
-    }
-
-    private fun onOptionsMenuClick(tag: String?) {
-        val language = getLanguage(requireActivity())
-        when (tag) {
-            FUNCTION_TAG -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW, (Constants.CATROBAT_FUNCTIONS_WIKI_URL + language).toUri()
-                )
-            )
-
-            LOGIC_TAG -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW, (Constants.CATROBAT_LOGIC_WIKI_URL + language).toUri()
-                )
-            )
-
-            OBJECT_TAG -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW, (Constants.CATROBAT_OBJECT_WIKI_URL + language).toUri()
-                )
-            )
-
-            SENSOR_TAG -> startActivity(
-                Intent(
-                    Intent.ACTION_VIEW, (Constants.CATROBAT_SENSORS_WIKI_URL + language).toUri()
-                )
-            )
-        }
-    }
-
-    fun getHelpUrl(tag: String, activity: SpriteActivity): String? {
-        val language = getLanguage(activity)
-        when (tag) {
-            FUNCTION_TAG -> return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language
-            LOGIC_TAG -> return Constants.CATROBAT_LOGIC_WIKI_URL + language
-            OBJECT_TAG -> return Constants.CATROBAT_OBJECT_WIKI_URL + language
-            SENSOR_TAG -> return Constants.CATROBAT_SENSORS_WIKI_URL + language
-        }
-        return null
-    }
-
-    private fun getLanguage(activity: Activity): String {
-        var language = "?language="
-        val sharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
-        val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
-        val mLocale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
-            Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
-        } else {
-            if (SharedPreferenceKeys.LANGUAGE_TAGS.contains(languageTag)) {
-                languageTag?.let { Locale.forLanguageTag(it) }
-            } else {
-                Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
-            }
-        }
-        language += mLocale?.language
-        return language
     }
 
     private fun addResourceToActiveFormulaInFormulaEditor(

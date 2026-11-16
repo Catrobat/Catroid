@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,8 +80,7 @@ private const val WEB_REQUEST_BRICK = "WebRequestBrick"
 private const val BACKGROUND_REQUEST_BRICK = "BackgroundRequestBrick"
 private const val LOOK_REQUEST_BRICK = "LookRequestBrick"
 private const val OPEN_URL_BRICK = "OpenUrlBrick"
-private const val WIKI_URL =
-    "<a href='https://catrobat.org/docs/brickdocumentation/data/send-web-request-to-and-store-answer-in/'>" + "https://catrobat.org/docs/brickdocumentation/data/send-web-request-to-and-store-answer-in/</a>"
+private const val WIKI_URL = "<a href='${Constants.WEB_REQUEST_WIKI_URL}'>${Constants.WEB_REQUEST_WIKI_URL}</a>"
 private const val LICENSE_TO_PLAY_URL =
     "<a href='https://share.catrobat.org/app/licenseToPlay'>" + "https://share.catrobat.org/app/licenseToPlay</a>"
 private const val PROGRAM_NAME_START_TAG = "<programName>"
