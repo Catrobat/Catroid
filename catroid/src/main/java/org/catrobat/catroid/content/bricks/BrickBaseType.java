@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -176,20 +176,12 @@ public abstract class BrickBaseType implements Brick {
 		return false;
 	}
 
-	public boolean hasHelpPage() {
-		return true;
-	}
-
 	void notifyDataSetChanged(AppCompatActivity activity) {
 		ScriptFragment parentFragment = (ScriptFragment) activity
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
 		if (parentFragment != null) {
 			parentFragment.notifyDataSetChanged();
 		}
-	}
-
-	public String getHelpUrl(String category) {
-		return "https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/" + this.getClass().getSimpleName();
 	}
 
 	protected String getPositionInformation() {

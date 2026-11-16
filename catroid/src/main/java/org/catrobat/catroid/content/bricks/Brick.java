@@ -212,10 +212,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setCommentedOut(boolean commentedOut);
 
-	boolean hasHelpPage();
-
-	String getHelpUrl(String category);
-
 	UUID getBrickID();
 
 	List<Brick> findBricksInNestedBricks(List<UUID> brickIds);

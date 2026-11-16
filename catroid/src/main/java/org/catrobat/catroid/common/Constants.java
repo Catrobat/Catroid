@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -137,15 +137,11 @@ public final class Constants {
 	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
-	public static final String CATROBAT_FORMULA_WIKI_URL = "https://catrobat.org/docs/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://developer.catrobat.org/pages/legal/licenses/";
-	public static final String WEB_REQUEST_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String WEB_REQUEST_WIKI_URL =
+			"https://catrobat.org/docs/brickdocumentation/data/send-web-request-to-and-store-answer-in/";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = "https://developer.catrobat.org/pages/legal/terms-of-use-and-service/";
-	public static final String CATROBAT_FUNCTIONS_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_LOGIC_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_SENSORS_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_OBJECT_WIKI_URL = "https://catrobat.org/docs/";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";

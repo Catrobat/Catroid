@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickDocumentation;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -74,7 +75,6 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
-import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -667,11 +667,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			items.add(R.string.backpack_add);
 			items.add(R.string.brick_context_dialog_delete_definition);
 			items.add(R.string.brick_context_dialog_move_definition);
-			items.add(R.string.brick_context_dialog_help);
-			return items;
-		}
-
-		if (brick instanceof ScriptBrick) {
+		} else if (brick instanceof ScriptBrick) {
 			items.add(R.string.backpack_add);
 
 			if (!(brick instanceof EmptyEventBrick)) {
@@ -686,8 +682,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			items.add(R.string.brick_context_dialog_move_script);
-
-			items.add(R.string.brick_context_dialog_help);
 		} else {
 			items.add(R.string.brick_context_dialog_copy_brick);
 			if (brick.consistsOfMultipleParts()) {
@@ -705,10 +699,9 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			if (brick.equals(brick.getAllParts().get(0))) {
 				items.add(R.string.brick_context_dialog_move_brick);
 			}
-
-			if (brick.hasHelpPage()) {
-				items.add(R.string.brick_context_dialog_help);
-			}
+		}
+		if (BrickDocumentation.getUrl(brick.getClass()) != null) {
+			items.add(R.string.brick_context_dialog_help);
 		}
 		return items;
 	}
@@ -780,13 +773,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void openWebViewWithHelpPage(Brick brick) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
-		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
-
-		String brickHelpUrl = brick.getHelpUrl(category);
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(brickHelpUrl));
-		startActivity(intent);
+		String url = BrickDocumentation.getUrl(brick.getClass());
+		if (url != null) {
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+		}
 	}
 
 	@Override

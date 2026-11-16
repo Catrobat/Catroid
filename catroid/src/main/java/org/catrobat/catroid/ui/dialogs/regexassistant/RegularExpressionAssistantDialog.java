@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.dialogs.regexassistant;
 import android.content.Context;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,6 @@ public class RegularExpressionAssistantDialog {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		builder.setTitle(R.string.formula_editor_dialog_regular_expression_assistant_title);
-		builder.setNegativeButton(R.string.help, (dialog, id) -> WebpageUtils.openWikiPage(context));
 		builder.setPositiveButton(R.string.cancel, null);
 
 		buildListOfFeatures(builder);

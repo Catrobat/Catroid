@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers;
@@ -52,10 +50,5 @@ public final class FormulaEditorCategoryListWrapper extends RecyclerViewInteract
 	public void performSelect(int stringResourceId) {
 		UiTestUtils.getResourcesString(stringResourceId);
 		performSelect(UiTestUtils.getResourcesString(stringResourceId));
-	}
-
-	public String getHelpUrl(String tag, SpriteActivity activity) {
-		CategoryListFragment fragment = new CategoryListFragment();
-		return fragment.getHelpUrl(tag, activity);
 	}
 }
