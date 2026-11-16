@@ -443,7 +443,7 @@ open class CategoryBricksFactory {
         var userDefinedBricks: MutableList<Brick> = ArrayList()
         if (currentSprite != null) userDefinedBricks = currentSprite.userDefinedBrickList
         userDefinedBricks = ArrayList(userDefinedBricks)
-        if (BuildConfig.FEATURE_USER_REPORTERS_ENABLED) userDefinedBricks.add(ReportBrick())
+        userDefinedBricks.add(ReportBrick())
         return userDefinedBricks
     }
 

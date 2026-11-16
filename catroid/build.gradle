@@ -230,7 +230,7 @@ android {
         release {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig = signingConfigs.debug
         }

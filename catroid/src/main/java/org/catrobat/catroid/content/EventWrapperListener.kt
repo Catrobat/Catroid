@@ -60,6 +60,7 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
             scriptClone.setUserDefinedBrickInputs((event.eventId as
                 UserDefinedBrickEventId).userBrickParameters)
             val sequenceClone: ScriptSequenceAction = sequenceAction.cloneAndChangeScript(scriptClone)
+            sequenceClone.callId = (event.eventId as UserDefinedBrickEventId).callId
             sequenceClone.script.run(sprite, sequenceClone)
             event.addSpriteToWaitList(sprite)
             startThread(ScriptSequenceActionWithWaiter(sequenceClone, event, sprite))
