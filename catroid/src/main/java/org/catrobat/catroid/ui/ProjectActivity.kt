@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -41,9 +42,12 @@ import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick
+import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.databinding.ActivityRecyclerBinding
 import org.catrobat.catroid.databinding.DialogNewActorBinding
 import org.catrobat.catroid.databinding.ProgressBarBinding
@@ -72,6 +76,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.setVisibleOrGone
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET
 import org.koin.android.ext.android.inject
 import java.io.File
 
@@ -89,6 +94,32 @@ class ProjectActivity : BaseCastActivity() {
         const val SPRITE_CAMERA = 3
         const val SPRITE_OBJECT = 4
         const val SPRITE_FROM_LOCAL = 5
+
+        const val DEFAULT_SCALE = 1.0f
+        const val PERCENTAGE_MULTIPLIER = 100.0
+
+        @JvmStatic
+        @VisibleForTesting
+        internal fun applyVisualPlacementBricks(
+            sprite: Sprite,
+            xCoordinate: Int,
+            yCoordinate: Int,
+            placementScale: Float,
+            placementRotation: Float
+        ) {
+            val startScript = StartScript()
+            sprite.prependScript(startScript)
+            startScript.addBrick(PlaceAtBrick(xCoordinate, yCoordinate))
+            if (placementScale != DEFAULT_SCALE) {
+                val sizePercent = placementScale.toDouble() *
+                    PERCENTAGE_MULTIPLIER
+                startScript.addBrick(SetSizeToBrick(sizePercent))
+            }
+            if (placementRotation != DEGREE_UI_OFFSET) {
+                val direction = placementRotation.toDouble()
+                startScript.addBrick(PointInDirectionBrick(direction))
+            }
+        }
     }
 
     private lateinit var binding: ActivityRecyclerBinding
@@ -258,11 +289,15 @@ class ProjectActivity : BaseCastActivity() {
                     extras.getInt(VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT)
                 val yCoordinate =
                     extras.getInt(VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT)
-                val placeAtBrick = PlaceAtBrick(xCoordinate, yCoordinate)
-                val currentSprite = projectManager.currentSprite
-                val startScript = StartScript()
-                currentSprite.prependScript(startScript)
-                startScript.addBrick(placeAtBrick)
+                val placementScale =
+                    extras.getFloat(VisualPlacementActivity.SCALE_BUNDLE_ARGUMENT, 1.0f)
+                val placementRotation =
+                    extras.getFloat(VisualPlacementActivity.ROTATION_BUNDLE_ARGUMENT, DEGREE_UI_OFFSET)
+                val currentSprite = projectManager.currentSprite ?: return
+                applyVisualPlacementBricks(
+                    currentSprite, xCoordinate, yCoordinate,
+                    placementScale, placementRotation
+                )
             }
 
             SPRITE_FROM_LOCAL -> if (data != null && data.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
