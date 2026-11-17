@@ -1,10 +1,10 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.content.Context
 import android.net.Uri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

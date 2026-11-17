@@ -20,15 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.graphics.Bitmap
 import android.graphics.RectF
 import io.mockk.every
 import io.mockk.mockk
-import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace
-import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace.FaceBox
-import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
+import org.catrobat.catroid.facerecognition.ml.BlazeFace
+import org.catrobat.catroid.facerecognition.ml.BlazeFace.FaceBox
+import org.catrobat.catroid.facerecognition.ml.MobileFaceNet
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test

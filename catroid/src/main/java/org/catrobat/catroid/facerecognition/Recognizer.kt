@@ -1,4 +1,4 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.content.ContentResolver
 import android.content.Context
@@ -11,7 +11,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
 import org.catrobat.catroid.BuildConfig
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
+import org.catrobat.catroid.facerecognition.env.FileUtils.init
 import java.io.IOException
 import java.util.Locale
 import kotlin.collections.ArrayList
@@ -455,14 +455,16 @@ class Recognizer private constructor() {
 
     private class EmbeddedFace(val variants: List<FloatArray>, val width: Int, val height: Int)
 
-    /** Finds the largest usable face in [frame] and embeds its views. Runs under [modelLock]. */
+    /**
+     * Finds the largest usable face in [frame] and embeds its views. Runs under
+     * [modelLock]. FaceNameDetector has turned the camera frame upright already.
+     */
     private fun embedLargestFace(frame: Bitmap, mirrorToo: Boolean): EmbeddedFace? {
         val activeEmbedder = embedder ?: run {
             Log.e(TAG, "Face embedder is not initialized")
             return null
         }
 
-        // FaceNameDetector has turned the camera frame upright already.
         val face = activeEmbedder.findBestFace(frame, searchRotations = false)
 
         if (face == null) {

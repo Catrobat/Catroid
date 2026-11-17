@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.FaceRecognizer.ml
+package org.catrobat.catroid.facerecognition.ml
 
 import android.graphics.RectF
 import org.junit.Assert.assertEquals

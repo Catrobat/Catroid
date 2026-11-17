@@ -1,4 +1,4 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.content.res.AssetManager
 import android.graphics.Bitmap
@@ -11,9 +11,9 @@ import android.graphics.RectF
 import android.util.Log
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
-import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace
-import org.catrobat.catroid.FaceRecognizer.ml.BlazeFace.FaceBox
-import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
+import org.catrobat.catroid.facerecognition.ml.BlazeFace
+import org.catrobat.catroid.facerecognition.ml.BlazeFace.FaceBox
+import org.catrobat.catroid.facerecognition.ml.MobileFaceNet
 import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min

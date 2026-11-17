@@ -19,9 +19,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
-import org.catrobat.catroid.FaceRecognizer.Recognizer
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.FaceNameWindow
+import org.catrobat.catroid.facerecognition.Recognizer
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.R
 import org.catrobat.catroid.bluetooth.BluetoothManager
 import org.catrobat.catroid.camera.DetectorsCompleteListener

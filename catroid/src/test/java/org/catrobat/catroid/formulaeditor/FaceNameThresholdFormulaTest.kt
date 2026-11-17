@@ -27,9 +27,9 @@ import android.content.Context
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
-import org.catrobat.catroid.FaceRecognizer.Recognizer
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.FaceNameWindow
+import org.catrobat.catroid.facerecognition.Recognizer
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector

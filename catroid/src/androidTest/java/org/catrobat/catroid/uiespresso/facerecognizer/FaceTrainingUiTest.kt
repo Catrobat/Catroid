@@ -38,8 +38,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.google.android.material.textfield.TextInputLayout
-import org.catrobat.catroid.FaceRecognizer.Recognizer
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.Recognizer
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.StartScript

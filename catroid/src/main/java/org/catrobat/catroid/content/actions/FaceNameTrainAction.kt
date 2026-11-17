@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.annotation.VisibleForTesting
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.FaceRecognizer.Recognizer
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.Recognizer
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector

@@ -42,9 +42,9 @@ import androidx.test.rule.GrantPermissionRule
 import com.google.mlkit.vision.common.InputImage
 import io.mockk.mockk
 import io.mockk.verify
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_A
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_B
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness.Companion.PERSON_A
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness.Companion.PERSON_B
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler

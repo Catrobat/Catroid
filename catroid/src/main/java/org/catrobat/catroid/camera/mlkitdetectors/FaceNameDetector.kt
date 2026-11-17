@@ -31,8 +31,8 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
-import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.facerecognition.FaceNameWindow
+import org.catrobat.catroid.facerecognition.Recognizer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.stage.StageActivity
 import java.util.concurrent.Executor

@@ -1,4 +1,4 @@
-package org.catrobat.catroid.FaceRecognizer.ml
+package org.catrobat.catroid.facerecognition.ml
 
 import android.content.res.AssetManager
 import android.graphics.Bitmap

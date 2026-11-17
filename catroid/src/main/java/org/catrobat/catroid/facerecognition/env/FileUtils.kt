@@ -1,4 +1,4 @@
-package org.catrobat.catroid.FaceRecognizer.env
+package org.catrobat.catroid.facerecognition.env
 
 import android.content.Context
 import android.util.Log

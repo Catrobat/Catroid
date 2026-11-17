@@ -1,13 +1,13 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.util.Log
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.file
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.isReady
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.readAllLines
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.recoverInterruptedWrite
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeFiles
-import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
+import org.catrobat.catroid.facerecognition.env.FileUtils
+import org.catrobat.catroid.facerecognition.env.FileUtils.file
+import org.catrobat.catroid.facerecognition.env.FileUtils.isReady
+import org.catrobat.catroid.facerecognition.env.FileUtils.readAllLines
+import org.catrobat.catroid.facerecognition.env.FileUtils.recoverInterruptedWrite
+import org.catrobat.catroid.facerecognition.env.FileUtils.writeFiles
+import org.catrobat.catroid.facerecognition.ml.MobileFaceNet
 import java.io.IOException
 import java.util.Locale
 import kotlin.math.sqrt

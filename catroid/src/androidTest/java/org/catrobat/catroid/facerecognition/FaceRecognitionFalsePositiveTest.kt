@@ -1,9 +1,9 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_A
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_B
-import org.catrobat.catroid.FaceRecognizer.FaceRecognitionHarness.Companion.PERSON_C
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness.Companion.PERSON_A
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness.Companion.PERSON_B
+import org.catrobat.catroid.facerecognition.FaceRecognitionHarness.Companion.PERSON_C
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

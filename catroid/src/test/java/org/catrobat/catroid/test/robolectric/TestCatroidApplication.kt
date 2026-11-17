@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.robolectric
 
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.koin.core.context.stopKoin
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method

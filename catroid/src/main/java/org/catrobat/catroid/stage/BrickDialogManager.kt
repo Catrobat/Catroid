@@ -41,7 +41,7 @@ import androidx.appcompat.app.AlertDialog as CatroidAlertDialog
 import androidx.core.text.HtmlCompat
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.BuildConfig
-import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.facerecognition.Recognizer
 import org.catrobat.catroid.R
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants

@@ -28,34 +28,34 @@ EVIDENCE="$(cd "$EVIDENCE" && pwd)"
 SENSOR_TEST_CLASS=org.catrobat.catroid.uiespresso.facerecognizer.FaceNameSensorStageTest
 
 UNIT_TESTS=(
-  --tests "org.catrobat.catroid.FaceRecognizer.FaceDatabaseTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.FaceNameWindowTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.FaceNameThresholdTest"
+  --tests "org.catrobat.catroid.facerecognition.FaceDatabaseTest"
+  --tests "org.catrobat.catroid.facerecognition.FaceNameWindowTest"
+  --tests "org.catrobat.catroid.facerecognition.FaceNameThresholdTest"
   --tests "org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetectorTest"
   --tests "org.catrobat.catroid.content.actions.FaceNameTrainActionStateTest"
   --tests "org.catrobat.catroid.formulaeditor.FaceNameThresholdFormulaTest"
   --tests "org.catrobat.catroid.formulaeditor.common.FormulaElementResourcesTest"
   --tests "org.catrobat.catroid.stage.BrickDialogManagerTest"
   --tests "org.catrobat.catroid.io.RecentBrickListSerializerTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.env.FileUtilsWriteLinesTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.env.FileUtilsWriteFilesTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.ml.BlazeFaceSuppressionTest"
+  --tests "org.catrobat.catroid.facerecognition.env.FileUtilsWriteLinesTest"
+  --tests "org.catrobat.catroid.facerecognition.env.FileUtilsWriteFilesTest"
+  --tests "org.catrobat.catroid.facerecognition.ml.BlazeFaceSuppressionTest"
   --tests "org.catrobat.catroid.camera.CameraAnalyzersTest"
   --tests "org.catrobat.catroid.camera.DetectorsCompleteListenerTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.RecognizerPersonNameTest"
+  --tests "org.catrobat.catroid.facerecognition.RecognizerPersonNameTest"
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNetInputTest"
+  --tests "org.catrobat.catroid.facerecognition.ml.MobileFaceNetInputTest"
   --tests "org.catrobat.catroid.test.robolectric.SpriteActivityRecreationTest"
   --tests "org.catrobat.catroid.test.robolectric.StageActivityRecreationTest"
   --tests "org.catrobat.catroid.stage.FaceNameWatcherTest"
   --tests "org.catrobat.catroid.content.bricks.FaceNameTrainBrickTest"
 )
-DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
-org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\
-org.catrobat.catroid.FaceRecognizer.FaceRecognitionFalsePositiveTest,\
-org.catrobat.catroid.FaceRecognizer.FaceDetectionCacheTest,\
-org.catrobat.catroid.FaceRecognizer.MobileFaceNetTest,\
+DEVICE_TESTS="org.catrobat.catroid.facerecognition.FaceRecognizerLifecycleTest,\
+org.catrobat.catroid.facerecognition.RecognizerTrainingOrderTest,\
+org.catrobat.catroid.facerecognition.FaceRecognitionFalsePositiveTest,\
+org.catrobat.catroid.facerecognition.FaceDetectionCacheTest,\
+org.catrobat.catroid.facerecognition.MobileFaceNetTest,\
 org.catrobat.catroid.uiespresso.facerecognizer.FaceTrainingUiTest,\
 $SENSOR_TEST_CLASS,\
 org.catrobat.catroid.test.content.bricks.FaceNameBrickCategoryTest,\
@@ -210,7 +210,7 @@ green() {
 
   # The fixture task in a full build graph: undeclared dependencies fail validation.
   log_run green_gradle_validation "$ROOT" ./gradlew :catroid:assembleCatroidDebugAndroidTest \
-      :catroid:testCatroidDebugUnitTest --tests "org.catrobat.catroid.FaceRecognizer.FaceDatabaseTest" \
+      :catroid:testCatroidDebugUnitTest --tests "org.catrobat.catroid.facerecognition.FaceDatabaseTest" \
       --warning-mode all --console=plain
 }
 

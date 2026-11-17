@@ -28,7 +28,7 @@ import androidx.camera.core.ImageProxy
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.catrobat.catroid.FaceRecognizer.Recognizer
+import org.catrobat.catroid.facerecognition.Recognizer
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.junit.After
 import org.junit.Assert.assertEquals

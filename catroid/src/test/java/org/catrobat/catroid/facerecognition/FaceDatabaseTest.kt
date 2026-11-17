@@ -1,9 +1,9 @@
-package org.catrobat.catroid.FaceRecognizer
+package org.catrobat.catroid.facerecognition
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import org.catrobat.catroid.FaceRecognizer.env.FileUtils
-import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
+import org.catrobat.catroid.facerecognition.env.FileUtils
+import org.catrobat.catroid.facerecognition.ml.MobileFaceNet
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
