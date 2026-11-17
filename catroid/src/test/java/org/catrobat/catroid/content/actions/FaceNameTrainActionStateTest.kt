@@ -33,6 +33,8 @@ import org.catrobat.catroid.stage.StageResourceHolder
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
@@ -47,6 +49,7 @@ import java.lang.ref.WeakReference
 import java.time.Duration
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
@@ -246,6 +249,88 @@ class FaceNameTrainActionStateTest {
 
         verify(exactly = 0) { recognizer.deletePerson(any<Int>()) }
         verify(exactly = 0) { recognizer.deletePerson("Bob") }
+    }
+
+    // ---------------- Saving off the main thread ----------------
+
+    /**
+     * Found in review: adding a name saved the face files from the dialog's
+     * click handler, with several file and folder syncs on the main thread.
+     * With many photos stored, or slow storage, the dialog froze.
+     */
+    @Test
+    fun aNewNameIsSavedOffTheMainThreadThenThePickerOpens() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        val savedOn = LinkedBlockingQueue<Thread>()
+        every { recognizer.addPerson("Grace") } answers {
+            savedOn.add(Thread.currentThread())
+            every { recognizer.classNames } returns listOf("Ada", "Grace")
+            1
+        }
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+
+        brick.onNewName("Grace")
+
+        val thread = savedOn.poll(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+        assertNotNull("The name was not saved", thread)
+        assertNotSame(Looper.getMainLooper().thread, thread)
+        waitUntil { FaceNameTrainAction.getPendingNameForTest() == "Grace" }
+        verify { stage.startActivityForResult(any(), any()) }
+    }
+
+    @Test
+    fun aDeleteIsSavedOffTheMainThreadThenTheMenuOpens() {
+        val shown = recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        val savedOn = LinkedBlockingQueue<Thread>()
+        every { recognizer.deletePerson("Ada") } answers {
+            savedOn.add(Thread.currentThread())
+            true
+        }
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+
+        brick.onDeleteConfirmed("Ada")
+
+        val thread = savedOn.poll(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+        assertNotNull("The delete was not saved", thread)
+        assertNotSame(Looper.getMainLooper().thread, thread)
+        waitUntil { menusShownFor(shown, brick) == 1 }
+    }
+
+    /** The user left the program while the name was saved: nothing opens on the next stage. */
+    @Test
+    fun aNameSavedAfterTheStageClosedOpensNoPicker() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        val saving = CountDownLatch(1)
+        val saved = CountDownLatch(1)
+        every { recognizer.addPerson("Grace") } answers {
+            saving.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            every { recognizer.classNames } returns listOf("Ada", "Grace")
+            saved.countDown()
+            1
+        }
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+
+        brick.onNewName("Grace")
+        val nextStage = stage()
+        StageActivity.activeStageActivity = WeakReference(nextStage)
+        saving.countDown()
+
+        assertTrue(saved.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
+        repeat(LOADING_POLLS) { shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(POLL_MS)) }
+        verify(exactly = 0) { nextStage.startActivityForResult(any(), any()) }
+        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
     }
 
     // ---------------- Training that ends after the stage changed ----------------
@@ -635,6 +720,16 @@ class FaceNameTrainActionStateTest {
     private fun runsOn(brick: FaceNameTrainAction, stage: StageActivity) {
         FaceNameTrainAction::class.java.getDeclaredField("runsOn").apply { isAccessible = true }
             .set(brick, WeakReference(stage))
+    }
+
+    /** Runs the main thread until [condition] holds; the training worker runs meanwhile. */
+    private fun waitUntil(condition: () -> Boolean) {
+        val deadline = System.currentTimeMillis() + TRAINING_TIMEOUT_MS
+        while (!condition() && System.currentTimeMillis() < deadline) {
+            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(POLL_MS))
+            Thread.sleep(POLL_MS)
+        }
+        assertTrue("Timed out", condition())
     }
 
     private fun waitForTrainingToFinish() {
