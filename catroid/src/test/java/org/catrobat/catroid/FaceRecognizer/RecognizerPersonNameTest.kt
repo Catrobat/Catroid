@@ -107,6 +107,23 @@ class RecognizerPersonNameTest {
         assertEquals(1, recognizer.getPhotoCount(1))
     }
 
+    /**
+     * Found in review: a new name was saved first and its photos in a second
+     * save. When only the second save failed, the name stayed without photos.
+     */
+    @Test
+    fun photosThatCannotBeSavedDoNotAddTheirName() {
+        recognizer.addPerson("Ada")
+        failWritingPhotos()
+
+        assertThrows(IOException::class.java) {
+            recognizer.addPhotos("Grace", listOf(FloatArray(EMBEDDING_SIZE) { 0.1f }))
+        }
+
+        assertEquals(listOf("Ada"), recognizer.classNames)
+        assertEquals(listOf("Ada"), Recognizer.withoutModelsForTest(context).classNames)
+    }
+
     // ---------------- Deleting by name ----------------
 
     /** A menu that still lists a deleted name must not delete whoever took its place. */
@@ -129,6 +146,24 @@ class RecognizerPersonNameTest {
         FileUtils.openForWriting = { throw IOException("No space left on device") }
     }
 
+    /** Writes fail once they reach a photo line ("index value value ..."); names still save. */
+    private fun failWritingPhotos() {
+        FileUtils.openForWriting = { file ->
+            val writer = savedOpenForWriting(file)
+            object : Writer() {
+                override fun write(buffer: CharArray, offset: Int, length: Int) {
+                    if (file.name == "${FileUtils.DATA_FILE}.tmp" && String(buffer, offset, length).isNotBlank()) {
+                        throw IOException("No space left on device")
+                    }
+                    writer.write(buffer, offset, length)
+                }
+
+                override fun flush() = writer.flush()
+
+                override fun close() = writer.close()
+            }
+        }
+    }
     @Test
     fun aNameWithALineBreakIsRejected() {
         for (name in listOf("Ada\nLovelace", "Ada\r\nLovelace", "Ada\rLovelace", "Ada\u2028Lovelace", "Ada\u2029Lovelace")) {
