@@ -751,10 +751,12 @@ class FaceNameTrainAction : Action() {
 
         worker.execute {
             var added = 0
+            var severalPeople = 0
             var error: String? = null
             try {
                 val result = current.extractEmbeddings(ctx.contentResolver, uris, onProgress)
                 added = result.embeddings.size
+                severalPeople = result.severalPeople
                 if (added > 0) {
                     current.addPhotos(name, result.embeddings)
                     FaceNameDetector.onModelsLoaded()
@@ -768,7 +770,9 @@ class FaceNameTrainAction : Action() {
             }
             val outcome = when {
                 error != null -> Outcome(ctx.getString(R.string.face_train_error, error), success = false)
+                added == 0 && severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_several_people), success = false)
                 added == 0 -> Outcome(ctx.getString(R.string.face_train_no_face), success = false)
+                severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_success_some_skipped), success = true)
                 else -> Outcome(ctx.getString(R.string.face_train_success), success = true)
             }
 

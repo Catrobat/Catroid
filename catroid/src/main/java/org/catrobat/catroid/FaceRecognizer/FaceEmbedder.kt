@@ -51,16 +51,31 @@ class FaceEmbedder private constructor(
         }
     }
 
+    /** The last [findBestFace] skipped the photo because it shows several people. */
+    var lastFoundSeveralFaces: Boolean = false
+        private set
+
     /**
      * Finds the largest face. With [searchRotations], for gallery photos, all four
      * rotations are tried so that photos with a wrong or missing EXIF orientation
      * still work; camera frames are already upright and are searched as they are.
+     *
+     * With [onePersonOnly], for training photos, a photo that shows another face
+     * of similar size is skipped ([lastFoundSeveralFaces]): its largest face may
+     * be someone other than the person the photos are for.
+     *
      * Returns null when no usable face is found. The caller must call
      * face.release(sourceBitmap) when done.
      */
     @Synchronized
-    fun findBestFace(source: Bitmap?, searchRotations: Boolean = true): Face? {
+    fun findBestFace(
+        source: Bitmap?,
+        searchRotations: Boolean = true,
+        onePersonOnly: Boolean = searchRotations
+    ): Face? {
         lastProblem = ""
+        lastFoundSeveralFaces = false
+        requireOnePerson = onePersonOnly
 
         if (source == null || source.isRecycled) {
             lastProblem = "no bitmap"
@@ -96,10 +111,17 @@ class FaceEmbedder private constructor(
             }
 
             recycleRotatedFrame(frame, source)
+            if (lastFoundSeveralFaces) {
+                // The people are there; another rotation would not remove one.
+                return null
+            }
         }
 
         return null
     }
+
+    /** Set by [findBestFace] for [largestFaceRect]. */
+    private var requireOnePerson = false
 
     private fun createRotatedFrame(
         source: Bitmap,
@@ -402,6 +424,12 @@ class FaceEmbedder private constructor(
         val biggest = findLargestFace(faces)
             ?: return null
 
+        if (requireOnePerson && hasAnotherSimilarFace(faces, biggest)) {
+            lastFoundSeveralFaces = true
+            lastProblem = "several people in the photo"
+            return null
+        }
+
         val location = biggest.location
             ?: return null
 
@@ -500,6 +528,18 @@ class FaceEmbedder private constructor(
                 location.width() * location.height()
             }
     }
+
+    /**
+     * Another face at least [SIMILAR_FACE_AREA] of the largest one's area, about
+     * half as wide: someone standing next to the person, not far behind them.
+     */
+    private fun hasAnotherSimilarFace(faces: List<FaceBox>, biggest: FaceBox): Boolean {
+        val biggestArea = area(biggest)
+        return faces.any { it !== biggest && area(it) >= biggestArea * SIMILAR_FACE_AREA }
+    }
+
+    private fun area(face: FaceBox): Float =
+        max(0f, face.location.width()) * max(0f, face.location.height())
 
     private fun updateEyeLandmarks(
         face: FaceBox,
@@ -648,6 +688,9 @@ class FaceEmbedder private constructor(
 
         private val ROTATIONS = intArrayOf(0, 90, 180, 270)
         private val UPRIGHT_ONLY = intArrayOf(0)
+
+        /** See [hasAnotherSimilarFace]. */
+        private const val SIMILAR_FACE_AREA = 0.25f
 
         /**
          * How tightly the face is cropped, as a multiplier on the box size.

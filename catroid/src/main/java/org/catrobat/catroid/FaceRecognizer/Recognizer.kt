@@ -131,6 +131,9 @@ class Recognizer private constructor() {
     class EnrolResult {
         val embeddings: MutableList<FloatArray> = ArrayList<FloatArray>()
         val report: MutableList<String> = ArrayList<String>()
+
+        /** Photos skipped because they show several people. */
+        var severalPeople: Int = 0
     }
 
     /**
@@ -281,9 +284,12 @@ class Recognizer private constructor() {
         activeEmbedder: FaceEmbedder,
         result: EnrolResult
     ) {
-        val face = activeEmbedder.findBestFace(bitmap)
+        val face = activeEmbedder.findBestFace(bitmap, searchRotations = true, onePersonOnly = true)
 
         if (face == null) {
+            if (activeEmbedder.lastFoundSeveralFaces) {
+                result.severalPeople++
+            }
             result.report.add(
                 "$photoNumber: ${activeEmbedder.lastProblem} " +
                     "(${bitmap.width}x${bitmap.height})"

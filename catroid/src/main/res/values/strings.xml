@@ -2371,7 +2371,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="face_train_add_new_name">Add new name</string>
     <string formatted="false" name="face_train_no_names">No names yet.</string>
     <string formatted="false" name="face_train_name_hint">Enter a name</string>
-    <string formatted="false" name="face_train_name_subtitle">Type the name, then choose photos of that person</string>
+    <string formatted="false" name="face_train_name_subtitle">Type the name, then choose photos that show only that person</string>
     <string formatted="false" name="face_train_delete">Delete a name</string>
     <string formatted="false" name="face_train_delete_choose_title">Delete which name?</string>
     <string formatted="false" name="face_train_delete_title">Delete \"%1$s\"?</string>
@@ -2380,6 +2380,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="face_train_progress_photo">Photo %1$d of %2$d</string>
     <string formatted="false" name="face_train_success">Trained successfully</string>
     <string formatted="false" name="face_train_no_face">No face found in the selected photos</string>
+    <string formatted="false" name="face_train_several_people">Choose photos that show only this person</string>
+    <string formatted="false" name="face_train_success_some_skipped">Trained successfully. Photos with several people were skipped</string>
     <string formatted="false" name="face_train_error">Training failed: %1$s</string>
     <string formatted="false" name="face_train_no_photos">No photos selected</string>
     <string formatted="false" name="face_train_no_photo_picker">No app found to choose photos</string>

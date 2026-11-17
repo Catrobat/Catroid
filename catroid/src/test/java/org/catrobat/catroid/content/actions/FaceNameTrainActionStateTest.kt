@@ -22,6 +22,7 @@ import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.R
 import org.catrobat.catroid.bluetooth.BluetoothManager
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
@@ -252,6 +253,49 @@ class FaceNameTrainActionStateTest {
 
         verify(exactly = 0) { recognizer.deletePerson(any<Int>()) }
         verify(exactly = 0) { recognizer.deletePerson("Bob") }
+    }
+
+    // ---------------- Photos with several people ----------------
+
+    @Test
+    fun onlyPhotosWithSeveralPeopleAskForPhotosOfThisPersonOnly() {
+        assertEquals(
+            context.getString(R.string.face_train_several_people),
+            trainingMessage(Recognizer.EnrolResult().apply { severalPeople = 2 })
+        )
+    }
+
+    @Test
+    fun skippedPhotosWithSeveralPeopleAreMentionedAfterSuccessfulTraining() {
+        assertEquals(
+            context.getString(R.string.face_train_success_some_skipped),
+            trainingMessage(
+                Recognizer.EnrolResult().apply {
+                    embeddings.add(FloatArray(EMBEDDING_SIZE))
+                    severalPeople = 1
+                }
+            )
+        )
+    }
+
+    /** The message training shows for [result]; no brick runs, so it is a plain toast. */
+    private fun trainingMessage(result: Recognizer.EnrolResult): String? {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        every { recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>()) } returns result
+        val trainer = runningBrick(recognizer)
+        runsOn(trainer, stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainer.handleResult(
+            FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        StageActivity.activeStageActivity = WeakReference(stage())
+        waitForTrainingToFinish()
+        shadowOf(Looper.getMainLooper()).idle()
+        return ShadowToast.getTextOfLatestToast()
     }
 
     // ---------------- Saving off the main thread ----------------
