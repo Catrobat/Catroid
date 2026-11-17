@@ -98,14 +98,20 @@ class MobileFaceNetTest {
     fun theEmbedderGivesSixUnitLengthViewsOfAFace() {
         val embedder = FaceEmbedder.create(appContext.assets)
         try {
-            val views = embedder.embedAllVariants(photo("p01_train1.jpg"), true)
+            val source = photo("p01_train1.jpg")
+            val face = embedder.findBestFace(source)
+            assertNotNull(embedder.lastProblem, face)
+            val views = try {
+                embedder.embedVariants(face!!.frame, face.box, true, face.leftEye, face.rightEye)
+            } finally {
+                face!!.release(source)
+            }
 
             assertEquals(embedder.lastProblem, 6, views.size)
             views.forEach {
                 assertEquals(MobileFaceNet.EMBEDDING_SIZE, it.size)
                 assertEquals(1f, length(it), 0.0001f)
             }
-            assertNotNull(embedder.embedBestFace(photo("p01_train1.jpg")))
         } finally {
             embedder.close()
         }

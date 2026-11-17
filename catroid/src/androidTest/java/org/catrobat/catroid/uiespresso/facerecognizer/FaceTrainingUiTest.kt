@@ -460,15 +460,11 @@ class FaceTrainingUiTest {
 
     @Test
     fun deleteYesRemovesNameAndItsEmbeddings() {
-        val bitmap = requiredBitmap("faces/p01_train1.jpg")
-        try {
-            val index = recognizer().addPerson("Person A")
-            val embeddings = recognizer().embedFrame(bitmap)
-            assertTrue("Fixture produced no embeddings", embeddings.isNotEmpty())
-            recognizer().addEmbeddings(index, embeddings)
-        } finally {
-            bitmap.recycle()
-        }
+        val result = recognizer().extractEmbeddings(
+            appContext.contentResolver, listOf(requiredAssetUri("faces/p01_train1.jpg"))
+        )
+        assertTrue("Fixture produced no embeddings: ${result.report}", result.embeddings.isNotEmpty())
+        recognizer().addPhotos("Person A", result.embeddings)
         startStage()
 
         chooseNameToDelete("Person A")
@@ -590,16 +586,6 @@ class FaceTrainingUiTest {
             throw AssertionError("Required test asset is missing: $assetPath", error)
         }
         return Uri.fromFile(output)
-    }
-
-    private fun requiredBitmap(assetPath: String) = try {
-        testContext.assets.open(assetPath).use { input ->
-            requireNotNull(android.graphics.BitmapFactory.decodeStream(input)) {
-                "Could not decode required test asset: $assetPath"
-            }
-        }
-    } catch (error: Exception) {
-        throw AssertionError("Required test asset is missing: $assetPath", error)
     }
 
     /**

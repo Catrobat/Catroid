@@ -34,7 +34,6 @@ import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.stage.StageActivity
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -43,7 +42,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * "detected face name": recognises the largest face in the camera frames the
- * face detection sensors also analyse, and stores the name in SensorHandler.
+ * face detection sensors also analyse, and keeps their scores for
+ * [getNameWithThreshold].
  *
  * At most one frame every [FaceNameWindow.FRAME_INTERVAL_MS] is analysed, and
  * none while the previous one is still being recognised. An analysed frame is
@@ -104,7 +104,7 @@ object FaceNameDetector : Detector {
     @Volatile
     private var activated = false
 
-    /** Guards the window and the sensor against a frame recognised across a [reset]. */
+    /** Guards the window and the cached recogniser against a frame recognised across a [reset]. */
     private val lock = Any()
     private var runId = 0
     private var cachedRecognizer: Recognizer? = null
@@ -182,7 +182,6 @@ object FaceNameDetector : Detector {
         synchronized(lock) {
             runId++
             window.clear()
-            SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
     }
 
@@ -207,7 +206,6 @@ object FaceNameDetector : Detector {
             recognitionUnavailable = false
             cachedRecognizer = null
             window.clear()
-            SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
     }
 
@@ -264,8 +262,7 @@ object FaceNameDetector : Detector {
                 return
             }
             cachedRecognizer = recognizer
-            val name = window.addScores(recognizer, scored?.scores, task.takenAt, scored?.names)
-            SensorHandler.setFaceNameRecognitionResult(name)
+            window.addScores(recognizer, scored?.scores, task.takenAt, scored?.names)
         }
     }
 
@@ -293,7 +290,6 @@ object FaceNameDetector : Detector {
             recognitionUnavailable = true
             cachedRecognizer = null
             window.clear()
-            SensorHandler.setFaceNameRecognitionResult(FaceNameWindow.UNKNOWN)
         }
         Log.e(TAG, "The face models cannot be used; detected face name stays Unknown", cause)
         return null

@@ -59,8 +59,7 @@ class FormulaElementResourcesTest(
             arrayOf(Sensors.TEXT_BLOCK_Y, Brick.TEXT_DETECTION),
             arrayOf(Sensors.TEXT_BLOCK_SIZE, Brick.TEXT_DETECTION),
             arrayOf(Sensors.TEXT_BLOCK_FROM_CAMERA, Brick.TEXT_DETECTION),
-            arrayOf(Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA, Brick.TEXT_DETECTION),
-            arrayOf(Sensors.ON_DEVICE_FACE_RECOGNITION, Brick.FACE_NAME_DETECTION)
+            arrayOf(Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA, Brick.TEXT_DETECTION)
         )
     }
 }

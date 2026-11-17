@@ -172,7 +172,6 @@ class LoadProjectAIExtensionSettingsTest(
 
         private var speechRecognitionLanguage = FormulaElement(SENSOR, SPEECH_RECOGNITION_LANGUAGE.name, null)
 
-        private var detectedFaceName = FormulaElement(SENSOR, Sensors.ON_DEVICE_FACE_RECOGNITION.name, null)
         private val detectedFaceNameWithThreshold = FormulaElement(
             FormulaElement.ElementType.FUNCTION, Functions.FACE_NAME_WITH_THRESHOLD.name, null
         ).apply {
@@ -301,10 +300,6 @@ class LoadProjectAIExtensionSettingsTest(
             arrayOf(
                 "Face Name Detection detectedFaceNameWithThreshold", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
                 ChangeSizeByNBrick(Formula(detectedFaceNameWithThreshold))
-            ),
-            arrayOf(
-                "Face Name Detection legacyDetectedFaceName", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,
-                ChangeSizeByNBrick(Formula(detectedFaceName))
             ),
             arrayOf(
                 "Face Name Detection FaceNameTrainBrick", SETTINGS_SHOW_AI_FACE_NAME_DETECTION_SENSORS,

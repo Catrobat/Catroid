@@ -33,12 +33,13 @@ import kotlin.math.min
  * [FRAMES] analysed frames that contained a usable face.
  *
  * A frame with a usable face enters the window, the oldest one leaving when the
- * window is full, and the name is decided again: the window's scores are
- * averaged and the formula's explicit threshold applied. The default is 0.53,
- * independent of the number of enrolled people and the previous name. A frame
- * without a usable face changes nothing, until no usable face was seen for [NO_FACE_RESET_MS]; then the
- * window is cleared and the name is [UNKNOWN]. A usable face after that time
- * starts a fresh decision, even if no frame came in between.
+ * window is full. Each read of the sensor averages the window's scores and
+ * applies the formula's explicit threshold ([nameWithThreshold]), independent
+ * of the number of enrolled people and the previous name. A frame without a
+ * usable face changes nothing, until no usable face was seen for
+ * [NO_FACE_RESET_MS]; then the window is cleared and the name is [UNKNOWN]. A
+ * usable face after that time starts a fresh decision, even if no frame came
+ * in between.
  *
  * The window is also the throttle: [isFrameDue] lets one frame through every
  * [FRAME_INTERVAL_MS].
@@ -54,11 +55,6 @@ class FaceNameWindow {
 
     private var lastFrameAt: Long? = null
     private var lastUsableFaceAt: Long? = null
-
-    /** The latest decision; [UNKNOWN] until the first one. */
-    @get:Synchronized
-    var name: String = UNKNOWN
-        private set
 
     @get:Synchronized
     val framesInWindow: Int
@@ -79,18 +75,9 @@ class FaceNameWindow {
     }
 
     /**
-     * Scores [frame] and adds it, see [addScores]. [frame] is null, or rejected
-     * here, when it holds no usable face. The frame is not modified or recycled.
-     */
-    fun addFrame(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean, nowMs: Long): String {
-        val scored = scoreOf(recognizer, frame, mirrorToo)
-        return addScores(recognizer, scored?.scores, nowMs, scored?.names)
-    }
-
-    /**
      * Adds one analysed frame: [scores] has one score per enrolled person, in
      * [Recognizer.classNames] order, or is null when the frame held no usable
-     * face. Returns the name, which is also [name].
+     * face.
      */
     @Synchronized
     fun addScores(
@@ -98,27 +85,22 @@ class FaceNameWindow {
         scores: FloatArray?,
         nowMs: Long,
         scoredFor: List<String>? = null
-    ): String {
+    ) {
         val last = lastUsableFaceAt
         val expired = last == null || nowMs - last >= NO_FACE_RESET_MS
-        if (scores == null) {
-            if (expired) {
-                clearFrames()
-                name = UNKNOWN
-            }
-            return name
-        }
         if (expired) {
-            // The face is back after the limit: it starts a fresh decision, without
-            // the frames or the name of whoever was there before.
+            // No usable face for too long, or the face is back after the limit: a
+            // fresh decision, without the frames of whoever was there before.
             clearFrames()
-            name = UNKNOWN
+        }
+        if (scores == null) {
+            return
         }
 
         val people = recognizer.classNames
         if (scores.size != people.size || (scoredFor != null && scoredFor != people)) {
             // Someone was added or deleted while this frame was scored.
-            return name
+            return
         }
         if (people != framesScoredFor) {
             // Older frames were scored against other people; their scores do not line up.
@@ -130,9 +112,6 @@ class FaceNameWindow {
         }
         frames.addLast(scores.copyOf())
         lastUsableFaceAt = nowMs
-
-        name = nameWithThreshold(recognizer, DEFAULT_THRESHOLD)
-        return name
     }
 
     /** Back to the start of a program run: no frames, [UNKNOWN], the next frame due at once. */
@@ -140,7 +119,6 @@ class FaceNameWindow {
     fun clear() {
         clearFrames()
         lastFrameAt = null
-        name = UNKNOWN
     }
 
     private fun clearFrames() {
@@ -175,8 +153,6 @@ class FaceNameWindow {
 
     companion object {
         const val UNKNOWN: String = "Unknown"
-
-        const val DEFAULT_THRESHOLD: Float = 0.53f
 
         /** Usable frames whose scores are averaged. More frames, less noise. */
         const val FRAMES = 3

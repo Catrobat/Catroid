@@ -30,8 +30,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
-import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.formulaeditor.Sensors
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -99,7 +97,8 @@ class CameraAnalyzersTest {
             analysed++
             null
         }
-        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+        // The program reads the sensor, which starts the analysis.
+        FaceNameDetector.getNameWithThreshold(0.53)
         val alone = frame()
 
         FaceNameFirstAnalyzer(null).analyze(alone)

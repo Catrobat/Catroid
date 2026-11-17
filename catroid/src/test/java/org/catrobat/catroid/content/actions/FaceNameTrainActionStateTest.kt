@@ -26,8 +26,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.bluetooth.BluetoothManager
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
-import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageResourceHolder
@@ -941,7 +939,7 @@ class FaceNameTrainActionStateTest {
             recognizer
         }
         FaceNameDetector.reset()
-        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+        FaceNameDetector.getNameWithThreshold(DEFAULT_THRESHOLD)
 
         offerFrame()
         assertEquals("The first frame tried to load the models", 1, modelLoads)
@@ -968,7 +966,7 @@ class FaceNameTrainActionStateTest {
             cameraTime += FaceNameWindow.FRAME_INTERVAL_MS
             offerFrame()
         }
-        return SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
+        return FaceNameDetector.getNameWithThreshold(DEFAULT_THRESHOLD)
     }
 
     /** One camera frame through the detector, recognised right away. */
@@ -990,5 +988,8 @@ class FaceNameTrainActionStateTest {
         const val LOADING_POLLS = 20
         const val HIGH_SCORE = 0.95f
         const val MANY_PEOPLE = 900
+
+        /** The default parameter of "detected face name with threshold". */
+        const val DEFAULT_THRESHOLD = 0.53
     }
 }

@@ -26,23 +26,14 @@ class FaceDatabaseTest {
 
     private lateinit var database: FaceDatabase
 
-    // The thresholds are process-wide statics. Remember them so this class does
-    // not leak its values into whichever test runs next in the same JVM.
-    private var savedMinSimilarity = 0f
-    private var savedMinMargin = 0f
     private val savedOpenForWriting: (File) -> Writer = FileUtils.openForWriting
     private val savedOpenForReading: (File) -> Reader = FileUtils.openForReading
 
     @Before
     fun setUp() {
-        savedMinSimilarity = FaceDatabase.minSimilarity
-        savedMinMargin = FaceDatabase.minMargin
-
         val context = ApplicationProvider.getApplicationContext<Context>()
         FileUtils.init(context)
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = 0.53f
-        FaceDatabase.minMargin = 0.04f
         database = FaceDatabase().apply { load() }
     }
 
@@ -51,8 +42,6 @@ class FaceDatabaseTest {
         FileUtils.openForWriting = savedOpenForWriting
         FileUtils.openForReading = savedOpenForReading
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = savedMinSimilarity
-        FaceDatabase.minMargin = savedMinMargin
     }
 
     @Test
@@ -91,7 +80,7 @@ class FaceDatabaseTest {
         database.save()
 
         val reloaded = FaceDatabase().apply { load() }
-        val match = reloaded.match(unitVector(2))
+        val match = reloaded.matchOf(unitVector(2))
         assertNotNull(match)
         assertEquals(listOf("Person A", "Person C"), reloaded.getNames())
         assertEquals(1, match?.index)
@@ -104,7 +93,7 @@ class FaceDatabaseTest {
         database.addEmbeddings(0, listOf(unitVector(0)))
         database.deletePerson(0)
 
-        assertNull(database.match(unitVector(0)))
+        assertNull(database.matchOf(unitVector(0)))
         assertTrue(database.getNames().isEmpty())
     }
 
@@ -115,7 +104,7 @@ class FaceDatabaseTest {
         database.addEmbeddings(0, listOf(unitVector(0)))
         database.addEmbeddings(1, listOf(unitVector(1)))
 
-        val match = database.match(unitVector(0))
+        val match = database.matchOf(unitVector(0))
 
         assertNotNull(match)
         assertEquals("Person A", match?.name)
@@ -123,23 +112,12 @@ class FaceDatabaseTest {
     }
 
     @Test
-    fun ambiguousFaceIsRejectedByMargin() {
-        val same = unitVector(0)
-        database.addPerson("Person A")
-        database.addPerson("Person B")
-        database.addEmbeddings(0, listOf(same))
-        database.addEmbeddings(1, listOf(same.copyOf()))
-
-        assertNull(database.match(same))
-    }
-
-    @Test
     fun wrongSizedAndNullEmbeddingsAreRejectedSafely() {
         database.addPerson("Person A")
         database.addEmbeddings(0, listOf(unitVector(0)))
 
-        assertNull(database.match(null))
-        assertNull(database.match(FloatArray(8)))
+        assertNull(database.scoreAll(null))
+        assertNull(database.scoreAll(FloatArray(8)))
         assertNull(database.scoreAllVariants(emptyList()))
     }
 
@@ -173,12 +151,12 @@ class FaceDatabaseTest {
         assertFalse("A failed save must say so", database.save())
 
         assertEquals(listOf("Alice", "Bob"), database.getNames())
-        assertEquals("Bob", database.match(unitVector(1))?.name)
+        assertEquals("Bob", database.matchOf(unitVector(1))?.name)
         FileUtils.openForWriting = savedOpenForWriting
         val restarted = FaceDatabase().apply { load() }
         assertEquals(listOf("Alice", "Bob"), restarted.getNames())
-        assertEquals("Alice", restarted.match(unitVector(0))?.name)
-        assertEquals("Bob", restarted.match(unitVector(1))?.name)
+        assertEquals("Alice", restarted.matchOf(unitVector(0))?.name)
+        assertEquals("Bob", restarted.matchOf(unitVector(1))?.name)
     }
 
     /**
@@ -205,8 +183,8 @@ class FaceDatabaseTest {
         FileUtils.openForReading = savedOpenForReading
         val restarted = FaceDatabase().apply { load() }
         assertEquals(listOf("Alice", "Bob"), restarted.getNames())
-        assertEquals("Alice", restarted.match(unitVector(0))?.name)
-        assertEquals("Bob", restarted.match(unitVector(1))?.name)
+        assertEquals("Alice", restarted.matchOf(unitVector(0))?.name)
+        assertEquals("Bob", restarted.matchOf(unitVector(1))?.name)
     }
 
     /**
@@ -223,7 +201,7 @@ class FaceDatabaseTest {
         val reloaded = FaceDatabase().apply { load() }
 
         assertFalse(reloaded.hasStaleEmbeddings())
-        assertEquals("Alice", reloaded.match(unitVector(0))?.name)
+        assertEquals("Alice", reloaded.matchOf(unitVector(0))?.name)
     }
 
     // ---------------- Photos from the FaceNet build (512 values) ----------------
@@ -238,22 +216,8 @@ class FaceDatabaseTest {
         assertEquals(listOf("Person A", "Person B"), reloaded.getNames())
         assertEquals(0, reloaded.getEmbeddingCount(0))
         assertEquals(0, reloaded.getEmbeddingCount(1))
-        assertNull(reloaded.match(unitVector(0)))
-        assertNull(reloaded.match(FloatArray(FACENET_SIZE)))
-        assertNull(reloaded.decide(reloaded.scoreAll(unitVector(0))))
-    }
-
-    @Test
-    fun theFaceNetThresholdsAreNotTakenOver() {
-        writeFaceNetFiles("Person A")
-        FaceDatabase.minSimilarity = 0.33f
-        FaceDatabase.minMargin = 0.02f
-
-        FaceDatabase().load()
-
-        // The old header says 0.60 / 0.05, on the FaceNet scale.
-        assertEquals(0.33f, FaceDatabase.minSimilarity, 0.0001f)
-        assertEquals(0.02f, FaceDatabase.minMargin, 0.0001f)
+        assertNull(reloaded.matchOf(unitVector(0)))
+        assertNull(reloaded.scoreAll(FloatArray(FACENET_SIZE)))
     }
 
     @Test
@@ -270,7 +234,7 @@ class FaceDatabaseTest {
         assertTrue(restarted.hasStaleEmbeddings())
         assertEquals(1, restarted.getEmbeddingCount(0))
         assertEquals(0, restarted.getEmbeddingCount(1))
-        assertEquals("Person A", restarted.match(unitVector(0))?.name)
+        assertEquals("Person A", restarted.matchOf(unitVector(0))?.name)
 
         restarted.addEmbeddings(1, listOf(unitVector(1)))
         assertTrue(restarted.save())
@@ -278,7 +242,7 @@ class FaceDatabaseTest {
         val retrained = FaceDatabase().apply { load() }
         assertFalse(retrained.hasStaleEmbeddings())
         assertEquals(1, retrained.getEmbeddingCount(1))
-        assertEquals("Person B", retrained.match(unitVector(1))?.name)
+        assertEquals("Person B", retrained.matchOf(unitVector(1))?.name)
     }
 
     @Test
@@ -301,6 +265,65 @@ class FaceDatabaseTest {
 
         assertFalse(FaceDatabase().apply { load() }.hasStaleEmbeddings())
     }
+
+    // ---------------- The model file header ----------------
+
+    @Test
+    fun theModelHeaderNamesThePipelineAndNoThresholds() {
+        database.addPerson("Person A")
+        database.addEmbeddings(0, listOf(unitVector(0)))
+        assertTrue(database.save())
+
+        assertEquals(
+            "v1 ${MobileFaceNet.EMBEDDING_SIZE} 1 0 0 p3",
+            FileUtils.readAllLines(FileUtils.MODEL_FILE).first()
+        )
+    }
+
+    /**
+     * Earlier builds of this pipeline wrote two thresholds into the model
+     * header. Their files load as before: the thresholds are ignored, the
+     * pipeline version is still read, and the centroids are taken from the
+     * model file. Person B has no photo, only a centroid, so a match for
+     * Person B shows that the model file was read rather than rebuilt.
+     */
+    @Test
+    fun aModelHeaderWithThresholdsStillLoads() {
+        writeModelWithThresholds(pipeline = 3)
+
+        val reloaded = FaceDatabase().apply { load() }
+
+        assertFalse(reloaded.hasStaleEmbeddings())
+        assertEquals(listOf("Person A", "Person B"), reloaded.getNames())
+        assertEquals("Person A", reloaded.matchOf(unitVector(0))?.name)
+        assertEquals("Person B", reloaded.matchOf(unitVector(1))?.name)
+    }
+
+    @Test
+    fun aModelHeaderWithThresholdsFromAnOlderPipelineIsOutOfDate() {
+        writeModelWithThresholds(pipeline = 2)
+
+        assertTrue(FaceDatabase().apply { load() }.hasStaleEmbeddings())
+    }
+
+    /** Person A with one photo, Person B with only a centroid, under a header with thresholds. */
+    private fun writeModelWithThresholds(pipeline: Int) {
+        val size = MobileFaceNet.EMBEDDING_SIZE
+        assertTrue(FileUtils.writeLines(FileUtils.LABEL_FILE, listOf("Person A", "Person B")))
+        assertTrue(FileUtils.writeLines(FileUtils.DATA_FILE, listOf("0 " + vectorText(0))))
+        assertTrue(
+            FileUtils.writeLines(
+                FileUtils.MODEL_FILE,
+                listOf("v1 $size 2 0.6100 0.0800 p$pipeline", "0 1 " + vectorText(0), "1 1 " + vectorText(1))
+            )
+        )
+    }
+
+    private fun vectorText(position: Int): String = unitVector(position).joinToString(" ")
+
+    /** The person the sensor would name for [query] at its default threshold. */
+    private fun FaceDatabase.matchOf(query: FloatArray): FaceDatabase.Match? =
+        scoreAll(query)?.let { decideWithThreshold(it, THRESHOLD) }
 
     /** The three files as the FaceNet build (pipeline 2, 512 values) wrote them. */
     private fun writeFaceNetFiles(vararg names: String) {
@@ -326,5 +349,8 @@ class FaceDatabaseTest {
 
     private companion object {
         const val FACENET_SIZE = 512
+
+        /** The default parameter of "detected face name with threshold". */
+        const val THRESHOLD = 0.53f
     }
 }

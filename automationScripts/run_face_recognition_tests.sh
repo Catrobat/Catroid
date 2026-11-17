@@ -29,12 +29,10 @@ SENSOR_TEST_CLASS=org.catrobat.catroid.uiespresso.facerecognizer.FaceNameSensorS
 
 UNIT_TESTS=(
   --tests "org.catrobat.catroid.FaceRecognizer.FaceDatabaseTest"
-  --tests "org.catrobat.catroid.FaceRecognizer.RecognizerSessionTest"
   --tests "org.catrobat.catroid.FaceRecognizer.FaceNameWindowTest"
   --tests "org.catrobat.catroid.FaceRecognizer.FaceNameThresholdTest"
   --tests "org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetectorTest"
   --tests "org.catrobat.catroid.content.actions.FaceNameTrainActionStateTest"
-  --tests "org.catrobat.catroid.formulaeditor.SensorHandlerFaceNameTest"
   --tests "org.catrobat.catroid.formulaeditor.FaceNameThresholdFormulaTest"
   --tests "org.catrobat.catroid.formulaeditor.common.FormulaElementResourcesTest"
   --tests "org.catrobat.catroid.stage.BrickDialogManagerTest"
@@ -52,7 +50,6 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.test.robolectric.StageActivityRecreationTest"
   --tests "org.catrobat.catroid.stage.FaceNameWatcherTest"
   --tests "org.catrobat.catroid.content.bricks.FaceNameTrainBrickTest"
-  --tests "org.catrobat.catroid.io.RenamedBrickTypesTest"
 )
 DEVICE_TESTS="org.catrobat.catroid.FaceRecognizer.FaceRecognizerLifecycleTest,\
 org.catrobat.catroid.FaceRecognizer.RecognizerTrainingOrderTest,\

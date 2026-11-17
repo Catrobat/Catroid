@@ -42,19 +42,14 @@ class FaceNameThresholdTest {
 
     private lateinit var recognizer: Recognizer
     private lateinit var window: FaceNameWindow
-    private var savedMinSimilarity = 0f
-    private var savedMinMargin = 0f
     private var nextAt = 0L
 
     @Before
     fun setUp() {
-        savedMinSimilarity = FaceDatabase.minSimilarity
-        savedMinMargin = FaceDatabase.minMargin
         val context = ApplicationProvider.getApplicationContext<Context>()
         FileUtils.init(context)
         FileUtils.deleteAll()
         recognizer = Recognizer.withoutModelsForTest(context)
-        recognizer.setThresholds(0.53f, 0.04f)
         recognizer.addPerson(PERSON_A)
         window = FaceNameWindow()
     }
@@ -62,15 +57,13 @@ class FaceNameThresholdTest {
     @After
     fun tearDown() {
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = savedMinSimilarity
-        FaceDatabase.minMargin = savedMinMargin
     }
 
     @Test
     fun theVisibleDefaultAlsoAppliesToTheFirstFrameAndOnlyEnrolledPerson() {
         assertEquals(UNKNOWN, read(0f))
         assertEquals(PERSON_A, add(0.55f))
-        assertEquals(PERSON_A, window.name)
+        assertEquals(PERSON_A, read(DEFAULT_THRESHOLD))
         assertEquals(PERSON_A, read(0.53f))
         assertEquals(UNKNOWN, read(0.61f))
     }
@@ -84,32 +77,28 @@ class FaceNameThresholdTest {
         assertEquals(UNKNOWN, read(0.80f))
         assertEquals(PERSON_A, read(0.50f))
         assertEquals(FRAMES, window.framesInWindow)
-        assertEquals(PERSON_A, window.name)
+        assertEquals(PERSON_A, read(DEFAULT_THRESHOLD))
     }
 
     @Test
     fun theArgumentCanChooseAThresholdBelowTheOldSafetyFloor() {
         add(0.40f)
 
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, read(DEFAULT_THRESHOLD))
         assertEquals(PERSON_A, read(0.30f))
         assertEquals(UNKNOWN, read(0.53f))
     }
 
     @Test
-    fun changingAFormulaDoesNotChangeGlobalThresholdsOrOtherFormulaResults() {
+    fun changingAFormulaDoesNotChangeOtherFormulaResults() {
         recognizer.addPerson(PERSON_B)
-        FaceDatabase.minSimilarity = 0.88f
-        FaceDatabase.minMargin = 0.08f
         add(0.55f, 0.54f)
 
-        // Neither the saved similarity nor its margin is a hidden requirement.
-        assertEquals(PERSON_A, window.name)
+        // A close runner-up is no hidden requirement.
+        assertEquals(PERSON_A, read(DEFAULT_THRESHOLD))
         assertEquals(PERSON_A, read(0.53f))
         assertEquals(UNKNOWN, read(0.61f))
         assertEquals(PERSON_A, read(0.53f))
-        assertEquals(0.88f, FaceDatabase.minSimilarity, 0f)
-        assertEquals(0.08f, FaceDatabase.minMargin, 0f)
     }
 
     @Test
@@ -117,7 +106,7 @@ class FaceNameThresholdTest {
         repeat(FRAMES) { add(0.80f) }
         repeat(FRAMES) { add(0.54f) }
 
-        assertEquals(PERSON_A, window.name)
+        assertEquals(PERSON_A, read(DEFAULT_THRESHOLD))
         assertEquals(UNKNOWN, read(0.61f))
         assertEquals(PERSON_A, read(0.53f))
         assertEquals(UNKNOWN, read(0.61f))
@@ -145,7 +134,7 @@ class FaceNameThresholdTest {
         window.addScores(recognizer, null, NO_FACE_RESET_MS)
 
         assertEquals(0, window.framesInWindow)
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, read(DEFAULT_THRESHOLD))
         assertEquals(UNKNOWN, read(0f))
         assertEquals(UNKNOWN, read(0.53f))
     }
@@ -156,7 +145,7 @@ class FaceNameThresholdTest {
         window.clear()
 
         assertEquals(UNKNOWN, read(0f))
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, read(DEFAULT_THRESHOLD))
         assertEquals(0, window.framesInWindow)
     }
 
@@ -238,13 +227,18 @@ class FaceNameThresholdTest {
 
     private fun read(threshold: Float): String = window.nameWithThreshold(recognizer, threshold)
 
+    /** Adds one frame's scores; returns the name at the sensor's default threshold. */
     private fun add(vararg scores: Float, at: Long = nextAt): String {
         nextAt = at + FRAME_INTERVAL_MS
-        return window.addScores(recognizer, scores, at)
+        window.addScores(recognizer, scores, at)
+        return read(DEFAULT_THRESHOLD)
     }
 
     private companion object {
         const val PERSON_A = "Person A"
         const val PERSON_B = "Person B"
+
+        /** The default parameter of "detected face name with threshold". */
+        const val DEFAULT_THRESHOLD = 0.53f
     }
 }

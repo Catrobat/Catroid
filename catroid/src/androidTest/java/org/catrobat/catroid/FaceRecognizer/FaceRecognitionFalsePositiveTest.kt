@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * False positives with real faces, through the stage's session path.
+ * False positives with real faces, through the face name sensor's decision.
  *
  * Restores the stranger and impostor checks that existed in
  * Catrobat/Catroid#5237 (RecognizerInstrumentedTest.aDifferentPersonIsNotAccepted,

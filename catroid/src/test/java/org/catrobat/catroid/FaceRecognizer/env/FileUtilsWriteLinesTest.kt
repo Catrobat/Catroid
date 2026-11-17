@@ -66,7 +66,7 @@ class FileUtilsWriteLinesTest {
 
         assertTrue(FileUtils.writeLines(FILE, NEW_LINES))
 
-        assertEquals(NEW_LINES, FileUtils.readLines(FILE))
+        assertEquals(NEW_LINES, FileUtils.readAllLines(FILE))
         assertNoTemporaryFileLeft()
     }
 
@@ -78,7 +78,7 @@ class FileUtilsWriteLinesTest {
         val written = FileUtils.writeLines(FILE, NEW_LINES)
 
         assertFalse("A write that ran out of space must report failure", written)
-        assertEquals("The old file must be untouched", OLD_LINES, FileUtils.readLines(FILE))
+        assertEquals("The old file must be untouched", OLD_LINES, FileUtils.readAllLines(FILE))
         assertNoTemporaryFileLeft()
     }
 
@@ -90,7 +90,7 @@ class FileUtilsWriteLinesTest {
         val written = FileUtils.writeLines(FILE, NEW_LINES)
 
         assertFalse("A write whose flush failed must report failure", written)
-        assertEquals("The old file must be untouched", OLD_LINES, FileUtils.readLines(FILE))
+        assertEquals("The old file must be untouched", OLD_LINES, FileUtils.readAllLines(FILE))
         assertNoTemporaryFileLeft()
     }
 

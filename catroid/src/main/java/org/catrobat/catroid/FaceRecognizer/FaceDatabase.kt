@@ -9,10 +9,7 @@ import org.catrobat.catroid.FaceRecognizer.env.FileUtils.recoverInterruptedWrite
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.writeFiles
 import org.catrobat.catroid.FaceRecognizer.ml.MobileFaceNet
 import java.io.IOException
-import java.util.Arrays
 import java.util.Locale
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -21,7 +18,7 @@ import kotlin.math.sqrt
  * label : one person name per line. The line number is the person index.
  * data  : one training embedding per line, "<index> v0 v1 ... v127".
  * model : compiled matcher, rebuilt from data on every change.
- * line 1  "v1 <embeddingSize> <personCount> <minSimilarity> <minMargin> p<pipeline>"
+ * line 1  "v1 <embeddingSize> <personCount> 0 0 p<pipeline>"
  * then    "<index> <sampleCount> c0 c1 ... c127"   centroid, unit length
  *
  * All three are written together from memory, so their indices can never drift apart.
@@ -48,8 +45,7 @@ class FaceDatabase {
     class Match internal constructor(
         val index: Int,
         @JvmField val name: String?,
-        @JvmField val similarity: Float,
-        @JvmField val margin: Float
+        @JvmField val similarity: Float
     )
 
     private val names: MutableList<String> = ArrayList<String>()
@@ -202,8 +198,8 @@ class FaceDatabase {
         val modelLines: MutableList<String> = ArrayList<String>()
         modelLines.add(
             String.format(
-                Locale.US, "v%d %d %d %.4f %.4f p%d",
-                VERSION, EMBEDDING_SIZE, names.size, minSimilarity, minMargin,
+                Locale.US, "v%d %d %d %s p%d",
+                VERSION, EMBEDDING_SIZE, names.size, UNUSED_HEADER_FIELDS,
                 PIPELINE_VERSION
             )
         )
@@ -265,7 +261,7 @@ class FaceDatabase {
     private fun loadModelMetadata(header: List<String>): Boolean {
         return try {
             if (header[1].toInt() != EMBEDDING_SIZE) {
-                // Another face model; its thresholds are on another scale too.
+                // Another face model.
                 Log.w(TAG, "Model file is for " + header[1] + " values, this build uses " + EMBEDDING_SIZE)
                 staleEmbeddings = true
                 false
@@ -273,7 +269,6 @@ class FaceDatabase {
                 Log.w(TAG, "Model does not match label file, rebuilding from data")
                 false
             } else {
-                loadThresholds(header)
                 checkPipelineVersion(header)
                 true
             }
@@ -285,17 +280,6 @@ class FaceDatabase {
 
     private fun modelMatchesLabels(header: List<String>): Boolean =
         header[2].toInt() == names.size
-
-    private fun loadThresholds(header: List<String>) {
-        if (header.size < 5) {
-            return
-        }
-
-        minSimilarity = header[3].toFloat()
-        minMargin = header[4].toFloat()
-
-        Log.i(TAG, "Thresholds from model: $minSimilarity / $minMargin")
-    }
 
     private fun checkPipelineVersion(header: List<String>) {
         val storedPipeline = readPipelineVersion(header)
@@ -387,23 +371,10 @@ class FaceDatabase {
     }
 
     // ---------------- People ----------------
-    /** Changes the thresholds and writes them into the model file header. False if that failed. */
-    @Synchronized
-    fun setThresholds(similarity: Float, margin: Float): Boolean {
-        minSimilarity = max(0.05f, min(0.95f, similarity))
-        minMargin = max(0f, min(0.5f, margin))
-        Log.i(TAG, "Thresholds set to " + minSimilarity + " / " + minMargin)
-        return save()
-    }
-
     @Synchronized
     fun getNames(): List<String> {
         return names.toList()
     }
-
-    @get:Synchronized
-    val personCount: Int
-        get() = names.size
 
     @Synchronized
     fun getEmbeddingCount(index: Int): Int {
@@ -461,7 +432,6 @@ class FaceDatabase {
     }
 
     // ---------------- Matching ----------------
-    /** Returns the matched person, or null when nothing is close enough.  */
     /** Score for every enrolled person, in index order. Used for multi frame voting.  */
     @Synchronized
     fun scoreAll(query: FloatArray?): FloatArray? {
@@ -515,65 +485,7 @@ class FaceDatabase {
         return currentBest
     }
 
-    /**
-     * The similarity a legacy match needs. With a second enrolled person to compare
-     * against, the margin rule also has to pass, so the normal threshold is
-     * enough. With nobody to compare against (one enrolled person, or everyone
-     * else without photos) the margin says nothing, so a stranger who only
-     * resembles that person must not get their name: the bar is higher.
-     */
-    @Synchronized
-    fun similarityNeededFor(scores: FloatArray): Float =
-        similarityNeeded(hasRival = scores.count { it != NO_SCORE } > 1)
-
-    private fun similarityNeeded(hasRival: Boolean): Float {
-        val floor = max(minSimilarity, ABSOLUTE_SAFETY_FLOOR)
-        return if (hasRival) floor else max(floor, SINGLE_PERSON_MIN_SIMILARITY)
-    }
-
-    /** Applies the legacy similarity and margin thresholds to an already combined score array. */
-    @Synchronized
-    fun decide(scores: FloatArray?): Match? {
-        if (scores == null || scores.size != names.size || names.isEmpty()) {
-            return null
-        }
-
-        var best: Float = NO_SCORE
-        var second: Float = NO_SCORE
-        var bestIndex = -1
-
-        for (i in scores.indices) {
-            if (scores[i] == NO_SCORE) {
-                continue
-            }
-            if (scores[i] > best) {
-                second = best
-                best = scores[i]
-                bestIndex = i
-            } else if (scores[i] > second) {
-                second = scores[i]
-            }
-        }
-
-        if (bestIndex < 0) {
-            return null
-        }
-        val margin = if (second == NO_SCORE) 1f else best - second
-        val requiredSimilarity: Float = similarityNeeded(hasRival = second != NO_SCORE)
-        if (best < requiredSimilarity || margin < minMargin) {
-            Log.i(
-                TAG, String.format(
-                    Locale.US,
-                    "Rejected: best=%.3f margin=%.3f (need %.2f / %.2f)",
-                    best, margin, requiredSimilarity, minMargin
-                )
-            )
-            return null
-        }
-        return Match(bestIndex, names[bestIndex], best, margin)
-    }
-
-    /** Uses the formula's cutoff directly, without saved thresholds or a previous-name latch. */
+    /** Uses the formula's cutoff directly, without a previous-name latch. */
     @Synchronized
     fun decideWithThreshold(scores: FloatArray, threshold: Float): Match? {
         if (scores.size != names.size || !threshold.isFinite()) {
@@ -582,25 +494,20 @@ class FaceDatabase {
         val cutoff = threshold.coerceIn(0f, 1f)
         var bestIndex = -1
         var best = Float.NEGATIVE_INFINITY
-        var second = Float.NEGATIVE_INFINITY
         for (index in scores.indices) {
             val score = scores[index]
             if (score == NO_SCORE || !score.isFinite()) {
                 continue
             }
             if (score > best) {
-                second = best
                 best = score
                 bestIndex = index
-            } else if (score > second) {
-                second = score
             }
         }
         if (bestIndex < 0 || best < cutoff) {
             return null
         }
-        val margin = if (second.isFinite()) best - second else 1f
-        return Match(bestIndex, names[bestIndex], best, margin)
+        return Match(bestIndex, names[bestIndex], best)
     }
 
     @Synchronized
@@ -615,49 +522,6 @@ class FaceDatabase {
             i++
         }
         return sb.toString().trim()
-    }
-
-    @Synchronized
-    fun match(query: FloatArray?): Match? {
-        if (query == null || query.size != EMBEDDING_SIZE || names.isEmpty()) {
-            return null
-        }
-
-        var best: Float = NO_SCORE
-        var second: Float = NO_SCORE
-        var bestIndex = -1
-
-        for (i in names.indices) {
-            val score = personScore(i, query)
-            if (score == NO_SCORE) {
-                continue
-            }
-            if (score > best) {
-                second = best
-                best = score
-                bestIndex = i
-            } else if (score > second) {
-                second = score
-            }
-        }
-
-        if (bestIndex < 0) {
-            return null
-        }
-
-        val margin = if (second == NO_SCORE) 1f else best - second
-        val requiredSimilarity: Float = similarityNeeded(hasRival = second != NO_SCORE)
-        if (best < requiredSimilarity || margin < minMargin) {
-            Log.i(
-                TAG, String.format(
-                    Locale.US,
-                    "Rejected: best=%.3f margin=%.3f (need %.2f / %.2f)",
-                    best, margin, requiredSimilarity, minMargin
-                )
-            )
-            return null
-        }
-        return Match(bestIndex, names[bestIndex], best, margin)
     }
 
     private fun personScore(index: Int, query: FloatArray): Float {
@@ -748,44 +612,6 @@ class FaceDatabase {
         const val TAG: String = "FaceDatabase"
 
         /**
-         * Accept a match only above this cosine similarity.
-         * Raise it if strangers get a name. Lower it if known people come back Unknown.
-         * Useful range 0.53 to 0.65 (MobileFaceNet scores lower than FaceNet did):
-         * matching never goes below the safety floor of 0.53, so a lower value has no effect.
-         */
-        @JvmField
-        var minSimilarity: Float = 0.53f
-
-        /**
-         * The winner must beat the runner up by this much. This is what stops the app
-         * putting the wrong person's name on a face.
-         */
-        @JvmField
-        var minMargin: Float = 0.04f
-
-        /*
-         * The thresholds below were tuned for FaceNet and carried over to the
-         * MobileFaceNet scale on the fixture photos (faces.zip, every photo
-         * against the others, all views, as scoreFrame scores them):
-         *   FaceNet       same person 0.689-0.909 (mean 0.814), others up to 0.325 (mean 0.149)
-         *   MobileFaceNet same person 0.575-0.855 (mean 0.704), others up to 0.435 (mean 0.157)
-         * Each old threshold t keeps its place between the two means:
-         *   t' = 0.157 + (t - 0.149) * 0.823
-         * 0.60 -> 0.53, 0.70 -> 0.61, 0.75 -> 0.65, margin 0.05 -> 0.04.
-         */
-
-        /** Never accept collapsed/no-detail embeddings even if an old model saved a lower value.  */
-        private const val ABSOLUTE_SAFETY_FLOOR = 0.53f
-
-        /**
-         * Needed when there is no second person to compare against. With FaceNet,
-         * measured on a Galaxy M53, a stranger against the only enrolled person
-         * scored up to 0.61 (0.54 on this scale) and genuine matches 0.79-0.93;
-         * the bar was 0.70.
-         */
-        internal const val SINGLE_PERSON_MIN_SIMILARITY = 0.61f
-
-        /**
          * Nearest neighbour. A person is scored against their single closest training
          * photo, not an average of several.
          *
@@ -824,6 +650,14 @@ class FaceDatabase {
          * 3  MobileFaceNet (112x112, 128 values) instead of FaceNet (160x160, 512)
          */
         private const val PIPELINE_VERSION = 3
+
+        /**
+         * The fourth and fifth model header fields once held thresholds that no
+         * longer exist. They are written as zeros and ignored when read, so the
+         * pipeline version stays the sixth field, where every build looks for it,
+         * and files written with thresholds load as before.
+         */
+        private const val UNUSED_HEADER_FIELDS = "0 0"
 
         private const val EMBEDDING_SIZE = MobileFaceNet.EMBEDDING_SIZE
 

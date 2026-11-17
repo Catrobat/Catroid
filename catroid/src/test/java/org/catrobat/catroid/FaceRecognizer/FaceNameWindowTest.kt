@@ -42,8 +42,9 @@ import org.robolectric.RobolectricTestRunner
 
 /**
  * The decision behind "detected face name", with known per-person scores for
- * each frame, so no face model is needed. The window's default cutoff is
- * 0.53, including the first frame and when only one person is enrolled.
+ * each frame, so no face model is needed. Names are read at the sensor's
+ * default cutoff 0.53, including the first frame and when only one person is
+ * enrolled.
  * Formula-specific cutoffs are covered in [FaceNameThresholdTest].
  */
 @RunWith(RobolectricTestRunner::class)
@@ -52,19 +53,12 @@ class FaceNameWindowTest {
     private lateinit var recognizer: Recognizer
     private lateinit var window: FaceNameWindow
 
-    private var savedMinSimilarity = 0f
-    private var savedMinMargin = 0f
-
     @Before
     fun setUp() {
-        savedMinSimilarity = FaceDatabase.minSimilarity
-        savedMinMargin = FaceDatabase.minMargin
-
         val context = ApplicationProvider.getApplicationContext<Context>()
         FileUtils.init(context)
         FileUtils.deleteAll()
         recognizer = Recognizer.withoutModelsForTest(context)
-        recognizer.setThresholds(MIN_SIMILARITY, MIN_MARGIN)
         recognizer.addPerson(PERSON_A)
         recognizer.addPerson(PERSON_B)
         window = FaceNameWindow()
@@ -73,15 +67,13 @@ class FaceNameWindowTest {
     @After
     fun tearDown() {
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = savedMinSimilarity
-        FaceDatabase.minMargin = savedMinMargin
     }
 
     // ---------------- One, two and three usable frames ----------------
 
     @Test
     fun theNameIsUnknownBeforeTheFirstFrame() {
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, name())
     }
 
     @Test
@@ -111,12 +103,12 @@ class FaceNameWindowTest {
     }
 
     @Test
-    fun theNameIsStoredAfterEveryUsableFrame() {
+    fun theDecisionFollowsEveryUsableFrame() {
         assertEquals(PERSON_A, add(0.90f, 0.20f))
-        assertEquals(PERSON_A, window.name)
+        assertEquals(PERSON_A, name())
         // Average with the first frame: A 0.45, B 0.10, below the threshold.
         assertEquals(UNKNOWN, add(0.00f, 0.00f))
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, name())
     }
 
     // ---------------- The sliding window ----------------
@@ -124,7 +116,7 @@ class FaceNameWindowTest {
     @Test
     fun theOldestFrameDropsOutOfTheWindow() {
         repeat(FRAMES) { add(0.90f, 0.20f) }
-        assertEquals(PERSON_A, window.name)
+        assertEquals(PERSON_A, name())
 
         // Window A, A, B: A 0.67, B 0.43.
         assertEquals(PERSON_A, add(0.20f, 0.90f))
@@ -139,7 +131,7 @@ class FaceNameWindowTest {
     @Test
     fun aFrameWithoutAUsableFaceKeepsTheLastDecision() {
         add(0.90f, 0.20f, at = 0)
-        assertEquals(PERSON_A, window.addScores(recognizer, null, NO_FACE_RESET_MS - 1))
+        assertEquals(PERSON_A, addScores(null, NO_FACE_RESET_MS - 1))
         assertEquals(1, window.framesInWindow)
     }
 
@@ -147,9 +139,9 @@ class FaceNameWindowTest {
     fun oneSecondWithoutAUsableFaceGivesUnknownAndClearsTheFrames() {
         add(0.90f, 0.20f, at = 0)
         add(0.90f, 0.20f, at = 300)
-        window.addScores(recognizer, null, 600)
+        addScores(null, 600)
 
-        assertEquals(UNKNOWN, window.addScores(recognizer, null, 300 + NO_FACE_RESET_MS))
+        assertEquals(UNKNOWN, addScores(null, 300 + NO_FACE_RESET_MS))
         assertEquals(0, window.framesInWindow)
 
         // A new start: the old strong frames must not lift this weak one.
@@ -166,9 +158,9 @@ class FaceNameWindowTest {
     fun aFaceAfterOneSecondWithoutAUsableFaceStartsAFreshDecision() {
         add(0.90f, 0.20f, at = 0)
         add(0.90f, 0.20f, at = 300)
-        window.addScores(recognizer, null, 600)
-        window.addScores(recognizer, null, 900)
-        window.addScores(recognizer, null, 1200)
+        addScores(null, 600)
+        addScores(null, 900)
+        addScores(null, 1200)
 
         assertEquals(PERSON_B, add(0.20f, 0.90f, at = 1500))
         assertEquals(1, window.framesInWindow)
@@ -194,12 +186,9 @@ class FaceNameWindowTest {
         add(0.90f, 0.20f, at = 0)
         add(0.90f, 0.20f, at = 300)
 
-        val name = window.addScores(
-            recognizer, floatArrayOf(0.20f, 0.90f), 300 + NO_FACE_RESET_MS, listOf(PERSON_A, PERSON_C)
-        )
+        val name = addScores(floatArrayOf(0.20f, 0.90f), 300 + NO_FACE_RESET_MS, listOf(PERSON_A, PERSON_C))
 
         assertEquals(UNKNOWN, name)
-        assertEquals(UNKNOWN, window.name)
         assertEquals(0, window.framesInWindow)
     }
 
@@ -214,8 +203,8 @@ class FaceNameWindowTest {
 
     @Test
     fun framesWithoutAUsableFaceFromTheStartStayUnknown() {
-        assertEquals(UNKNOWN, window.addScores(recognizer, null, 0))
-        assertEquals(UNKNOWN, window.addScores(recognizer, null, 2000))
+        assertEquals(UNKNOWN, addScores(null, 0))
+        assertEquals(UNKNOWN, addScores(null, 2000))
     }
 
     // ---------------- Thresholds ----------------
@@ -301,10 +290,10 @@ class FaceNameWindowTest {
      */
     @Test
     fun aFrameScoredForOtherNamesIsLeftOut() {
-        assertEquals(UNKNOWN, window.addScores(recognizer, floatArrayOf(0.90f, 0.20f), 0, listOf(PERSON_A, PERSON_C)))
+        assertEquals(UNKNOWN, addScores(floatArrayOf(0.90f, 0.20f), 0, listOf(PERSON_A, PERSON_C)))
 
         assertEquals(0, window.framesInWindow)
-        assertEquals(PERSON_A, window.addScores(recognizer, floatArrayOf(0.90f, 0.20f), 300, listOf(PERSON_A, PERSON_B)))
+        assertEquals(PERSON_A, addScores(floatArrayOf(0.90f, 0.20f), 300, listOf(PERSON_A, PERSON_B)))
     }
 
     /**
@@ -338,7 +327,7 @@ class FaceNameWindowTest {
     @Test
     fun aPersonTrainedWhileRunningIsScoredFromTheNextFrame() {
         repeat(FRAMES) { add(0.20f, 0.20f) }
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, name())
 
         recognizer.addPerson(PERSON_C)
 
@@ -352,7 +341,7 @@ class FaceNameWindowTest {
         add(0.90f, 0.20f)
         // Two scores, but three people enrolled by now.
         recognizer.addPerson(PERSON_C)
-        assertEquals(PERSON_A, window.addScores(recognizer, floatArrayOf(0.20f, 0.90f), 300))
+        addScores(floatArrayOf(0.20f, 0.90f), 300)
         assertEquals(1, window.framesInWindow)
     }
 
@@ -374,7 +363,7 @@ class FaceNameWindowTest {
 
         window.clear()
 
-        assertEquals(UNKNOWN, window.name)
+        assertEquals(UNKNOWN, name())
         assertEquals(0, window.framesInWindow)
         assertTrue(window.isFrameDue(1001))
     }
@@ -392,8 +381,16 @@ class FaceNameWindowTest {
 
     private fun add(vararg scores: Float, at: Long = nextAt): String {
         nextAt = at + FRAME_INTERVAL_MS
-        return window.addScores(recognizer, scores, at)
+        return addScores(scores, at)
     }
+
+    /** Adds one analysed frame; returns the name at the sensor's default threshold. */
+    private fun addScores(scores: FloatArray?, at: Long, scoredFor: List<String>? = null): String {
+        window.addScores(recognizer, scores, at, scoredFor)
+        return name()
+    }
+
+    private fun name(): String = window.nameWithThreshold(recognizer, DEFAULT_THRESHOLD)
 
     private fun filled(color: Int): Bitmap =
         Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888).apply { eraseColor(color) }
@@ -402,8 +399,9 @@ class FaceNameWindowTest {
         const val PERSON_A = "Person A"
         const val PERSON_B = "Person B"
         const val PERSON_C = "Person C"
-        const val MIN_SIMILARITY = 0.53f
-        const val MIN_MARGIN = 0.04f
+
+        /** The default parameter of "detected face name with threshold". */
+        const val DEFAULT_THRESHOLD = 0.53f
         const val NO_SCORE = FaceDatabase.NO_SCORE
     }
 }

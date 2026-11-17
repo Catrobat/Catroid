@@ -16,14 +16,11 @@ import java.io.IOException
 import java.util.Locale
 import kotlin.collections.ArrayList
 import kotlin.collections.MutableList
-import kotlin.collections.indices
 import kotlin.concurrent.Volatile
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 class Recognizer private constructor() {
-    class Result internal constructor(@JvmField val index: Int, @JvmField val name: String?, @JvmField val confidence: Float)
-
     @Volatile
     private var embedder: FaceEmbedder? = null
     private val database = FaceDatabase()
@@ -35,23 +32,6 @@ class Recognizer private constructor() {
      * frame or a training batch. Lock order: this object, then [modelLock].
      */
     private val modelLock = Any()
-
-    @get:Synchronized
-    val minSimilarity: Float
-        // ---------------- People ----------------
-        get() = FaceDatabase.Companion.minSimilarity
-
-    @get:Synchronized
-    val minMargin: Float
-        get() = FaceDatabase.Companion.minMargin
-
-    @Synchronized
-    @Throws(IOException::class)
-    fun setThresholds(similarity: Float, margin: Float) {
-        if (!database.setThresholds(similarity, margin)) {
-            throw IOException("The face thresholds could not be saved")
-        }
-    }
 
     @get:Synchronized
     val classNames: List<String>
@@ -401,19 +381,6 @@ class Recognizer private constructor() {
     }
 
     /**
-     * Embeds the largest face in a live camera frame, for camera based enrolment.
-     * Uses exactly the same crop and normalisation as detection, which is the whole
-     * point: a photo enrolled this way and a photo detected later differ only by
-     * the person, not by the camera or the pipeline.
-     */
-    fun embedFrame(frame: Bitmap?): MutableList<FloatArray> {
-        if (frame == null || frame.isRecycled()) {
-            return mutableListOf()
-        }
-        return synchronized(modelLock) { embedder?.embedAllVariants(frame, true) ?: mutableListOf() }
-    }
-
-    /**
      * Stores the photos under [name], adding the name if it is new, in one step
      * and one save: a delete between adding the name and storing the photos
      * would otherwise move them to the next person, and a second save that
@@ -431,41 +398,10 @@ class Recognizer private constructor() {
         return database.getEmbeddingCount(index)
     }
 
-    /** Stores the embeddings under an existing person and writes the files. Throws IOException if that failed. */
-    @Synchronized
-    @Throws(IOException::class)
-    fun addEmbeddings(index: Int, embeddings: List<FloatArray>): Int {
-        database.addEmbeddings(index, embeddings)
-        saveOrThrow()
-        return database.getEmbeddingCount(index)
-    }
-
     // ---------------- Detection ----------------
     /**
-     * Accumulates scores for the legacy [finishSession] API. One frame can be blurry,
-     * badly exposed or caught mid blink. Averaging over a few frames removes most
-     * of that noise and is the largest single accuracy gain available here.
-     */
-    class Session {
-        internal var totals: FloatArray? = null
-        internal var framesWithFace: Int = 0
-        internal var framesTried: Int = 0
-    }
-
-    /** Diagnostic summary of [finishSession]; the live sensor uses cached scores instead. */
-    @get:Synchronized
-    var lastSummary: String = ""
-        private set
-
-    @Synchronized
-    fun newSession(): Session {
-        database.ensureFresh()
-        return Session()
-    }
-
-    /**
-     * Reads cached camera scores without loading models, changing saved thresholds,
-     * or running inference. Checking the names and matching share the enrollment lock.
+     * Reads cached camera scores without loading models or running inference.
+     * Checking the names and matching share the enrollment lock.
      */
     @Synchronized
     fun nameForScores(scoredFor: List<String>, scores: FloatArray, threshold: Float): String? {
@@ -475,20 +411,15 @@ class Recognizer private constructor() {
         return database.decideWithThreshold(scores, threshold)?.name
     }
 
-    /**
-     * Scores the largest face in [frame] against every enrolled person: one
-     * score per person, in [classNames] order. Null when the frame has no
-     * usable face. The frame is not modified and is not recycled.
-     */
-    fun scoreFrame(frame: Bitmap?, mirrorToo: Boolean): FloatArray? =
-        scoreFrameForNames(frame, mirrorToo)?.scores
-
     /** Scores of one frame, with the names they belong to, in the same order. */
     class ScoredFrame(val names: List<String>, val scores: FloatArray)
 
     /**
-     * Like [scoreFrame], together with the names the scores were taken for: a
-     * person may be added or deleted before the caller uses them.
+     * Scores the largest face in [frame] against every enrolled person: one
+     * score per person, together with the names the scores were taken for, in
+     * the same order, because a person may be added or deleted before the
+     * caller uses them. Null when the frame has no usable face. The frame is
+     * not modified and is not recycled.
      */
     fun scoreFrameForNames(frame: Bitmap?, mirrorToo: Boolean): ScoredFrame? {
         if (frame == null || frame.isRecycled) {
@@ -632,107 +563,6 @@ class Recognizer private constructor() {
     fun needsRetraining(): Boolean {
         database.ensureFresh()
         return database.hasStaleEmbeddings()
-    }
-
-    /** Averages a legacy session and applies its thresholds once. Null means Unknown. */
-    @Synchronized
-    fun finishSession(session: Session?): Result? {
-        if (session == null || session.totals == null || session.framesWithFace == 0) {
-            val tried = if (session == null) 0 else session.framesTried
-            lastSummary = "No face found in " + tried + " frame(s)"
-            Log.i(TAG, lastSummary)
-            return null
-        }
-
-        val average = FloatArray(session.totals!!.size)
-        for (i in average.indices) {
-            average[i] = session.totals!![i] / session.framesWithFace
-        }
-        Log.i(
-            TAG, ("Session average over " + session.framesWithFace + " frame(s): "
-                + database.describeScoreArray(average))
-        )
-
-        if (session.framesWithFace == 1) {
-            var bestSingle = -1f
-            for (score in average) {
-                bestSingle = max(bestSingle, score)
-            }
-            if (bestSingle < SINGLE_FRAME_MIN_SIMILARITY) {
-                lastSummary = String.format(
-                    Locale.US,
-                    "REJECTED: only one usable lighting frame, best %.3f; need %.2f",
-                    bestSingle, SINGLE_FRAME_MIN_SIMILARITY
-                )
-                Log.i(TAG, lastSummary)
-                return null
-            }
-        }
-
-        lastSummary = (database.describeScoreArray(average)
-            + "\nfrom " + session.framesWithFace + " frame(s)"
-            + "\nneed " + String.format(Locale.US, "%.2f", database.similarityNeededFor(average))
-            + ", gap " + FaceDatabase.Companion.minMargin)
-
-        val match = database.decide(average)
-        if (match == null) {
-            lastSummary = "REJECTED\n" + lastSummary
-            if (database.hasStaleEmbeddings()) {
-                lastSummary = "PHOTOS ARE OUT OF DATE, RETRAIN\n" + lastSummary
-                Log.e(
-                    TAG, "Rejected, and the stored photos were made by an older "
-                        + "pipeline. Delete each person and add their photos again."
-                )
-            }
-            return null
-        }
-        lastSummary = match.name + "\n" + lastSummary
-        Log.i(
-            TAG, ("Match " + match.name + " similarity " + match.similarity
-                + " margin " + match.margin)
-        )
-        return Result(match.index, match.name, match.similarity)
-    }
-
-    /**
-     * Recognises the largest face in [frame] with the legacy similarity and margin
-     * thresholds. The models run under [modelLock] only, the decision under
-     * this object's lock, as in [scoreFrame].
-     */
-    fun recognize(
-        frame: Bitmap?,
-        mirrorToo: Boolean
-    ): Result? {
-        val scored = scoreFrameForNames(frame, mirrorToo) ?: return null
-        synchronized(this) {
-            if (scored.names != database.getNames()) {
-                // Someone was added or deleted while the frame was scored.
-                return null
-            }
-            return createRecognitionResult(database.decide(scored.scores))
-        }
-    }
-
-    private fun createRecognitionResult(
-        match: FaceDatabase.Match?
-    ): Result? {
-        match ?: return null
-
-        val matchedName = match.name
-            ?: return null
-
-        Log.i(
-            TAG,
-            "Match $matchedName, " +
-                "similarity ${match.similarity}, " +
-                "margin ${match.margin}"
-        )
-
-        return Result(
-            index = match.index,
-            name = matchedName,
-            confidence = match.similarity
-        )
     }
 
     // ---------------- Helpers ----------------
@@ -1053,17 +883,11 @@ class Recognizer private constructor() {
         /** Reject pathological panoramas/broken metadata before allocating a bitmap.  */
         private const val MAX_SOURCE_PIXELS = 120000000L
 
-        /**
-         * A lone usable bracket frame must be exceptionally clear to identify anyone.
-         * 0.75 with FaceNet; see FaceDatabase for how it was carried over.
-         */
-        private const val SINGLE_FRAME_MIN_SIMILARITY = 0.65f
-
         private var instance: Recognizer? = null
 
         /**
          * A recogniser with its database but without the face models, for local
-         * tests of the session logic. It cannot detect or embed faces.
+         * tests of the database and the decisions. It cannot detect or embed faces.
          */
         @VisibleForTesting
         internal fun withoutModelsForTest(context: Context): Recognizer {

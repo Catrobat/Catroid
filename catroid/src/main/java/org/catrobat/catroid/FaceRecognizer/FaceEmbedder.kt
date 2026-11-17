@@ -155,37 +155,6 @@ class FaceEmbedder private constructor(
         }
     }
 
-    /** Embeds a known box. Returns a normalised float[EMBEDDING_SIZE] or null.  */
-    @Synchronized
-    fun embed(frame: Bitmap?, box: Rect?): FloatArray? {
-        lastProblem = ""
-        if (frame == null || frame.isRecycled() || box == null || box.width() <= 0 || box.height() <= 0) {
-            lastProblem = "invalid crop"
-            return null
-        }
-        try {
-            Log.i(
-                TAG, ("Crop " + box.width() + "x" + box.height()
-                    + " at (" + box.left + "," + box.top + ") in frame "
-                    + frame.getWidth() + "x" + frame.getHeight())
-            )
-
-            val input = cropToInput(frame, box, mirrored = false) ?: run {
-                lastProblem = "invalid crop"
-                return null
-            }
-            val embedding = embedInputs(listOf(input)).firstOrNull()
-            if (embedding == null && lastProblem.isEmpty()) {
-                lastProblem = "embedding was all zeros"
-            }
-            return embedding
-        } catch (e: Exception) {
-            Log.e(TAG, "Embedding failed", e)
-            lastProblem = "embedding error: " + e.javaClass.getSimpleName()
-            return null
-        }
-    }
-
     /**
      * Embeds the same face several ways: three crop tightnesses, each optionally
      * mirrored. Used on both sides. At enrolment every variant is stored, at
@@ -351,23 +320,6 @@ class FaceEmbedder private constructor(
         }
     }
 
-    /** Locates the face, then returns every variant of it.  */
-    @Synchronized
-    fun embedAllVariants(source: Bitmap?, includeMirror: Boolean): MutableList<FloatArray> {
-        val face = findBestFace(source)
-        if (face == null) {
-            return mutableListOf()
-        }
-        try {
-            return embedVariants(
-                face.frame, face.box, includeMirror,
-                face.leftEye, face.rightEye
-            )
-        } finally {
-            face.release(source)
-        }
-    }
-
     /**
      * Warps the face into the 112x112 network input so that the eyes are level,
      * a fixed distance apart, and centred at a fixed point. One similarity
@@ -397,20 +349,6 @@ class FaceEmbedder private constructor(
         matrix.postTranslate(EYE_MID_X, EYE_MID_Y)
 
         return drawInput(frame, matrix)
-    }
-
-    /** Convenience: locate and embed in one call.  */
-    @Synchronized
-    fun embedBestFace(source: Bitmap?): FloatArray? {
-        val face = findBestFace(source)
-        if (face == null) {
-            return null
-        }
-        try {
-            return embed(face.frame, face.box)
-        } finally {
-            face.release(source)
-        }
     }
 
     private fun largestFaceRect(

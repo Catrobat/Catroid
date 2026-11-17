@@ -192,18 +192,6 @@ class FaceNameSensorStageTest {
     }
 
     @Test
-    fun legacyParameterlessSensorStillRecognisesATrainedPerson() {
-        trainBoth()
-        fixture = "p02_test.jpg"
-        createProject(faceNameFormula = sensor(Sensors.ON_DEVICE_FACE_RECOGNITION))
-
-        launchStage()
-
-        waitForName(PERSON_B)
-        assertStageKeepsRunning()
-    }
-
-    @Test
     fun formulasWithDifferentThresholdsKeepIndependentResultsWhileTheStageRuns() {
         trainBoth()
         fixture = "p02_test.jpg"
@@ -503,8 +491,7 @@ class FaceNameSensorStageTest {
     private fun createProject(
         readFaceName: Boolean = true,
         readFaceX: Boolean = false,
-        firstBrick: Brick? = null,
-        faceNameFormula: Formula = faceNameWithThreshold(0.53)
+        firstBrick: Brick? = null
     ): Project {
         val project = UiTestUtils.createDefaultTestProject("FaceNameSensorStageTest")
         name = UserVariable("name", "")
@@ -520,7 +507,7 @@ class FaceNameSensorStageTest {
             readingScript.addBrick(
                 ForeverBrick().apply {
                     if (readFaceName) {
-                        addBrick(SetVariableBrick(faceNameFormula, name))
+                        addBrick(SetVariableBrick(faceNameWithThreshold(0.53), name))
                     }
                     if (readFaceX) {
                         addBrick(SetVariableBrick(sensor(Sensors.FACE_X), faceX))

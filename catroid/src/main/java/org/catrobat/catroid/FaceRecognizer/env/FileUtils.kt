@@ -24,7 +24,7 @@ import java.nio.file.StandardOpenOption
  * Everything is stored in  filesDir/facerecog/
  * label : one person name per line, line number = person index
  * data  : one embedding per line,  "<personIndex> v0 v1 ... v127"
- * model : thresholds and one centroid per person, rebuilt from data
+ * model : a header and one centroid per person, rebuilt from data
  * 
  * Call init(context) once before anything else touches these files.
  */
@@ -78,22 +78,6 @@ object FileUtils {
     fun file(fileName: String): File {
         checkNotNull(rootDir) { "FileUtils.init(context) was never called" }
         return File(rootDir, fileName)
-    }
-
-    /** All non-empty lines of the file; an empty list if it is missing or cannot be read. */
-    @JvmStatic
-    @Synchronized
-    fun readLines(fileName: String): MutableList<String> {
-        if (rootDir == null) {
-            Log.e(TAG, "readLines before init")
-            return mutableListOf()
-        }
-        return try {
-            readAllLines(fileName)
-        } catch (e: IOException) {
-            Log.e(TAG, "Error reading " + fileName, e)
-            mutableListOf()
-        }
     }
 
     /**
@@ -415,9 +399,11 @@ object FileUtils {
         }
     }
 
+    /** Deletes every face file; tests use it to start from an empty folder. */
+    @VisibleForTesting
     @JvmStatic
     @Synchronized
-    fun deleteAll() {
+    internal fun deleteAll() {
         if (rootDir == null) {
             return
         }

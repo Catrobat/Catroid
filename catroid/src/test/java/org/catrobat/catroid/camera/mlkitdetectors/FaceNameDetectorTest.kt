@@ -36,8 +36,6 @@ import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.formulaeditor.Functions
-import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.function.FaceNameFunctionProvider
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction
 import org.junit.After
@@ -169,16 +167,19 @@ class FaceNameDetectorTest {
         offerFrame()
         runRecognition()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
     }
 
     @Test
     fun resetSetsTheSensorBackToUnknown() {
-        SensorHandler.setFaceNameRecognitionResult("Person A")
+        recognizerScoring(0.95f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", readTheSensor())
 
         FaceNameDetector.reset()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
     }
 
     // ---------------- Errors never escape a camera or recognition thread ----------------
@@ -200,7 +201,7 @@ class FaceNameDetectorTest {
         offerFrame()
         runRecognition()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
     }
 
     @Test
@@ -221,7 +222,7 @@ class FaceNameDetectorTest {
         }
 
         assertEquals("The models are not loaded again until the next program start", 1, attempts)
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
 
         FaceNameDetector.reset()
         readTheSensor()
@@ -258,7 +259,7 @@ class FaceNameDetectorTest {
         }
 
         assertEquals("Scoring is not tried again until the next program start", 1, scored)
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
 
         FaceNameDetector.reset()
         readTheSensor()
@@ -304,7 +305,7 @@ class FaceNameDetectorTest {
         }
 
         assertEquals("The new run loads the models again", 1 + FaceNameWindow.FRAMES, loads)
-        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals("Ada", readTheSensor())
         FileUtils.deleteAll()
     }
 
@@ -335,7 +336,7 @@ class FaceNameDetectorTest {
             runRecognition()
         }
 
-        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals("Ada", readTheSensor())
         FileUtils.deleteAll()
     }
 
@@ -362,7 +363,7 @@ class FaceNameDetectorTest {
         offerFrame()
         runRecognition()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
         assertEquals(0, FaceNameDetector.window.framesInWindow)
         FileUtils.deleteAll()
     }
@@ -473,13 +474,13 @@ class FaceNameDetectorTest {
             runRecognition()
             now += FaceNameWindow.FRAME_INTERVAL_MS
         }
-        assertEquals("Ada", SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals("Ada", readTheSensor())
 
         offerFrame()
         FaceNameDetector.onStagePaused()
         runRecognition()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
         assertEquals(0, FaceNameDetector.window.framesInWindow)
         now += FaceNameWindow.FRAME_INTERVAL_MS
         offerFrame()
@@ -548,8 +549,6 @@ class FaceNameDetectorTest {
             assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
         }
 
-        assertEquals("The legacy sensor still uses the default", "Ada",
-            SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
         assertEquals(1, loads)
         verify(exactly = 1) { recognizer.scoreFrameForNames(any(), any()) }
         assertEquals(1, FaceNameDetector.window.framesInWindow)
@@ -561,7 +560,7 @@ class FaceNameDetectorTest {
         offerFrame()
         runRecognition()
 
-        assertEquals(FaceNameWindow.UNKNOWN, SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION))
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
         assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.30))
         assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(0.53))
         assertEquals(FaceNameWindow.UNKNOWN, FaceNameDetector.getNameWithThreshold(Double.NaN))
@@ -656,9 +655,8 @@ class FaceNameDetectorTest {
         return recognizer
     }
 
-    private fun readTheSensor() {
-        SensorHandler.getSensorValue(Sensors.ON_DEVICE_FACE_RECOGNITION)
-    }
+    /** Reads "detected face name with threshold" at its default parameter, as a program does. */
+    private fun readTheSensor(): String = FaceNameDetector.getNameWithThreshold(0.53)
 
     /** Passes one camera frame through the detector, as CatdroidImageAnalyzer does. */
     private fun offerFrame(): ImageProxy {

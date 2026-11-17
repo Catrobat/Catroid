@@ -185,7 +185,7 @@ class FileUtilsWriteFilesTest {
 
         FileUtils.recoverInterruptedWrite()
 
-        assertEquals(OLD.getValue(FileUtils.LABEL_FILE), FileUtils.readLines(FileUtils.LABEL_FILE))
+        assertEquals(OLD.getValue(FileUtils.LABEL_FILE), FileUtils.readAllLines(FileUtils.LABEL_FILE))
         assertFalse(FileUtils.file(FileUtils.DATA_FILE).exists())
         assertNoHelperFileLeft()
     }
@@ -577,7 +577,7 @@ class FileUtilsWriteFilesTest {
 
     private fun assertFiles(expected: Map<String, List<String>>) {
         for ((name, lines) in expected) {
-            assertEquals(name, lines, FileUtils.readLines(name))
+            assertEquals(name, lines, FileUtils.readAllLines(name))
         }
     }
 

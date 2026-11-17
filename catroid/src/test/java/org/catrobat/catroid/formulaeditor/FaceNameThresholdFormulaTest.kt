@@ -27,7 +27,6 @@ import android.content.Context
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import org.catrobat.catroid.FaceRecognizer.FaceDatabase
 import org.catrobat.catroid.FaceRecognizer.FaceNameWindow
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
@@ -41,7 +40,6 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.SayBubbleBrick
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR
 import org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME
 import org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE
 import org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN
@@ -54,7 +52,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -76,15 +73,11 @@ class FaceNameThresholdFormulaTest {
     private lateinit var recognizer: Recognizer
     private lateinit var scope: Scope
     private lateinit var injectedProjectManager: ProjectManager
-    private var savedMinSimilarity = 0f
-    private var savedMinMargin = 0f
     private var savedFaceNameSetting = false
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        savedMinSimilarity = FaceDatabase.minSimilarity
-        savedMinMargin = FaceDatabase.minMargin
         savedFaceNameSetting = SettingsFragment.isAIFaceNameDetectionSharedPreferenceEnabled(context)
         FaceNameDetector.reset()
         FileUtils.init(context)
@@ -110,8 +103,6 @@ class FaceNameThresholdFormulaTest {
     fun tearDown() {
         FaceNameDetector.reset()
         FileUtils.deleteAll()
-        FaceDatabase.minSimilarity = savedMinSimilarity
-        FaceDatabase.minMargin = savedMinMargin
         SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, savedFaceNameSetting)
         injectedProjectManager.resetProjectManager()
         ProjectManager.getInstance().resetProjectManager()
@@ -243,29 +234,6 @@ class FaceNameThresholdFormulaTest {
     }
 
     @Test
-    fun anOlderProjectWithTheParameterlessSensorStillLoadsAndRuns() {
-        val xml = """
-            <brick type="SayBubbleBrick">
-              <formulaList>
-                <formula category="STRING">
-                  <type>SENSOR</type>
-                  <value>ON_DEVICE_FACE_RECOGNITION</value>
-                </formula>
-              </formulaList>
-            </brick>
-        """.trimIndent()
-        val loaded = XstreamSerializer.getInstance().xstream.fromXML(xml) as SayBubbleBrick
-        val formula = loaded.getFormulaWithBrickField(Brick.BrickField.STRING)
-
-        assertEquals(SENSOR, formula.root.elementType)
-        assertEquals(Sensors.ON_DEVICE_FACE_RECOGNITION.name, formula.root.value)
-        assertEquals(PERSON, formula.interpretString(scope))
-        assertEquals("detected face name", formula.getTrimmedFormulaString(context).trim())
-        assertEquals(setOf(Brick.FACE_NAME_DETECTION), resourcesOf(formula))
-        assertNotNull(InternFormulaParser(formula.root.internTokenList).parseFormula(scope))
-    }
-
-    @Test
     fun theEnabledFaceNameCategoryContainsOneParameterizedEntry() {
         SettingsFragment.setAIFaceNameDetectionPreferenceEnabled(context, true)
         val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
@@ -276,7 +244,6 @@ class FaceNameThresholdFormulaTest {
             assertEquals(1, entries.size)
             assertEquals(context.getString(R.string.formula_editor_device_face_name_detection), entries.single().header)
             assertEquals("detectedfacenamewiththreshold(0.53)", compact(entries.single().text))
-            assertFalse(items.any { it.nameResId == R.string.formula_editor_sensor_face_name_detected })
         } finally {
             activity.finish()
         }
@@ -290,7 +257,6 @@ class FaceNameThresholdFormulaTest {
             val items = CategoryListItems().getSensorItems(activity)
 
             assertFalse(items.any { it.nameResId == R.string.formula_editor_function_face_name_with_threshold })
-            assertFalse(items.any { it.nameResId == R.string.formula_editor_sensor_face_name_detected })
         } finally {
             activity.finish()
         }
@@ -318,10 +284,7 @@ class FaceNameThresholdFormulaTest {
         val cache = FaceNameDetector::class.java.getDeclaredField("cachedRecognizer")
         cache.isAccessible = true
         cache.set(FaceNameDetector, recognizer)
-        val defaultName = FaceNameDetector.window.addScores(
-            recognizer, floatArrayOf(score), 10_000L, recognizer.classNames
-        )
-        SensorHandler.setFaceNameRecognitionResult(defaultName)
+        FaceNameDetector.window.addScores(recognizer, floatArrayOf(score), 10_000L, recognizer.classNames)
     }
 
     companion object {

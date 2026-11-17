@@ -42,7 +42,6 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
-import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -87,8 +86,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
-	// Written on the face name recognition thread, read on the GL thread.
-	private static volatile String faceNameRecognitionResult = "Unknown";
 
 	private LocationManager locationManager;
 	private boolean isGpsConnected;
@@ -157,11 +154,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private static boolean networkGpsAvailable() {
 		return instance.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-	}
-
-	public static void setFaceNameRecognitionResult(String name) {
-		String trimmed = name == null ? "" : name.trim();
-		faceNameRecognitionResult = trimmed.isEmpty() ? "Unknown" : trimmed;
 	}
 
 	private static double startWeekWithMonday() {
@@ -283,11 +275,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
-		if (sensor == Sensors.ON_DEVICE_FACE_RECOGNITION) {
-			// The first read in a program run starts the face name analysis.
-			FaceNameDetector.activate();
-			return faceNameRecognitionResult;
-		}
 		if (instance.sensorManager == null) {
 			return 0d;
 		}

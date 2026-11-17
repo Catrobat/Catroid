@@ -8,7 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import java.io.File
@@ -18,14 +17,13 @@ import java.io.File
  * (faces.zip, unpacked to the generated androidTest assets under faces/).
  *
  *  - Training goes through [Recognizer.extractEmbeddings] with file URIs,
- *    followed by addPerson/addEmbeddings, as FaceNameTrainAction does after the
+ *    followed by [Recognizer.addPhotos], as FaceNameTrainAction does after the
  *    photo picker returns.
  *  - [StagePath] recognises through [FaceNameWindow], the decision behind the
- *    "detected face name with threshold" sensor (clipped-frame check, scoreFrame,
- *    and the average of the last three usable frames at the default cutoff).
- *    Only the camera is replaced: the fixture photo is offered as three
- *    consecutive camera frames.
- *  - [RecognizePath] uses [Recognizer.recognize] (FaceDatabase.match()).
+ *    "detected face name with threshold" sensor (clipped-frame check,
+ *    scoreFrameForNames, and the average of the last three usable frames at
+ *    the default cutoff). Only the camera is replaced: the fixture photo is
+ *    offered as three consecutive camera frames.
  */
 class FaceRecognitionHarness {
 
@@ -35,31 +33,17 @@ class FaceRecognitionHarness {
     lateinit var recognizer: Recognizer
         private set
 
-    private var savedMinSimilarity = 0f
-    private var savedMinMargin = 0f
-
-    /** Empty database, fresh recogniser, explicit thresholds. */
+    /** Empty database, fresh recogniser. */
     fun start() {
-        savedMinSimilarity = FaceDatabase.minSimilarity
-        savedMinMargin = FaceDatabase.minMargin
-
         FileUtils.init(appContext)
         FileUtils.deleteAll()
         Recognizer.release()
         recognizer = Recognizer.getInstance(appContext)
-
-        // Pin the thresholds instead of relying on whatever the statics or a
-        // previously saved model header happen to contain.
-        recognizer.setThresholds(MIN_SIMILARITY, MIN_MARGIN)
-        assertEquals(MIN_SIMILARITY, FaceDatabase.minSimilarity, 0.0001f)
-        assertEquals(MIN_MARGIN, FaceDatabase.minMargin, 0.0001f)
     }
 
     fun stop() {
         FileUtils.deleteAll()
         Recognizer.release()
-        FaceDatabase.minSimilarity = savedMinSimilarity
-        FaceDatabase.minMargin = savedMinMargin
     }
 
     /** Simulates a new process: everything has to come back from the saved files. */
@@ -78,7 +62,7 @@ class FaceRecognitionHarness {
             "Training photos for $name produced no embeddings; report: ${result.report}",
             result.embeddings.isEmpty()
         )
-        val stored = recognizer.addEmbeddings(recognizer.addPerson(name), result.embeddings)
+        val stored = recognizer.addPhotos(name, result.embeddings)
         assertTrue("No embeddings were stored for $name", stored > 0)
         assertEquals(
             "addPerson must return the existing index for $name",
@@ -90,12 +74,13 @@ class FaceRecognitionHarness {
     abstract inner class RecognitionPath {
         abstract val label: String
 
-        abstract fun recognise(bitmap: Bitmap): Recognizer.Result?
+        /** The name given to [bitmap]; null means Unknown or no face. */
+        abstract fun recognise(bitmap: Bitmap): String?
 
         open fun describe(): String = ""
 
         /** Recognises one fixture photo; null means Unknown or no face. */
-        fun recogniseFile(fileName: String): Recognizer.Result? =
+        fun recogniseFile(fileName: String): String? =
             withBitmap(fileName) { recognise(it) }
 
         fun assertRecognisedAs(fileName: String, expectedName: String) {
@@ -106,17 +91,15 @@ class FaceRecognitionHarness {
             assertEquals(
                 "[$label] $fileName was given the wrong name. ${describe()}",
                 expectedName,
-                result?.name
+                result
             )
         }
 
         fun assertUnknown(fileName: String) {
             val result = withBitmap(fileName) { recognise(it) }
-            assertNull(
-                "[$label] $fileName must be Unknown, but was ${result?.name} " +
-                    "(${result?.confidence}). ${describe()}",
-                result
-            )
+            if (result != null) {
+                fail("[$label] $fileName must be Unknown, but was $result. ${describe()}")
+            }
         }
     }
 
@@ -128,29 +111,17 @@ class FaceRecognitionHarness {
     inner class StagePath : RecognitionPath() {
         override val label = "stage sensor path"
 
-        override fun recognise(bitmap: Bitmap): Recognizer.Result? {
+        override fun recognise(bitmap: Bitmap): String? {
             val window = FaceNameWindow()
-            var name = FaceNameWindow.UNKNOWN
             for (frame in 0 until FaceNameWindow.FRAMES) {
-                name = window.addFrame(
-                    recognizer, bitmap, FRONT_CAMERA_MIRROR, frame * FaceNameWindow.FRAME_INTERVAL_MS
-                )
+                val scored = FaceNameWindow.scoreOf(recognizer, bitmap, FRONT_CAMERA_MIRROR)
+                window.addScores(recognizer, scored?.scores, frame * FaceNameWindow.FRAME_INTERVAL_MS, scored?.names)
             }
-            if (name == FaceNameWindow.UNKNOWN) {
-                return null
-            }
-            // The window reports only a name, without exposing a confidence score.
-            return Recognizer.Result(recognizer.classNames.indexOf(name), name, Float.NaN)
+            val name = window.nameWithThreshold(recognizer, DEFAULT_THRESHOLD)
+            return if (name == FaceNameWindow.UNKNOWN) null else name
         }
 
-        override fun describe(): String = "Threshold: ${FaceNameWindow.DEFAULT_THRESHOLD}"
-    }
-
-    inner class RecognizePath : RecognitionPath() {
-        override val label = "recognize() path"
-
-        override fun recognise(bitmap: Bitmap): Recognizer.Result? =
-            recognizer.recognize(bitmap, FRONT_CAMERA_MIRROR)
+        override fun describe(): String = "Threshold: $DEFAULT_THRESHOLD"
     }
 
     private fun <T> withBitmap(fileName: String, block: (Bitmap) -> T): T {
@@ -201,9 +172,8 @@ class FaceRecognitionHarness {
 
         const val TRAINING_PHOTOS = 4
 
-        /** Legacy recognize() thresholds; StagePath uses FaceNameWindow.DEFAULT_THRESHOLD. */
-        const val MIN_SIMILARITY = 0.53f
-        const val MIN_MARGIN = 0.04f
+        /** The default parameter of "detected face name with threshold". */
+        const val DEFAULT_THRESHOLD = 0.53f
 
         /** FaceNameDetector passes mirrorToo while the front camera, the default, is in use. */
         const val FRONT_CAMERA_MIRROR = true
