@@ -164,6 +164,21 @@ class RecognizerPersonNameTest {
             }
         }
     }
+
+    /**
+     * Found in review: the sensor reports "Unknown" when it recognises nobody,
+     * so a person called Unknown could not be told apart from no match.
+     */
+    @Test
+    fun theNoMatchValueCannotBeAName() {
+        for (name in listOf(FaceNameWindow.UNKNOWN, "unknown", " UNKNOWN ")) {
+            assertThrows("'$name' must be rejected", IllegalArgumentException::class.java) {
+                recognizer.addPerson(name)
+            }
+        }
+        assertEquals(emptyList<String>(), recognizer.classNames)
+    }
+
     @Test
     fun aNameWithALineBreakIsRejected() {
         for (name in listOf("Ada\nLovelace", "Ada\r\nLovelace", "Ada\rLovelace", "Ada\u2028Lovelace", "Ada\u2029Lovelace")) {
