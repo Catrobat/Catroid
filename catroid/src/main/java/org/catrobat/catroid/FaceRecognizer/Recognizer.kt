@@ -110,6 +110,7 @@ class Recognizer private constructor() {
         val safeName = name.trim()
         require(safeName.isNotEmpty()) { "Person name must not be blank" }
         require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
+        require(!isNoMatchValue(safeName)) { "Person name must not be the no-match value ${FaceNameWindow.UNKNOWN}" }
         return safeName
     }
 
@@ -1025,6 +1026,13 @@ class Recognizer private constructor() {
 
         @JvmStatic
         fun hasLineBreak(name: String): Boolean = name.any { it in LINE_BREAKS }
+
+        /**
+         * The sensor reports [FaceNameWindow.UNKNOWN] when it recognises nobody; a
+         * person with that name could not be told apart from no match.
+         */
+        @JvmStatic
+        fun isNoMatchValue(name: String): Boolean = name.trim().equals(FaceNameWindow.UNKNOWN, ignoreCase = true)
 
         /** Photos are downscaled to this longest side before detection, to bound memory.  */ /* MobileFaceNet finally consumes only 112x112. 960 keeps ample face detail while
        cutting gallery bitmap/rotation memory by about 44% versus 1280. */

@@ -318,14 +318,17 @@ class BrickDialogManager(val stageActivity: StageActivity) :
         return dialog
     }
 
-    /** Catroid's name checks, and no line break: the face database stores one name per line. */
+    /**
+     * Catroid's name checks; no line break, as the face database stores one name
+     * per line; and not Unknown, which the sensor reports when it recognises nobody.
+     */
     @VisibleForTesting
     internal class FaceNameWatcher : InputWatcher.TextWatcher() {
         override fun validateInput(input: String, context: Context): String? =
-            if (Recognizer.hasLineBreak(input)) {
-                context.getString(R.string.face_train_name_line_break)
-            } else {
-                super.validateInput(input, context)
+            when {
+                Recognizer.hasLineBreak(input) -> context.getString(R.string.face_train_name_line_break)
+                Recognizer.isNoMatchValue(input) -> context.getString(R.string.face_train_name_unknown)
+                else -> super.validateInput(input, context)
             }
 
         // The face database ignores case: "ada" is Ada, so it is taken too.
