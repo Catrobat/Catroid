@@ -428,14 +428,14 @@ class FaceTrainingUiTest {
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             val action = requireNotNull(FaceNameTrainAction.currentInstance) { "The brick has not run" }
             FaceNameTrainAction.setPendingNameForTest("Person A")
-            action.handleResult(FaceNameTrainAction.REQUEST_FIRST, Activity.RESULT_OK, onePhoto)
+            action.handleResult(FaceNameTrainAction.REQUEST_CODE, Activity.RESULT_OK, onePhoto)
             assertTrue("The first picker result must start training", FaceNameTrainAction.isTrainingForTest())
             assertEquals(1, FaceNameTrainAction.getProgressForTest()[1])
 
             // Re-arm the pending name so that only the in-progress guard can stop
             // the duplicate from starting a second, two-photo run.
             FaceNameTrainAction.setPendingNameForTest("Person A")
-            action.handleResult(FaceNameTrainAction.REQUEST_FIRST, Activity.RESULT_OK, twoPhotos)
+            action.handleResult(FaceNameTrainAction.REQUEST_CODE, Activity.RESULT_OK, twoPhotos)
             assertEquals("A duplicate result must not replace the running training",
                          1, FaceNameTrainAction.getProgressForTest()[1])
         }

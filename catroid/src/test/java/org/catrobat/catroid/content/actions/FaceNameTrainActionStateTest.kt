@@ -78,11 +78,10 @@ class FaceNameTrainActionStateTest {
     }
 
     @Test
-    fun requestCodeRangeBelongsOnlyToFaceTraining() {
-        assertTrue(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_FIRST))
-        assertTrue(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_LAST))
-        assertFalse(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_FIRST - 1))
-        assertFalse(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_LAST + 1))
+    fun theRequestCodeBelongsOnlyToFaceTraining() {
+        assertTrue(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_CODE))
+        assertFalse(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_CODE - 1))
+        assertFalse(FaceNameTrainAction.ownsRequestCode(FaceNameTrainAction.REQUEST_CODE + 1))
     }
 
     /**
@@ -152,39 +151,26 @@ class FaceNameTrainActionStateTest {
         runsOn(newBrick, newStage)
         FaceNameTrainAction.currentInstance = newBrick
 
-        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_CANCELED, null)
 
         assertSame("The brick of the new stage shows the names again", newBrick, shown.last()[1])
     }
 
-    /** One request code per person: a person past the range cannot be given photos. */
+    /**
+     * Found in review: one request code per person allowed only 900 people.
+     * The result is matched to its person by name, so any person gets photos.
+     */
     @Test
-    fun aNameBeyondTheRequestCodesIsNotAdded() {
+    fun aPersonAfterNineHundredOthersStillGetsThePicker() {
         recordDialogs()
         val stage = stage()
         StageActivity.activeStageActivity = WeakReference(stage)
-        val limit = FaceNameTrainAction.REQUEST_LAST - FaceNameTrainAction.REQUEST_FIRST + 1
-        val recognizer = recognizer(List(limit) { "Person $it" })
-        every { recognizer.addPerson(any()) } returns limit
-        val brick = runningBrick(recognizer)
+        val brick = runningBrick(List(MANY_PEOPLE + 1) { "Person $it" })
 
-        brick.onNewName("Grace")
+        brick.onPersonChosen("Person $MANY_PEOPLE")
 
-        verify(exactly = 0) { recognizer.addPerson(any()) }
-        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
-    }
-
-    @Test
-    fun aPersonBeyondTheRequestCodesDoesNotOpenThePicker() {
-        recordDialogs()
-        val stage = stage()
-        StageActivity.activeStageActivity = WeakReference(stage)
-        val limit = FaceNameTrainAction.REQUEST_LAST - FaceNameTrainAction.REQUEST_FIRST + 1
-        val brick = runningBrick(List(limit + 1) { "Person $it" })
-
-        brick.onPersonChosen("Person $limit")
-
-        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
+        assertEquals("Person $MANY_PEOPLE", FaceNameTrainAction.getPendingNameForTest())
+        verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_CODE) }
     }
 
     /** The name dialog checks names, but the recognizer has the last word; it must not end the app. */
@@ -237,7 +223,7 @@ class FaceNameTrainActionStateTest {
         brick.onPersonChosen("Bob")
 
         assertEquals("Bob", FaceNameTrainAction.getPendingNameForTest())
-        verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_FIRST) }
+        verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_CODE) }
     }
 
     /** The same with delete: Alice's old row must not delete Bob. */
@@ -289,7 +275,7 @@ class FaceNameTrainActionStateTest {
         runsOn(trainer, stage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
         trainer.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK,
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
         StageActivity.activeStageActivity = WeakReference(stage())
@@ -403,7 +389,7 @@ class FaceNameTrainActionStateTest {
         FaceNameTrainAction.setPendingNameForTest("Ada")
 
         brick.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
+            FaceNameTrainAction.REQUEST_CODE,
             StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
@@ -443,7 +429,7 @@ class FaceNameTrainActionStateTest {
         runsOn(trainer, oldStage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
         trainer.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
+            FaceNameTrainAction.REQUEST_CODE,
             StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
@@ -495,7 +481,7 @@ class FaceNameTrainActionStateTest {
         runsOn(trainer, oldStage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
         trainer.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
+            FaceNameTrainAction.REQUEST_CODE,
             StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
@@ -546,7 +532,7 @@ class FaceNameTrainActionStateTest {
         val newStage = stage()
         StageActivity.activeStageActivity = WeakReference(newStage)
         FaceNameTrainAction.onProgramStart()
-        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_CANCELED, null)
         shadowOf(Looper.getMainLooper()).idle()
         assertEquals("The old brick shows nothing on the new stage", 0, shownFor(shown, oldBrick))
 
@@ -576,7 +562,7 @@ class FaceNameTrainActionStateTest {
         before.onPersonChosen("Ada")
 
         FaceNameTrainAction.onProgramStart()
-        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_CANCELED, null)
         shadowOf(Looper.getMainLooper()).idle()
         assertEquals("The brick from before the restart shows nothing", 0, shownFor(shown, before))
 
@@ -606,7 +592,7 @@ class FaceNameTrainActionStateTest {
         runsOn(trainer, oldStage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
         trainer.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
+            FaceNameTrainAction.REQUEST_CODE,
             StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
@@ -645,7 +631,7 @@ class FaceNameTrainActionStateTest {
         FaceNameTrainAction.currentInstance = trainer
         FaceNameTrainAction.setPendingNameForTest("Ada")
         trainer.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST,
+            FaceNameTrainAction.REQUEST_CODE,
             StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
@@ -683,7 +669,7 @@ class FaceNameTrainActionStateTest {
         FaceNameTrainAction.setPendingNameForTest("Ada")
         val photo = Uri.parse("content://photos/1")
 
-        trainer.handleResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK, Intent().setData(photo))
+        trainer.handleResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK, Intent().setData(photo))
         waitForTrainingToFinish()
 
         verify { resolver.takePersistableUriPermission(photo, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
@@ -735,7 +721,7 @@ class FaceNameTrainActionStateTest {
         val newStage = change() ?: firstStage
         StageActivity.activeStageActivity = WeakReference(newStage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
-        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_CANCELED, null)
+        FaceNameTrainAction.onPickerResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_CANCELED, null)
         loadingMayEnd.countDown()
         assertTrue(loaded.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
         repeat(LOADING_POLLS) {
@@ -970,7 +956,7 @@ class FaceNameTrainActionStateTest {
         runsOn(brick, stage)
         FaceNameTrainAction.setPendingNameForTest("Ada")
         brick.handleResult(
-            FaceNameTrainAction.REQUEST_FIRST, StageActivity.RESULT_OK,
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
             Intent().setData(Uri.parse("content://photos/1"))
         )
         waitForTrainingToFinish()
@@ -1003,5 +989,6 @@ class FaceNameTrainActionStateTest {
         const val POLL_MS = 10L
         const val LOADING_POLLS = 20
         const val HIGH_SCORE = 0.95f
+        const val MANY_PEOPLE = 900
     }
 }

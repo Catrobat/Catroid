@@ -42,26 +42,19 @@ class FaceNameTrainAction : Action() {
 
     companion object {
         private const val TAG = "FaceNameTrain"
-        private const val REQ_BASE = 3000
-
         /**
-         * Request codes this action owns, one per person index.
+         * The request code of the photo picker. The result is matched to its
+         * person through [pendingName], not through the code.
          *
-         * StageResourceHolder.onActivityResult must let these through, because its
+         * StageResourceHolder.onActivityResult must let it through, because its
          * default branch calls endStageActivity() and would close the program the
-         * moment the photo picker returns. They must stay clear of the codes the
+         * moment the photo picker returns. It must stay clear of the codes the
          * stage uses itself (1, 101, 1000, 2000).
          */
-        const val REQUEST_FIRST = REQ_BASE
-        const val REQUEST_LAST = REQ_BASE + 899
+        const val REQUEST_CODE = 3000
 
         @JvmStatic
-        fun ownsRequestCode(requestCode: Int): Boolean {
-            return requestCode in REQUEST_FIRST..REQUEST_LAST
-        }
-
-        /** One request code per person, so this many people can be given photos. */
-        private const val MAX_NAMES = REQUEST_LAST - REQUEST_FIRST + 1
+        fun ownsRequestCode(requestCode: Int): Boolean = requestCode == REQUEST_CODE
 
         /** Keeps the progress dialog on screen long enough to be seen. */
         private const val MIN_PROGRESS_MS = 700L
@@ -501,11 +494,6 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        if (current.classNames.size >= MAX_NAMES && name.trim() !in current.classNames) {
-            showError(R.string.face_train_too_many_names)
-            show(DialogType.FACE_TRAIN_MENU)
-            return
-        }
         saveThenOnMainThread(
             save = {
                 val index = current.addPerson(name)
@@ -632,11 +620,6 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        if (targetIndex >= MAX_NAMES) {
-            showError(R.string.face_train_too_many_names)
-            show(DialogType.FACE_TRAIN_MENU)
-            return
-        }
         pendingName = name
         runsOn = WeakReference(activity)
 
@@ -651,7 +634,7 @@ class FaceNameTrainAction : Action() {
         pickerOwner = this
         pickerOpen = true
         try {
-            activity.startActivityForResult(intent, targetIndex + REQ_BASE)
+            activity.startActivityForResult(intent, REQUEST_CODE)
         } catch (exception: ActivityNotFoundException) {
             Log.e(TAG, "No app to choose photos", exception)
             pickerOpen = false
