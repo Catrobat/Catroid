@@ -270,7 +270,9 @@ object FormulaElementOperations {
         currentProject: Project,
         value: String?
     ): Any {
-        val sensor = Sensors.getSensorByValue(value)
+        // A sensor a project names but this version does not have reads 0, like
+        // other undefined values, instead of stopping the program.
+        val sensor = Sensors.getSensorByValue(value) ?: return Conversions.FALSE
         return if (sensor.isObjectSensor) {
             interpretObjectSensor(sensor, sprite, currentlyEditedScene, currentProject)
         } else {
