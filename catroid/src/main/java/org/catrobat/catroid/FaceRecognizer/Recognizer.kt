@@ -71,9 +71,7 @@ class Recognizer private constructor() {
     @Synchronized
     @Throws(IOException::class)
     fun addPerson(name: String): Int {
-        val safeName = name.trim()
-        require(safeName.isNotEmpty()) { "Person name must not be blank" }
-        require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
+        val safeName = checkedName(name)
         val existing = database.indexOf(safeName)
         if (existing >= 0) {
             return existing
@@ -105,6 +103,14 @@ class Recognizer private constructor() {
         }
         deletePerson(index)
         return true
+    }
+
+    /** The trimmed name; throws IllegalArgumentException for a name that cannot be stored. */
+    private fun checkedName(name: String): String {
+        val safeName = name.trim()
+        require(safeName.isNotEmpty()) { "Person name must not be blank" }
+        require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
+        return safeName
     }
 
     /** A failed save has already put the database back as it is on disk. */
@@ -400,15 +406,22 @@ class Recognizer private constructor() {
     }
 
     /**
-     * Stores the photos under [name], adding the name if it is new, in one step:
-     * a delete between adding the name and storing the photos would otherwise
-     * move them to the next person. Returns that person's photo count; throws
-     * IOException when the files could not be saved, and nothing changes then.
+     * Stores the photos under [name], adding the name if it is new, in one step
+     * and one save: a delete between adding the name and storing the photos
+     * would otherwise move them to the next person, and a second save that
+     * failed would leave the new name without photos. Returns that person's
+     * photo count; throws IOException when the files could not be saved, and
+     * nothing changes then.
      */
     @Synchronized
     @Throws(IOException::class)
-    fun addPhotos(name: String, embeddings: List<FloatArray>): Int =
-        addEmbeddings(addPerson(name), embeddings)
+    fun addPhotos(name: String, embeddings: List<FloatArray>): Int {
+        val safeName = checkedName(name)
+        val index = database.indexOf(safeName).takeIf { it >= 0 } ?: database.addPerson(safeName)
+        database.addEmbeddings(index, embeddings)
+        saveOrThrow()
+        return database.getEmbeddingCount(index)
+    }
 
     /** Stores the embeddings under an existing person and writes the files. Throws IOException if that failed. */
     @Synchronized
