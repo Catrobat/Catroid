@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
+import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils.init
 import java.io.IOException
 import java.util.Locale
@@ -501,14 +502,23 @@ class Recognizer private constructor() {
         synchronized(this) {
             database.ensureFresh()
             val bestScores = database.scoreAllVariants(face.variants) ?: return null
-            Log.i(
-                TAG,
+            logFrame {
                 "Frame face " +
                     "${face.width}x${face.height} px " +
                     "(${face.variants.size} views): " +
                     database.describeScoreArray(bestScores)
-            )
+            }
             return ScoredFrame(database.getNames(), bestScores)
+        }
+    }
+
+    /**
+     * Per camera frame, about three times a second, with the enrolled names and
+     * their scores: debug builds only, the release build keeps its logs.
+     */
+    private inline fun logFrame(message: () -> String) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, message())
         }
     }
 
@@ -525,11 +535,10 @@ class Recognizer private constructor() {
         val face = activeEmbedder.findBestFace(frame, searchRotations = false)
 
         if (face == null) {
-            Log.i(
-                TAG,
+            logFrame {
                 "No usable face: " +
                     activeEmbedder.lastProblem
-            )
+            }
 
             return null
         }
@@ -540,10 +549,9 @@ class Recognizer private constructor() {
             faceFrame == null ||
             faceFrame.isRecycled
         ) {
-            Log.i(
-                TAG,
+            logFrame {
                 "Frame rejected: invalid face bitmap"
-            )
+            }
 
             face.release(frame)
             return null
@@ -556,10 +564,9 @@ class Recognizer private constructor() {
             faceBox.width() <= 0 ||
             faceBox.height() <= 0
         ) {
-            Log.i(
-                TAG,
+            logFrame {
                 "Frame rejected: invalid face rectangle"
-            )
+            }
 
             face.release(frame)
             return null
@@ -583,12 +590,11 @@ class Recognizer private constructor() {
                 shortestSide.toFloat()
 
         if (faceFraction < 0.12f) {
-            Log.i(
-                TAG,
+            logFrame {
                 "Frame rejected: " +
                     "detected face is too small, " +
                     "fraction=$faceFraction"
-            )
+            }
 
             face.release(frame)
             return null
@@ -598,11 +604,10 @@ class Recognizer private constructor() {
             faceQualityProblem(faceFrame, faceBox)
 
         if (qualityProblem != null) {
-            Log.i(
-                TAG,
+            logFrame {
                 "Frame rejected: " +
                     qualityProblem
-            )
+            }
 
             face.release(frame)
             return null

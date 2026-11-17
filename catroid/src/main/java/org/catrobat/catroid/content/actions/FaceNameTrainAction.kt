@@ -15,6 +15,7 @@ import androidx.annotation.VisibleForTesting
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.FaceRecognizer.Recognizer
 import org.catrobat.catroid.FaceRecognizer.env.FileUtils
+import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
@@ -508,7 +509,9 @@ class FaceNameTrainAction : Action() {
         saveThenOnMainThread(
             save = {
                 val index = current.addPerson(name)
-                Log.i(TAG, "Added name '$name' at index $index")
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Added name '$name' at index $index")
+                }
             },
             then = { error ->
                 when (error) {
@@ -761,7 +764,10 @@ class FaceNameTrainAction : Action() {
                     current.addPhotos(name, result.embeddings)
                     FaceNameDetector.onModelsLoaded()
                 }
-                Log.i(TAG, "Training '$name': " + result.report.joinToString(" | "))
+                // With the name: debug builds only.
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Training '$name': " + result.report.joinToString(" | "))
+                }
             } catch (t: Throwable) {
                 error = "${t.javaClass.simpleName}: ${t.message}"
                 Log.e(TAG, "Training failed", t)
