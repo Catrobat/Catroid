@@ -52,12 +52,14 @@ class FaceEmbedder private constructor(
     }
 
     /**
-     * Finds the largest face, trying all four rotations so that photos with wrong or
-     * missing EXIF orientation still work. Returns null when no usable face is found.
-     * The caller must call face.release(sourceBitmap) when done.
+     * Finds the largest face. With [searchRotations], for gallery photos, all four
+     * rotations are tried so that photos with a wrong or missing EXIF orientation
+     * still work; camera frames are already upright and are searched as they are.
+     * Returns null when no usable face is found. The caller must call
+     * face.release(sourceBitmap) when done.
      */
     @Synchronized
-    fun findBestFace(source: Bitmap?): Face? {
+    fun findBestFace(source: Bitmap?, searchRotations: Boolean = true): Face? {
         lastProblem = ""
 
         if (source == null || source.isRecycled) {
@@ -65,19 +67,19 @@ class FaceEmbedder private constructor(
             return null
         }
 
-        val face = findFaceAcrossRotations(source)
+        val face = findFaceAcrossRotations(source, if (searchRotations) ROTATIONS else UPRIGHT_ONLY)
 
         if (face == null && lastProblem.isEmpty()) {
-            lastProblem = "no face detected at any rotation"
+            lastProblem = if (searchRotations) "no face detected at any rotation" else "no face detected"
         }
 
         return face
     }
 
-    private fun findFaceAcrossRotations(source: Bitmap): Face? {
+    private fun findFaceAcrossRotations(source: Bitmap, rotations: IntArray): Face? {
         // Upright is checked first. The first rotation containing a face wins,
         // ensuring gallery photos and camera frames use consistent face crops.
-        for (rotation in ROTATIONS) {
+        for (rotation in rotations) {
             val frame = createRotatedFrame(source, rotation) ?: return null
             val box = largestFaceRect(frame)
 
@@ -645,6 +647,7 @@ class FaceEmbedder private constructor(
         private const val MIN_FACE_PX = 56
 
         private val ROTATIONS = intArrayOf(0, 90, 180, 270)
+        private val UPRIGHT_ONLY = intArrayOf(0)
 
         /**
          * How tightly the face is cropped, as a multiplier on the box size.

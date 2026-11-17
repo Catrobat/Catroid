@@ -515,7 +515,8 @@ class Recognizer private constructor() {
             return null
         }
 
-        val face = activeEmbedder.findBestFace(frame)
+        // FaceNameDetector has turned the camera frame upright already.
+        val face = activeEmbedder.findBestFace(frame, searchRotations = false)
 
         if (face == null) {
             Log.i(
