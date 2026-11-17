@@ -190,13 +190,16 @@ class FaceNameTrainActionStateTest {
     @Test
     fun aNameTheRecognizerRejectsDoesNotEndTheApp() {
         val shown = recordDialogs()
-        StageActivity.activeStageActivity = WeakReference(stage())
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
         val recognizer = recognizer(emptyList())
         every { recognizer.addPerson(any()) } throws IllegalArgumentException("Person name must not be blank")
         val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
 
         brick.onNewName(" ")
 
+        waitUntil { menusShownFor(shown, brick) == 1 }
         assertSame(brick, shown.last()[1])
     }
 

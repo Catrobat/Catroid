@@ -200,8 +200,21 @@ class FaceNameTrainAction : Action() {
 
         private val mainHandler = Handler(Looper.getMainLooper())
 
-        /** Training only, so no UI work queues behind it. */
+        /**
+         * Training and saving names, which writes and syncs the face files: never
+         * on the main thread, and no UI work queues behind it.
+         */
         private val worker = Executors.newSingleThreadExecutor()
+
+        /**
+         * Names being saved or deleted on [worker]. Main thread only. Like the
+         * open picker, a save between two dialogs keeps the stage paused.
+         */
+        private var savesInProgress = 0
+
+        /** A dialog that closes now must not resume the stage: the next step opens it. */
+        @JvmStatic
+        fun keepsStagePaused(): Boolean = pickerOpen || savesInProgress > 0
 
         // ---------------- Test surface ----------------
         // The state above is private and static so training survives the stage
@@ -219,6 +232,7 @@ class FaceNameTrainAction : Action() {
                 pendingPickerResult = null
             }
             pickerOpen = false
+            savesInProgress = 0
             recognizerFactory = loadRecognizer
             progressTotal = 1
             progressDone = 0
@@ -263,6 +277,12 @@ class FaceNameTrainAction : Action() {
         @JvmStatic
         internal fun setPickerOpenForTest(open: Boolean) {
             pickerOpen = open
+        }
+
+        @VisibleForTesting
+        @JvmStatic
+        internal fun setSavingForTest(saving: Boolean) {
+            savesInProgress = if (saving) 1 else 0
         }
     }
 
@@ -485,21 +505,54 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        val index = try {
-            current.addPerson(name)
-        } catch (exception: IllegalArgumentException) {
-            Log.e(TAG, "Name rejected", exception)
-            showError(R.string.face_train_name_rejected)
-            show(DialogType.FACE_TRAIN_MENU)
-            return
-        } catch (exception: IOException) {
-            Log.e(TAG, "Name not saved", exception)
-            showError(R.string.face_train_not_saved)
-            show(DialogType.FACE_TRAIN_MENU)
-            return
+        saveThenOnMainThread(
+            save = {
+                val index = current.addPerson(name)
+                Log.i(TAG, "Added name '$name' at index $index")
+            },
+            then = { error ->
+                when (error) {
+                    null -> openImagePicker(name.trim())
+                    is IllegalArgumentException -> {
+                        Log.e(TAG, "Name rejected", error)
+                        showError(R.string.face_train_name_rejected)
+                        show(DialogType.FACE_TRAIN_MENU)
+                    }
+                    else -> {
+                        Log.e(TAG, "Name not saved", error)
+                        showError(R.string.face_train_not_saved)
+                        show(DialogType.FACE_TRAIN_MENU)
+                    }
+                }
+            }
+        )
+    }
+
+    /**
+     * Saves on [worker], then calls [then] on the main thread with the error, if
+     * any. Not if the brick stopped running on the current stage meanwhile: the
+     * user left or restarted the program, and its next dialog would pause that.
+     */
+    private fun saveThenOnMainThread(save: () -> Unit, then: (Exception?) -> Unit) {
+        savesInProgress++
+        worker.execute {
+            val error = try {
+                save()
+                null
+            } catch (exception: IOException) {
+                exception
+            } catch (exception: IllegalArgumentException) {
+                exception
+            }
+            mainHandler.post {
+                savesInProgress--
+                if (isRunningOnTheCurrentStage) {
+                    then(error)
+                } else {
+                    Log.i(TAG, "The program changed while a name was saved; nothing to show")
+                }
+            }
         }
-        Log.i(TAG, "Added name '$name' at index $index")
-        openImagePicker(name.trim())
     }
 
     fun onNewNameCancelled() {
@@ -516,15 +569,24 @@ class FaceNameTrainAction : Action() {
 
     /** By name, like [onPersonChosen]: an older list must not delete someone else. */
     fun onDeleteConfirmed(name: String) {
-        try {
-            if (recognizerOrInit()?.deletePerson(name) == false) {
-                showError(R.string.face_train_name_missing)
-            }
-        } catch (exception: IOException) {
-            Log.e(TAG, "Delete not saved", exception)
-            showError(R.string.face_train_not_saved)
+        val current = recognizerOrInit()
+        if (current == null) {
+            show(DialogType.FACE_TRAIN_MENU)
+            return
         }
-        show(DialogType.FACE_TRAIN_MENU)
+        var deleted = true
+        saveThenOnMainThread(
+            save = { deleted = current.deletePerson(name) },
+            then = { error ->
+                if (error != null) {
+                    Log.e(TAG, "Delete not saved", error)
+                    showError(R.string.face_train_not_saved)
+                } else if (!deleted) {
+                    showError(R.string.face_train_name_missing)
+                }
+                show(DialogType.FACE_TRAIN_MENU)
+            }
+        )
     }
 
     fun onDeleteCancelled() {

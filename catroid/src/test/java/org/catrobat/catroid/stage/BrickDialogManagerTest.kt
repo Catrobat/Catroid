@@ -78,6 +78,18 @@ class BrickDialogManagerTest {
         verify(exactly = 0) { StageLifeCycleController.stageResume(any()) }
     }
 
+    /** A name is saved off the main thread; the next dialog opens when that is done. */
+    @Test
+    fun closingADialogWhileItsNameIsSavedDoesNotResumeTheStage() {
+        mockkStatic(StageLifeCycleController::class)
+        every { StageLifeCycleController.stageResume(any()) } just runs
+        FaceNameTrainAction.setSavingForTest(true)
+
+        dismissListener.onDismiss(mockk<Dialog>(relaxed = true))
+
+        verify(exactly = 0) { StageLifeCycleController.stageResume(any()) }
+    }
+
     @Test
     fun closingTheLastDialogOtherwiseResumesTheStage() {
         mockkStatic(StageLifeCycleController::class)
