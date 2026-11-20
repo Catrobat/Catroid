@@ -23,9 +23,15 @@
 
 package org.catrobat.catroid.test.sensing;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.physics.collision.CollisionTestUtils;
@@ -47,6 +53,7 @@ import static org.junit.Assert.assertNotEquals;
 public class TouchesFingerTest {
 	protected Project project;
 	protected Sprite sprite1;
+	protected Sprite sprite2;
 
 	@Before
 	public void setUp() throws Exception {
@@ -54,25 +61,33 @@ public class TouchesFingerTest {
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite1 = new Sprite("TestSprite1");
+		sprite2 = new Sprite("TestSprite2");
 		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().addSprite(sprite2);
 
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		CollisionTestUtils.initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut,
 				"collision_donut.png", InstrumentationRegistry.getInstrumentation().getContext(), project);
+		CollisionTestUtils.initializeSprite(sprite2,
+				org.catrobat.catroid.test.R.raw.rectangle_125x125,
+				"rectangle_125x125.png", InstrumentationRegistry.getInstrumentation().getContext(), project);
 	}
 
 	@Test
 	public void testBasicOneTouchingPoint() {
 		TouchUtil.reset();
-		TouchUtil.touchDown(150, 150, 1);
+		TouchUtil.touchDown(170, 0, 1);
 		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
-		TouchUtil.touchUp(1);
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
+
+		TouchUtil.reset();
 		TouchUtil.touchDown(0, 0, 1);
-		assertNotEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+		assertEquals(0d, CollisionDetection.collidesWithFinger(
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
 	}
 
 	@Test
@@ -80,9 +95,10 @@ public class TouchesFingerTest {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
 		TouchUtil.touchDown(0, 0, 2);
-		TouchUtil.touchDown(151, 151, 3);
+		TouchUtil.touchDown(225, 0, 3);
 		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
 	}
 
 	@Test
@@ -96,10 +112,44 @@ public class TouchesFingerTest {
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();
 
-		sprite1.look.setXInUserInterfaceDimensionUnit(x - 150);
-		sprite1.look.setYInUserInterfaceDimensionUnit(y - 150);
+		sprite1.look.setXInUserInterfaceDimensionUnit(x - 225);
+		sprite1.look.setYInUserInterfaceDimensionUnit(y - 225);
 
 		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
+	}
+
+	@Test
+	public void testTouchingRadius() {
+		float distanceToBorder = 125.0f / 2.0f;
+		float width =
+				ProjectManager.getInstance().getCurrentProject().getXmlHeader().getVirtualScreenWidth();
+		float touchRadius = (width / (float) ScreenValues.currentScreenResolution.getWidth())
+				* Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS;
+		float offset = 10.0f;
+
+		ActionFactory factory = new ActionFactory();
+		sprite2.setActionFactory(factory);
+
+		factory.createSetXAction(sprite2, new SequenceAction(), new Formula(100)).act(1.0f);
+		factory.createSetYAction(sprite2, new SequenceAction(), new Formula(100)).act(1.0f);
+
+		// Tap outside sprite, but within touch-radius
+		TouchUtil.reset();
+		TouchUtil.touchDown(100 + distanceToBorder + touchRadius - offset, 100,
+				1);
+
+		assertEquals(1d,
+				CollisionDetection.collidesWithFinger(sprite2.look.getCurrentCollisionPolygon(),
+						TouchUtil.getCurrentTouchingPoints()), 0d);
+
+		// Tap outside sprite and touch-radius
+		TouchUtil.reset();
+		TouchUtil.touchDown(100 + distanceToBorder + touchRadius + offset, 100, 1);
+
+		assertEquals(0d,
+				CollisionDetection.collidesWithFinger(sprite2.look.getCurrentCollisionPolygon(),
+						TouchUtil.getCurrentTouchingPoints()), 0d);
 	}
 }
