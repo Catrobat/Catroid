@@ -22,145 +22,50 @@
  */
 package org.catrobat.catroid.content.actions
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
-import android.util.Log
-import androidx.annotation.VisibleForTesting
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.plot.SVGPlotGenerator
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.stage.StageActivity.IntentListener
-import org.catrobat.catroid.utils.Utils
 import java.io.File
-import java.io.IOException
 
-open class SavePlotAction : TemporalAction(), IntentListener {
-    var scope: Scope? = null
-    var formula: Formula? = null
-    val context: Context = CatroidApplication.getAppContext()
+open class SavePlotAction : BaseFileStorageAction() {
 
-    override fun update(percent: Float) {
-        if (formula == null || percent < 1.0f) {
-            return
-        }
-        writePlotToFile()
+    override var formula: Formula? = null
+    override var scope: Scope? = null
+    override val fileExtension = Constants.SVG_FILE_EXTENSION
+    override val isReadAction = false
+    override val errorMessageResId = R.string.error_plot_file_write
+
+    override fun checkIfDataIsReady(): Boolean {
+        val plot = scope?.sprite?.plot ?: return false
+        return SVGPlotGenerator(plot).hasPlotData()
     }
 
-    private fun writePlotToFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            writeUsingSystemFilePicker()
-        } else {
-            writeUsingLegacyExternalStorage()
-        }
+    override fun showDataMissingMessage() {
+        val message = context.getString(R.string.error_plot_data_not_found)
+        val params = ArrayList<Any>(listOf(message))
+        StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params).sendToTarget()
     }
 
-    private fun writeUsingSystemFilePicker() {
-        StageActivity.messageHandler?.obtainMessage(
-            StageActivity.REGISTER_INTENT, arrayListOf(this)
-        )?.sendToTarget()
-    }
-
-    private fun writeUsingLegacyExternalStorage() {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
-        if (!fileName.endsWith(Constants.SVG_FILE_EXTENSION)) {
-            fileName += Constants.SVG_FILE_EXTENSION
-        }
-        createFile(fileName)?.let {
-            writeToFile(it)
-        }
-    }
-
-    @VisibleForTesting
-    fun createFile(fileName: String): File? {
-        val file = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
-        return if (file.exists() || file.createNewFile()) {
-            file
-        } else null
-    }
-
-    @VisibleForTesting
-    fun writeToFile(file: File) {
-        var message = context.getString(R.string.brick_write_variable_to_file_success, file)
-        try {
-            writePlotDataToFile(file)
-        } catch (e: IOException) {
-            message = context.getString(R.string.error_plot_file_write)
-            Log.e(javaClass.simpleName, "Writing plot data to file failed")
-        } finally {
-            val params = ArrayList<Any>(listOf(message))
-            StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_TOAST, params)
-                .sendToTarget()
-            // if a Null Exception happens here it's likely that in your test you don't have a
-            // messageHandler thus it is null here
-        }
-    }
-
-    private fun writeSVGPlotaToUri(uri: Uri) {
-        val contentResolver = context.contentResolver
-        val fileName = StorageOperations.resolveFileName(contentResolver, uri) ?: return
-        var message = context.getString(R.string.brick_write_variable_to_file_success, fileName)
-        try {
-            val cacheFile = File(Constants.CACHE_DIRECTORY, fileName)
-            if (!cacheFile.exists()) {
-                cacheFile.createNewFile()
-            }
-            writePlotDataToFile(cacheFile)
-            StorageOperations.copyFileContentToUri(contentResolver, uri, cacheFile)
-        } catch (e: IOException) {
-            message = context.getString(R.string.error_plot_file_write)
-            Log.e(StageActivity.TAG, "Writing svg plot data to file failed")
-        } finally {
-            val params = ArrayList<String>()
-            params.add(message)
-            StageActivity.messageHandler?.obtainMessage(
-                StageActivity.SHOW_TOAST, params
-            )?.sendToTarget()
-        }
-    }
-
-    open fun writePlotDataToFile(destinationFile: File) {
-        val scope = this.scope ?: return
-        val plot = scope.sprite.plot
+    override fun handleFileWork(file: File): Boolean {
+        val plot = scope!!.sprite.plot!!
         val svgFileGenerator = SVGPlotGenerator(plot)
-        val path = svgFileGenerator.pathFromData(plot.plotDataPointLists)
-        svgFileGenerator.writeToSVGFile(destinationFile, path)
-    }
-
-    private fun getFileName(): String {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
-        if (!fileName.endsWith(Constants.SVG_FILE_EXTENSION)) {
-            fileName += Constants.SVG_FILE_EXTENSION
-        }
-        return fileName
+        val drawingData = svgFileGenerator.pathFromData(plot.data())
+        svgFileGenerator.writeToSVGFile(file, drawingData)
+        return true
     }
 
     override fun getTargetIntent(): Intent {
-        val fileName = getFileName()
         val title = context.getString(R.string.brick_save_plot)
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+        return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             type = "*/*"
-            putExtra(Intent.EXTRA_TITLE, fileName)
+            putExtra(Intent.EXTRA_TITLE, getFileName())
             putExtra(DocumentsContract.EXTRA_INITIAL_URI, Environment.DIRECTORY_DOWNLOADS)
-        }
-        return Intent.createChooser(intent, title)
-    }
-
-    override fun onIntentResult(resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            data?.data?.let {
-                writeSVGPlotaToUri(it)
-            }
-        }
+        }.let { Intent.createChooser(it, title) }
     }
 }

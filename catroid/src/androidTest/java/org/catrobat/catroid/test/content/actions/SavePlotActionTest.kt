@@ -20,25 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.test.content.actions
 
-import android.os.Looper
-import android.os.Handler
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import junit.framework.Assert
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.SavePlotAction
-import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.test.utils.TestUtils
-import org.junit.After
+import org.catrobat.catroid.plot.Plot
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,115 +40,48 @@ import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class SavePlotActionTest {
-    private val xMovement = Formula(X_MOVEMENT)
-    private var sprite: Sprite? = null
-    private val camera: OrthographicCamera = Mockito.spy(OrthographicCamera())
-    private lateinit var plotFile: File
+
+    private lateinit var action: SavePlotAction
+    private lateinit var testFile: File
 
     @Before
-    @Throws(Exception::class)
     fun setUp() {
-        sprite = Sprite("testSprite")
-        Mockito.doNothing().`when`(camera).update()
-        createTestProject()
-        plotFile = File(Constants.CACHE_DIRECTORY, "$PROJECT_NAME.svg")
-        if (plotFile.exists()) {
-            plotFile.delete()
-        }
-        if (!Constants.CACHE_DIRECTORY.exists()) {
-            Constants.CACHE_DIRECTORY.mkdirs()
-        }
-        plotFile.createNewFile()
-        StageActivity.messageHandler = Handler(Looper.getMainLooper())
-    }
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val mockProject = Mockito.mock(Project::class.java)
+        val mockSprite = Mockito.mock(Sprite::class.java)
+        val realPlot = Plot()
 
-    @After
-    @Throws(Exception::class)
-    fun tearDown() {
-        TestUtils.deleteProjects(PROJECT_NAME)
-    }
+        val testLine = arrayListOf(android.graphics.PointF(0f, 0f), android.graphics.PointF(10f, 10f))
+        realPlot.data().add(testLine)
+        mockSprite.plot = realPlot
 
-    @Test(expected = NullPointerException::class)
-    fun testNull() {
-        val action = sprite!!.actionFactory.createSavePlotAction(null, null, null)
-        Assert.assertTrue(action is SavePlotAction)
+        action = SavePlotAction()
+        action.scope = Scope(mockProject, mockSprite, null)
+        testFile = File(context.cacheDir, "test_plot_output.svg")
     }
 
     @Test
-    fun testSaveNoPositionChange() {
-        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
-        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+    fun testHandleFileWorkGeneratesSvgContent() {
+        val result = action.handleFileWork(testFile)
 
-        sprite!!.actionFactory.createStartPlotAction(sprite).act(1.0f)
-        val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
+        assertTrue("handleFileWork should return true on success", result)
+        assertTrue("SVG file should have been created", testFile.exists())
+        assertTrue("SVG file should contain data", testFile.length() > 0)
 
-        Assert.assertTrue(action is SavePlotAction)
-        if (action is SavePlotAction)
-            action.writeToFile(plotFile)
-        Assert.assertTrue(plotFile.readText().isNotEmpty())
+        testFile.delete()
     }
 
     @Test
-    fun testSaveOnePositionChangeOpen() {
-        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
-        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
-
-        sprite!!.actionFactory.createStartPlotAction(sprite).act(1.0f)
-        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
-        val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
-
-        Assert.assertTrue(action is SavePlotAction)
-        if (action is SavePlotAction)
-            action.writeToFile(plotFile)
-        Assert.assertTrue(plotFile.readText().isNotEmpty())
+    fun testCheckIfDataIsReadyReturnsTrueWhenDataExists() {
+        assertTrue("Action should be ready when plot data exists",
+                   action.checkIfDataIsReady())
     }
 
     @Test
-    fun testSaveOnePositionChangeClosed() {
-        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
-        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+    fun testCheckIfDataIsReadyReturnsFalseWhenNoDataExists() {
+        action.scope!!.sprite.plot.data().clear()
 
-        sprite!!.actionFactory.createStartPlotAction(sprite).act(1.0f)
-        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
-        sprite!!.actionFactory.createStopPlotAction(sprite).act(1.0f)
-        val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
-
-        Assert.assertTrue(action is SavePlotAction)
-        if (action is SavePlotAction)
-            action.writeToFile(plotFile)
-        Assert.assertTrue(plotFile.readText().isNotEmpty())
-    }
-
-    @Test
-    fun testSaveMultiLineChange() {
-        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
-        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
-
-        sprite!!.actionFactory.createStartPlotAction(sprite).act(1.0f)
-        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
-        sprite!!.actionFactory.createStopPlotAction(sprite).act(1.0f)
-        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
-        sprite!!.actionFactory.createStartPlotAction(sprite).act(1.0f)
-        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
-        sprite!!.actionFactory.createStopPlotAction(sprite).act(1.0f)
-        val action = sprite!!.actionFactory.createSavePlotAction(sprite, SequenceAction(), FILE)
-
-        Assert.assertTrue(action is SavePlotAction)
-        if (action is SavePlotAction)
-            action.writeToFile(plotFile)
-        Assert.assertTrue(plotFile.readText().isNotEmpty())
-    }
-
-    private fun createTestProject() {
-        val project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME)
-        XstreamSerializer.getInstance().saveProject(project)
-        ProjectManager.getInstance().currentProject = project
-    }
-
-    companion object {
-        private const val X_MOVEMENT = 100.0f
-        private const val PROJECT_NAME = "testProject"
-        private const val FILENAME = "$PROJECT_NAME.svg"
-        private val FILE = Formula(FILENAME)
+        org.junit.Assert.assertFalse("Action should NOT be ready when plot data is empty",
+                                     action.checkIfDataIsReady())
     }
 }
