@@ -25,6 +25,7 @@ package org.catrobat.catroid.facerecognition
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.RectF
+import android.net.Uri
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.every
@@ -110,6 +111,17 @@ class FaceRecognitionLogTest {
         Recognizer.withoutModelsForTest(context)
 
         assertEquals(emptyList<String>(), infoLogsMentioning("Ada"))
+    }
+
+    /** Found in a review of this feature: the address of a photo that could not be read was logged. */
+    @Test
+    fun aPhotoThatCannotBeReadIsLoggedWithoutItsAddress() {
+        val recognizer = recognizer()
+        ShadowLog.clear()
+
+        recognizer.extractEmbeddings(context.contentResolver, listOf(Uri.parse("content://photos/holiday-at-grandma")))
+
+        assertEquals(emptyList<String>(), infoLogsMentioning("holiday-at-grandma"))
     }
 
     /** Messages logged at INFO level or above that contain [text]. */

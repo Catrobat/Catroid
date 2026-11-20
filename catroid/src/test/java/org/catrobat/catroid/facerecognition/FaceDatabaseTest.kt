@@ -44,6 +44,28 @@ class FaceDatabaseTest {
         FileUtils.deleteAll()
     }
 
+    /**
+     * Found in a review of this feature: face files that could not be read were
+     * read again on every call, about three times a second from the camera and
+     * on the main thread from the training dialogs.
+     */
+    @Test
+    fun unreadableFilesAreNotReadAgainOnEveryCall() {
+        database.addPerson("Person A")
+        assertTrue(database.save())
+        var reads = 0
+        FileUtils.openForReading = {
+            reads++
+            throw IOException("Input/output error")
+        }
+        val unreadable = FaceDatabase().apply { load() }
+        val readsOfTheFirstLoad = reads
+
+        repeat(CALLS_FROM_THE_CAMERA) { unreadable.ensureFresh() }
+
+        assertEquals(readsOfTheFirstLoad, reads)
+    }
+
     @Test
     fun peopleReceiveStableSequentialIndexes() {
         assertEquals(0, database.addPerson("Person A"))
@@ -348,6 +370,7 @@ class FaceDatabaseTest {
         FloatArray(MobileFaceNet.EMBEDDING_SIZE).apply { this[position] = 1f }
 
     private companion object {
+        const val CALLS_FROM_THE_CAMERA = 10
         const val FACENET_SIZE = 512
 
         /** The default parameter of "detected face name with threshold". */

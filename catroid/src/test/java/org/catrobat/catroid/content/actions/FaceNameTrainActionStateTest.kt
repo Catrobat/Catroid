@@ -4,6 +4,8 @@ import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.UriPermission
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.media.Image
 import android.net.Uri
@@ -279,6 +281,101 @@ class FaceNameTrainActionStateTest {
         waitForTrainingToFinish()
         shadowOf(Looper.getMainLooper()).idle()
         return ShadowToast.getTextOfLatestToast()
+    }
+
+    // ---------------- Leftovers of training ----------------
+
+    /**
+     * Found in a review of this feature: the message for the result was built
+     * after the training step's finally block. If building it threw (a broken
+     * translation, say), training stayed marked as running for the rest of the
+     * process, and every later training brick showed a progress dialog forever.
+     */
+    @Test
+    fun trainingEndsEvenWhenItsMessageCannotBeBuilt() {
+        recordDialogs()
+        val brokenStrings = spyk(context)
+        every { brokenStrings.applicationContext } returns brokenStrings
+        every { brokenStrings.getString(any()) } throws Resources.NotFoundException("broken translation")
+        every { brokenStrings.getString(any(), *anyVararg()) } throws Resources.NotFoundException("broken translation")
+        FaceNameTrainAction.resetStateForTest(brokenStrings)
+        val stage = stage()
+        every { stage.applicationContext } returns brokenStrings
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult()
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+
+        brick.handleResult(
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+
+        waitForTrainingToFinish()
+    }
+
+    /**
+     * Found in a review of this feature: a picker result that no brick took was
+     * kept for the next training brick, also after the user had left the stage.
+     * A later, unrelated program then trained those photos under the old name.
+     */
+    @Test
+    fun aPickerResultIsDroppedWhenTheUserLeavesTheStage() {
+        val shown = recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        FaceNameTrainAction.onPickerResult(
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+
+        FaceNameTrainAction.onStageLeft()
+        val later = runningBrick(listOf("Ada")).also { runsOn(it, stage) }
+        showCurrentScreen(later)
+        shadowOf(Looper.getMainLooper()).idle()
+
+        assertNull(FaceNameTrainAction.getPendingNameForTest())
+        assertFalse(FaceNameTrainAction.isTrainingForTest())
+        assertEquals(1, menusShownFor(shown, later))
+    }
+
+    /**
+     * Found in a review of this feature: the photos' read permissions are kept
+     * while training reads them and released when it ends. If the app was
+     * stopped during training they stayed for good, and Android allows only a
+     * limited number. They are released the next time the models load.
+     */
+    @Test
+    fun photoPermissionsLeftByAnEarlierProcessAreReleased() {
+        val leftover = Uri.parse("content://photos/7")
+        val permission = mockk<UriPermission>()
+        every { permission.uri } returns leftover
+        every { permission.isReadPermission } returns true
+        val resolver = mockk<ContentResolver>(relaxed = true)
+        every { resolver.persistedUriPermissions } returns listOf(permission)
+
+        FaceNameTrainAction.releaseLeftoverPhotoPermissions(resolver)
+
+        verify { resolver.releasePersistableUriPermission(leftover, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    }
+
+    @Test
+    fun photoPermissionsOfTrainingThatStillRunsAreKept() {
+        val permission = mockk<UriPermission>()
+        every { permission.uri } returns Uri.parse("content://photos/7")
+        every { permission.isReadPermission } returns true
+        val resolver = mockk<ContentResolver>(relaxed = true)
+        every { resolver.persistedUriPermissions } returns listOf(permission)
+        FaceNameTrainAction.setTrainingForTest(true)
+
+        FaceNameTrainAction.releaseLeftoverPhotoPermissions(resolver)
+
+        verify(exactly = 0) { resolver.releasePersistableUriPermission(any(), any()) }
     }
 
     // ---------------- A new name is stored with its photos ----------------
