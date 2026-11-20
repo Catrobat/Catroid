@@ -1,5 +1,6 @@
 package org.catrobat.catroid.facerecognition
 
+import android.os.SystemClock
 import android.util.Log
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.facerecognition.env.FileUtils
@@ -62,6 +63,9 @@ class FaceDatabase {
      */
     private var unreadable = false
 
+    /** When reading the files last failed; [ensureFresh] waits [RETRY_UNREADABLE_MS] before trying again. */
+    private var failedLoadAt = 0L
+
     // ---------------- Load and save ----------------
     @Synchronized
     fun load() {
@@ -83,6 +87,7 @@ class FaceDatabase {
             Log.e(TAG, "The face files are mid-save; nothing is read or saved until they are restored")
             unreadable = true
             loadedStamp = -1L
+            failedLoadAt = SystemClock.uptimeMillis()
             return
         }
         val labelLines: List<String>
@@ -96,6 +101,7 @@ class FaceDatabase {
             Log.e(TAG, "Could not read the face files; nothing is saved until they can be read", e)
             unreadable = true
             loadedStamp = -1L
+            failedLoadAt = SystemClock.uptimeMillis()
             return
         }
         unreadable = false
@@ -173,9 +179,16 @@ class FaceDatabase {
         return true
     }
 
-    /** Reloads if another process changed the files. Cheap, safe to call often.  */
+    /**
+     * Reloads if another process changed the files. Cheap, safe to call often:
+     * files that could not be read are tried again after [RETRY_UNREADABLE_MS],
+     * not on every call (the camera calls this about three times a second).
+     */
     @Synchronized
     fun ensureFresh() {
+        if (unreadable && SystemClock.uptimeMillis() - failedLoadAt < RETRY_UNREADABLE_MS) {
+            return
+        }
         if (currentStamp() != loadedStamp) {
             Log.i(TAG, "Face files changed on disk, reloading")
             load()
@@ -615,6 +628,9 @@ class FaceDatabase {
 
     companion object {
         const val TAG: String = "FaceDatabase"
+
+        /** How long [ensureFresh] waits before it reads files again that could not be read. */
+        private const val RETRY_UNREADABLE_MS = 5_000L
 
         /**
          * Nearest neighbour. A person is scored against their single closest training

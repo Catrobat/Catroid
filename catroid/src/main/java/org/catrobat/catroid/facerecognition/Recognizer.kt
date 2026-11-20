@@ -243,10 +243,7 @@ class Recognizer private constructor() {
                 "$photoNumber: $lastDecodeProblem"
             )
 
-            Log.w(
-                TAG,
-                "Could not decode $uri"
-            )
+            Log.w(TAG, "Could not decode photo $photoNumber")
         }
 
         return bitmap
@@ -617,19 +614,29 @@ class Recognizer private constructor() {
 
             bounds
         } catch (error: SecurityException) {
-            handleBoundsSecurityError(uri, error)
+            handleBoundsSecurityError(error)
             null
         } catch (error: OutOfMemoryError) {
-            handleBoundsMemoryError(uri, error)
+            handleBoundsMemoryError(error)
             null
         } catch (error: Throwable) {
-            handleBoundsReadError(uri, error)
+            handleBoundsReadError(error)
             null
         }
     }
 
+    /**
+     * A photo that could not be read. Its address, and the exception's message,
+     * which often repeats it, are personal: the release build logs only the type.
+     */
+    private fun logPhotoProblem(what: String, error: Throwable) {
+        Log.e(TAG, "$what a photo: ${error.javaClass.simpleName}")
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, what, error)
+        }
+    }
+
     private fun handleBoundsSecurityError(
-        uri: Uri,
         error: SecurityException
     ) {
         /*
@@ -639,39 +646,25 @@ class Recognizer private constructor() {
         lastDecodeProblem =
             "no permission to read this photo (SecurityException)"
 
-        Log.e(
-            TAG,
-            "Lost URI permission for $uri",
-            error
-        )
+        logPhotoProblem("Lost URI permission for", error)
     }
 
     private fun handleBoundsMemoryError(
-        uri: Uri,
         error: OutOfMemoryError
     ) {
         lastDecodeProblem =
             "not enough memory to inspect this photo"
 
-        Log.e(
-            TAG,
-            "Out of memory reading image bounds $uri",
-            error
-        )
+        logPhotoProblem("Out of memory reading image bounds", error)
     }
 
     private fun handleBoundsReadError(
-        uri: Uri,
         error: Throwable
     ) {
         lastDecodeProblem =
             "could not open: ${error.javaClass.simpleName}"
 
-        Log.e(
-            TAG,
-            "Could not read bounds of $uri",
-            error
-        )
+        logPhotoProblem("Could not read bounds of", error)
     }
 
     private fun validateImageBounds(
@@ -771,11 +764,11 @@ class Recognizer private constructor() {
             }
         } catch (error: OutOfMemoryError) {
             recycleSafely(decoded)
-            handleDecodeMemoryError(uri, error)
+            handleDecodeMemoryError(error)
             null
         } catch (error: Throwable) {
             recycleSafely(decoded)
-            handleDecodeError(uri, error)
+            handleDecodeError(error)
             null
         }
     }
@@ -825,31 +818,21 @@ class Recognizer private constructor() {
     }
 
     private fun handleDecodeMemoryError(
-        uri: Uri,
         error: OutOfMemoryError
     ) {
         lastDecodeProblem =
             "image skipped: not enough memory"
 
-        Log.e(
-            TAG,
-            "Out of memory decoding $uri",
-            error
-        )
+        logPhotoProblem("Out of memory decoding", error)
     }
 
     private fun handleDecodeError(
-        uri: Uri,
         error: Throwable
     ) {
         lastDecodeProblem =
             "could not decode: ${error.javaClass.simpleName}"
 
-        Log.e(
-            TAG,
-            "Could not decode $uri",
-            error
-        )
+        logPhotoProblem("Could not decode", error)
     }
 
     companion object {

@@ -2,6 +2,7 @@ package org.catrobat.catroid.content.actions
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -128,6 +129,48 @@ class FaceNameTrainAction : Action() {
         fun onProgramStart() {
             programRun++
             pickerOpen = false
+        }
+
+        /**
+         * The user left the stage for good (not a stage Android recreates): a
+         * picker result no brick took, and the name it was for, are dropped, so a
+         * later, unrelated program does not train those photos under that name.
+         */
+        @JvmStatic
+        fun onStageLeft() {
+            synchronized(trainingLock) { pendingPickerResult = null }
+            if (!pickerOpen) {
+                pendingName = null
+            }
+            pickerOwner = null
+            currentInstance = null
+        }
+
+        /**
+         * Releases the photo read permissions training keeps while it reads the
+         * photos, unless training runs now. They stay when the app was stopped
+         * during training, and Android allows only a limited number. This brick
+         * is the only place the app takes such permissions.
+         */
+        @JvmStatic
+        @Suppress("TooGenericExceptionCaught")
+        fun releaseLeftoverPhotoPermissions(resolver: ContentResolver) {
+            if (synchronized(trainingLock) { trainingInProgress }) {
+                return
+            }
+            val leftovers = try {
+                resolver.persistedUriPermissions.filter { it.isReadPermission }
+            } catch (t: Throwable) {
+                Log.w(TAG, "Could not list the kept photo permissions: ${t.javaClass.simpleName}")
+                return
+            }
+            for (permission in leftovers) {
+                try {
+                    resolver.releasePersistableUriPermission(permission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (t: Throwable) {
+                    Log.w(TAG, "Could not release a kept photo permission: ${t.javaClass.simpleName}")
+                }
+            }
         }
 
         @Volatile
@@ -426,6 +469,7 @@ class FaceNameTrainAction : Action() {
         val ctx = appContext ?: return false
         return try {
             FileUtils.init(ctx)
+            releaseLeftoverPhotoPermissions(ctx.contentResolver)
             recognizer = recognizerFactory(ctx)
             FaceNameDetector.onModelsLoaded()
             true
@@ -446,8 +490,10 @@ class FaceNameTrainAction : Action() {
         toast(ctx, ctx.getString(resource), success = false)
     }
 
-    private fun showOutcome(outcome: Outcome, ctx: Context? = stageActivity() ?: appContext) {
-        ctx ?: return
+    private fun showOutcome(outcome: Outcome?, ctx: Context? = stageActivity() ?: appContext) {
+        if (outcome == null || ctx == null) {
+            return
+        }
         toast(ctx, outcome.message, outcome.success)
     }
 
@@ -668,6 +714,13 @@ class FaceNameTrainAction : Action() {
             return
         }
 
+        // From here on the brick shows the progress dialog whenever it runs, even
+        // if the stage is destroyed and the program restarted meanwhile. Marked
+        // before the photo permissions are kept, so no other brick releases them.
+        synchronized(trainingLock) {
+            trainingInProgress = true
+            progressWaiters.add(this)
+        }
         // Kept while training reads the photos, also if the stage is recreated
         // meanwhile; released when training ends.
         val persisted = uris.filter { uri ->
@@ -675,17 +728,11 @@ class FaceNameTrainAction : Action() {
                 ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 true
             } catch (t: Throwable) {
-                Log.w(TAG, "Could not persist permission for $uri")
+                Log.w(TAG, "Could not keep the permission for a photo: ${t.javaClass.simpleName}")
                 false
             }
         }
 
-        // From here on the brick shows the progress dialog whenever it runs, even
-        // if the stage is destroyed and the program restarted meanwhile.
-        synchronized(trainingLock) {
-            trainingInProgress = true
-            progressWaiters.add(this)
-        }
         trainingOwner = this
         progressTotal = uris.size
         progressDone = 0
@@ -727,41 +774,64 @@ class FaceNameTrainAction : Action() {
         }
 
         worker.execute {
-            var added = 0
-            var severalPeople = 0
-            var error: String? = null
+            var outcome: Outcome? = null
             try {
-                val result = current.extractEmbeddings(ctx.contentResolver, uris, onProgress)
-                added = result.embeddings.size
-                severalPeople = result.severalPeople
-                if (added > 0) {
-                    current.addPhotos(name, result.embeddings)
-                    FaceNameDetector.onModelsLoaded()
-                }
-                // With the name: debug builds only.
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "Training '$name': " + result.report.joinToString(" | "))
-                }
+                outcome = train(ctx, current, name, uris, onProgress)
             } catch (t: Throwable) {
-                error = "${t.javaClass.simpleName}: ${t.message}"
-                Log.e(TAG, "Training failed", t)
+                // The message itself could not be built (a broken translation,
+                // say): training still ends, without a message.
+                Log.e(TAG, "Training result could not be shown: ${t.javaClass.simpleName}")
             } finally {
                 releasePermissions(ctx, persisted)
+                // Always: otherwise training stays marked as running, and every
+                // later training brick shows its progress dialog forever.
+                val result = outcome
+                mainHandler.post {
+                    val shownFor = System.currentTimeMillis() - progressShownAt
+                    val wait = if (progressViews.isNotEmpty() && shownFor < MIN_PROGRESS_MS) MIN_PROGRESS_MS - shownFor else 0L
+                    mainHandler.postDelayed({ finishTraining(result) }, wait)
+                }
             }
-            val outcome = when {
-                error != null -> Outcome(ctx.getString(R.string.face_train_error, error), success = false)
-                added == 0 && severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_several_people), success = false)
-                added == 0 -> Outcome(ctx.getString(R.string.face_train_no_face), success = false)
-                severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_success_some_skipped), success = true)
-                else -> Outcome(ctx.getString(R.string.face_train_success), success = true)
-            }
+        }
+    }
 
-            // On the main thread, where the progress dialogs are tracked.
-            mainHandler.post {
-                val shownFor = System.currentTimeMillis() - progressShownAt
-                val wait = if (progressViews.isNotEmpty() && shownFor < MIN_PROGRESS_MS) MIN_PROGRESS_MS - shownFor else 0L
-                mainHandler.postDelayed({ finishTraining(outcome) }, wait)
+    /** Reads the photos and stores them under [name]; the message for the user. Training thread. */
+    private fun train(
+        ctx: Context,
+        current: Recognizer,
+        name: String,
+        uris: List<Uri>,
+        onProgress: Recognizer.ProgressListener
+    ): Outcome {
+        var added = 0
+        var severalPeople = 0
+        var error: String? = null
+        try {
+            val result = current.extractEmbeddings(ctx.contentResolver, uris, onProgress)
+            added = result.embeddings.size
+            severalPeople = result.severalPeople
+            if (added > 0) {
+                current.addPhotos(name, result.embeddings)
+                FaceNameDetector.onModelsLoaded()
             }
+            // With the name: debug builds only.
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Training '$name': " + result.report.joinToString(" | "))
+            }
+        } catch (t: Throwable) {
+            error = t.javaClass.simpleName
+            // The message can hold a photo's address: debug builds only.
+            Log.e(TAG, "Training failed: $error")
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Training failed", t)
+            }
+        }
+        return when {
+            error != null -> Outcome(ctx.getString(R.string.face_train_error, error), success = false)
+            added == 0 && severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_several_people), success = false)
+            added == 0 -> Outcome(ctx.getString(R.string.face_train_no_face), success = false)
+            severalPeople > 0 -> Outcome(ctx.getString(R.string.face_train_success_some_skipped), success = true)
+            else -> Outcome(ctx.getString(R.string.face_train_success), success = true)
         }
     }
 
@@ -771,7 +841,7 @@ class FaceNameTrainAction : Action() {
             try {
                 ctx.contentResolver.releasePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             } catch (t: Throwable) {
-                Log.w(TAG, "Could not release the permission for $uri")
+                Log.w(TAG, "Could not release the permission for a photo: ${t.javaClass.simpleName}")
             }
         }
     }
@@ -780,7 +850,7 @@ class FaceNameTrainAction : Action() {
      * Main thread. Returns to the name list: the lists open first and the
      * progress dialogs close afterwards, so there is no gap between them.
      */
-    private fun finishTraining(outcome: Outcome) {
+    private fun finishTraining(outcome: Outcome?) {
         val waiters: List<FaceNameTrainAction>
         synchronized(trainingLock) {
             trainingInProgress = false

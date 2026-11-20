@@ -341,7 +341,13 @@ object FaceNameDetector : Detector {
             return frame
         }
         val rotation = Matrix().apply { postRotate(rotationDegrees.toFloat()) }
-        val upright = Bitmap.createBitmap(frame, 0, 0, width, height, rotation, true)
+        val upright = try {
+            Bitmap.createBitmap(frame, 0, 0, width, height, rotation, true)
+        } catch (error: OutOfMemoryError) {
+            // The caller skips this frame; its unrotated copy must not stay behind.
+            frame.recycle()
+            throw error
+        }
         if (upright !== frame) {
             frame.recycle()
         }

@@ -96,7 +96,13 @@ class FaceEmbedder private constructor(
         // ensuring gallery photos and camera frames use consistent face crops.
         for (rotation in rotations) {
             val frame = createRotatedFrame(source, rotation) ?: return null
-            val box = largestFaceRect(frame)
+            val box = try {
+                largestFaceRect(frame)
+            } catch (error: OutOfMemoryError) {
+                // Low on memory: the rotated copy must not stay behind as well.
+                recycleRotatedFrame(frame, source)
+                throw error
+            }
 
             if (box != null) {
                 logAppliedRotation(rotation)
