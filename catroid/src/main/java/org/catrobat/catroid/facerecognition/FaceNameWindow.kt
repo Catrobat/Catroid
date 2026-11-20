@@ -127,10 +127,19 @@ class FaceNameWindow {
         lastUsableFaceAt = null
     }
 
-    /** Re-evaluates the same cached scores per formula; never changes another formula's cutoff. */
+    /**
+     * Re-evaluates the same cached scores per formula; never changes another
+     * formula's cutoff. With [nowMs], scores older than [NO_FACE_RESET_MS] give
+     * [UNKNOWN]: the camera may have stopped sending frames, and the person
+     * may have left.
+     */
     @Synchronized
-    fun nameWithThreshold(recognizer: Recognizer, threshold: Float): String {
+    fun nameWithThreshold(recognizer: Recognizer, threshold: Float, nowMs: Long? = null): String {
         if (frames.isEmpty() || !threshold.isFinite()) {
+            return UNKNOWN
+        }
+        val last = lastUsableFaceAt
+        if (nowMs != null && (last == null || nowMs - last >= NO_FACE_RESET_MS)) {
             return UNKNOWN
         }
         val totals = FloatArray(framesScoredFor.size)

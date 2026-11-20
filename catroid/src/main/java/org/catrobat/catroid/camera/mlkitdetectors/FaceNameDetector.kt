@@ -167,7 +167,7 @@ object FaceNameDetector : Detector {
                 return FaceNameWindow.UNKNOWN
             }
             val recognizer = cachedRecognizer ?: return FaceNameWindow.UNKNOWN
-            return window.nameWithThreshold(recognizer, threshold.coerceIn(0.0, 1.0).toFloat())
+            return window.nameWithThreshold(recognizer, threshold.coerceIn(0.0, 1.0).toFloat(), clock())
         }
     }
 
@@ -207,6 +207,8 @@ object FaceNameDetector : Detector {
             cachedRecognizer = null
             window.clear()
         }
+        // About 1.2 MB for a camera frame; the next analysed frame allocates it again.
+        synchronized(pixelLock) { pixelBuffer = IntArray(0) }
     }
 
     /** The frame to recognise, or null when this one is skipped. */

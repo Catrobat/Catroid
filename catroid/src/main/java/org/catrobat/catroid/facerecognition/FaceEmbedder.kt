@@ -724,7 +724,8 @@ class FaceEmbedder private constructor(
                 sum += (value * value).toDouble()
             }
             val norm = sqrt(sum).toFloat()
-            if (norm < 1e-10f) {
+            // NaN fails every comparison, so it is checked on its own.
+            if (!norm.isFinite() || norm < 1e-10f) {
                 return null
             }
             for (i in v.indices) {

@@ -144,7 +144,23 @@ class FaceNameTrainAction : Action() {
             }
             pickerOwner = null
             currentInstance = null
+            // The models (two interpreters and the 4 MB model) are loaded again by
+            // the next program that needs them. Not on the main thread: releasing
+            // waits until a frame or training batch has stopped using them.
+            saver.execute {
+                if (!synchronized(trainingLock) { trainingInProgress }) {
+                    try {
+                        releaseModels()
+                    } catch (t: Throwable) {
+                        Log.w(TAG, "Could not release the face models: ${t.javaClass.simpleName}")
+                    }
+                }
+            }
         }
+
+        /** Releases the face models; the tests replace it. */
+        @VisibleForTesting
+        internal var releaseModels: () -> Unit = { Recognizer.release() }
 
         /**
          * Releases the photo read permissions training keeps while it reads the
@@ -273,6 +289,7 @@ class FaceNameTrainAction : Action() {
             pickerOpen = false
             savesInProgress = 0
             recognizerFactory = loadRecognizer
+            releaseModels = { Recognizer.release() }
             progressTotal = 1
             progressDone = 0
             progressViews.clear()
