@@ -228,7 +228,7 @@ class GamepadButtonSensorsTest {
 
         assertEquals(FormulaElement.ElementType.SENSOR, root.elementType)
         assertEquals(Sensors.GAMEPAD_BUTTON_UP_PRESSED, Sensors.getSensorByValue(root.value))
-        assertEquals(GamepadButton.UP, Sensors.getSensorByValue(root.value).toGamepadButton())
+        assertEquals(GamepadButton.UP, Sensors.getSensorByValue(root.value)?.toGamepadButton())
     }
 
     private fun sensorElement(sensor: Sensors) =
