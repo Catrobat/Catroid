@@ -63,6 +63,7 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.After;
@@ -84,6 +85,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -124,6 +126,7 @@ public class BrickSpinnerDefaultValueTest {
 				{"SceneTransitionBrick - R.id.brick_scene_transition_spinner", "Control", SceneTransitionBrick.class, R.id.brick_scene_transition_spinner, "new…"},
 				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene"},
 				{"CloneBrick - R.id.brick_clone_spinner", "Control", CloneBrick.class, R.id.brick_clone_spinner, "yourself"},
+				{"WhenGamepadButtonPressedBrick - R.id.brick_when_gamepad_button_pressed_spinner", "Device", WhenGamepadButtonPressedBrick.class, R.id.brick_when_gamepad_button_pressed_spinner, "A"},
 				{"SimulateGamepadButtonBrick - R.id.brick_simulate_gamepad_button_spinner", "Testing", SimulateGamepadButtonBrick.class, R.id.brick_simulate_gamepad_button_spinner, "A"},
 				{"SimulateGamepadButtonBrick - R.id.brick_simulate_gamepad_button_state_spinner", "Testing", SimulateGamepadButtonBrick.class, R.id.brick_simulate_gamepad_button_state_spinner, "pressed"},
 		});
@@ -158,6 +161,7 @@ public class BrickSpinnerDefaultValueTest {
 		for (String setting : speechAISettings) {
 			sharedPreferencesEditor.putBoolean(setting, true);
 		}
+		sharedPreferencesEditor.putBoolean(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, true);
 		sharedPreferencesEditor.commit();
 
 		createProject(activity);

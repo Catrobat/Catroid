@@ -312,6 +312,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoNxtMotorStopBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenTouchDownBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenTouchDownBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenGamepadButtonPressedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WaitBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetGravityBrick",

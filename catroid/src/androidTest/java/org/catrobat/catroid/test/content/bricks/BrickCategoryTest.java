@@ -230,6 +230,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
@@ -258,6 +259,7 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {
@@ -476,6 +478,7 @@ public class BrickCategoryTest {
 				{"Device", Arrays.asList(ResetTimerBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
+						WhenGamepadButtonPressedBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
 						OpenUrlBrick.class,
@@ -582,6 +585,9 @@ public class BrickCategoryTest {
 		for (String setting : speechAISettings) {
 			sharedPreferencesEditor.putBoolean(setting, true);
 		}
+		// The physical gamepad brick has no own brick category either, so its setting is activated
+		// as well. It adds the brick to the Device category.
+		sharedPreferencesEditor.putBoolean(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, true);
 		sharedPreferencesEditor.commit();
 
 		createProject(ApplicationProvider.getApplicationContext());
