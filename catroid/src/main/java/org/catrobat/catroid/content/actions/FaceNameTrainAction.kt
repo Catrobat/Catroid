@@ -21,7 +21,6 @@ import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector
 import org.catrobat.catroid.stage.BrickDialogManager.DialogType
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.ToastUtil
-import java.io.IOException
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
@@ -194,15 +193,18 @@ class FaceNameTrainAction : Action() {
 
         private val mainHandler = Handler(Looper.getMainLooper())
 
-        /**
-         * Training and saving names, which writes and syncs the face files: never
-         * on the main thread, and no UI work queues behind it.
-         */
+        /** Training only, so no UI work queues behind it. */
         private val worker = Executors.newSingleThreadExecutor()
 
         /**
-         * Names being saved or deleted on [worker]. Main thread only. Like the
-         * open picker, a save between two dialogs keeps the stage paused.
+         * Deleting a name, which writes and syncs the face files: never on the main
+         * thread, and never waiting behind another brick's training batch.
+         */
+        private val saver = Executors.newSingleThreadExecutor()
+
+        /**
+         * Names being deleted on [saver]. Main thread only. Like the open picker,
+         * a save between two dialogs keeps the stage paused.
          */
         private var savesInProgress = 0
 
@@ -489,58 +491,44 @@ class FaceNameTrainAction : Action() {
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        val current = recognizerOrInit()
-        if (current == null) {
+        // Only checked here, nothing is saved: the name is stored together with its
+        // photos when training ends. Backing out of the picker, or photos without
+        // a usable face, leave no name without photos behind.
+        val validName = try {
+            Recognizer.requireValidName(name)
+        } catch (exception: IllegalArgumentException) {
+            Log.e(TAG, "Name rejected", exception)
+            showError(R.string.face_train_name_rejected)
             show(DialogType.FACE_TRAIN_MENU)
             return
         }
-        saveThenOnMainThread(
-            save = {
-                val index = current.addPerson(name)
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "Added name '$name' at index $index")
-                }
-            },
-            then = { error ->
-                when (error) {
-                    null -> openImagePicker(name.trim())
-                    is IllegalArgumentException -> {
-                        Log.e(TAG, "Name rejected", error)
-                        showError(R.string.face_train_name_rejected)
-                        show(DialogType.FACE_TRAIN_MENU)
-                    }
-                    else -> {
-                        Log.e(TAG, "Name not saved", error)
-                        showError(R.string.face_train_not_saved)
-                        show(DialogType.FACE_TRAIN_MENU)
-                    }
-                }
-            }
-        )
+        openImagePicker(validName, isNewName = true)
     }
 
     /**
-     * Saves on [worker], then calls [then] on the main thread with the error, if
-     * any. Not if the brick stopped running on the current stage meanwhile: the
-     * user left or restarted the program, and its next dialog would pause that.
+     * Saves on [saver], then calls [then] on the main thread with the error, if
+     * any, whatever was thrown. Not if the brick stopped running on the current
+     * stage meanwhile: the user left or restarted the program, and its next
+     * dialog would pause that.
      */
-    private fun saveThenOnMainThread(save: () -> Unit, then: (Exception?) -> Unit) {
+    @Suppress("TooGenericExceptionCaught")
+    private fun saveThenOnMainThread(save: () -> Unit, then: (Throwable?) -> Unit) {
         savesInProgress++
-        worker.execute {
-            val error = try {
+        saver.execute {
+            var error: Throwable? = null
+            try {
                 save()
-                null
-            } catch (exception: IOException) {
-                exception
-            } catch (exception: IllegalArgumentException) {
-                exception
-            }
-            mainHandler.post {
-                savesInProgress--
-                if (isRunningOnTheCurrentStage) {
-                    then(error)
-                } else {
-                    Log.i(TAG, "The program changed while a name was saved; nothing to show")
+            } catch (throwable: Throwable) {
+                error = throwable
+            } finally {
+                // Always: otherwise the save stays counted and the stage stays paused.
+                mainHandler.post {
+                    savesInProgress--
+                    if (isRunningOnTheCurrentStage) {
+                        then(error)
+                    } else {
+                        Log.i(TAG, "The program changed while a name was saved; nothing to show")
+                    }
                 }
             }
         }
@@ -611,11 +599,14 @@ class FaceNameTrainAction : Action() {
 
     // ---------------- Photo picker ----------------
 
-    private fun openImagePicker(name: String) {
-        val current = recognizerOrInit()
-        val targetIndex = current?.classNames?.indexOf(name) ?: -1
+    /**
+     * Asks for photos of [name]. An existing name must still be in the list (an
+     * older menu may show a deleted one); a new name is added with its photos.
+     */
+    private fun openImagePicker(name: String, isNewName: Boolean = false) {
         val activity = stageActivity()
-        if (targetIndex < 0 || activity == null) {
+        val known = isNewName || (recognizerOrInit()?.classNames?.contains(name) == true)
+        if (!known || activity == null) {
             showError(R.string.face_train_name_missing)
             show(DialogType.FACE_TRAIN_MENU)
             return

@@ -1,6 +1,7 @@
 package org.catrobat.catroid.facerecognition
 
 import android.util.Log
+import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.facerecognition.env.FileUtils.file
 import org.catrobat.catroid.facerecognition.env.FileUtils.isReady
@@ -139,11 +140,15 @@ class FaceDatabase {
     /** Reads the model file, or rebuilds the centroids, and marks photos from another pipeline. */
     private fun loadModelAndCheckPipeline(modelLines: List<String>) {
         if (outdatedPhotos.isNotEmpty()) {
+            // The number of people only: the release build keeps its logs, and names are personal.
             Log.e(
-                TAG, "STORED PHOTOS ARE OUT OF DATE. " + outdatedPhotos.keys +
-                    " have photos from another face model, this build uses " +
+                TAG, "STORED PHOTOS ARE OUT OF DATE. " + outdatedPhotos.size +
+                    " people have photos from another face model, this build uses " +
                     EMBEDDING_SIZE + " values. Add their photos again."
             )
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Out of date: " + outdatedPhotos.keys)
+            }
         }
         if (loadModel(modelLines)) {
             return

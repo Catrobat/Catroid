@@ -311,7 +311,7 @@ class FaceTrainingUiTest {
                 hasExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             )
         )
-        assertEquals(listOf("Person A"), recognizer().classNames)
+        assertTrue("A new name waits for its photos", recognizer().classNames.isEmpty())
         assertFalse(FaceNameTrainAction.isTrainingForTest())
     }
 
@@ -385,15 +385,15 @@ class FaceTrainingUiTest {
         assertEquals(listOf(2, 2), FaceNameTrainAction.getProgressForTest().toList())
     }
 
+    /** Found in review: backing out of the picker left the new name without photos. */
     @Test
-    fun cancellingPickerKeepsNameButDoesNotTrain() {
+    fun cancellingPickerAddsNoNameAndDoesNotTrain() {
         stubPicker(Activity.RESULT_CANCELED, null)
         startStage()
 
         addNameThroughUi("Person A")
 
-        assertEquals(listOf("Person A"), recognizer().classNames)
-        assertEquals(0, recognizer().getPhotoCount(0))
+        assertTrue(recognizer().classNames.isEmpty())
         assertFalse(FaceNameTrainAction.isTrainingForTest())
         menuTitle().check(matches(isDisplayed()))
     }
@@ -406,8 +406,7 @@ class FaceTrainingUiTest {
         addNameThroughUi("Person A")
         waitForTrainingToFinish()
 
-        assertEquals(listOf("Person A"), recognizer().classNames)
-        assertEquals(0, recognizer().getPhotoCount(0))
+        assertTrue("A name without a usable face is not stored", recognizer().classNames.isEmpty())
     }
 
     /**

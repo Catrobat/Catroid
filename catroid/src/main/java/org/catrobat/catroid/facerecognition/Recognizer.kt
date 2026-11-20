@@ -86,14 +86,7 @@ class Recognizer private constructor() {
         return true
     }
 
-    /** The trimmed name; throws IllegalArgumentException for a name that cannot be stored. */
-    private fun checkedName(name: String): String {
-        val safeName = name.trim()
-        require(safeName.isNotEmpty()) { "Person name must not be blank" }
-        require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
-        require(!isNoMatchValue(safeName)) { "Person name must not be the no-match value ${FaceNameWindow.UNKNOWN}" }
-        return safeName
-    }
+    private fun checkedName(name: String): String = requireValidName(name)
 
     /** A failed save has already put the database back as it is on disk. */
     private fun saveOrThrow() {
@@ -877,6 +870,19 @@ class Recognizer private constructor() {
          */
         @JvmStatic
         fun isNoMatchValue(name: String): Boolean = name.trim().equals(FaceNameWindow.UNKNOWN, ignoreCase = true)
+
+        /**
+         * The trimmed name; throws IllegalArgumentException for a name that cannot
+         * be stored. Checks the name only: nothing is read or saved.
+         */
+        @JvmStatic
+        fun requireValidName(name: String): String {
+            val safeName = name.trim()
+            require(safeName.isNotEmpty()) { "Person name must not be blank" }
+            require(!hasLineBreak(safeName)) { "Person name must not contain a line break" }
+            require(!isNoMatchValue(safeName)) { "Person name must not be the no-match value ${FaceNameWindow.UNKNOWN}" }
+            return safeName
+        }
 
         /** Photos are downscaled to this longest side before detection, to bound memory.  */ /* MobileFaceNet finally consumes only 112x112. 960 keeps ample face detail while
        cutting gallery bitmap/rotation memory by about 44% versus 1280. */
