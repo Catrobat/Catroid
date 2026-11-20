@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
@@ -178,8 +179,14 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 
 	private void showUndo(View view) {
 		ScriptFragment scriptFragment = getScriptFragment(view);
-		if (scriptFragment.copyProjectForUndoOption()) {
-			scriptFragment.showUndo(true);
+		if (scriptFragment != null && scriptFragment.copyProjectForUndoOption()) {
+			FragmentActivity activity = null;
+			if (view != null) {
+				activity = UiUtils.getActivityFromView(view);
+			}
+			if (activity instanceof SpriteActivity spriteActivity) {
+				spriteActivity.setUndoMenuItemVisibility(true);
+			}
 			if (onItemSelectedListener instanceof Brick) {
 				scriptFragment.setUndoBrickPosition((Brick) onItemSelectedListener);
 			}

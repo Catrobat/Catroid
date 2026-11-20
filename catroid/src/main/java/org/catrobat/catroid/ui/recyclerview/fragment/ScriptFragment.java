@@ -131,8 +131,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	private BrickAdapter adapter;
 	private BrickListView listView;
 	private ScriptFinder scriptFinder;
-	private String currentSceneName;
-	private String currentSpriteName;
 	private int undoBrickPosition;
 
 	private ScriptController scriptController = new ScriptController();
@@ -412,10 +410,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 
 		savedListViewState = listView.onSaveInstanceState();
-
-		if (getActivity() != null && !getActivity().isChangingConfigurations()) {
-			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
-		}
 	}
 
 	@Override
@@ -714,7 +708,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	}
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
-		showUndo(false);
+		setSpriteActivityUndoMenuItemVisibility(false);
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
@@ -791,7 +785,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	@Override
 	public boolean onBrickLongClick(Brick brick, int position) {
-		showUndo(false);
+		setSpriteActivityUndoMenuItemVisibility(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
@@ -855,7 +849,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 
 	private void showDeleteAlert(List<Brick> selectedBricks) {
 		if (selectedBricks.size() > 0 && copyProjectForUndoOption()) {
-			showUndo(true);
+			setSpriteActivityUndoMenuItemVisibility(true);
 			undoBrickPosition = adapter.getPosition(selectedBricks.get(0));
 		}
 		delete(selectedBricks);
@@ -882,8 +876,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public boolean copyProjectForUndoOption() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
-		currentSpriteName = currentSprite.getName();
-		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
+		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
+		if (currentSprite == null || currentlyEditedScene == null) {
+			Log.e(TAG, "Cannot copy project for undo because current sprite or scene is null.");
+			return false;
+		}
+		activity.setLastSpriteNameForUndo(currentSprite.getName());
+		activity.setLastSceneNameForUndo(currentlyEditedScene.getName());
 		Project project = projectManager.getCurrentProject();
 		XstreamSerializer.getInstance().saveProject(project);
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
@@ -921,11 +920,7 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
-				if (spriteActivity != null) {
-					spriteActivity.setUndoMenuItemVisibility(false);
-					spriteActivity.showUndo(false);
-				}
+				setSpriteActivityUndoMenuItemVisibility(false);
 				new ProjectLoader(project.getDirectory(), context).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replacing project " + project.getName() + " failed.", exception);
@@ -933,12 +928,10 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 				SpriteActivity spriteActivity = (SpriteActivity) getActivity();
 				if (spriteActivity != null && undoCodeFile.exists()) {
 					spriteActivity.setUndoMenuItemVisibility(true);
-					spriteActivity.showUndo(true);
 				}
 			}
 		}
 	}
-
 
 	@Override
 	public void onLoadFinished(boolean success) {
@@ -952,20 +945,22 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 			ToastUtil.showError(getContext(), R.string.error_load_project);
 			if (spriteActivity != null) {
 				spriteActivity.setUndoMenuItemVisibility(true);
-				spriteActivity.showUndo(true);
 			}
 			return;
 		}
 
-		if (!ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName)) {
-			Log.e(TAG, "Could not set scene/sprite after undo: " + currentSceneName + "/" + currentSpriteName);
+		if (spriteActivity != null) {
+			if (!ProjectManager.getInstance().setCurrentSceneAndSprite(spriteActivity.getLastSceneNameForUndo(), spriteActivity.getLastSpriteNameForUndo())) {
+				Log.e(TAG, "Could not set scene/sprite after undo: " + spriteActivity.getLastSceneNameForUndo() + "/" + spriteActivity.getLastSpriteNameForUndo());
+			}
+		} else {
+			Log.e(TAG, "Could not set scene/sprite after undo because SpriteActivity was null.");
 		}
 
 		loadVariables();
 
 		if (spriteActivity != null) {
 			spriteActivity.setUndoMenuItemVisibility(false);
-			spriteActivity.showUndo(false);
 		}
 
 		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
@@ -1077,13 +1072,6 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		}
 	}
 
-	public void showUndo(boolean visible) {
-		SpriteActivity activity = (SpriteActivity) getActivity();
-		if (activity != null) {
-			((SpriteActivity) getActivity()).showUndo(visible);
-		}
-	}
-
 	private void scrollToFocusItem() {
 		if (scriptToFocus == null && brickToFocus == null) {
 			return;
@@ -1128,6 +1116,13 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 	public void closeFinder() {
 		if (!scriptFinder.isClosed()) {
 			scriptFinder.close();
+		}
+	}
+
+	private void setSpriteActivityUndoMenuItemVisibility(boolean visible) {
+		SpriteActivity spriteActivity = (SpriteActivity) getActivity();
+		if (spriteActivity != null) {
+			spriteActivity.setUndoMenuItemVisibility(visible);
 		}
 	}
 }

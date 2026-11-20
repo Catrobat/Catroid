@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -92,10 +93,12 @@ import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_BACKGROUNDS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_CONTENT_SOUNDS_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LAST_EDITED_SPRITE_CONTEXT_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
@@ -139,7 +142,6 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
-	private static final String BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE = "isUndoMenuItemVisible";
 
 	public static final String EXTRA_X_TRANSFORM = "X";
 	public static final String EXTRA_Y_TRANSFORM = "Y";
@@ -160,12 +162,13 @@ public class SpriteActivity extends BaseActivity {
 	private String generatedVariableName;
 
 	private boolean isUndoMenuItemVisible = false;
+	private boolean shouldSaveContextForRecovery = true;
+
+	private String lastSceneNameForUndo;
+	private String lastSpriteNameForUndo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			setSavedInstanceStateExpected(true);
-		}
 		super.onCreate(savedInstanceState);
 
 		if (isFinishing()) {
@@ -193,20 +196,60 @@ public class SpriteActivity extends BaseActivity {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
 
-		if (savedInstanceState != null) {
-			isUndoMenuItemVisible = savedInstanceState.getBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, false);
-			invalidateOptionsMenu();
-		} else {
-			loadFragment(this, fragmentPosition);
-		}
+		loadFragment(this, fragmentPosition);
 		addTabLayout(this, fragmentPosition);
+
+		checkUndoStateFromCrash();
+	}
+
+	private void checkUndoStateFromCrash() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String lastContext = prefs.getString(LAST_EDITED_SPRITE_CONTEXT_KEY, null);
+
+		if (lastContext != null && currentSprite != null && currentProject != null && currentScene != null) {
+			String[] parts = lastContext.split(":", -1);
+			if (parts.length == 3) {
+				String lastProjectName = parts[0];
+				String lastSceneName = parts[1];
+				String lastSpriteName = parts[2];
+
+				boolean contextMatches = currentProject.getName().equals(lastProjectName) && currentScene.getName().equals(lastSceneName) && currentSprite.getName().equals(lastSpriteName);
+
+				if (contextMatches) {
+					File undoCodeFile = new File(currentProject.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+					if (undoCodeFile.exists()) {
+						lastSceneNameForUndo = lastSceneName;
+						lastSpriteNameForUndo = lastSpriteName;
+						setUndoMenuItemVisibility(true);
+					}
+				}
+			}
+		}
+	}
+
+	public String getLastSceneNameForUndo() {
+		return lastSceneNameForUndo;
+	}
+
+	public void setLastSceneNameForUndo(String lastSceneNameForUndo) {
+		this.lastSceneNameForUndo = lastSceneNameForUndo;
+	}
+
+	public String getLastSpriteNameForUndo() {
+		return lastSpriteNameForUndo;
+	}
+
+	public void setLastSpriteNameForUndo(String lastSpriteNameForUndo) {
+		this.lastSpriteNameForUndo = lastSpriteNameForUndo;
 	}
 
 	public String createActionBarTitle() {
+		String spriteName = (currentSprite != null) ? currentSprite.getName() : "SpriteName";
 		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
-			return currentSprite.getName();
+			return spriteName;
 		} else {
-			return currentScene.getName() + ": " + currentSprite.getName();
+			String sceneName = (currentScene != null) ? currentScene.getName() : "SceneName";
+			return sceneName + ": " + spriteName;
 		}
 	}
 
@@ -217,41 +260,28 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		optionsMenu = menu;
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	public void showUndo(boolean visible) {
-		if (optionsMenu != null) {
-			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
-			if (visible) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
-			}
-		}
-	}
-
-	public void checkForChange() {
-		if (optionsMenu != null) {
-			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
-			} else {
-				ProjectManager.getInstance().resetChangedFlag(currentProject);
-			}
-		}
 	}
 
 	public void setUndoMenuItemVisibility(boolean isVisible) {
 		isUndoMenuItemVisible = isVisible;
+		if (isVisible) {
+			ProjectManager.getInstance().changedProject(currentProject.getName());
+		}
+		invalidateOptionsMenu();
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem undoItem = menu.findItem(R.id.menu_undo);
+		if (undoItem != null) {
+			undoItem.setVisible(isUndoMenuItemVisible);
+		}
+
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
-			showUndo(isUndoMenuItemVisible);
-		} else if (getCurrentFragment() instanceof LookListFragment) {
-			showUndo(isUndoMenuItemVisible);
 		}
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -267,7 +297,6 @@ public class SpriteActivity extends BaseActivity {
 
 		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
 			setUndoMenuItemVisibility(false);
-			showUndo(isUndoMenuItemVisible);
 			Fragment fragment = getCurrentFragment();
 			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
 				((LookListFragment) fragment).deleteItem(currentLookData);
@@ -285,12 +314,17 @@ public class SpriteActivity extends BaseActivity {
 		super.onPause();
 		saveProject();
 		RecentBrickListManager.getInstance().saveRecentBrickList();
+
+		if (shouldSaveContextForRecovery) {
+			saveCurrentSpriteContextForRecovery();
+		}
 	}
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(BUNDLE_IS_UNDO_MENU_ITEM_VISIBLE, isUndoMenuItemVisible);
+	private void saveCurrentSpriteContextForRecovery() {
+		if (currentSprite != null && currentProject != null && currentScene != null) {
+			String context = currentProject.getName() + ":" + currentScene.getName() + ":" + currentSprite.getName();
+			PreferenceManager.getDefaultSharedPreferences(this).edit().putString(LAST_EDITED_SPRITE_CONTEXT_KEY, context).apply();
+		}
 	}
 
 	@Override
@@ -326,7 +360,13 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 			return;
 		}
+		shouldSaveContextForRecovery = false;
+		clearCurrentSpriteContextForRecovery();
 		super.onBackPressed();
+	}
+
+	private void clearCurrentSpriteContextForRecovery() {
+		PreferenceManager.getDefaultSharedPreferences(this).edit().remove(LAST_EDITED_SPRITE_CONTEXT_KEY).apply();
 	}
 
 	private void saveProject() {
