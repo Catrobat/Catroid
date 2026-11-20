@@ -128,7 +128,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testFuctionalAndSimpleBracketsCorrection() {
+	public void testFunctionalAndSimpleBracketsCorrection() {
 		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
