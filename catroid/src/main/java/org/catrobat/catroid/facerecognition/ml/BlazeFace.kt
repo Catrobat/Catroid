@@ -272,6 +272,10 @@ class BlazeFace private constructor() {
             return if (normalization > 0.0f) intersectionArea / normalization else 0.0f
         }
 
+        /**
+         * Google MediaPipe's BlazeFace front model (v0.6.0 to v0.7.4), unmodified, Apache 2.0;
+         * attribution and license in assets/third_party_notices_face_recognition.txt.
+         */
         private const val MODEL_FILE = "face_detection_front.tflite"
 
         const val INPUT_SIZE_HEIGHT: Int = 128

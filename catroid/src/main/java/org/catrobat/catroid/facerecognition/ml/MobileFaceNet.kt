@@ -17,6 +17,7 @@ import java.nio.channels.FileChannel
  * The model (mobile_facenet.tflite, 4 MB) is the Qualcomm AI Hub release
  * v0.63.0 of foamliu/MobileFaceNet (Apache 2.0), trained with the ArcFace loss
  * on MS-Celeb-1M. Microsoft withdrew that dataset in 2019.
+ * Attribution and license: assets/third_party_notices_face_recognition.txt.
  *
  * The model has two inputs, img1 and img2, each float32 [1, 3, 112, 112]: RGB,
  * channel planes first (NCHW), values 0..1. Its output, embeddings, is float32
