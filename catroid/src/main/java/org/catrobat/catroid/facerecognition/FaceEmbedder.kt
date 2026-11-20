@@ -104,7 +104,9 @@ class FaceEmbedder private constructor(
                 throw error
             }
 
-            if (box != null) {
+            // largestFaceRect returns null when this rotation has no usable face;
+            // the next rotation is tried then (FaceSearchRotationTest).
+            if (box != null) { // NOSONAR kotlin:S6619 false positive, box is nullable
                 logAppliedRotation(rotation)
 
                 return Face(
