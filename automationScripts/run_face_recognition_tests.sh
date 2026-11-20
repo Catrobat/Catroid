@@ -49,6 +49,7 @@ UNIT_TESTS=(
   --tests "org.catrobat.catroid.formulaeditor.UnknownSensorTest"
   --tests "org.catrobat.catroid.facerecognition.FaceEmbeddingValidityTest"
   --tests "org.catrobat.catroid.facerecognition.ml.BlazeFaceInputTest"
+  --tests "org.catrobat.catroid.facerecognition.RecognizerReleaseTest"
   --tests "org.catrobat.catroid.camera.VisualDetectionHandlerAfterStageTest"
   --tests "org.catrobat.catroid.test.xmlformat.BricksXmlSerializerTest"
   --tests "org.catrobat.catroid.facerecognition.ml.MobileFaceNetInputTest"
