@@ -86,7 +86,6 @@ class ProjectOptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.project_options)
 
         project = projectManager.currentProject
         sceneName = projectManager.currentlyEditedScene.name
@@ -210,6 +209,8 @@ class ProjectOptionsFragment : Fragment() {
 
     override fun onPause() {
         saveProject()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.project_list_title)
+
         super.onPause()
     }
 
@@ -223,6 +224,8 @@ class ProjectOptionsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.project_options)
 
         projectManager.currentProject = project
         binding.projectOptionsNameLayout.editText?.setText(project?.name)
