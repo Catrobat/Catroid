@@ -1019,6 +1019,17 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
+	/**
+	 * Offers to change the button of the selected physical gamepad button sensor, see
+	 * {@link GamepadButtonSensorMenu}. Does nothing for any other selection.
+	 */
+	public void showGamepadButtonSensorMenuIfSelected() {
+		new GamepadButtonSensorMenu(sensorNameResId -> {
+			addResourceToActiveFormula(sensorNameResId);
+			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		}).showIfGamepadButtonSensorSelected(requireActivity(), formulaEditorEditText.getSelectedTokens());
+	}
+
 	public void addUserListToActiveFormula(String userListName) {
 		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_LIST_RESOURCE_ID,
 				userListName);

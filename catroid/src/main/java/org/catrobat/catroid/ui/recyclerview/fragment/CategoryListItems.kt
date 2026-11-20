@@ -27,6 +27,8 @@ import android.app.Activity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.sensorNameResId
+import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
@@ -273,9 +275,18 @@ class CategoryListItems {
         )
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSORS_GPS))
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSOR_USER_LANGUAGE))
+        deviceSensorItems.addAll(getPhysicalGamepadSensorItems(activity))
         return addHeader(
             deviceSensorItems, activity.getString(R.string.formula_editor_device_sensors)
         )
+    }
+
+    private fun getPhysicalGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+        return if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(activity.applicationContext)) {
+            toCategoryListItems(activity, SENSOR_PHYSICAL_GAMEPAD)
+        } else {
+            emptyList()
+        }
     }
 
     private fun getTouchDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -580,6 +591,7 @@ class CategoryListItems {
             R.string.formula_editor_sensor_altitude
         )
         private val SENSOR_USER_LANGUAGE = listOf(R.string.formula_editor_sensor_user_language)
+        private val SENSOR_PHYSICAL_GAMEPAD = listOf(GamepadButton.A.sensorNameResId)
         private val SENSORS_TOUCH = listOf(
             R.string.formula_editor_function_finger_x,
             R.string.formula_editor_function_finger_y,

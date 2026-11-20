@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2025 The Catrobat Team
+  ~ Copyright (C) 2010-2026 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -119,6 +119,12 @@
         android:key="setting_enable_phiro_bricks_checkbox_preference"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_physical_gamepad_bricks"
+        android:summary="@string/preference_description_physical_gamepad_bricks"
+        android:title="@string/preference_title_enable_physical_gamepad_bricks" />
 
     <CheckBoxPreference
         android:defaultValue="false"
