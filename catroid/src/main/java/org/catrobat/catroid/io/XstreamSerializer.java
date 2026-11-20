@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
+import org.catrobat.catroid.content.WhenGamepadButtonPressedScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -278,6 +279,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -596,6 +598,9 @@ public final class XstreamSerializer {
 
 		xstream.alias("script", WhenGamepadButtonScript.class);
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
+
+		xstream.alias("script", WhenGamepadButtonPressedScript.class);
+		xstream.alias("brick", WhenGamepadButtonPressedBrick.class);
 
 		xstream.alias("brick", AssertEqualsBrick.class);
 		xstream.alias("brick", FinishStageBrick.class);

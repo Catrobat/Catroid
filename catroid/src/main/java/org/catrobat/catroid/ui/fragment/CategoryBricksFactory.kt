@@ -237,6 +237,7 @@ import org.catrobat.catroid.content.bricks.WhenBrick
 import org.catrobat.catroid.content.bricks.WhenClonedBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick
 import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
@@ -738,6 +739,9 @@ open class CategoryBricksFactory {
         deviceBrickList.add(ResetTimerBrick())
         deviceBrickList.add(WhenBrick())
         deviceBrickList.add(WhenTouchDownBrick())
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            deviceBrickList.add(WhenGamepadButtonPressedBrick())
+        }
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             deviceBrickList.add(WhenNfcBrick())
             deviceBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
@@ -1228,6 +1232,7 @@ open class CategoryBricksFactory {
             is UserDefinedReceiverBrick -> category = res.getString(R.string.category_user_bricks)
             is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
             is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
+            is WhenGamepadButtonPressedBrick -> category = res.getString(R.string.category_device)
         }
 
         config.locale = savedLocale
