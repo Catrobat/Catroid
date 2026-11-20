@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,23 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog
 
+import android.view.View
+import android.view.ViewGroup
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.PerformException
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.pressBack
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.util.HumanReadables
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -43,6 +55,7 @@ import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
+import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -50,6 +63,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
+import java.util.concurrent.TimeoutException
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
@@ -78,6 +92,7 @@ class ImportLocalSpriteTest {
     fun setUp() {
         createTestProjects()
         activityTestRule.launchActivity(null)
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
     }
 
     @After
@@ -91,15 +106,16 @@ class ImportLocalSpriteTest {
 
     @Test
     fun importObjectAndMergeGlobals() {
-        Espresso.onView(ViewMatchers.withText(projectWithSameGlobals.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(isRoot()).perform(waitForView(withText(projectWithSameGlobals.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
+
+        onView(withText(projectWithSameGlobals.name)).check(matches(isDisplayed()))
+        onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
 
         val originalUserListsSize = projectToImportTo.userLists.size
         val originalUserVariableSize = projectToImportTo.userVariables.size
-        val originalBroadcastMessagesSize = projectToImportTo.broadcastMessageContainer
-            .broadcastMessages.size
+        val originalBroadcastMessagesSize =
+            projectToImportTo.broadcastMessageContainer.broadcastMessages.size
 
         Assert.assertTrue(projectToImportTo.userVariables.contains(global1))
         Assert.assertTrue(projectToImportTo.defaultScene.spriteList[1].userVariables.contains(local1))
@@ -107,29 +123,23 @@ class ImportLocalSpriteTest {
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
 
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectWithSameGlobals.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withText(projectToImportTo.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
 
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_place_visually))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.place_visually_sprite_switch))
-            .perform(ViewActions.swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withId(R.id.button_add)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
+        onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_from_local)).perform(click())
+        onView(isRoot()).perform(waitForView(withText(projectWithSameGlobals.name)))
+
+        onView(withText(projectWithSameGlobals.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.place_visually_sprite_switch)))
+
+        onView(withText(R.string.new_sprite_dialog_place_visually)).check(matches(isDisplayed()))
+        onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
+        onView(withText(R.string.ok)).perform(click())
+        onView(isRoot()).perform(waitForView(withText("doggo")))
 
         assertAddedSprite(doggo)
 
@@ -139,96 +149,85 @@ class ImportLocalSpriteTest {
         Assert.assertEquals(originalUserVariableSize, projectToImportTo.userVariables.size)
         Assert.assertFalse(checkForDuplicates(projectToImportTo.userVariables))
 
-        Assert.assertEquals(originalBroadcastMessagesSize, projectToImportTo
-            .broadcastMessageContainer.broadcastMessages.size)
+        Assert.assertEquals(
+            originalBroadcastMessagesSize,
+            projectToImportTo.broadcastMessageContainer.broadcastMessages.size
+        )
         Assert.assertFalse(checkForDuplicates(projectToImportTo.broadcastMessageContainer.broadcastMessages))
     }
 
     @Test
     fun abortImportWithConflicts() {
-        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(isRoot()).perform(waitForView(withText(projectWithConflicts.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
+
+        onView(withText(projectWithConflicts.name)).check(matches(isDisplayed()))
+        onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
 
         val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withText(projectToImportTo.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withId(R.id.button_add)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
+        onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_from_local)).perform(click())
+        onView(isRoot()).perform(waitForView(withText(projectWithConflicts.name)))
+
+        onView(withText(projectWithConflicts.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.button_add)))
 
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, originalSpriteSize)
     }
 
     @Test
     fun importActorOrObjectTest() {
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(isRoot()).perform(waitForView(withText(projectToImportFrom.name)))
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
 
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withText(projectToImportFrom.name)).check(matches(isDisplayed()))
+        onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
+
+        onView(withText(projectToImportFrom.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withText("cat")))
 
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportFrom.defaultScene.spriteList[1], cat)
 
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.doesNotExist())
+        onView(withText("cat")).check(matches(isDisplayed()))
+        onView(withText("dog")).check(doesNotExist())
 
-        Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.pressBack())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(isRoot()).perform(pressBack())
+        onView(isRoot()).perform(waitForView(withText(projectToImportTo.name)))
 
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.doesNotExist())
+        onView(withText(projectToImportTo.name)).check(matches(isDisplayed()))
+        onView(withText(projectToImportTo.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withText("dog")))
+
+        onView(withText("dog")).check(matches(isDisplayed()))
+        onView(withText("cat")).check(doesNotExist())
 
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 2)
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_place_visually))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.place_visually_sprite_switch))
-            .perform(ViewActions.swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.button_add)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.dialog_new_look_from_local)))
+
+        onView(withId(R.id.dialog_new_look_from_local)).check(matches(isDisplayed()))
+        onView(withId(R.id.dialog_new_look_from_local)).perform(click())
+        onView(isRoot()).perform(waitForView(withText(projectToImportFrom.name)))
+
+        onView(withText(projectToImportFrom.name)).perform(click())
+        onView(isRoot()).perform(waitForView(withId(R.id.place_visually_sprite_switch)))
+
+        onView(withText(R.string.new_sprite_dialog_place_visually)).check(matches(isDisplayed()))
+        onView(withId(R.id.place_visually_sprite_switch)).perform(swipeLeft())
+        onView(withText(R.string.ok)).perform(click())
+        onView(isRoot()).perform(waitForView(withText("cat")))
+
+        onView(withText("cat")).check(matches(isDisplayed()))
+        onView(withText("dog")).check(matches(isDisplayed()))
 
         assertAddedSprite(cat)
     }
@@ -240,31 +239,27 @@ class ImportLocalSpriteTest {
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 3)
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1].name, dog.name)
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList[2].name, addedSprite.name)
-        for ((scriptCounter, script) in projectToImportTo.defaultScene.spriteList[2].scriptList
-            .withIndex()) {
+        for ((scriptCounter, script) in projectToImportTo.defaultScene.spriteList[2].scriptList.withIndex()) {
             Assert.assertTrue(script.javaClass == originalScriptListOfCat[scriptCounter].javaClass)
-            for ((brickCounter, brick) in script.brickList
-                .withIndex()) {
-                Assert.assertTrue(brick.javaClass == originalScriptListOfCat[scriptCounter]
-                    .brickList[brickCounter].javaClass)
+            for ((brickCounter, brick) in script.brickList.withIndex()) {
+                Assert.assertTrue(
+                    brick.javaClass == originalScriptListOfCat[scriptCounter].brickList[brickCounter].javaClass
+                )
             }
         }
-        for ((lookCounter, look) in projectToImportTo.defaultScene.spriteList[2].lookList
-            .withIndex()) {
+        for ((lookCounter, look) in projectToImportTo.defaultScene.spriteList[2].lookList.withIndex()) {
             Assert.assertTrue(look.name == cat.lookList[lookCounter].name)
             Assert.assertTrue(look.file == cat.lookList[lookCounter].file)
         }
-        for ((variableCounter, variable) in projectToImportTo.defaultScene.spriteList[2]
-            .userVariables
-            .withIndex()) {
+        for ((variableCounter, variable) in projectToImportTo.defaultScene.spriteList[2].userVariables.withIndex()) {
             Assert.assertTrue(variable.name == addedSprite.userVariables[variableCounter].name)
             Assert.assertTrue(variable.value == addedSprite.userVariables[variableCounter].value)
         }
-        for ((listCounter, list) in projectToImportTo.defaultScene.spriteList[2].userLists
-            .withIndex()) {
+        for ((listCounter, list) in projectToImportTo.defaultScene.spriteList[2].userLists.withIndex()) {
             for ((listElementCounter, listElement) in list.value.withIndex()) {
                 Assert.assertTrue(
-                    listElement.equals(addedSprite.userLists[listCounter].value[listElementCounter]))
+                    listElement.equals(addedSprite.userLists[listCounter].value[listElementCounter])
+                )
             }
         }
     }
@@ -317,6 +312,47 @@ class ImportLocalSpriteTest {
                 return true
             }
             prev = it
+        }
+        return false
+    }
+
+    private fun waitForView(viewMatcher: Matcher<View>, timeout: Long = 5000): ViewAction =
+        object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+
+            override fun getDescription(): String =
+                "wait for a view matching $viewMatcher to be displayed within $timeout milliseconds"
+
+            override fun perform(uiController: UiController, view: View) {
+                uiController.loopMainThreadUntilIdle()
+                val startTime = System.currentTimeMillis()
+                val endTime = startTime + timeout
+
+                while (System.currentTimeMillis() < endTime) {
+                    if (findView(view, viewMatcher)) {
+                        return
+                    }
+                    uiController.loopMainThreadForAtLeast(50)
+                }
+                throw PerformException.Builder()
+                    .withActionDescription(this.description)
+                    .withViewDescription(HumanReadables.describe(view))
+                    .withCause(TimeoutException("Timeout waiting for view matching $viewMatcher"))
+                    .build()
+            }
+        }
+
+    private fun findView(view: View, matcher: Matcher<View>): Boolean {
+        if (matcher.matches(view)) {
+            return true
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                if (findView(child, matcher)) {
+                    return true
+                }
+            }
         }
         return false
     }
