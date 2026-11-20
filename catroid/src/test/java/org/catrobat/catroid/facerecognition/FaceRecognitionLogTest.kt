@@ -100,6 +100,18 @@ class FaceRecognitionLogTest {
         assertEquals(emptyList<String>(), infoLogsMentioning(""))
     }
 
+    /** Found in review: photos from the FaceNet build were reported with the names, at ERROR level. */
+    @Test
+    fun outdatedPhotosAreReportedWithoutTheNames() {
+        FileUtils.writeLines(FileUtils.LABEL_FILE, listOf("Ada"))
+        FileUtils.writeLines(FileUtils.DATA_FILE, listOf("0 " + List(FACENET_SIZE) { "0.1" }.joinToString(" ")))
+        ShadowLog.clear()
+
+        Recognizer.withoutModelsForTest(context)
+
+        assertEquals(emptyList<String>(), infoLogsMentioning("Ada"))
+    }
+
     /** Messages logged at INFO level or above that contain [text]. */
     private fun infoLogsMentioning(text: String): List<String> =
         ShadowLog.getLogs()
@@ -129,6 +141,7 @@ class FaceRecognitionLogTest {
     private companion object {
         const val FRAME_SIZE = 512
         const val EMBEDDING_SIZE = 128
+        const val FACENET_SIZE = 512
         const val SEED = 7
         const val OPAQUE = -0x1000000
         const val FACE_LEFT = 30f

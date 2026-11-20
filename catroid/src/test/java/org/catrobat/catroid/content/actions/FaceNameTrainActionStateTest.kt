@@ -171,21 +171,20 @@ class FaceNameTrainActionStateTest {
         verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_CODE) }
     }
 
-    /** The name dialog checks names, but the recognizer has the last word; it must not end the app. */
+    /** The name dialog checks names, but the recognizer's rules have the last word; it must not end the app. */
     @Test
     fun aNameTheRecognizerRejectsDoesNotEndTheApp() {
         val shown = recordDialogs()
         val stage = stage()
         StageActivity.activeStageActivity = WeakReference(stage)
-        val recognizer = recognizer(emptyList())
-        every { recognizer.addPerson(any()) } throws IllegalArgumentException("Person name must not be blank")
-        val brick = runningBrick(recognizer)
+        val brick = runningBrick(recognizer(emptyList()))
         runsOn(brick, stage)
 
         brick.onNewName(" ")
 
         waitUntil { menusShownFor(shown, brick) == 1 }
         assertSame(brick, shown.last()[1])
+        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
     }
 
     /** Photos from the FaceNet build cannot match; the menu asks for them again. */
@@ -282,37 +281,65 @@ class FaceNameTrainActionStateTest {
         return ShadowToast.getTextOfLatestToast()
     }
 
-    // ---------------- Saving off the main thread ----------------
+    // ---------------- A new name is stored with its photos ----------------
 
     /**
-     * Found in review: adding a name saved the face files from the dialog's
-     * click handler, with several file and folder syncs on the main thread.
-     * With many photos stored, or slow storage, the dialog froze.
+     * Found in review: a new name was saved before the photo picker opened, so
+     * backing out of the picker, or choosing photos without a usable face, left
+     * a name with no photos. The name waits in pendingName; training stores it
+     * together with its photos.
      */
     @Test
-    fun aNewNameIsSavedOffTheMainThreadThenThePickerOpens() {
+    fun aNewNameIsStoredOnlyWithItsPhotos() {
         recordDialogs()
         val stage = stage()
         StageActivity.activeStageActivity = WeakReference(stage)
         val recognizer = recognizer(listOf("Ada"))
-        val savedOn = LinkedBlockingQueue<Thread>()
-        every { recognizer.addPerson("Grace") } answers {
-            savedOn.add(Thread.currentThread())
-            every { recognizer.classNames } returns listOf("Ada", "Grace")
-            1
-        }
         val brick = runningBrick(recognizer)
         runsOn(brick, stage)
 
         brick.onNewName("Grace")
 
-        val thread = savedOn.poll(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-        assertNotNull("The name was not saved", thread)
-        assertNotSame(Looper.getMainLooper().thread, thread)
-        waitUntil { FaceNameTrainAction.getPendingNameForTest() == "Grace" }
-        verify { stage.startActivityForResult(any(), any()) }
+        assertEquals("Grace", FaceNameTrainAction.getPendingNameForTest())
+        verify { stage.startActivityForResult(any(), FaceNameTrainAction.REQUEST_CODE) }
+
+        brick.handleResult(FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_CANCELED, null)
+        shadowOf(Looper.getMainLooper()).idle()
+
+        verify(exactly = 0) { recognizer.addPerson(any()) }
+        verify(exactly = 0) { recognizer.addPhotos(any(), any()) }
     }
 
+    @Test
+    fun aNewNameWithoutAUsableFaceIsNotStored() {
+        recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        every {
+            recognizer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } returns Recognizer.EnrolResult()
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+
+        brick.onNewName("Grace")
+        brick.handleResult(
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        waitForTrainingToFinish()
+
+        verify(exactly = 0) { recognizer.addPerson(any()) }
+        verify(exactly = 0) { recognizer.addPhotos(any(), any()) }
+    }
+
+    // ---------------- Deleting off the main thread ----------------
+
+    /**
+     * Found in review: deleting a name saved the face files from the dialog's
+     * click handler, with several file and folder syncs on the main thread.
+     * With many photos stored, or slow storage, the dialog froze.
+     */
     @Test
     fun aDeleteIsSavedOffTheMainThreadThenTheMenuOpens() {
         val shown = recordDialogs()
@@ -335,33 +362,96 @@ class FaceNameTrainActionStateTest {
         waitUntil { menusShownFor(shown, brick) == 1 }
     }
 
-    /** The user left the program while the name was saved: nothing opens on the next stage. */
+    /**
+     * Found in review: only IOException and IllegalArgumentException came back
+     * to the main thread. Any other error left the save counted as running, so
+     * the stage stayed paused with no dialog.
+     */
     @Test
-    fun aNameSavedAfterTheStageClosedOpensNoPicker() {
-        recordDialogs()
+    fun aDeleteThatFailsUnexpectedlyStillReopensTheMenu() {
+        val shown = recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val recognizer = recognizer(listOf("Ada"))
+        every { recognizer.deletePerson("Ada") } throws IllegalStateException("unexpected")
+        val brick = runningBrick(recognizer)
+        runsOn(brick, stage)
+
+        brick.onDeleteConfirmed("Ada")
+
+        waitUntil { menusShownFor(shown, brick) == 1 }
+        assertFalse(FaceNameTrainAction.keepsStagePaused())
+    }
+
+    /**
+     * Found in review: deletes shared the single training thread, so a delete in
+     * one brick waited for another brick's whole training batch, with no dialog.
+     */
+    @Test
+    fun aDeleteDoesNotWaitForTraining() {
+        val shown = recordDialogs()
+        val stage = stage()
+        StageActivity.activeStageActivity = WeakReference(stage)
+        val training = CountDownLatch(1)
+        val trainer = recognizer(listOf("Ada", "Grace"))
+        every {
+            trainer.extractEmbeddings(any(), any(), any<Recognizer.ProgressListener>())
+        } answers {
+            training.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            Recognizer.EnrolResult()
+        }
+        val trainingBrick = runningBrick(trainer)
+        runsOn(trainingBrick, stage)
+        FaceNameTrainAction.setPendingNameForTest("Ada")
+        trainingBrick.handleResult(
+            FaceNameTrainAction.REQUEST_CODE, StageActivity.RESULT_OK,
+            Intent().setData(Uri.parse("content://photos/1"))
+        )
+        val deleted = CountDownLatch(1)
+        val deleter = recognizer(listOf("Ada", "Grace"))
+        every { deleter.deletePerson("Grace") } answers {
+            deleted.countDown()
+            true
+        }
+        val deletingBrick = runningBrick(deleter)
+        runsOn(deletingBrick, stage)
+
+        try {
+            deletingBrick.onDeleteConfirmed("Grace")
+
+            assertTrue("The delete waited for training", deleted.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
+            waitUntil { menusShownFor(shown, deletingBrick) == 1 }
+        } finally {
+            training.countDown()
+            waitForTrainingToFinish()
+        }
+    }
+
+    /** The user left the program while the name was deleted: nothing opens on the next stage. */
+    @Test
+    fun aDeleteSavedAfterTheStageClosedOpensNoMenu() {
+        val shown = recordDialogs()
         val stage = stage()
         StageActivity.activeStageActivity = WeakReference(stage)
         val recognizer = recognizer(listOf("Ada"))
         val saving = CountDownLatch(1)
         val saved = CountDownLatch(1)
-        every { recognizer.addPerson("Grace") } answers {
+        every { recognizer.deletePerson("Ada") } answers {
             saving.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-            every { recognizer.classNames } returns listOf("Ada", "Grace")
             saved.countDown()
-            1
+            true
         }
         val brick = runningBrick(recognizer)
         runsOn(brick, stage)
 
-        brick.onNewName("Grace")
-        val nextStage = stage()
-        StageActivity.activeStageActivity = WeakReference(nextStage)
+        brick.onDeleteConfirmed("Ada")
+        StageActivity.activeStageActivity = WeakReference(stage())
         saving.countDown()
 
         assertTrue(saved.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
         repeat(LOADING_POLLS) { shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(POLL_MS)) }
-        verify(exactly = 0) { nextStage.startActivityForResult(any(), any()) }
-        verify(exactly = 0) { stage.startActivityForResult(any(), any()) }
+        assertEquals(0, menusShownFor(shown, brick))
+        assertFalse(FaceNameTrainAction.keepsStagePaused())
     }
 
     // ---------------- Training that ends after the stage changed ----------------
