@@ -568,10 +568,6 @@ public class Sprite implements Nameable, Serializable {
 				script.addRequiredResources(resourcesSet);
 			}
 		}
-
-		for (LookData lookData : getLookList()) {
-			lookData.addRequiredResources(resourcesSet);
-		}
 	}
 
 	public List<NfcTagData> getNfcTagList() {
