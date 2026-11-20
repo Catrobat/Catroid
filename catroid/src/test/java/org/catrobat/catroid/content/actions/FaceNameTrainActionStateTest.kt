@@ -345,6 +345,38 @@ class FaceNameTrainActionStateTest {
     }
 
     /**
+     * Found in review: the face models (two interpreters and the 4 MB model)
+     * stayed in memory after the user left a program that used face names, so
+     * Android was more likely to stop the app on a phone with little memory.
+     */
+    @Test
+    fun theFaceModelsAreReleasedWhenTheUserLeavesTheStage() {
+        val released = CountDownLatch(1)
+        val releasedOn = LinkedBlockingQueue<Thread>()
+        FaceNameTrainAction.releaseModels = {
+            releasedOn.add(Thread.currentThread())
+            released.countDown()
+        }
+
+        FaceNameTrainAction.onStageLeft()
+
+        assertTrue("The models were not released", released.await(TRAINING_TIMEOUT_MS, TimeUnit.MILLISECONDS))
+        assertNotSame("Releasing waits for the models; not on the main thread", Looper.getMainLooper().thread, releasedOn.poll())
+    }
+
+    @Test
+    fun theFaceModelsStayWhileTrainingRuns() {
+        var released = false
+        FaceNameTrainAction.releaseModels = { released = true }
+        FaceNameTrainAction.setTrainingForTest(true)
+
+        FaceNameTrainAction.onStageLeft()
+        Thread.sleep(LOADING_POLLS * POLL_MS)
+
+        assertFalse(released)
+    }
+
+    /**
      * Found in a review of this feature: the photos' read permissions are kept
      * while training reads them and released when it ends. If the app was
      * stopped during training they stayed for good, and Android allows only a

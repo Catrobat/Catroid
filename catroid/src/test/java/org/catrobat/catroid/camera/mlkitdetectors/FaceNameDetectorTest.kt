@@ -591,6 +591,25 @@ class FaceNameDetectorTest {
         assertEquals("Ada", FaceNameDetector.getNameWithThreshold(0.53))
     }
 
+    /**
+     * Found in review: the one-second reset ran only when a new frame arrived.
+     * When the camera stopped sending frames (a camera error, another app taking
+     * it), the last name stayed on the stage for good.
+     */
+    @Test
+    fun theNameExpiresWhenNoFrameArrivesForASecond() {
+        recognizerScoring(0.55f)
+        offerFrame()
+        runRecognition()
+        assertEquals("Ada", readTheSensor())
+
+        now += FaceNameWindow.NO_FACE_RESET_MS - 1
+        assertEquals("Ada", readTheSensor())
+
+        now += 1
+        assertEquals(FaceNameWindow.UNKNOWN, readTheSensor())
+    }
+
     @Test
     fun anOldQueuedFrameCannotRestoreThresholdResultsAfterReset() {
         recognizerScoring(0.55f)
