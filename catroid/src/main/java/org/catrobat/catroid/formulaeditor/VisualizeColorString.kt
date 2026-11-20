@@ -25,6 +25,8 @@ package org.catrobat.catroid.formulaeditor
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.text.style.ImageSpan
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
@@ -78,4 +80,26 @@ class VisualizeColorString(
 class VisualizeColorImageSpan(
     drawable: RoundedBitmapDrawable,
     val colorValue: Int
-) : ImageSpan(drawable, ALIGN_BOTTOM)
+) : ImageSpan(drawable, ALIGN_BOTTOM) {
+    var drawRect: android.graphics.Rect? = null
+
+    override fun draw(
+        canvas: Canvas,
+        text: CharSequence,
+        start: Int,
+        end: Int,
+        x: Float,
+        top: Int,
+        y: Int,
+        bottom: Int,
+        paint: Paint
+    ) {
+        super.draw(canvas, text, start, end, x, top, y, bottom, paint)
+        drawRect = android.graphics.Rect(
+            x.toInt(),
+            top,
+            (x + drawable.bounds.width()).toInt(),
+            bottom
+        )
+    }
+}
