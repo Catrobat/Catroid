@@ -23,12 +23,12 @@ import kotlin.math.sqrt
 class BlazeFace private constructor() {
     // Pre-allocated buffers.
     private val intValues = IntArray(INPUT_SIZE_WIDTH * INPUT_SIZE_HEIGHT)
-    private val floatValues = Array(1) {
-        Array(INPUT_SIZE_HEIGHT) {
-            Array(INPUT_SIZE_WIDTH) { FloatArray(3) }
-        }
-    }
-    private val inputArray: Array<Any> = arrayOf(floatValues)
+
+    /** The [1, 128, 128, 3] input in one direct buffer, which LiteRT reads without copying it element by element. */
+    private val input: ByteBuffer = ByteBuffer
+        .allocateDirect(INPUT_SIZE_WIDTH * INPUT_SIZE_HEIGHT * CHANNELS * Float.SIZE_BYTES)
+        .order(ByteOrder.nativeOrder())
+    private val inputArray: Array<Any> = arrayOf(input)
     private lateinit var outputScores: FloatBuffer
     private lateinit var outputBoxes: FloatBuffer
     private lateinit var outputMap: MutableMap<Int, Any>
@@ -79,15 +79,7 @@ class BlazeFace private constructor() {
             // on the provided parameters.
             bitmap.getPixels(intValues, 0, INPUT_SIZE_WIDTH, 0, 0, INPUT_SIZE_WIDTH, INPUT_SIZE_HEIGHT)
 
-            for (i in 0..<INPUT_SIZE_HEIGHT) {
-                for (j in 0..<INPUT_SIZE_WIDTH) {
-                    val p = intValues[i * INPUT_SIZE_WIDTH + j]
-
-                    floatValues[0][i][j][2] = (p and 0xFF) / 127.5f - 1
-                    floatValues[0][i][j][1] = ((p shr 8) and 0xFF) / 127.5f - 1
-                    floatValues[0][i][j][0] = ((p shr 16) and 0xFF) / 127.5f - 1
-                }
-            }
+            writeInput(intValues, input)
         } finally {
             Trace.endSection() // preprocessBitmap
         }
@@ -180,6 +172,24 @@ class BlazeFace private constructor() {
     }
 
     companion object {
+        /** Colour channels per pixel: red, green, blue. */
+        private const val CHANNELS = 3
+
+        /**
+         * Writes [pixels] (ARGB, row by row) into [buffer] as BlazeFace's input:
+         * red, green and blue of each pixel, from -1 to 1. The buffer is ready to read.
+         */
+        @VisibleForTesting
+        internal fun writeInput(pixels: IntArray, buffer: ByteBuffer) {
+            buffer.rewind()
+            for (p in pixels) {
+                buffer.putFloat(((p shr 16) and 0xFF) / 127.5f - 1)
+                buffer.putFloat(((p shr 8) and 0xFF) / 127.5f - 1)
+                buffer.putFloat((p and 0xFF) / 127.5f - 1)
+            }
+            buffer.rewind()
+        }
+
         /**
          * Merges overlapping boxes, best score first, into one face each. The best
          * remaining box always belongs to its own cluster: a box without area, or
