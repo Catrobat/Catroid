@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.utils.GdxNativesLoader
@@ -38,27 +38,29 @@ import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.test.MockUtil
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.MockedStatic
+import org.mockito.Mockito.mockStatic
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class)
+@RunWith(MockitoJUnitRunner::class)
 class BroadcastActionTest {
     private lateinit var sprite: Sprite
     private lateinit var startScript: Script
     private lateinit var broadcastScript: Script
 
+    private lateinit var gdxNativesLoaderMock: MockedStatic<GdxNativesLoader>
+
     @Before
     fun setUp() {
-        PowerMockito.mockStatic(GdxNativesLoader::class.java)
+        gdxNativesLoaderMock = mockStatic(GdxNativesLoader::class.java)
 
         startScript = StartScript()
         broadcastScript = BroadcastScript(MESSAGE_1)
@@ -71,6 +73,11 @@ class BroadcastActionTest {
             ProjectManager.getInstance().currentProject = project
             project.defaultScene.addSprite(sprite)
         }
+    }
+
+    @After
+    fun tearDown() {
+        gdxNativesLoaderMock.close()
     }
 
     @Test
@@ -180,4 +187,3 @@ class BroadcastActionTest {
         const val MESSAGE_2 = "message2"
     }
 }
-*/

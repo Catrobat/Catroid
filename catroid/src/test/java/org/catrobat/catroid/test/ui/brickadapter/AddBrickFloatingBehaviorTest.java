@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.ui.brickadapter;
 
 import org.catrobat.catroid.content.Sprite;
@@ -39,8 +39,6 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,8 +47,7 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-@RunWith(PowerMockRunner.class)
-@PowerMockRunnerDelegate(Parameterized.class)
+@RunWith(Parameterized.class)
 public class AddBrickFloatingBehaviorTest {
 
 	@Parameterized.Parameters(name = "{0}")
@@ -103,4 +100,3 @@ public class AddBrickFloatingBehaviorTest {
 		Mockito.verify(brickListViewMock, Mockito.times(expectedFloating)).startMoving(brickToAdd);
 	}
 }
-*/

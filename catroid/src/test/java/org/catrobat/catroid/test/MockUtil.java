@@ -33,6 +33,7 @@ import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 public final class MockUtil {
@@ -43,13 +44,13 @@ public final class MockUtil {
 	public static Context mockContextForProject() throws RuntimeException {
 		Context contextMock = Mockito.mock(Context.class);
 		PackageManager packageManagerMock = Mockito.mock(PackageManager.class);
-		when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
-		when(contextMock.getPackageName()).thenReturn("testStubPackage");
-		when(contextMock.getString(R.string.background)).thenReturn("Background");
+		lenient().when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
+		lenient().when(contextMock.getPackageName()).thenReturn("testStubPackage");
+		lenient().when(contextMock.getString(R.string.background)).thenReturn("Background");
 		PackageInfo packageInfoStub = new PackageInfo();
 		packageInfoStub.versionName = "testStub";
 		try {
-			when(packageManagerMock.getPackageInfo(any(String.class), anyInt())).thenReturn(packageInfoStub);
+			lenient().when(packageManagerMock.getPackageInfo(any(String.class), anyInt())).thenReturn(packageInfoStub);
 		} catch (PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}

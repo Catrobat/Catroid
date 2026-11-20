@@ -20,12 +20,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
-import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
@@ -33,19 +32,22 @@ import org.catrobat.catroid.content.actions.AskAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.MockedStatic
+import org.mockito.Mockito.mockStatic
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GdxNativesLoader::class)
+@RunWith(MockitoJUnitRunner::class)
 class AskActionTest {
     private lateinit var testSprite: Sprite
     private lateinit var testSequence: SequenceAction
     private lateinit var userVariableForAnswer: UserVariable
+
+    private lateinit var gdxNativesLoaderMock: MockedStatic<GdxNativesLoader>
 
     @Before
     @Throws(Exception::class)
@@ -53,10 +55,15 @@ class AskActionTest {
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
-        PowerMockito.mockStatic(GdxNativesLoader::class.java)
+        gdxNativesLoaderMock = mockStatic(GdxNativesLoader::class.java)
 
         val project = Project(MockUtil.mockContextForProject(), "Project")
         ProjectManager.getInstance().currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        gdxNativesLoaderMock.close()
     }
 
     @Test
@@ -69,7 +76,7 @@ class AskActionTest {
         ) as AskAction
         action.act(1f)
         action.setAnswerText(ASK_ANSWER)
-        Assert.assertEquals(
+        assertEquals(
             ASK_ANSWER,
             userVariableForAnswer.value.toString()
         )
@@ -81,4 +88,3 @@ class AskActionTest {
         private const val ASK_ANSWER = "Catrobat Pocket Cat"
     }
 }
-*/

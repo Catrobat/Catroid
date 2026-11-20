@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.stage;
 
 import com.badlogic.gdx.graphics.Color;
@@ -38,24 +38,24 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GdxNativesLoader.class)
+@RunWith(MockitoJUnitRunner.class)
 public class EmbroideryActorTest {
 	private Sprite sprite;
 	private ShapeRenderer renderer;
 	private Batch batch;
 
+	private MockedStatic<GdxNativesLoader> gdxNativesLoaderMock;
+
 	@Before
-	public void setUp() throws Exception {
-		PowerMockito.mockStatic(GdxNativesLoader.class);
+	public void setUp() {
+		gdxNativesLoaderMock = Mockito.mockStatic(GdxNativesLoader.class);
 
 		sprite = new Sprite();
 		batch = Mockito.mock(Batch.class);
@@ -68,6 +68,9 @@ public class EmbroideryActorTest {
 	@After
 	public void tearDown() {
 		StageActivity.stageListener = null;
+		if (gdxNativesLoaderMock != null) {
+			gdxNativesLoaderMock.close();
+		}
 	}
 
 	@Test
@@ -139,4 +142,3 @@ public class EmbroideryActorTest {
 		return embroideryActor;
 	}
 }
-*/

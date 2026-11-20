@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
+
 package org.catrobat.catroid.test.transfers
 
 import android.content.SharedPreferences
@@ -38,15 +38,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.verification.VerificationMode
-import org.powermock.api.mockito.PowerMockito.mock
-import org.powermock.core.classloader.annotations.PowerMockIgnore
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
 import java.io.IOException
 import java.util.Locale
@@ -57,9 +55,7 @@ private const val userEmail = "user@catrobat.com"
 private const val projectName = "testproject"
 private const val projectDescription = "testproject description"
 
-@PowerMockIgnore("javax.net.ssl.*")
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(ServerCalls::class)
+@RunWith(MockitoJUnitRunner::class)
 class ProjectUploadTest {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sharedPrefsEditor: SharedPreferences.Editor
@@ -79,7 +75,7 @@ class ProjectUploadTest {
         screenshotLoader = mock(ProjectAndSceneScreenshotLoader::class.java)
         projectDirectory = mock(File::class.java)
         val deviceVariableFile = mock(File::class.java)
-        `when`(deviceVariableFile.getName()).thenReturn(Constants.DEVICE_VARIABLE_JSON_FILE_NAME)
+        `when`(deviceVariableFile.name).thenReturn(Constants.DEVICE_VARIABLE_JSON_FILE_NAME)
         projectDirectoryFilesFiltered = arrayOf(mock(File::class.java), mock(File::class.java), mock(File::class.java))
         projectDirectoryFiles = projectDirectoryFilesFiltered + arrayOf(deviceVariableFile)
         archiveDirectory = mock(File::class.java)
@@ -94,8 +90,6 @@ class ProjectUploadTest {
 
     @Test
     fun testProjectUploadDataPassedToServerCalls() {
-        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
-
         `when`(
             serverCalls.uploadProject(
                 any(ProjectUploadData::class.java),
@@ -129,7 +123,6 @@ class ProjectUploadTest {
     @Test
     fun testProjectUploadSuccess() {
         val projectId = "1234"
-        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.TOKEN), any()))
             .thenReturn(sharedPrefsEditor)
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.USERNAME), any()))
@@ -202,8 +195,6 @@ class ProjectUploadTest {
         val errorMessage = "An error occured during the project Upload"
         var receivedErrorMessage = ""
         var receivedErrorCode = -1
-
-        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
 
         `when`(
             serverCalls.uploadProject(
@@ -298,4 +289,3 @@ class ProjectUploadTest {
         )
     }
 }
-*/
