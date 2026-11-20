@@ -37,12 +37,14 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceNameDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.FaceNameTrainAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -153,6 +155,7 @@ public final class StageLifeCycleController {
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
 
 			SensorHandler.stopSensorListeners();
+			FaceNameDetector.onStagePaused();
 			SoundManager.getInstance().pause();
 			MidiSoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
@@ -258,11 +261,17 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager = null;
 			}
 			SensorHandler.destroy();
+			// The name of this run must not show in the formula editor afterwards.
+			FaceNameDetector.reset();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
+		}
+		if (stageActivity.isFinishing()) {
+			// The user left the stage. A stage Android recreates keeps a picker result that is still waiting.
+			FaceNameTrainAction.onStageLeft();
 		}
 		resetProjectDrawingState(project);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());

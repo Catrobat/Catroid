@@ -344,7 +344,9 @@ object VisualDetectionHandler {
         imageWidth: Int,
         imageHeight: Int
     ): Point {
-        val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
+        // ML Kit reports asynchronously; a result can arrive after the stage closed,
+        // when there is no camera manager any more and nothing reads the value.
+        val frontCamera = StageActivity.getActiveCameraManager()?.isCameraFacingFront == true
         val aspectRatio = imageWidth.toDouble() / imageHeight
 
         return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
