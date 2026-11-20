@@ -49,7 +49,9 @@ class TapAtAction : TemporalAction() {
     override fun begin() {
         super.begin()
         try {
-            touchCoords = Vector2(startX.interpretFloat(scope), startY.interpretFloat(scope))
+            touchCoords = Vector2(
+                startX.interpretFloat(scope), startY.interpretFloat(scope) + 1f
+            )
             if (changeX != null && changeY != null) {
                 dragCoords = Vector2(
                     changeX?.interpretFloat(scope) ?: 0f,
@@ -71,7 +73,11 @@ class TapAtAction : TemporalAction() {
                 stage.stageToScreenCoordinates(dragCoords)
             }
             stage.stageToScreenCoordinates(touchCoords)
-            stage.touchDown(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
+            stage.touchDown(
+                Math.round(touchCoords.x),
+                Math.round(touchCoords.y),
+                pointer, 0
+            )
         } else {
             duration = 0f
         }
