@@ -42,45 +42,58 @@
 
      <include layout="@layout/icon_brick_category_pen" />
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_action_label"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_pen_color">
-    </TextView>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_red_text_view"
-        style="@style/BrickText"
-        app:layout_newLine="true"
-        android:text="@string/color_red">
-    </TextView>
+         <TextView
+             android:id="@+id/brick_set_pen_color_action_label"
+             style="@style/BrickText.SingleLine"
+             android:text="@string/brick_pen_color">
+         </TextView>
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_action_red_edit_text"
-        style="@style/BrickEditText">
-    </TextView>
+         <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_green_text_view"
-        style="@style/BrickText"
-        android:text="@string/color_green">
-    </TextView>
+          <TextView
+              android:id="@+id/brick_set_pen_color_red_text_view"
+              style="@style/BrickText"
+              app:layout_newLine="true"
+              android:text="@string/color_red">
+          </TextView>
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_action_green_edit_text"
-        style="@style/BrickEditText">
-    </TextView>
+          <TextView
+              android:id="@+id/brick_set_pen_color_action_red_edit_text"
+              style="@style/BrickEditText">
+          </TextView>
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_blue_text_view"
-        style="@style/BrickText"
-        android:text="@string/color_blue">
-    </TextView>
+          <TextView
+              android:id="@+id/brick_set_pen_color_green_text_view"
+              style="@style/BrickText"
+              android:text="@string/color_green">
+          </TextView>
 
-    <TextView
-        android:id="@+id/brick_set_pen_color_action_blue_edit_text"
-        style="@style/BrickEditText">
-    </TextView>
+          <TextView
+              android:id="@+id/brick_set_pen_color_action_green_edit_text"
+              style="@style/BrickEditText">
+          </TextView>
+
+          <TextView
+              android:id="@+id/brick_set_pen_color_blue_text_view"
+              style="@style/BrickText"
+              android:text="@string/color_blue">
+          </TextView>
+
+          <TextView
+              android:id="@+id/brick_set_pen_color_action_blue_edit_text"
+              style="@style/BrickEditText">
+          </TextView>
+
+         </LinearLayout>
+
+      </LinearLayout>
 
     </org.catrobat.catroid.ui.BrickLayout>
 
