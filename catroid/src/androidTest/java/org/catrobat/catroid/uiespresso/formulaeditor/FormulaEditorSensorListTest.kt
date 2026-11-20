@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -755,7 +755,8 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_longitude), "", ""),
             listOf(str(R.string.formula_editor_sensor_location_accuracy), "", ""),
             listOf(str(R.string.formula_editor_sensor_altitude), "", ""),
-            listOf(str(R.string.formula_editor_sensor_user_language), "", "")
+            listOf(str(R.string.formula_editor_sensor_user_language), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_button_a_pressed), "", "")
         )
 
         private val listOfTouch = listOf(
@@ -820,6 +821,7 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE,
             SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
             SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS,
+            SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS,
             SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
