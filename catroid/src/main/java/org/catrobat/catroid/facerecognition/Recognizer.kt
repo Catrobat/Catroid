@@ -892,6 +892,7 @@ class Recognizer private constructor() {
         @Synchronized
         @Throws(Exception::class)
         fun getInstance(context: Context): Recognizer {
+            acquisitions++
             if (instance == null) {
                 init(context)
                 val r = Recognizer()
@@ -1092,6 +1093,35 @@ class Recognizer private constructor() {
                 "face has too little visible detail (contrast %.1f)",
                 deviation
             )
+        }
+
+        /** Counts [getInstance] calls, so a release can tell whether a program took the models meanwhile. */
+        @Volatile
+        private var acquisitions = 0L
+
+        /** The number of [getInstance] calls so far; see [releaseIfUnusedSince]. */
+        @JvmStatic
+        fun acquisitionMark(): Long = acquisitions
+
+        /**
+         * Releases the models unless a program took them after [mark] was read:
+         * a program started right after the user left the stage must keep the
+         * models it got. True if they were released.
+         */
+        @JvmStatic
+        @Synchronized
+        fun releaseIfUnusedSince(mark: Long): Boolean {
+            if (acquisitions != mark) {
+                return false
+            }
+            release()
+            return true
+        }
+
+        @VisibleForTesting
+        @Synchronized
+        internal fun noteAcquiredForTest() {
+            acquisitions++
         }
 
         @JvmStatic
