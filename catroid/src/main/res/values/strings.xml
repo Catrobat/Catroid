@@ -1220,6 +1220,23 @@
     <string formatted="false" name="brick_assert_expected">Expected:</string>
     <string formatted="false" name="brick_parameterized_assert">assert</string>
     <string formatted="false" name="brick_parameterized_equals">equals to expected item of</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulate gamepad button</string>
+    <string formatted="false" name="gamepad_button_state_pressed">pressed</string>
+    <string formatted="false" name="gamepad_button_state_released">released</string>
+    <string formatted="false" name="gamepad_button_a" translatable="false">A</string>
+    <string formatted="false" name="gamepad_button_b" translatable="false">B</string>
+    <string formatted="false" name="gamepad_button_x" translatable="false">X</string>
+    <string formatted="false" name="gamepad_button_y" translatable="false">Y</string>
+    <string formatted="false" name="gamepad_button_up">Up</string>
+    <string formatted="false" name="gamepad_button_down">Down</string>
+    <string formatted="false" name="gamepad_button_left">Left</string>
+    <string formatted="false" name="gamepad_button_right">Right</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_l1" translatable="false">L1</string>
+    <string formatted="false" name="gamepad_button_l2" translatable="false">L2</string>
+    <string formatted="false" name="gamepad_button_r1" translatable="false">R1</string>
+    <string formatted="false" name="gamepad_button_r2" translatable="false">R2</string>
 
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For each item of</item>

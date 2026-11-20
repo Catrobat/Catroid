@@ -64,11 +64,13 @@ import org.catrobat.catroid.content.SoundBackup;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
+import org.catrobat.catroid.gamepad.GamepadInput;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -176,6 +178,8 @@ public class StageListener implements ApplicationListener {
 	private ScreenshotSaverCallback screenshotSaverCallback = null;
 	private ScreenshotSaver screenshotSaver;
 
+	private final GamepadInput gamepadInput = new GamepadInput();
+
 	public StageListener() {
 		webConnectionHolder = new WebConnectionHolder();
 	}
@@ -206,6 +210,7 @@ public class StageListener implements ApplicationListener {
 		sprites = new ArrayList<>(scene.getSpriteList());
 
 		resetConditionScriptTriggers();
+		gamepadInput.reset();
 
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
@@ -545,6 +550,7 @@ public class StageListener implements ApplicationListener {
 			embroideryPatternManager.clear();
 
 			SoundManager.getInstance().clear();
+			gamepadInput.reset();
 
 			physicsWorld = scene.resetPhysicsWorld();
 
@@ -582,6 +588,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (!paused) {
+			applyPendingGamepadInput();
+
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
@@ -843,6 +851,17 @@ public class StageListener implements ApplicationListener {
 		EventId eventId = new GamepadEventId(buttonType);
 		EventWrapper gamepadEvent = new EventWrapper(eventId, false);
 		project.fireToAllSprites(gamepadEvent);
+	}
+
+	@NonNull
+	public GamepadInput getGamepadInput() {
+		return gamepadInput;
+	}
+
+	@VisibleForTesting
+	void applyPendingGamepadInput() {
+		gamepadInput.applyPendingInput(button -> project.fireToAllSprites(
+				new EventWrapper(new GamepadButtonPressedEventId(button), false)));
 	}
 
 	public void addActor(Actor actor) {
