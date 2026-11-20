@@ -353,7 +353,7 @@ class FaceNameTrainActionStateTest {
     fun theFaceModelsAreReleasedWhenTheUserLeavesTheStage() {
         val released = CountDownLatch(1)
         val releasedOn = LinkedBlockingQueue<Thread>()
-        FaceNameTrainAction.releaseModels = {
+        FaceNameTrainAction.releaseModels = { _ ->
             releasedOn.add(Thread.currentThread())
             released.countDown()
         }
@@ -367,7 +367,7 @@ class FaceNameTrainActionStateTest {
     @Test
     fun theFaceModelsStayWhileTrainingRuns() {
         var released = false
-        FaceNameTrainAction.releaseModels = { released = true }
+        FaceNameTrainAction.releaseModels = { _ -> released = true }
         FaceNameTrainAction.setTrainingForTest(true)
 
         FaceNameTrainAction.onStageLeft()
