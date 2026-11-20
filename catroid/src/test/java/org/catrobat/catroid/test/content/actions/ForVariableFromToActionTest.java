@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -31,6 +33,7 @@ import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +56,8 @@ public class ForVariableFromToActionTest {
 		initializeStaticSingletonMethods();
 		executedLoops = new UserVariable("executedLoops", 0.0);
 		controlVariable = new UserVariable("controlVariable", 0.0);
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		sprite = new Sprite("sprite");
 		script = new StartScript();
