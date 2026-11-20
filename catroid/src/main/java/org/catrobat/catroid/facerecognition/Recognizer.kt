@@ -23,6 +23,10 @@ import kotlin.math.sqrt
 class Recognizer private constructor() {
     @Volatile
     private var embedder: FaceEmbedder? = null
+
+    /** For loading the models again after [releaseModels]. */
+    @Volatile
+    private var appContext: Context? = null
     private val database = FaceDatabase()
 
     /**
@@ -135,7 +139,7 @@ class Recognizer private constructor() {
             return result
         }
 
-        val activeEmbedder = embedder
+        val activeEmbedder = loadedEmbedderOrNull()
             ?: return result.withReport(
                 "Training failed: face embedder is not initialized"
             )
@@ -446,11 +450,31 @@ class Recognizer private constructor() {
     private class EmbeddedFace(val variants: List<FloatArray>, val width: Int, val height: Int)
 
     /**
+     * The models, loaded again if [releaseModels] freed them meanwhile. Runs under
+     * [modelLock], never on the main thread. Null without a context (local tests);
+     * throws when the models cannot be loaded.
+     */
+    private fun loadedEmbedder(): FaceEmbedder? {
+        embedder?.let { return it }
+        val context = appContext ?: return null
+        return embedderFactory(context).also { embedder = it }
+    }
+
+    /** Like [loadedEmbedder], with a model that cannot be loaded reported as none. */
+    @Suppress("TooGenericExceptionCaught")
+    private fun loadedEmbedderOrNull(): FaceEmbedder? = try {
+        loadedEmbedder()
+    } catch (t: Throwable) {
+        Log.e(TAG, "The face models could not be loaded: ${t.javaClass.simpleName}")
+        null
+    }
+
+    /**
      * Finds the largest usable face in [frame] and embeds its views. Runs under
      * [modelLock]. FaceNameDetector has turned the camera frame upright already.
      */
     private fun embedLargestFace(frame: Bitmap, mirrorToo: Boolean): EmbeddedFace? {
-        val activeEmbedder = embedder ?: run {
+        val activeEmbedder = loadedEmbedder() ?: run {
             Log.e(TAG, "Face embedder is not initialized")
             return null
         }
@@ -892,11 +916,11 @@ class Recognizer private constructor() {
         @Synchronized
         @Throws(Exception::class)
         fun getInstance(context: Context): Recognizer {
-            acquisitions++
             if (instance == null) {
                 init(context)
                 val r = Recognizer()
-                r.embedder = FaceEmbedder.Companion.create(context.getAssets())
+                r.appContext = context.applicationContext
+                r.embedder = embedderFactory(context)
                 r.database.load()
                 instance = r
             }
@@ -1095,33 +1119,24 @@ class Recognizer private constructor() {
             )
         }
 
-        /** Counts [getInstance] calls, so a release can tell whether a program took the models meanwhile. */
-        @Volatile
-        private var acquisitions = 0L
-
-        /** The number of [getInstance] calls so far; see [releaseIfUnusedSince]. */
-        @JvmStatic
-        fun acquisitionMark(): Long = acquisitions
+        /** Loads the face models; the tests replace it. */
+        @VisibleForTesting
+        internal var embedderFactory: (Context) -> FaceEmbedder = { FaceEmbedder.create(it.assets) }
 
         /**
-         * Releases the models unless a program took them after [mark] was read:
-         * a program started right after the user left the stage must keep the
-         * models it got. True if they were released.
+         * Frees the face models (two interpreters and the 4 MB model) and keeps
+         * everything else. Whoever holds the recogniser gets the models loaded
+         * again when it next needs them, also if this runs late, after another
+         * program took the recogniser. Waits until no frame or training batch
+         * uses the models, so never call it on the main thread.
          */
         @JvmStatic
-        @Synchronized
-        fun releaseIfUnusedSince(mark: Long): Boolean {
-            if (acquisitions != mark) {
-                return false
+        fun releaseModels() {
+            val current = synchronized(this) { instance } ?: return
+            synchronized(current.modelLock) {
+                current.embedder?.close()
+                current.embedder = null
             }
-            release()
-            return true
-        }
-
-        @VisibleForTesting
-        @Synchronized
-        internal fun noteAcquiredForTest() {
-            acquisitions++
         }
 
         @JvmStatic
