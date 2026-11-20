@@ -24,6 +24,7 @@ package org.catrobat.catroid.facerecognition
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.RectF
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.every
 import io.mockk.mockk
@@ -32,6 +33,8 @@ import org.catrobat.catroid.facerecognition.env.FileUtils
 import org.catrobat.catroid.facerecognition.ml.BlazeFace
 import org.catrobat.catroid.facerecognition.ml.MobileFaceNet
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
@@ -82,6 +85,30 @@ class FaceSearchRotationTest {
         verify(exactly = ROTATIONS) { blazeFace.detectWithLandmarks(any()) }
     }
 
+    /**
+     * SonarCloud reports the check for "no face at this rotation" as always
+     * true. It is not: without it, a photo with no upright face would return an
+     * empty face at once instead of trying the other rotations.
+     */
+    @Test
+    fun aFaceFoundOnlyAfterRotatingIsStillFound() {
+        val sideways = BlazeFace.FaceBox(
+            RectF(FACE_LEFT, FACE_LEFT, FACE_LEFT + FACE_SIZE, FACE_LEFT + FACE_SIZE),
+            floatArrayOf(
+                FACE_LEFT + FACE_SIZE * RIGHT_EYE_X, FACE_LEFT + FACE_SIZE * EYE_HEIGHT,
+                FACE_LEFT + FACE_SIZE * LEFT_EYE_X, FACE_LEFT + FACE_SIZE * EYE_HEIGHT,
+                0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f
+            )
+        )
+        every { blazeFace.detectWithLandmarks(any()) } returnsMany listOf(emptyList(), listOf(sideways))
+
+        val face = embedder().findBestFace(frame)
+
+        assertNotNull("The face at 90 degrees was not found", face)
+        assertNotNull(face!!.box)
+        assertEquals(QUARTER_TURN, face.rotation)
+    }
+
     private fun embedder(): FaceEmbedder =
         FaceEmbedder::class.java
             .getDeclaredConstructor(BlazeFace::class.java, MobileFaceNet::class.java)
@@ -96,5 +123,11 @@ class FaceSearchRotationTest {
     private companion object {
         const val FRAME_SIZE = 256
         const val ROTATIONS = 4
+        const val QUARTER_TURN = 90
+        const val FACE_LEFT = 20f
+        const val FACE_SIZE = 60f
+        const val EYE_HEIGHT = 0.4f
+        const val RIGHT_EYE_X = 0.3f
+        const val LEFT_EYE_X = 0.7f
     }
 }
