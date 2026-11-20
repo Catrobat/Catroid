@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,57 +52,110 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class ParserTestUserVariables {
 
-	private static final double USER_VARIABLE_1_VALUE_TYPE_DOUBLE = 5d;
-	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
-	private static final double USER_VARIABLE_2_VALUE_TYPE_DOUBLE = 3.141592d;
-	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
-	private static final double USER_VARIABLE_RESET = 0.0d;
-	private static final String USER_VARIABLE_3_VALUE_TYPE_STRING = "My Little User Variable";
-	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
-
 	private Project project;
-	private Sprite firstSprite;
+	private Sprite sprite;
 	private Scope scope;
 
 	@Before
 	public void setUp() {
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
-		firstSprite = new Sprite("firstSprite");
+		sprite = new Sprite("testSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
-		firstSprite.addScript(startScript);
+		sprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
-		project.getDefaultScene().addSprite(firstSprite);
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
-		firstSprite.addUserVariable(new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));
-		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_2, USER_VARIABLE_3_VALUE_TYPE_STRING));
-
-		scope = new Scope(project, firstSprite, new SequenceAction());
+		scope = new Scope(project, sprite, new SequenceAction());
 	}
 
 	@Test
-	public void testUserVariableInterpretation() {
-		assertEquals(USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
-		assertEquals(USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
-		assertEquals(USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUserVariable(PROJECT_USER_VARIABLE_2));
+	public void testUserVariableInterpretationInteger() {
+		final String userVariable1 = "userVariable1";
+		final int userVariable1Value = 123;
+		final String userVariable2 = "userVariable2";
+		final int userVariable2Value = 1000;
+		final String userVariable3 = "userVariable3";
+		final int userVariable3Value = -1_000_000;
+		project.addUserVariable(new UserVariable(userVariable1, userVariable1Value));
+		project.addUserVariable(new UserVariable(userVariable2, userVariable2Value));
+		project.addUserVariable(new UserVariable(userVariable3, userVariable3Value));
+
+		assertEquals((double) userVariable1Value, interpretUserVariable(userVariable1));
+		assertEquals((double) userVariable2Value, interpretUserVariable(userVariable2));
+		assertEquals((double) userVariable3Value, interpretUserVariable(userVariable3));
+	}
+
+	@Test
+	public void testUserVariableInterpretationDouble() {
+		final String userVariable1 = "userVariable1";
+		final double userVariable1Value = 5d;
+		final String userVariable2 = "userVariable2";
+		final double userVariable2Value = 3.141592d;
+		project.addUserVariable(new UserVariable(userVariable1, userVariable1Value));
+		project.addUserVariable(new UserVariable(userVariable2, userVariable2Value));
+
+		assertEquals(userVariable1Value, interpretUserVariable(userVariable1));
+		assertEquals(userVariable2Value, interpretUserVariable(userVariable2));
+	}
+
+	@Test
+	public void testUserVariableInterpretationString() {
+		final String userVariable1 = "userVariable1";
+		final String userVariable1Value = "Hello";
+		project.addUserVariable(new UserVariable(userVariable1, userVariable1Value));
+
+		assertEquals(userVariable1Value, interpretUserVariable(userVariable1));
+	}
+
+	@Test
+	public void testUserVariableInterpretationCharacter() {
+		final String userVariable1 = "userVariable1";
+		final char userVariable1Value = 'X';
+		project.addUserVariable(new UserVariable(userVariable1, userVariable1Value));
+
+		assertEquals(userVariable1Value, interpretUserVariable(userVariable1));
+	}
+
+	@Test
+	public void testUserVariableInterpretationBoolean() {
+		final String userVariable1 = "userVariable1";
+		final boolean userVariable1Value = true;
+		final String userVariable2 = "userVariable2";
+		final boolean userVariable2Value = false;
+		project.addUserVariable(new UserVariable(userVariable1, userVariable1Value));
+		project.addUserVariable(new UserVariable(userVariable2, userVariable2Value));
+
+		assertEquals(1.0, interpretUserVariable(userVariable1));
+		assertEquals(0.0, interpretUserVariable(userVariable2));
+	}
+
+	@Test
+	public void testSpriteUserVariableInterpretation() {
+		final String spriteUserVariable = "spriteUserVariable";
+		final String spriteUserVariableValue = "My Little User Variable";
+		sprite.addUserVariable(new UserVariable(spriteUserVariable, spriteUserVariableValue));
+
+		assertEquals(spriteUserVariableValue, interpretUserVariable(spriteUserVariable));
 	}
 
 	@Test
 	public void testUserVariableResetting() {
+		final String userVariable1 = "userVariable1";
+		final String spriteUserVariable = "spriteUserVariable";
+		project.addUserVariable(new UserVariable(userVariable1, "Test"));
+		sprite.addUserVariable(new UserVariable(spriteUserVariable, "Test"));
 		UserDataWrapper.resetAllUserData(project);
 
-		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE));
-		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(SPRITE_USER_VARIABLE));
-		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE_2));
+		assertEquals(0.0, interpretUserVariable(userVariable1));
+		assertEquals(0.0, interpretUserVariable(spriteUserVariable));
 	}
 
 	@Test
-	public void testNotExistingUserVariable() {
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE,
-				"NOT_EXISTING_USER_VARIABLE", 0, scope);
+	public void testUserVariableNotExisting() {
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0, scope);
 	}
 
 	private Object interpretUserVariable(String userVariableName) {

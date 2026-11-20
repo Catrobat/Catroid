@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,124 +92,85 @@ public class ParserTestOperators {
 
 	@Test
 	public void testGreaterThan() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_THAN,
-				InternTokenType.NUMBER, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN,
-				InternTokenType.NUMBER, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_THAN, InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_THAN, InternTokenType.NUMBER, "1", FALSE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_THAN,
-				InternTokenType.STRING, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_THAN,
-				InternTokenType.STRING, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_THAN, InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_THAN, InternTokenType.STRING, "1", FALSE, scope);
 	}
 
 	@Test
 	public void testGreaterOrEqualThan() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.GREATER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_OR_EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.GREATER_OR_EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.GREATER_OR_EQUAL, InternTokenType.NUMBER, "1", FALSE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.GREATER_OR_EQUAL,
-				InternTokenType.STRING, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.GREATER_OR_EQUAL, InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.GREATER_OR_EQUAL, InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.GREATER_OR_EQUAL, InternTokenType.STRING, "1", FALSE, scope);
 	}
 
 	@Test
 	public void testSmallerThan() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
-				InternTokenType.NUMBER, "1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_THAN,
-				InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN, InternTokenType.NUMBER, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_THAN, InternTokenType.NUMBER, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_THAN,
-				InternTokenType.STRING, "1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_THAN,
-				InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_THAN, InternTokenType.STRING, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_THAN, InternTokenType.STRING, "1", TRUE, scope);
 	}
 
 	@Test
 	public void testSmallerOrEqualThan() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.SMALLER_OR_EQUAL, InternTokenType.NUMBER, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_OR_EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.SMALLER_OR_EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_OR_EQUAL,
-				InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "2", Operators.SMALLER_OR_EQUAL, InternTokenType.STRING, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.SMALLER_OR_EQUAL, InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.SMALLER_OR_EQUAL, InternTokenType.STRING, "1", TRUE, scope);
 	}
 
 	@Test
 	public void testEqual() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.NUMBER, "1",
-				TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "5", Operators.EQUAL, InternTokenType.NUMBER, "1",
-				FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "5", Operators.EQUAL, InternTokenType.NUMBER, "1", FALSE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "equalString", Operators.EQUAL,
-				InternTokenType.STRING, "equalString", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "equalString", Operators.EQUAL, InternTokenType.STRING, "equalString", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.STRING,
-				"1.0", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.EQUAL, InternTokenType.NUMBER,
-				"1.0", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.EQUAL, InternTokenType.STRING,
-				"1.0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.STRING, "1.0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.EQUAL, InternTokenType.NUMBER, "1.0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.EQUAL, InternTokenType.STRING, "1.0", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1.0", Operators.EQUAL, InternTokenType.NUMBER,
-				"1.9", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "!`\"§$%&/()=?", Operators.EQUAL,
-				InternTokenType.STRING, "!`\"§$%&/()=????", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "555.555", Operators.EQUAL,
-				InternTokenType.STRING, "055.77.77", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1.0", Operators.EQUAL, InternTokenType.NUMBER, "1.9", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "!`\"§$%&/()=?", Operators.EQUAL, InternTokenType.STRING, "!`\"§$%&/()=????", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "555.555", Operators.EQUAL, InternTokenType.STRING, "055.77.77", FALSE, scope);
 	}
 
 	@Test
 	public void testNegativeZeroEqualsZero() {
 
-		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, "-0", null),
-				new FormulaElement(ElementType.NUMBER, "0", null));
+		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null, new FormulaElement(ElementType.NUMBER, "-0", null), new FormulaElement(ElementType.NUMBER, "0", null));
 
 		assertEquals(1d, formulaElement.interpretRecursive(scope));
 
-		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, "0", null),
-				new FormulaElement(ElementType.NUMBER, "-0", null));
+		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null, new FormulaElement(ElementType.NUMBER, "0", null), new FormulaElement(ElementType.NUMBER, "-0", null));
 
 		assertEquals(1d, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
 	public void testEqualsNaN() {
-		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null),
-				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null));
+		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null, new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null), new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null));
 		assertEquals(1d, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
 	public void testNotEqual() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.NOT_EQUAL, InternTokenType.NUMBER,
-				"1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "5", Operators.NOT_EQUAL, InternTokenType.NUMBER,
-				"1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.NOT_EQUAL, InternTokenType.NUMBER, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "5", Operators.NOT_EQUAL, InternTokenType.NUMBER, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.NOT_EQUAL, InternTokenType.STRING,
-				"1", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "5", Operators.NOT_EQUAL, InternTokenType.STRING,
-				"1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.NOT_EQUAL, InternTokenType.STRING, "1", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "5", Operators.NOT_EQUAL, InternTokenType.STRING, "1", TRUE, scope);
 	}
 
 	@Test
@@ -223,46 +184,30 @@ public class ParserTestOperators {
 
 	@Test
 	public void testAND() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_AND,
-				InternTokenType.NUMBER, "0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_AND,
-				InternTokenType.NUMBER, "0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_AND,
-				InternTokenType.NUMBER, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_AND, InternTokenType.NUMBER, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_AND, InternTokenType.NUMBER, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_AND, InternTokenType.NUMBER, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_AND,
-				InternTokenType.STRING, "0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND,
-				InternTokenType.STRING, "0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND,
-				InternTokenType.STRING, "1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_AND, InternTokenType.STRING, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND, InternTokenType.STRING, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND, InternTokenType.STRING, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_AND,
-				InternTokenType.STRING, "0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND,
-				InternTokenType.NUMBER, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_AND, InternTokenType.STRING, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_AND, InternTokenType.NUMBER, "0", FALSE, scope);
 	}
 
 	@Test
 	public void testOR() {
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_OR, InternTokenType.NUMBER,
-				"0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.NUMBER,
-				"0", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.NUMBER,
-				"1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_OR, InternTokenType.NUMBER, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.NUMBER, "0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.NUMBER, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_OR, InternTokenType.STRING,
-				"0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_OR, InternTokenType.STRING,
-				"0", TRUE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_OR, InternTokenType.STRING,
-				"1", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_OR, InternTokenType.STRING, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_OR, InternTokenType.STRING, "0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "1", Operators.LOGICAL_OR, InternTokenType.STRING, "1", TRUE, scope);
 
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_OR, InternTokenType.NUMBER,
-				"0", FALSE, scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.STRING,
-				"0", TRUE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, "0", Operators.LOGICAL_OR, InternTokenType.NUMBER, "0", FALSE, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.LOGICAL_OR, InternTokenType.STRING, "0", TRUE, scope);
 	}
 
 	@Test
@@ -270,26 +215,16 @@ public class ParserTestOperators {
 		String firstOperand = "1.3";
 		String secondOperand = "3";
 		double expected = Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.PLUS,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.PLUS,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.PLUS, InternTokenType.NUMBER, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.PLUS, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS, InternTokenType.NUMBER, secondOperand, expected, scope);
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
-				InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS, InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
 
-		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
-				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
 		List<InternToken> second = new LinkedList<InternToken>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.PLUS, second, Double.NaN, scope);
@@ -300,26 +235,16 @@ public class ParserTestOperators {
 		String firstOperand = "9.0";
 		String secondOperand = "2";
 		double expected = Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.DIVIDE,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.DIVIDE,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.DIVIDE, InternTokenType.NUMBER, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.DIVIDE, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE, InternTokenType.NUMBER, secondOperand, expected, scope);
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
-				InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE, InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
 
-		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
-				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
 		List<InternToken> second = new LinkedList<InternToken>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.DIVIDE, second, Double.NaN, scope);
@@ -330,26 +255,16 @@ public class ParserTestOperators {
 		String firstOperand = "9.0";
 		String secondOperand = "2";
 		double expected = Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MULT,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MULT,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MULT, InternTokenType.NUMBER, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MULT, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT, InternTokenType.NUMBER, secondOperand, expected, scope);
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
-				InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT, InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
 
-		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
-				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
 		List<InternToken> second = new LinkedList<InternToken>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MULT, second, Double.NaN, scope);
@@ -360,28 +275,38 @@ public class ParserTestOperators {
 		String firstOperand = "9.0";
 		String secondOperand = "2";
 		double expected = Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MINUS,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MINUS,
-				InternTokenType.STRING, secondOperand, expected,
-				scope);
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
-				InternTokenType.NUMBER, secondOperand, expected,
-				scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MINUS, InternTokenType.NUMBER, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.MINUS, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS, InternTokenType.NUMBER, secondOperand, expected, scope);
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
-				InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS, InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
 
-		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
-				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
 		List<InternToken> second = new LinkedList<InternToken>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MINUS, second, Double.NaN, scope);
+	}
+
+	@Test
+	public void testPow() {
+		String firstOperand = "2";
+		String secondOperand = "5";
+		double expected = Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.POW, InternTokenType.NUMBER, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.POW, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, firstOperand, Operators.POW, InternTokenType.STRING, secondOperand, expected, scope);
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.POW, InternTokenType.NUMBER, secondOperand, expected, scope);
+
+		firstOperand = "NotANumber";
+		secondOperand = "3.14";
+		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.POW, InternTokenType.NUMBER, secondOperand, Double.NaN, scope);
+
+		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> second = new LinkedList<InternToken>();
+		second.add(new InternToken(InternTokenType.NUMBER, "1"));
+		FormulaEditorTestUtil.testBinaryOperator(first, Operators.POW, second, Double.NaN, scope);
 	}
 }
