@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -123,6 +124,8 @@ public class BrickSpinnerDefaultValueTest {
 				{"SceneTransitionBrick - R.id.brick_scene_transition_spinner", "Control", SceneTransitionBrick.class, R.id.brick_scene_transition_spinner, "new…"},
 				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene"},
 				{"CloneBrick - R.id.brick_clone_spinner", "Control", CloneBrick.class, R.id.brick_clone_spinner, "yourself"},
+				{"SimulateGamepadButtonBrick - R.id.brick_simulate_gamepad_button_spinner", "Testing", SimulateGamepadButtonBrick.class, R.id.brick_simulate_gamepad_button_spinner, "A"},
+				{"SimulateGamepadButtonBrick - R.id.brick_simulate_gamepad_button_state_spinner", "Testing", SimulateGamepadButtonBrick.class, R.id.brick_simulate_gamepad_button_state_spinner, "pressed"},
 		});
 	}
 

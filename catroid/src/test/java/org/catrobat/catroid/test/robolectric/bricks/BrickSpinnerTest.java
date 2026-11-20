@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
@@ -145,6 +146,8 @@ public class BrickSpinnerTest {
 				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", asList("\0any edge, actor, or object\0", "Background", "testSprite", "otherTestSprite")},
 				{WhenNfcBrick.class.getSimpleName(), new WhenNfcBrick(), R.id.brick_when_nfc_spinner, "all", asList("Edit list of NFC tags", "all")},
 				{WhenGamepadButtonBrick.class.getSimpleName(), new WhenGamepadButtonBrick(new WhenGamepadButtonScript("")), R.id.brick_when_gamepad_button_spinner, "A", asList("A", "B", "up", "down", "left", "right")},
+				{SimulateGamepadButtonBrick.class.getSimpleName() + " button", new SimulateGamepadButtonBrick(), R.id.brick_simulate_gamepad_button_spinner, "A", asList("A", "B", "X", "Y", "Up", "Down", "Left", "Right", "Start", "Select", "L1", "L2", "R1", "R2")},
+				{SimulateGamepadButtonBrick.class.getSimpleName() + " state", new SimulateGamepadButtonBrick(), R.id.brick_simulate_gamepad_button_state_spinner, "pressed", asList("pressed", "released")},
 		});
 	}
 
