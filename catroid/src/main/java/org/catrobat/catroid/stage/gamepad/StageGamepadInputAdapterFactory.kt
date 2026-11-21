@@ -32,8 +32,8 @@ object StageGamepadInputAdapterFactory {
     /**
      * Creates an adapter that forwards controller input to the gamepad input of the running stage,
      * if there is one, and consumes only the buttons that [project] handles, see
-     * [GamepadUsage.isHandledByStage]. For a project without gamepad elements it consumes nothing,
-     * so Android keeps handling all controller input as before.
+     * [GamepadUsage.isHandledByStage]. For a project without gamepad elements it consumes only B,
+     * which leaves the stage directly, so Android keeps handling all other controller input.
      */
     @JvmStatic
     fun create(project: Project?): AndroidGamepadInputAdapter {

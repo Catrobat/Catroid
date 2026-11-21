@@ -40,7 +40,7 @@ import kotlin.math.max
  * joystick source. Keyboard keys, system keys such as Back, Home or volume, and controller keys
  * without a [GamepadButton] are never consumed, so Android handles them as usual. A mapped button
  * is forwarded and consumed only while a [GamepadInput] is available and [isButtonHandled] accepts
- * it. Otherwise Android handles it as usual too, for example the B button as Back.
+ * it. Otherwise Android handles it as usual too.
  *
  * The adapter keeps no state of its own and supports a single controller. To release every button
  * when a controller is removed, [register] it as [InputManager.InputDeviceListener].

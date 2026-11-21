@@ -1216,6 +1216,7 @@
     <string formatted="false" name="brick_touch_from_x">"from x:"</string>
     <string formatted="false" name="brick_finish_stage">Finish stage</string>
     <string formatted="false" name="brick_finish_tests">Finish tests</string>
+    <string formatted="false" name="brick_when_stage_exited">When stage is exited</string>
     <string formatted="false" name="brick_assert_lists">Assert lists</string>
     <string formatted="false" name="brick_assert_actual">Actual:</string>
     <string formatted="false" name="brick_assert_expected">Expected:</string>

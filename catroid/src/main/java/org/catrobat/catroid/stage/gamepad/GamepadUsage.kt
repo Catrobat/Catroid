@@ -59,12 +59,13 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
     /**
      * Whether the stage consumes the input of [button] instead of passing it on to Android.
      *
-     * A project without gamepad elements leaves all controller input to Android. Otherwise the
-     * stage consumes every button except B, which it only consumes when the project uses B, so
-     * that B keeps working as Android's Back button that opens the stage menu.
+     * The stage always consumes B: an unused B leaves the stage directly, see
+     * [org.catrobat.catroid.stage.StageExitController.onGamepadButtonPressed], so it never falls
+     * through to Android's Back button. A project without gamepad elements leaves all other
+     * controller input to Android, a project with gamepad elements gets every button.
      */
     fun isHandledByStage(button: GamepadButton): Boolean =
-        usesGamepad && (button != GamepadButton.B || isUsed(button))
+        button == GamepadButton.B || usesGamepad
 
     companion object {
         /** Scans all scenes, sprites and scripts of [project]; `null` uses no gamepad. */

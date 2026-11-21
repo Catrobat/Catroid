@@ -179,6 +179,7 @@ public class StageListener implements ApplicationListener {
 	private ScreenshotSaver screenshotSaver;
 
 	private final GamepadInput gamepadInput = new GamepadInput();
+	private final StageExitController stageExitController = new StageExitController(() -> project);
 
 	public StageListener() {
 		webConnectionHolder = new WebConnectionHolder();
@@ -589,6 +590,7 @@ public class StageListener implements ApplicationListener {
 
 		if (!paused) {
 			applyPendingGamepadInput();
+			stageExitController.onFrame();
 
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
@@ -858,10 +860,17 @@ public class StageListener implements ApplicationListener {
 		return gamepadInput;
 	}
 
+	@NonNull
+	public StageExitController getStageExitController() {
+		return stageExitController;
+	}
+
 	@VisibleForTesting
 	void applyPendingGamepadInput() {
-		gamepadInput.applyPendingInput(button -> project.fireToAllSprites(
-				new EventWrapper(new GamepadButtonPressedEventId(button), false)));
+		gamepadInput.applyPendingInput(button -> {
+			project.fireToAllSprites(new EventWrapper(new GamepadButtonPressedEventId(button), false));
+			stageExitController.onGamepadButtonPressed(button);
+		});
 	}
 
 	public void addActor(Actor actor) {

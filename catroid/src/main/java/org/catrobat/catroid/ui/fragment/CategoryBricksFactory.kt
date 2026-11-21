@@ -240,6 +240,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick
 import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
+import org.catrobat.catroid.content.bricks.WhenStageExitedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
@@ -1123,6 +1124,7 @@ open class CategoryBricksFactory {
         )
         assertionsBrickList.add(SimulateGamepadButtonBrick())
         assertionsBrickList.add(FinishStageBrick())
+        assertionsBrickList.add(WhenStageExitedBrick())
         assertionsBrickList.add(
             StoreCSVIntoUserListBrick(
                 BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
@@ -1233,6 +1235,7 @@ open class CategoryBricksFactory {
             is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
             is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
             is WhenGamepadButtonPressedBrick -> category = res.getString(R.string.category_device)
+            is WhenStageExitedBrick -> category = res.getString(R.string.category_assertions)
         }
 
         config.locale = savedLocale

@@ -272,27 +272,35 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onBackPressed() {
 		if (isFromShortcut) {
-			manageLoadAndFinish();
-			finish();
+			StageExitController.requestExitOfRunningStage(this::finishFromShortcut);
 			return;
 		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-			if (service != null) {
-				service.disconnectDevices();
-			}
-
-			TextToSpeechHolder.getInstance().deleteSpeechFiles();
-			Intent marketingIntent = new Intent(this, MarketingActivity.class);
-			startActivity(marketingIntent);
-			finish();
-		} else {
+			StageExitController.requestExitOfRunningStage(this::finishToMarketingScreen);
+		} else if (!StageExitController.forcePendingExitOfRunningStage()) {
 			StageLifeCycleController.stagePause(this);
 			idlingResource.increment();
 			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
 					success -> runOnUiThread(() -> idlingResource.decrement()));
 			stageDialog.show();
 		}
+	}
+
+	private void finishFromShortcut() {
+		manageLoadAndFinish();
+		finish();
+	}
+
+	private void finishToMarketingScreen() {
+		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		if (service != null) {
+			service.disconnectDevices();
+		}
+
+		TextToSpeechHolder.getInstance().deleteSpeechFiles();
+		Intent marketingIntent = new Intent(this, MarketingActivity.class);
+		startActivity(marketingIntent);
+		finish();
 	}
 
 	public void manageLoadAndFinish() {
