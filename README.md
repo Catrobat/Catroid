@@ -23,6 +23,25 @@ Also make sure to read our guidelines for [creating a pull request](https://gith
 
 A first training ticket usually consists of writing a new Catrobat language test, see https://catrobat.atlassian.net/browse/CATROID-390 for details.
 
+## Catrobat Language Tests ##
+
+Catrobat Language Tests (CLTs) are Catrobat projects with *Assert* bricks. They live in
+`catroid/src/androidTest/assets/catrobatTests/` and are run by `CatrobatTestRunner`. Besides
+Catroid, the web player and Catty (the iOS implementation) run them too. A CLT therefore checks
+the behavior of the Catrobat language on every platform at once. Hence:
+
+1. **New features include their CLTs in the same pull request**, just like unit and UI tests.
+   Cover the language behavior of every new brick, sensor and function with CLTs. The *Testing*
+   bricks (for example *Tap at* and *Simulate gamepad button*) let a CLT simulate input.
+2. **Do not duplicate CLTs with unit tests.** If a CLT already covers a behavior, do not add a
+   Kotlin or Java unit test for the same purpose. Keep unit and UI tests for what a CLT cannot
+   check, such as Android-specific input handling, the editor UI and serialization details.
+3. **Increase the Catrobat language version in the same pull request** whenever the pull request
+   changes the language, for example with a new brick, script, sensor or function. The version
+   is `CURRENT_CATROBAT_LANGUAGE_VERSION` in `Constants.java`. The new CLTs must already carry
+   the new version, so it cannot wait until the release. Mark such pull requests with the
+   *XML Change* label.
+
 
 # Resources and links #
 * [Apple Store Download](https://apps.apple.com/us/developer/international-catrobat-association-verein-zur-foerderung/id1117935891)
