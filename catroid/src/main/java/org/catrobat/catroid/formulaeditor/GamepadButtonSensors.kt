@@ -27,6 +27,7 @@ package org.catrobat.catroid.formulaeditor
 import androidx.annotation.StringRes
 import org.catrobat.catroid.R
 import org.catrobat.catroid.gamepad.GamepadButton
+import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.stage.StageActivity
 
 private const val PRESSED_VALUE = 1.0
@@ -94,12 +95,21 @@ fun findGamepadButtonSensor(@StringRes sensorNameResId: Int): Sensors? =
     sensorsBySensorNameResId[sensorNameResId]
 
 /**
- * The value of the [sensor] of this button: 1.0 while the button is pressed on the running stage,
- * otherwise 0.0, also when no stage is running.
+ * The gamepad input that the formula editor's Compute dialog receives while it is open, or `null`.
+ * While it is set, the gamepad sensors read it instead of the input of the running stage.
  */
-fun GamepadButton.sensorValue(): Double =
-    if (StageActivity.stageListener?.gamepadInput?.isPressed(this) == true) {
+@Volatile
+var formulaEditorGamepadInput: GamepadInput? = null
+
+/**
+ * The value of the [sensor] of this button: 1.0 while the button is pressed in the formula
+ * editor's Compute dialog or else on the running stage, otherwise 0.0, also when neither is open.
+ */
+fun GamepadButton.sensorValue(): Double {
+    val gamepadInput = formulaEditorGamepadInput ?: StageActivity.stageListener?.gamepadInput
+    return if (gamepadInput?.isPressed(this) == true) {
         PRESSED_VALUE
     } else {
         RELEASED_VALUE
     }
+}

@@ -26,7 +26,9 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import android.hardware.input.InputManager
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.TextView
@@ -43,6 +45,7 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
+import org.catrobat.catroid.stage.gamepad.GamepadUsage
 import org.catrobat.catroid.utils.NumberFormats
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 
@@ -52,6 +55,7 @@ open class FormulaEditorComputeDialog(
 ) : AlertDialog(context), SensorEventListener {
     private var formulaToCompute: Formula? = null
     private var computeTextView: TextView? = null
+    private var gamepadInput: FormulaEditorGamepadInput? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,9 +104,33 @@ open class FormulaEditorComputeDialog(
             SensorHandler.startSensorListener(context)
             SensorHandler.registerListener(this)
         }
+
+        val usedGamepadButtons = GamepadUsage.buttonsUsedBy(formula)
+        gamepadInput = usedGamepadButtons.takeIf { it.isNotEmpty() }?.let { buttons ->
+            FormulaEditorGamepadInput(buttons) { showFormulaResult(scope, AndroidStringProvider(context)) }
+        }
     }
 
+    override fun onStart() {
+        super.onStart()
+        gamepadInput?.start(context.getSystemService(InputManager::class.java))
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (!hasFocus) {
+            gamepadInput?.releaseAll()
+        }
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean =
+        gamepadInput?.dispatchKeyEvent(event) == true || super.dispatchKeyEvent(event)
+
+    override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean =
+        gamepadInput?.dispatchGenericMotionEvent(event) == true || super.dispatchGenericMotionEvent(event)
+
     override fun onStop() {
+        gamepadInput?.stop()
         SensorHandler.unregisterListener(this)
         SensorHandler.stopSensorListeners()
         ServiceProvider.getService<BluetoothDeviceService>(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause()

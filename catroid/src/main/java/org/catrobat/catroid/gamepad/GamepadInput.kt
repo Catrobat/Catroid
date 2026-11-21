@@ -87,7 +87,8 @@ class GamepadInput {
      * already returns true for the reported button. Changes queued during this call, for example by
      * [onPressed], are applied by the next call.
      *
-     * Call it once per frame from the GL thread only.
+     * Call it only from a single thread: on the stage once per frame from the GL thread, in the
+     * formula editor's Compute dialog from the main thread.
      */
     fun applyPendingInput(onPressed: ButtonPressedListener) {
         val frameBoundary = lastIssuedSequence.get()

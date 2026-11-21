@@ -86,7 +86,7 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
             activeBricksOf(script)
                 .filterIsInstance<FormulaBrick>()
                 .flatMap { brick -> brick.formulas }
-                .forEach { formula -> addAll(sensorButtonsOf(formula)) }
+                .forEach { formula -> addAll(buttonsUsedBy(formula)) }
         }
 
         private fun eventButtonOf(script: Script): GamepadButton? =
@@ -102,8 +102,11 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
                 .asSequence()
                 .filterNot { brick -> brick.isCommentedOut }
 
-        private fun sensorButtonsOf(formula: Formula): List<GamepadButton> =
+        /** The buttons whose gamepad button sensors [formula] contains. */
+        @JvmStatic
+        fun buttonsUsedBy(formula: Formula): Set<GamepadButton> =
             formula.root?.getUserDataRecursive(ElementType.SENSOR).orEmpty()
                 .mapNotNull { sensorName -> Sensors.getSensorByValue(sensorName)?.toGamepadButton() }
+                .toSet()
     }
 }
