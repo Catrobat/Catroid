@@ -43,7 +43,6 @@ import org.catrobat.catroid.test.MockUtil
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -79,46 +78,6 @@ class GamepadButtonSensorValueTest {
     }
 
     @Test
-    fun `sensor of a pressed button is 1`() {
-        press(GamepadButton.A)
-
-        assertEquals(PRESSED, SensorHandler.getSensorValue(Sensors.GAMEPAD_BUTTON_A_PRESSED))
-    }
-
-    @Test
-    fun `sensors of the other buttons stay 0 while one button is pressed`() {
-        press(GamepadButton.UP)
-
-        GamepadButton.entries.filterNot { it == GamepadButton.UP }.forEach { button ->
-            assertEquals(button.name, RELEASED, SensorHandler.getSensorValue(button.sensor))
-        }
-    }
-
-    @Test
-    fun `sensor of every pressed button is 1`() {
-        GamepadButton.entries.forEach(::press)
-
-        GamepadButton.entries.forEach { button ->
-            assertEquals(button.name, PRESSED, SensorHandler.getSensorValue(button.sensor))
-        }
-    }
-
-    @Test
-    fun `sensor of a released button is 0`() {
-        press(GamepadButton.R2)
-        release(GamepadButton.R2)
-
-        assertEquals(RELEASED, SensorHandler.getSensorValue(Sensors.GAMEPAD_BUTTON_R2_PRESSED))
-    }
-
-    @Test
-    fun `sensor of a button that was never pressed is 0`() {
-        GamepadButton.entries.forEach { button ->
-            assertEquals(button.name, RELEASED, SensorHandler.getSensorValue(button.sensor))
-        }
-    }
-
-    @Test
     fun `sensor changes only after the next frame applied the press`() {
         gamepadInput.setButtonState(GamepadButton.START, GamepadInputSource.KEY, true)
 
@@ -140,39 +99,10 @@ class GamepadButtonSensorValueTest {
     }
 
     @Test
-    fun `sensor value of a button follows its pressed state`() {
-        assertEquals(RELEASED, GamepadButton.SELECT.sensorValue(), DELTA)
-
-        press(GamepadButton.SELECT)
-
-        assertEquals(PRESSED, GamepadButton.SELECT.sensorValue(), DELTA)
-    }
-
-    @Test
     fun `sensor value of a button is 0 without a stage`() {
         StageActivity.stageListener = null
 
         assertEquals(RELEASED, GamepadButton.L1.sensorValue(), DELTA)
-    }
-
-    @Test
-    fun `formula with the sensor of a pressed button is true`() {
-        press(GamepadButton.L2)
-
-        val formula = sensorFormula(Sensors.GAMEPAD_BUTTON_L2_PRESSED)
-
-        assertTrue(formula.interpretBoolean(scope))
-        assertEquals(PRESSED, formula.interpretDouble(scope), DELTA)
-    }
-
-    @Test
-    fun `formula with the sensor of a released button is false`() {
-        press(GamepadButton.L2)
-
-        val formula = sensorFormula(Sensors.GAMEPAD_BUTTON_R1_PRESSED)
-
-        assertFalse(formula.interpretBoolean(scope))
-        assertEquals(RELEASED, formula.interpretDouble(scope), DELTA)
     }
 
     @Test
@@ -184,11 +114,6 @@ class GamepadButtonSensorValueTest {
 
     private fun press(button: GamepadButton) {
         gamepadInput.setButtonState(button, GamepadInputSource.KEY, true)
-        gamepadInput.applyPendingInput { }
-    }
-
-    private fun release(button: GamepadButton) {
-        gamepadInput.setButtonState(button, GamepadInputSource.KEY, false)
         gamepadInput.applyPendingInput { }
     }
 

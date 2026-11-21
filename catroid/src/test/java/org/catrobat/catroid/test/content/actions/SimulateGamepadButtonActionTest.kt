@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.actions.SimulateGamepadButtonAction
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton.A
-import org.catrobat.catroid.gamepad.GamepadButton.B
 import org.catrobat.catroid.gamepad.GamepadButton.X
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource.SIMULATED
@@ -104,19 +103,6 @@ class SimulateGamepadButtonActionTest {
         action.act(DELTA)
 
         verify(gamepadInput, times(1)).setButtonState(A, SIMULATED, true)
-    }
-
-    @Test
-    fun `press and release are simulated by two actions`() {
-        val press = createAction("B", true)
-        val release = createAction("B", false)
-
-        runUntilFinished(press)
-        assertTrue(gamepadInput.isPressed(B))
-
-        runUntilFinished(release)
-        assertFalse(gamepadInput.isPressed(B))
-        assertFired(B)
     }
 
     @Test

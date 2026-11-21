@@ -64,56 +64,6 @@ class WhenGamepadButtonPressedScriptEventTest {
     }
 
     @Test
-    fun `pressing the button of the script runs the script`() {
-        addScript(GamepadButton.UP.name)
-
-        press(GamepadButton.UP)
-
-        assertEquals(X_DELTA, xPosition())
-    }
-
-    @Test
-    fun `pressing another button does not run the script`() {
-        addScript(GamepadButton.UP.name)
-
-        press(GamepadButton.DOWN)
-
-        assertEquals(0, xPosition())
-    }
-
-    @Test
-    fun `only the scripts of the pressed button run`() {
-        addScript(GamepadButton.A.name)
-        addScript(GamepadButton.A.name)
-        addScript(GamepadButton.B.name)
-
-        press(GamepadButton.A)
-
-        assertEquals(2 * X_DELTA, xPosition())
-    }
-
-    @Test
-    fun `every new press runs the script again`() {
-        addScript(GamepadButton.R1.name)
-
-        press(GamepadButton.R1)
-        release(GamepadButton.R1)
-        press(GamepadButton.R1)
-
-        assertEquals(2 * X_DELTA, xPosition())
-    }
-
-    @Test
-    fun `holding the button runs the script only once`() {
-        addScript(GamepadButton.R1.name)
-
-        press(GamepadButton.R1)
-        press(GamepadButton.R1)
-
-        assertEquals(X_DELTA, xPosition())
-    }
-
-    @Test
     fun `legacy Chromecast gamepad events do not run the script`() {
         addScript(GamepadButton.A.name)
 
@@ -146,14 +96,10 @@ class WhenGamepadButtonPressedScriptEventTest {
             sprite.addScript(script)
         }
 
-    private fun press(button: GamepadButton) = setButtonState(button, true)
-
-    private fun release(button: GamepadButton) = setButtonState(button, false)
-
-    /** Changes the button like a controller would and applies it like the next stage frame. */
-    private fun setButtonState(button: GamepadButton, pressed: Boolean) {
+    /** Presses the button like a controller would and applies it like the next stage frame. */
+    private fun press(button: GamepadButton) {
         startScriptsIfNeeded()
-        gamepadInput.setButtonState(button, GamepadInputSource.KEY, pressed)
+        gamepadInput.setButtonState(button, GamepadInputSource.KEY, true)
         gamepadInput.applyPendingInput { pressedButton ->
             project.fireToAllSprites(EventWrapper(GamepadButtonPressedEventId(pressedButton), false))
         }

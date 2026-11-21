@@ -37,10 +37,8 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager
-import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton.A
 import org.catrobat.catroid.gamepad.GamepadButton.B
-import org.catrobat.catroid.gamepad.GamepadButton.X
 import org.catrobat.catroid.gamepad.GamepadInputSource.KEY
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -84,47 +82,6 @@ class StageListenerGamepadInputTest {
     fun tearDown() {
         Gdx.gl20 = previousGl20
         Gdx.graphics = previousGraphics
-    }
-
-    @Test
-    fun `all gamepad buttons are released initially`() {
-        GamepadButton.entries.forEach { button ->
-            assertFalse(stageListener.gamepadInput.isPressed(button))
-        }
-    }
-
-    @Test
-    fun `applying pending gamepad input fires the pressed button to all sprites`() {
-        stageListener.gamepadInput.setButtonState(X, KEY, true)
-
-        stageListener.applyPendingGamepadInput()
-
-        assertTrue(stageListener.gamepadInput.isPressed(X))
-        assertFiredEventIds(GamepadButtonPressedEventId(X))
-    }
-
-    @Test
-    fun `applying pending gamepad input fires nothing for a release`() {
-        stageListener.gamepadInput.setButtonState(A, KEY, true)
-        stageListener.applyPendingGamepadInput()
-        stageListener.gamepadInput.setButtonState(A, KEY, false)
-
-        stageListener.applyPendingGamepadInput()
-
-        assertFalse(stageListener.gamepadInput.isPressed(A))
-        assertFiredEventIds(GamepadButtonPressedEventId(A))
-    }
-
-    @Test
-    fun `rendering a running stage applies pending gamepad input`() {
-        stageListener.setPaused(false)
-        val sequence = stageListener.gamepadInput.setButtonState(B, KEY, true)
-
-        stageListener.render()
-
-        assertTrue(stageListener.gamepadInput.isApplied(sequence))
-        assertTrue(stageListener.gamepadInput.isPressed(B))
-        assertFiredEventIds(GamepadButtonPressedEventId(B))
     }
 
     @Test

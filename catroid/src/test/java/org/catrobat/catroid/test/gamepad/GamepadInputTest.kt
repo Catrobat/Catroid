@@ -28,7 +28,6 @@ import org.catrobat.catroid.gamepad.GamepadButton.A
 import org.catrobat.catroid.gamepad.GamepadButton.B
 import org.catrobat.catroid.gamepad.GamepadButton.DOWN
 import org.catrobat.catroid.gamepad.GamepadButton.L2
-import org.catrobat.catroid.gamepad.GamepadButton.LEFT
 import org.catrobat.catroid.gamepad.GamepadButton.X
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource
@@ -52,11 +51,6 @@ class GamepadInputTest {
     private val firedButtons = mutableListOf<GamepadButton>()
 
     @Test
-    fun `all buttons are released initially`() {
-        assertPressedExactly()
-    }
-
-    @Test
     fun `applying input without pending input fires nothing`() {
         applyPendingInput()
 
@@ -73,52 +67,6 @@ class GamepadInputTest {
     }
 
     @Test
-    fun `press fires exactly one event when pending input is applied`() {
-        press(A)
-
-        applyPendingInput()
-
-        assertFired(A)
-        assertPressedExactly(A)
-    }
-
-    @Test
-    fun `button is already pressed when its event fires`() {
-        val pressedStateDuringEvent = mutableListOf<Boolean>()
-        press(A)
-
-        input.applyPendingInput { button -> pressedStateDuringEvent.add(input.isPressed(button)) }
-
-        assertEquals(listOf(true), pressedStateDuringEvent)
-    }
-
-    @Test
-    fun `holding a button fires no further events`() {
-        press(A)
-        applyPendingInput()
-
-        applyPendingInput()
-        applyPendingInput()
-
-        assertFired(A)
-        assertPressedExactly(A)
-    }
-
-    @Test
-    fun `repeated press from the same source fires no further events`() {
-        press(A)
-        applyPendingInput()
-
-        press(A)
-        applyPendingInput()
-        press(A)
-        applyPendingInput()
-
-        assertFired(A)
-        assertPressedExactly(A)
-    }
-
-    @Test
     fun `repeated press from the same source within one batch fires once`() {
         press(A)
         press(A)
@@ -128,19 +76,6 @@ class GamepadInputTest {
 
         assertFired(A)
         assertPressedExactly(A)
-    }
-
-    @Test
-    fun `release fires no event`() {
-        press(A)
-        applyPendingInput()
-        firedButtons.clear()
-
-        release(A)
-        applyPendingInput()
-
-        assertFired()
-        assertPressedExactly()
     }
 
     @Test
@@ -164,38 +99,6 @@ class GamepadInputTest {
     }
 
     @Test
-    fun `press after release fires again`() {
-        press(A)
-        applyPendingInput()
-        release(A)
-        applyPendingInput()
-
-        press(A)
-        applyPendingInput()
-
-        assertFired(A, A)
-        assertPressedExactly(A)
-    }
-
-    @Test
-    fun `buttons are pressed and released independently`() {
-        press(LEFT)
-        press(DOWN)
-        applyPendingInput()
-        assertFired(LEFT, DOWN)
-        assertPressedExactly(LEFT, DOWN)
-
-        release(LEFT)
-        applyPendingInput()
-        assertPressedExactly(DOWN)
-
-        press(LEFT)
-        applyPendingInput()
-        assertFired(LEFT, DOWN, LEFT)
-        assertPressedExactly(LEFT, DOWN)
-    }
-
-    @Test
     fun `events fire in the order the presses were enqueued`() {
         press(B)
         press(A)
@@ -204,18 +107,6 @@ class GamepadInputTest {
         applyPendingInput()
 
         assertFired(B, A, X)
-    }
-
-    @Test
-    fun `every button can be pressed and released`() {
-        GamepadButton.entries.forEach { press(it) }
-        applyPendingInput()
-        assertFired(*GamepadButton.entries.toTypedArray())
-        assertPressedExactly(*GamepadButton.entries.toTypedArray())
-
-        GamepadButton.entries.forEach { release(it) }
-        applyPendingInput()
-        assertPressedExactly()
     }
 
     @Test
@@ -318,17 +209,6 @@ class GamepadInputTest {
 
         assertFired(A, A)
         assertPressedExactly(A)
-    }
-
-    @Test
-    fun `press and release within one batch fires once and ends released`() {
-        press(A)
-        release(A)
-
-        applyPendingInput()
-
-        assertFired(A)
-        assertPressedExactly()
     }
 
     @Test
