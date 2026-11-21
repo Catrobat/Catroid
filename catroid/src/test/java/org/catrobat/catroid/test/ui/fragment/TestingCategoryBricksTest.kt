@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.ui.fragment
 
 import android.content.Context
 import android.os.Build
+import android.preference.PreferenceManager
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
@@ -43,6 +44,7 @@ import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
 import org.catrobat.catroid.content.bricks.WhenStageExitedBrick
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -56,6 +58,7 @@ import org.robolectric.annotation.Config
 @Config(sdk = [Build.VERSION_CODES.P])
 class TestingCategoryBricksTest {
     private val context: Context = RuntimeEnvironment.getApplication()
+    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     @Before
     fun setUp() {
@@ -69,37 +72,42 @@ class TestingCategoryBricksTest {
 
     @After
     fun tearDown() {
+        sharedPreferences.edit().clear().commit()
         ProjectManager.getInstance().resetProjectManager()
     }
 
     @Test
-    fun `testing category offers simulate gamepad button and when stage is exited`() {
-        val testingBricks: List<Class<out Brick>> = CategoryBricksFactory()
-            .getBricks(context.getString(R.string.category_assertions), false, context)
-            .map { it.javaClass }
+    fun `testing category offers simulate gamepad button with the physical gamepad setting on`() {
+        setPhysicalGamepadSetting(true)
 
-        assertEquals(expectedTestingBrickClasses, testingBricks)
+        assertEquals(testingBrickClasses(withSimulateGamepadButton = true), testingBricks())
     }
 
     @Test
-    fun `when stage is exited brick belongs to the testing category`() {
-        val category = CategoryBricksFactoryWithoutMotionBricks()
-            .getBrickCategory(WhenStageExitedBrick(), false, context)
+    fun `testing category does not offer simulate gamepad button with the physical gamepad setting off`() {
+        setPhysicalGamepadSetting(false)
 
-        assertEquals(context.getString(R.string.category_assertions), category)
+        assertEquals(testingBrickClasses(withSimulateGamepadButton = false), testingBricks())
     }
 
-    /**
-     * Looks up brick categories without creating the Motion bricks, whose physics defaults load the
-     * native libGDX library that JVM unit tests do not have.
-     */
-    private class CategoryBricksFactoryWithoutMotionBricks : CategoryBricksFactory() {
-        override fun setupMotionCategoryList(context: Context?, isBackgroundSprite: Boolean): List<Brick> =
-            emptyList()
+    @Test
+    fun `testing category does not offer simulate gamepad button by default`() {
+        assertEquals(testingBrickClasses(withSimulateGamepadButton = false), testingBricks())
     }
 
-    private companion object {
-        val expectedTestingBrickClasses: List<Class<out Brick>> = listOf(
+    private fun setPhysicalGamepadSetting(enabled: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, enabled)
+            .commit()
+    }
+
+    private fun testingBricks(): List<Class<out Brick>> = CategoryBricksFactory()
+        .getBricks(context.getString(R.string.category_assertions), false, context)
+        .map { it.javaClass }
+
+    /** The Testing bricks; "When stage is exited" is offered here too, as a secondary category. */
+    private fun testingBrickClasses(withSimulateGamepadButton: Boolean): List<Class<out Brick>> =
+        listOfNotNull(
             AssertEqualsBrick::class.java,
             AssertUserListsBrick::class.java,
             ParameterizedBrick::class.java,
@@ -107,11 +115,10 @@ class TestingCategoryBricksTest {
             TapAtBrick::class.java,
             TapForBrick::class.java,
             TouchAndSlideBrick::class.java,
-            SimulateGamepadButtonBrick::class.java,
+            SimulateGamepadButtonBrick::class.java.takeIf { withSimulateGamepadButton },
             FinishStageBrick::class.java,
             WhenStageExitedBrick::class.java,
             StoreCSVIntoUserListBrick::class.java,
             WebRequestBrick::class.java
         )
-    }
 }

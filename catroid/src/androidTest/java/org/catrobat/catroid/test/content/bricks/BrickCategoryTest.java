@@ -364,7 +364,8 @@ public class BrickCategoryTest {
 						WhenBackgroundChangesBrick.class,
 						WhenClonedBrick.class,
 						CloneBrick.class,
-						DeleteThisCloneBrick.class)},
+						DeleteThisCloneBrick.class,
+						WhenStageExitedBrick.class)},
 				{"Looks", Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
@@ -587,8 +588,9 @@ public class BrickCategoryTest {
 		for (String setting : speechAISettings) {
 			sharedPreferencesEditor.putBoolean(setting, true);
 		}
-		// The physical gamepad brick has no own brick category either, so its setting is activated
-		// as well. It adds the brick to the Device category.
+		// The physical gamepad bricks have no own brick category either, so their setting is
+		// activated as well. It adds the event brick to the Device category and the Simulate
+		// gamepad button brick to the Testing category.
 		sharedPreferencesEditor.putBoolean(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, true);
 		sharedPreferencesEditor.commit();
 
