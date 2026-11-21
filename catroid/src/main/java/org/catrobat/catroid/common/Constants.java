@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.14;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.15;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
