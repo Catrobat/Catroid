@@ -28,7 +28,10 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.WhenStageExitedScript
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 
-/** Testing brick "When stage is exited" that represents a [WhenStageExitedScript]. */
+/**
+ * Event brick "When stage is exited" that represents a [WhenStageExitedScript]. The Testing category
+ * offers it as well.
+ */
 class WhenStageExitedBrick(private var script: WhenStageExitedScript) : ScriptBrickBaseType() {
 
     /** Creates the brick together with a new script. */

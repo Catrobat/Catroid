@@ -37,9 +37,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_stage_exited_layout"
-        style="@style/BrickContainer.Test.Small">
+        style="@style/BrickContainer.Event.Small">
 
-        <include layout="@layout/icon_brick_category_look" />
+        <include layout="@layout/icon_brick_category_event" />
 
         <TextView
             android:id="@+id/brick_when_stage_exited_label"

@@ -354,6 +354,7 @@ open class CategoryBricksFactory {
         eventBrickList.add(WhenClonedBrick())
         eventBrickList.add(CloneBrick())
         eventBrickList.add(DeleteThisCloneBrick())
+        eventBrickList.add(WhenStageExitedBrick())
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             eventBrickList.add(WhenNfcBrick())
         }
@@ -1122,7 +1123,9 @@ open class CategoryBricksFactory {
                 BrickValues.TOUCH_DURATION
             )
         )
-        assertionsBrickList.add(SimulateGamepadButtonBrick())
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            assertionsBrickList.add(SimulateGamepadButtonBrick())
+        }
         assertionsBrickList.add(FinishStageBrick())
         assertionsBrickList.add(WhenStageExitedBrick())
         assertionsBrickList.add(
@@ -1235,7 +1238,7 @@ open class CategoryBricksFactory {
             is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
             is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
             is WhenGamepadButtonPressedBrick -> category = res.getString(R.string.category_device)
-            is WhenStageExitedBrick -> category = res.getString(R.string.category_assertions)
+            is WhenStageExitedBrick -> category = res.getString(R.string.category_event)
         }
 
         config.locale = savedLocale
