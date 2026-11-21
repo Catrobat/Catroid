@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Ma berɛ susudeɛ nsan mfi ase</string>
     <string formatted="false" name="brick_open">Bue</string>
     <string formatted="false" name="brick_in_browser">wɔ browser mu</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">so a</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Sɛ ɔfa no fi ase a</string>
     <string formatted="false" name="brick_when">Sɛ wɔmia wo so a</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"firi x:"</string>
     <string formatted="false" name="brick_finish_stage">Wie agoprama no</string>
     <string formatted="false" name="brick_finish_tests">Wie sɔhwɛ no</string>
+    <string formatted="false" name="brick_when_stage_exited">Sɛ wofi agoprama no so a</string>
     <string formatted="false" name="brick_assert_lists">Hwɛ ntoatoasoɔ</string>
     <string formatted="false" name="brick_assert_actual">Deɛ ɛwɔ hɔ:</string>
     <string formatted="false" name="brick_assert_expected">Deɛ yɛhwɛ kwan:</string>
     <string formatted="false" name="brick_parameterized_assert">hwɛ sɛ</string>
     <string formatted="false" name="brick_parameterized_equals">ne deɛ yɛhwɛ kwan a ɛwɔ yi mu yɛ pɛ:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Suasua gamepad bɔtom</string>
+    <string formatted="false" name="gamepad_button_state_pressed">wɔamia</string>
+    <string formatted="false" name="gamepad_button_state_released">wɔagyae</string>
+    <string formatted="false" name="gamepad_button_up">Soro</string>
+    <string formatted="false" name="gamepad_button_down">Fam</string>
+    <string formatted="false" name="gamepad_button_left">Benkum</string>
+    <string formatted="false" name="gamepad_button_right">Nifa</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Ma ade biara a ɛwɔ</item>
         <item quantity="other">Ma nneɛma kuo biara a ɛwɔ</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">wɔamia gamepad fam</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">wɔamia gamepad benkum</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">wɔamia gamepad nifa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">wɔamia gamepad bɔtom A</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">wɔamia gamepad bɔtom B</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">wɔamia gamepad bɔtom X</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">wɔamia gamepad bɔtom Y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">wɔamia gamepad bɔtom soro</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">wɔamia gamepad bɔtom fam</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">wɔamia gamepad bɔtom benkum</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">wɔamia gamepad bɔtom nifa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">wɔamia gamepad bɔtom start</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">wɔamia gamepad bɔtom select</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">wɔamia gamepad bɔtom L1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">wɔamia gamepad bɔtom L2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">wɔamia gamepad bɔtom R1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">wɔamia gamepad bɔtom R2</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad ankasa blɔk ne sɛnsa</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Kyerɛ gamepad ankasa blɔk ne sɛnsa wɔ editor no mu.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agoprama tɛtrɛtɛ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agoprama sorokɔ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro anim benkum sɛnsa</string>

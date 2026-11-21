@@ -933,6 +933,7 @@
     <string formatted="false" name="brick_reset_timer">将计时器归零</string>
     <string formatted="false" name="brick_open">打开网址</string>
     <string formatted="false" name="brick_in_browser">（在浏览器中）</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">被按下时</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">当场景开始时</string>
     <string formatted="false" name="brick_when">当被点击时</string>
@@ -984,11 +985,21 @@
     <string formatted="false" name="brick_touch_from_x">"从 x："</string>
     <string formatted="false" name="brick_finish_stage">结束舞台运行</string>
     <string formatted="false" name="brick_finish_tests">结束测试</string>
+    <string formatted="false" name="brick_when_stage_exited">当退出舞台时</string>
     <string formatted="false" name="brick_assert_lists">断言列表</string>
     <string formatted="false" name="brick_assert_actual">实际：</string>
     <string formatted="false" name="brick_assert_expected">期望：</string>
     <string formatted="false" name="brick_parameterized_assert">断言</string>
     <string formatted="false" name="brick_parameterized_equals">等于以下列表中的期望项：</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">模拟游戏手柄按钮</string>
+    <string formatted="false" name="gamepad_button_state_pressed">按下</string>
+    <string formatted="false" name="gamepad_button_state_released">松开</string>
+    <string formatted="false" name="gamepad_button_up">上</string>
+    <string formatted="false" name="gamepad_button_down">下</string>
+    <string formatted="false" name="gamepad_button_left">左</string>
+    <string formatted="false" name="gamepad_button_right">右</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">遍历以下列表中的每一项：</item>
     </plurals>
@@ -1653,6 +1664,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">游戏手柄下键被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">游戏手柄左键被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">游戏手柄右键被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">游戏手柄 A 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">游戏手柄 B 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">游戏手柄 X 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">游戏手柄 Y 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">游戏手柄上方向按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">游戏手柄下方向按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">游戏手柄左方向按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">游戏手柄右方向按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">游戏手柄 Start 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">游戏手柄 Select 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">游戏手柄 L1 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">游戏手柄 L2 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">游戏手柄 R1 按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">游戏手柄 R2 按钮被按下</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">实体游戏手柄积木和传感器</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">在编辑器中显示实体游戏手柄积木和传感器。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">舞台宽度</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">舞台高度</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前传感器</string>

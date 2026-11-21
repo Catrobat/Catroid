@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Нулирай таймера</string>
     <string formatted="false" name="brick_open">Отвори</string>
     <string formatted="false" name="brick_in_browser">в браузъра</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">е натиснат</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Когато епизодът започне</string>
     <string formatted="false" name="brick_when">Когато те докоснат</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"от x:"</string>
     <string formatted="false" name="brick_finish_stage">Завърши сцената</string>
     <string formatted="false" name="brick_finish_tests">Завърши тестовете</string>
+    <string formatted="false" name="brick_when_stage_exited">Когато сцената е напусната</string>
     <string formatted="false" name="brick_assert_lists">Провери списъците</string>
     <string formatted="false" name="brick_assert_actual">Действителен:</string>
     <string formatted="false" name="brick_assert_expected">Очакван:</string>
     <string formatted="false" name="brick_parameterized_assert">провери, че</string>
     <string formatted="false" name="brick_parameterized_equals">е равно на очаквания елемент от</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Симулирай бутон на геймпада</string>
+    <string formatted="false" name="gamepad_button_state_pressed">натиснат</string>
+    <string formatted="false" name="gamepad_button_state_released">отпуснат</string>
+    <string formatted="false" name="gamepad_button_up">Нагоре</string>
+    <string formatted="false" name="gamepad_button_down">Надолу</string>
+    <string formatted="false" name="gamepad_button_left">Наляво</string>
+    <string formatted="false" name="gamepad_button_right">Надясно</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">За всеки елемент от</item>
         <item quantity="other">За всяка група елементи от</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">бутон надолу на геймпада е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">бутон наляво на геймпада е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">бутон надясно на геймпада е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">бутон A на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">бутон B на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">бутон X на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">бутон Y на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">бутон нагоре на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">бутон надолу на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">бутон наляво на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">бутон надясно на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">бутон Start на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">бутон Select на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">бутон L1 на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">бутон L2 на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">бутон R1 на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">бутон R2 на физическия геймпад е натиснат</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физически геймпад</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Показвай блока и сензора за физически геймпад в редактора.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на сцената</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">височина на сцената</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">преден ляв сензор на phiro</string>

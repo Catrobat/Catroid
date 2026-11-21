@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">გაანულე ტაიმერი</string>
     <string formatted="false" name="brick_open">გახსენი</string>
     <string formatted="false" name="brick_in_browser">ბრაუზერში</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">დააწვებიან</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">როცა ეპიზოდი დაიწყება</string>
     <string formatted="false" name="brick_when">როცა შეგეხებიან</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"საწყისი x:"</string>
     <string formatted="false" name="brick_finish_stage">დაასრულე სცენა</string>
     <string formatted="false" name="brick_finish_tests">დაასრულე ტესტები</string>
+    <string formatted="false" name="brick_when_stage_exited">როცა სცენიდან გავლენ</string>
     <string formatted="false" name="brick_assert_lists">შეამოწმე სიები</string>
     <string formatted="false" name="brick_assert_actual">ფაქტობრივი:</string>
     <string formatted="false" name="brick_assert_expected">მოსალოდნელი:</string>
     <string formatted="false" name="brick_parameterized_assert">შეამოწმე</string>
     <string formatted="false" name="brick_parameterized_equals">ტოლია მოსალოდნელი ელემენტისა სიიდან:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">გეიმპადის ღილაკის სიმულაცია</string>
+    <string formatted="false" name="gamepad_button_state_pressed">დაჭერილი</string>
+    <string formatted="false" name="gamepad_button_state_released">აშვებული</string>
+    <string formatted="false" name="gamepad_button_up">ზემოთ</string>
+    <string formatted="false" name="gamepad_button_down">ქვემოთ</string>
+    <string formatted="false" name="gamepad_button_left">მარცხნივ</string>
+    <string formatted="false" name="gamepad_button_right">მარჯვნივ</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ყოველი ელემენტისთვის სიიდან:</item>
         <item quantity="other">ელემენტების ყოველი ჯგუფისთვის სიებიდან:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">გეიმპადის „ქვემოთ“ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">გეიმპადის „მარცხნივ“ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">გეიმპადის „მარჯვნივ“ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">გეიმპადის ღილაკი A დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">გეიმპადის ღილაკი B დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">გეიმპადის ღილაკი X დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">გეიმპადის ღილაკი Y დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">გეიმპადის ღილაკი „ზემოთ“ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">გეიმპადის ღილაკი „ქვემოთ“ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">გეიმპადის ღილაკი „მარცხნივ“ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">გეიმპადის ღილაკი „მარჯვნივ“ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">გეიმპადის ღილაკი Start დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">გეიმპადის ღილაკი Select დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">გეიმპადის ღილაკი L1 დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">გეიმპადის ღილაკი L2 დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">გეიმპადის ღილაკი R1 დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">გეიმპადის ღილაკი R2 დაჭერილია</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ფიზიკური გეიმპადის ბლოკი და სენსორი</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">რედაქტორში ფიზიკური გეიმპადის ბლოკისა და სენსორის ჩვენება.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">სცენის სიგანე</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">სცენის სიმაღლე</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro-ს წინა მარცხენა სენსორი</string>

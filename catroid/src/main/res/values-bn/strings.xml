@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">টাইমার রিসেট করুন</string>
     <string formatted="false" name="brick_open">এই ঠিকানা</string>
     <string formatted="false" name="brick_in_browser">ব্রাউজারে খুলুন</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">চাপা হয়</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">যখন দৃশ্য শুরু হয়</string>
     <string formatted="false" name="brick_when">যখন আপনাকে আলতো চাপা হয়</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"শুরু x:"</string>
     <string formatted="false" name="brick_finish_stage">মঞ্চ শেষ করুন</string>
     <string formatted="false" name="brick_finish_tests">টেস্ট শেষ করুন</string>
+    <string formatted="false" name="brick_when_stage_exited">যখন মঞ্চ থেকে প্রস্থান করা হয়</string>
     <string formatted="false" name="brick_assert_lists">তালিকা যাচাই করুন</string>
     <string formatted="false" name="brick_assert_actual">প্রকৃত:</string>
     <string formatted="false" name="brick_assert_expected">প্রত্যাশিত:</string>
     <string formatted="false" name="brick_parameterized_assert">যাচাই করুন:</string>
     <string formatted="false" name="brick_parameterized_equals">সমান হবে এই তালিকার প্রত্যাশিত আইটেমের:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">গেমপ্যাড বোতাম অনুকরণ করুন</string>
+    <string formatted="false" name="gamepad_button_state_pressed">চাপা</string>
+    <string formatted="false" name="gamepad_button_state_released">ছেড়ে দেওয়া</string>
+    <string formatted="false" name="gamepad_button_up">ওপর</string>
+    <string formatted="false" name="gamepad_button_down">নিচ</string>
+    <string formatted="false" name="gamepad_button_left">বাঁ</string>
+    <string formatted="false" name="gamepad_button_right">ডান</string>
+    <string formatted="false" name="gamepad_button_start">স্টার্ট</string>
+    <string formatted="false" name="gamepad_button_select">সিলেক্ট</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">এই তালিকার প্রতিটি আইটেমের জন্য:</item>
         <item quantity="other">এই তালিকাগুলোর আইটেমের প্রতিটি সেটের জন্য:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">গেমপ্যাডের নিচ চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">গেমপ্যাডের বাঁ চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">গেমপ্যাডের ডান চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">গেমপ্যাডের A বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">গেমপ্যাডের B বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">গেমপ্যাডের X বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">গেমপ্যাডের Y বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">গেমপ্যাডের ওপর বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">গেমপ্যাডের নিচ বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">গেমপ্যাডের বাঁ বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">গেমপ্যাডের ডান বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">গেমপ্যাডের স্টার্ট বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">গেমপ্যাডের সিলেক্ট বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">গেমপ্যাডের L1 বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">গেমপ্যাডের L2 বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">গেমপ্যাডের R1 বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">গেমপ্যাডের R2 বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">সম্পাদকে ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর দেখান।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">মঞ্চের প্রস্থ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">মঞ্চের উচ্চতা</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro সামনের বাঁ সেন্সর</string>

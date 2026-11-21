@@ -933,6 +933,7 @@
     <string formatted="false" name="brick_reset_timer">Atur ulang pewaktu</string>
     <string formatted="false" name="brick_open">Buka</string>
     <string formatted="false" name="brick_in_browser">di peramban</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">ditekan</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Ketika adegan dimulai</string>
     <string formatted="false" name="brick_when">Ketika diketuk</string>
@@ -984,11 +985,21 @@
     <string formatted="false" name="brick_touch_from_x">"dari x:"</string>
     <string formatted="false" name="brick_finish_stage">Selesaikan panggung</string>
     <string formatted="false" name="brick_finish_tests">Selesaikan pengujian</string>
+    <string formatted="false" name="brick_when_stage_exited">Ketika keluar dari panggung</string>
     <string formatted="false" name="brick_assert_lists">Pastikan daftar</string>
     <string formatted="false" name="brick_assert_actual">Sebenarnya:</string>
     <string formatted="false" name="brick_assert_expected">Diharapkan:</string>
     <string formatted="false" name="brick_parameterized_assert">pastikan</string>
     <string formatted="false" name="brick_parameterized_equals">sama dengan item yang diharapkan dari</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulasikan tombol gamepad</string>
+    <string formatted="false" name="gamepad_button_state_pressed">ditekan</string>
+    <string formatted="false" name="gamepad_button_state_released">dilepas</string>
+    <string formatted="false" name="gamepad_button_up">Atas</string>
+    <string formatted="false" name="gamepad_button_down">Bawah</string>
+    <string formatted="false" name="gamepad_button_left">Kiri</string>
+    <string formatted="false" name="gamepad_button_right">Kanan</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Untuk setiap tupel item dari</item>
     </plurals>
@@ -1653,6 +1664,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">tombol bawah gamepad ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">tombol kiri gamepad ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">tombol kanan gamepad ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tombol gamepad A ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tombol gamepad B ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tombol gamepad X ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tombol gamepad Y ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tombol gamepad atas ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tombol gamepad bawah ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tombol gamepad kiri ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tombol gamepad kanan ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tombol gamepad start ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tombol gamepad select ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tombol gamepad L1 ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tombol gamepad L2 ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1 ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2 ditekan</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan sensor gamepad fisik</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Tampilkan blok dan sensor gamepad fisik di editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi panggung</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor depan kiri phiro</string>

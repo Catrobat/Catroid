@@ -1013,6 +1013,7 @@
     <string formatted="false" name="brick_reset_timer">אפס את שעון העצר</string>
     <string formatted="false" name="brick_open">פתח</string>
     <string formatted="false" name="brick_in_browser">בדפדפן</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">נלחץ</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">כאשר הסצנה מתחילה</string>
     <string formatted="false" name="brick_when">כאשר מקישים עליך</string>
@@ -1066,11 +1067,21 @@
     <string formatted="false" name="brick_touch_from_x">"מ־x:"</string>
     <string formatted="false" name="brick_finish_stage">סגור את הבמה</string>
     <string formatted="false" name="brick_finish_tests">סיים את הבדיקות</string>
+    <string formatted="false" name="brick_when_stage_exited">כאשר יוצאים מהבמה</string>
     <string formatted="false" name="brick_assert_lists">ודא רשימות</string>
     <string formatted="false" name="brick_assert_actual">בפועל:</string>
     <string formatted="false" name="brick_assert_expected">צפוי:</string>
     <string formatted="false" name="brick_parameterized_assert">ודא ש־</string>
     <string formatted="false" name="brick_parameterized_equals">שווה לפריט הצפוי של</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">דמה כפתור שלט</string>
+    <string formatted="false" name="gamepad_button_state_pressed">לחוץ</string>
+    <string formatted="false" name="gamepad_button_state_released">משוחרר</string>
+    <string formatted="false" name="gamepad_button_up">למעלה</string>
+    <string formatted="false" name="gamepad_button_down">למטה</string>
+    <string formatted="false" name="gamepad_button_left">שמאלה</string>
+    <string formatted="false" name="gamepad_button_right">ימינה</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">לכל פריט של</item>
         <item quantity="two">לכל צירוף פריטים של</item>
@@ -1743,6 +1754,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">כפתור למטה בשלט נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">כפתור שמאלה בשלט נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">כפתור ימינה בשלט נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">כפתור השלט A נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">כפתור השלט B נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">כפתור השלט X נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">כפתור השלט Y נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">כפתור השלט למעלה נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">כפתור השלט למטה נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">כפתור השלט שמאלה נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">כפתור השלט ימינה נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">כפתור השלט Start נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">כפתור השלט Select נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">כפתור השלט L1 נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">כפתור השלט L2 נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">כפתור השלט R1 נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">כפתור השלט R2 נלחץ</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">לבנה וחיישן של שלט פיזי</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">הצגת הלבנה והחיישן של השלט הפיזי בעורך.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">גובה הבמה</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">חיישן קדמי שמאלי של Phiro</string>

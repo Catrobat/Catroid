@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">I-reset ang timer</string>
     <string formatted="false" name="brick_open">Buksan ang</string>
     <string formatted="false" name="brick_in_browser">sa browser</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">ay pinindot</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kapag nagsimula ang eksena</string>
     <string formatted="false" name="brick_when">Kapag na-tap</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"mula sa x:"</string>
     <string formatted="false" name="brick_finish_stage">Tapusin ang entablado</string>
     <string formatted="false" name="brick_finish_tests">Tapusin ang mga pagsubok</string>
+    <string formatted="false" name="brick_when_stage_exited">Kapag lumabas sa entablado</string>
     <string formatted="false" name="brick_assert_lists">Tiyakin ang mga listahan</string>
     <string formatted="false" name="brick_assert_actual">Aktuwal:</string>
     <string formatted="false" name="brick_assert_expected">Inaasahan:</string>
     <string formatted="false" name="brick_parameterized_assert">tiyakin na</string>
     <string formatted="false" name="brick_parameterized_equals">ay katumbas ng inaasahang item ng</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">I-simulate ang gamepad button</string>
+    <string formatted="false" name="gamepad_button_state_pressed">pinindot</string>
+    <string formatted="false" name="gamepad_button_state_released">binitawan</string>
+    <string formatted="false" name="gamepad_button_up">Pataas</string>
+    <string formatted="false" name="gamepad_button_down">Pababa</string>
+    <string formatted="false" name="gamepad_button_left">Pakaliwa</string>
+    <string formatted="false" name="gamepad_button_right">Pakanan</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Para sa bawat item ng</item>
         <item quantity="other">Para sa bawat tuple ng mga item ng</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">pinindot ang gamepad pababa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">pinindot ang gamepad pakaliwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">pinindot ang gamepad pakanan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">pinindot ang gamepad button A</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">pinindot ang gamepad button B</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">pinindot ang gamepad button X</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">pinindot ang gamepad button Y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">pinindot ang gamepad button pataas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">pinindot ang gamepad button pababa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">pinindot ang gamepad button pakaliwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">pinindot ang gamepad button pakanan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">pinindot ang gamepad button start</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">pinindot ang gamepad button select</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">pinindot ang gamepad button L1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pinindot ang gamepad button L2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pinindot ang gamepad button R1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pinindot ang gamepad button R2</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Block at sensor ng pisikal na gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Ipakita ang block at sensor ng pisikal na gamepad sa editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lapad ng entablado</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">taas ng entablado</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor sa harap-kaliwa</string>

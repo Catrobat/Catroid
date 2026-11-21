@@ -1133,6 +1133,7 @@
     <string formatted="false" name="brick_reset_timer">أعد ضبط المؤقت</string>
     <string formatted="false" name="brick_open">افتح</string>
     <string formatted="false" name="brick_in_browser">في المتصفح</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">مضغوطًا</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">عند بدء المشهد</string>
     <string formatted="false" name="brick_when">عند النقر عليك</string>
@@ -1189,11 +1190,21 @@
     <string formatted="false" name="brick_touch_from_x">"من س:"</string>
     <string formatted="false" name="brick_finish_stage">أنهِ تشغيل المسرح</string>
     <string formatted="false" name="brick_finish_tests">أنهِ الاختبارات</string>
+    <string formatted="false" name="brick_when_stage_exited">عند الخروج من المسرح</string>
     <string formatted="false" name="brick_assert_lists">تحقّق من القوائم</string>
     <string formatted="false" name="brick_assert_actual">الفعلي:</string>
     <string formatted="false" name="brick_assert_expected">المتوقع:</string>
     <string formatted="false" name="brick_parameterized_assert">تحقّق من أن</string>
     <string formatted="false" name="brick_parameterized_equals">يساوي العنصر المتوقع من</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">حاكِ زر لوحة الألعاب</string>
+    <string formatted="false" name="gamepad_button_state_pressed">مضغوط</string>
+    <string formatted="false" name="gamepad_button_state_released">محرَّر</string>
+    <string formatted="false" name="gamepad_button_up">أعلى</string>
+    <string formatted="false" name="gamepad_button_down">أسفل</string>
+    <string formatted="false" name="gamepad_button_left">يسار</string>
+    <string formatted="false" name="gamepad_button_right">يمين</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="zero">لكل مجموعة عناصر من</item>
         <item quantity="one">لكل عنصر من</item>
@@ -1878,6 +1889,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">زر الأسفل في لوحة الألعاب مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">زر اليسار في لوحة الألعاب مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">زر اليمين في لوحة الألعاب مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">زر لوحة الألعاب A مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">زر لوحة الألعاب B مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">زر لوحة الألعاب X مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">زر لوحة الألعاب Y مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">زر لوحة الألعاب الأعلى مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">زر لوحة الألعاب الأسفل مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">زر لوحة الألعاب اليسار مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">زر لوحة الألعاب اليمين مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">زر لوحة الألعاب Start مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">زر لوحة الألعاب Select مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">زر لوحة الألعاب L1 مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">زر لوحة الألعاب L2 مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">زر لوحة الألعاب R1 مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">زر لوحة الألعاب R2 مضغوط</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">لبنة ومستشعر لوحة الألعاب الفعلية</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">إظهار لبنة ومستشعر لوحة الألعاب الفعلية في المحرر.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">عرض المسرح</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع المسرح</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">المستشعر الأمامي الأيسر في Phiro</string>

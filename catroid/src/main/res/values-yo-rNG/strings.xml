@@ -933,6 +933,7 @@
     <string formatted="false" name="brick_reset_timer">Tún aago ìdíwọ̀n bẹ̀rẹ̀ láti òdo</string>
     <string formatted="false" name="brick_open">Ṣí</string>
     <string formatted="false" name="brick_in_browser">nínú aṣàwákiri</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">bá wà ní títẹ̀ mọ́lẹ̀</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Nígbà tí ìran bá bẹ̀rẹ̀</string>
     <string formatted="false" name="brick_when">Nígbà tí a bá tẹ ọ́</string>
@@ -984,11 +985,21 @@
     <string formatted="false" name="brick_touch_from_x">"láti x:"</string>
     <string formatted="false" name="brick_finish_stage">Parí ìtàgé</string>
     <string formatted="false" name="brick_finish_tests">Parí àwọn ìdánwò</string>
+    <string formatted="false" name="brick_when_stage_exited">Nígbà tí a bá jáde kúrò ní ìtàgé</string>
     <string formatted="false" name="brick_assert_lists">Jẹ́rìísí àwọn àkójọ</string>
     <string formatted="false" name="brick_assert_actual">Gidi:</string>
     <string formatted="false" name="brick_assert_expected">Tí a retí:</string>
     <string formatted="false" name="brick_parameterized_assert">jẹ́rìísí</string>
     <string formatted="false" name="brick_parameterized_equals">dọ́gba pẹ̀lú ohun tí a retí nínú</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Ṣe àfarawé bọ́tìnnì gamepad</string>
+    <string formatted="false" name="gamepad_button_state_pressed">títẹ̀</string>
+    <string formatted="false" name="gamepad_button_state_released">títúsílẹ̀</string>
+    <string formatted="false" name="gamepad_button_up">Òkè</string>
+    <string formatted="false" name="gamepad_button_down">Ìsàlẹ̀</string>
+    <string formatted="false" name="gamepad_button_left">Òsì</string>
+    <string formatted="false" name="gamepad_button_right">Ọ̀tún</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Fún àkójọpọ̀ ohun kọ̀ọ̀kan láti inú</item>
     </plurals>
@@ -1653,6 +1664,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">a tẹ ìsàlẹ̀ gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">a tẹ òsì gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">a tẹ ọ̀tún gamepad</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">a tẹ bọ́tìnnì gamepad A</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">a tẹ bọ́tìnnì gamepad B</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">a tẹ bọ́tìnnì gamepad X</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">a tẹ bọ́tìnnì gamepad Y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">a tẹ bọ́tìnnì gamepad òkè</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">a tẹ bọ́tìnnì gamepad ìsàlẹ̀</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">a tẹ bọ́tìnnì gamepad òsì</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">a tẹ bọ́tìnnì gamepad ọ̀tún</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">a tẹ bọ́tìnnì gamepad start</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">a tẹ bọ́tìnnì gamepad select</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">a tẹ bọ́tìnnì gamepad L1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">a tẹ bọ́tìnnì gamepad L2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a tẹ bọ́tìnnì gamepad R1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a tẹ bọ́tìnnì gamepad R2</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Fi búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi hàn nínú olóòtú.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ìbú ìtàgé</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">gíga ìtàgé</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sẹ́ńsọ̀ iwájú òsì phiro</string>

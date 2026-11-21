@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Nullázd az időmérőt</string>
     <string formatted="false" name="brick_open">Nyisd meg:</string>
     <string formatted="false" name="brick_in_browser">a böngészőben</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">gombját lenyomják</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Amikor a jelenet elindul</string>
     <string formatted="false" name="brick_when">Amikor rám koppintanak</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"innen: x:"</string>
     <string formatted="false" name="brick_finish_stage">Állítsd le a színpadot</string>
     <string formatted="false" name="brick_finish_tests">Fejezd be a teszteket</string>
+    <string formatted="false" name="brick_when_stage_exited">Amikor kilépnek a színpadról</string>
     <string formatted="false" name="brick_assert_lists">Ellenőrizd a listákat</string>
     <string formatted="false" name="brick_assert_actual">Tényleges:</string>
     <string formatted="false" name="brick_assert_expected">Várt:</string>
     <string formatted="false" name="brick_parameterized_assert">Ellenőrizd, hogy</string>
     <string formatted="false" name="brick_parameterized_equals">egyenlő a várt elemmel ebből:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Szimuláld a játékvezérlő gombját</string>
+    <string formatted="false" name="gamepad_button_state_pressed">lenyomva</string>
+    <string formatted="false" name="gamepad_button_state_released">felengedve</string>
+    <string formatted="false" name="gamepad_button_up">Fel</string>
+    <string formatted="false" name="gamepad_button_down">Le</string>
+    <string formatted="false" name="gamepad_button_left">Balra</string>
+    <string formatted="false" name="gamepad_button_right">Jobbra</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Minden elemre ebből:</item>
         <item quantity="other">Minden elemcsoportra ezekből:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">játékvezérlő le lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">játékvezérlő balra lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">játékvezérlő jobbra lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">játékvezérlő A gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">játékvezérlő B gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">játékvezérlő X gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">játékvezérlő Y gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">játékvezérlő fel gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">játékvezérlő le gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">játékvezérlő balra gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">játékvezérlő jobbra gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">játékvezérlő start gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">játékvezérlő select gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">játékvezérlő L1 gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">játékvezérlő L2 gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">játékvezérlő R1 gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">játékvezérlő R2 gomb lenyomva</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fizikai játékvezérlő blokk és érzékelő</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">A fizikai játékvezérlő blokk és érzékelő megjelenítése a szerkesztőben.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">színpad magassága</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro bal első érzékelő</string>

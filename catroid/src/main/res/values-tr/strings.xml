@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Zamanlayıcıyı sıfırla</string>
     <string formatted="false" name="brick_open">Aç:</string>
     <string formatted="false" name="brick_in_browser">(tarayıcıda)</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">basıldığında</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Bölüm başladığında</string>
     <string formatted="false" name="brick_when">Dokunulduğunda</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"başlangıç x:"</string>
     <string formatted="false" name="brick_finish_stage">Sahneyi bitir</string>
     <string formatted="false" name="brick_finish_tests">Testleri bitir</string>
+    <string formatted="false" name="brick_when_stage_exited">Sahneden çıkıldığında</string>
     <string formatted="false" name="brick_assert_lists">Listeleri doğrula</string>
     <string formatted="false" name="brick_assert_actual">Gerçek:</string>
     <string formatted="false" name="brick_assert_expected">Beklenen:</string>
     <string formatted="false" name="brick_parameterized_assert">doğrula:</string>
     <string formatted="false" name="brick_parameterized_equals">şu listenin beklenen öğesine eşit:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Oyun kumandası düğmesini simüle et</string>
+    <string formatted="false" name="gamepad_button_state_pressed">basılı</string>
+    <string formatted="false" name="gamepad_button_state_released">bırakılmış</string>
+    <string formatted="false" name="gamepad_button_up">Yukarı</string>
+    <string formatted="false" name="gamepad_button_down">Aşağı</string>
+    <string formatted="false" name="gamepad_button_left">Sol</string>
+    <string formatted="false" name="gamepad_button_right">Sağ</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Şu listenin her öğesi için:</item>
         <item quantity="other">Şu listenin her öğe grubu için:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">oyun kumandası aşağı basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">oyun kumandası sol basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">oyun kumandası sağ basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">oyun kumandası A düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">oyun kumandası B düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">oyun kumandası X düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">oyun kumandası Y düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">oyun kumandası yukarı düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">oyun kumandası aşağı düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">oyun kumandası sol düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">oyun kumandası sağ düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">oyun kumandası start düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">oyun kumandası select düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">oyun kumandası L1 düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun kumandası L2 düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun kumandası R1 düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun kumandası R2 düğmesi basılı</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziksel oyun kumandası bloğu ve sensörü</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Düzenleyicide fiziksel oyun kumandası bloğunu ve sensörünü gösterir.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahne genişliği</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">sahne yüksekliği</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sol ön sensör</string>

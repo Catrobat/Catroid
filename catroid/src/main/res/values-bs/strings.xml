@@ -1013,6 +1013,7 @@
     <string formatted="false" name="brick_reset_timer">Resetuj tajmer</string>
     <string formatted="false" name="brick_open">Otvori</string>
     <string formatted="false" name="brick_in_browser">u pregledniku</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">pritisne</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kada scena počne</string>
     <string formatted="false" name="brick_when">Kada se dodirne</string>
@@ -1066,11 +1067,21 @@
     <string formatted="false" name="brick_touch_from_x">"od x:"</string>
     <string formatted="false" name="brick_finish_stage">Završi pozornicu</string>
     <string formatted="false" name="brick_finish_tests">Završi testove</string>
+    <string formatted="false" name="brick_when_stage_exited">Kada se napusti pozornica</string>
     <string formatted="false" name="brick_assert_lists">Provjeri liste</string>
     <string formatted="false" name="brick_assert_actual">Stvarno:</string>
     <string formatted="false" name="brick_assert_expected">Očekivano:</string>
     <string formatted="false" name="brick_parameterized_assert">provjeri da je</string>
     <string formatted="false" name="brick_parameterized_equals">jednako očekivanoj stavci liste</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuliraj dugme gamepada</string>
+    <string formatted="false" name="gamepad_button_state_pressed">pritisnuto</string>
+    <string formatted="false" name="gamepad_button_state_released">otpušteno</string>
+    <string formatted="false" name="gamepad_button_up">Gore</string>
+    <string formatted="false" name="gamepad_button_down">Dolje</string>
+    <string formatted="false" name="gamepad_button_left">Lijevo</string>
+    <string formatted="false" name="gamepad_button_right">Desno</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Za svaku stavku liste</item>
         <item quantity="few">Za svaku grupu stavki listi</item>
@@ -1743,6 +1754,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad dolje pritisnut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad lijevo pritisnut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad desno pritisnut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">dugme gamepada A pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">dugme gamepada B pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">dugme gamepada X pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">dugme gamepada Y pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">dugme gamepada gore pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">dugme gamepada dolje pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">dugme gamepada lijevo pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">dugme gamepada desno pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">dugme gamepada start pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">dugme gamepada select pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">dugme gamepada L1 pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">dugme gamepada L2 pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">dugme gamepada R1 pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">dugme gamepada R2 pritisnuto</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok i senzor fizičkog gamepada</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Prikaži blok i senzor fizičkog gamepada u uređivaču.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">visina pozornice</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro prednji lijevi senzor</string>

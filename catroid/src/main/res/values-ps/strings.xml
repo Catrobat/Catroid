@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">ټایمر بیا صفر کړئ</string>
     <string formatted="false" name="brick_open">خلاص کړئ</string>
     <string formatted="false" name="brick_in_browser">په براوزر کې</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">کېکاږل شي</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">کله چې صحنه پیل شي</string>
     <string formatted="false" name="brick_when">کله چې ټک پرې وشي</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"له x:"</string>
     <string formatted="false" name="brick_finish_stage">سټېج پای ته ورسوئ</string>
     <string formatted="false" name="brick_finish_tests">ازموینې پای ته ورسوئ</string>
+    <string formatted="false" name="brick_when_stage_exited">کله چې له سټېج څخه ووتل شي</string>
     <string formatted="false" name="brick_assert_lists">لیستونه وازمویئ</string>
     <string formatted="false" name="brick_assert_actual">اصلي:</string>
     <string formatted="false" name="brick_assert_expected">تمه شوی:</string>
     <string formatted="false" name="brick_parameterized_assert">ډاډ ترلاسه کړئ</string>
     <string formatted="false" name="brick_parameterized_equals">له دې د تمه شوي توکي سره برابر دی</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">د ګیم‌پیډ تڼۍ شبیه‌سازي کړئ</string>
+    <string formatted="false" name="gamepad_button_state_pressed">کېکاږل شوې</string>
+    <string formatted="false" name="gamepad_button_state_released">خوشې شوې</string>
+    <string formatted="false" name="gamepad_button_up">پورته</string>
+    <string formatted="false" name="gamepad_button_down">ښکته</string>
+    <string formatted="false" name="gamepad_button_left">کیڼ</string>
+    <string formatted="false" name="gamepad_button_right">ښي</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">د دې د هر توکي لپاره</item>
         <item quantity="other">د دې د توکو د هرې ډلې لپاره</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">د ګیم‌پډ ښکته کېکاږل شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">د ګیم‌پډ کیڼ کېکاږل شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">د ګیم‌پډ ښي کېکاږل شوی</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">د ګیم‌پیډ تڼۍ A کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">د ګیم‌پیډ تڼۍ B کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">د ګیم‌پیډ تڼۍ X کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">د ګیم‌پیډ تڼۍ Y کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">د ګیم‌پیډ تڼۍ پورته کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">د ګیم‌پیډ تڼۍ ښکته کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">د ګیم‌پیډ تڼۍ کیڼ کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">د ګیم‌پیډ تڼۍ ښي کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">د ګیم‌پیډ تڼۍ Start کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">د ګیم‌پیډ تڼۍ Select کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">د ګیم‌پیډ تڼۍ L1 کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">د ګیم‌پیډ تڼۍ L2 کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1 کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2 کېکاږل شوې</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د فزیکي ګیم‌پیډ بلاک او سینسر</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">په ایډیټر کې د فزیکي ګیم‌پیډ بلاک او سینسر ښکاره کړئ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">د سټېج لوړوالی</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">د Phiro مخکینی کیڼ سینسر</string>

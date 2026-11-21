@@ -11,6 +11,9 @@ Please review the [contributing guidelines](https://github.com/Catrobat/Catroid/
 - [ ] Perform a self-review of the changes
 - [ ] Verify to commit no other files than the intentionally changed ones
 - [ ] Include reasonable and readable tests verifying the added or changed behavior
+- [ ] Include [Catrobat Language Tests](https://github.com/Catrobat/Catroid/blob/develop/README.md#catrobat-language-tests) for new or changed language behavior, without duplicating them in unit tests
+- [ ] If the Catrobat language changes, increase `CURRENT_CATROBAT_LANGUAGE_VERSION` in this PR and add the *XML Change* label
+- [ ] If the PR was created with AI, also add translations for all new string resources in every language
 - [ ] Confirm that new and existing unit tests pass locally
 - [ ] Check that the commits’ message style matches the [project’s guideline](https://github.com/Catrobat/Catroid/wiki/Branch-and-Commit-Message-Guidelines)
 - [ ] Stick to the project’s gitflow workflow

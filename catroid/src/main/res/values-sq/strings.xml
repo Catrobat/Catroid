@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Rivendos kohëmatësin</string>
     <string formatted="false" name="brick_open">Hap</string>
     <string formatted="false" name="brick_in_browser">në shfletues</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">shtypet</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kur fillon episodi</string>
     <string formatted="false" name="brick_when">Kur prekesh</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"nga x:"</string>
     <string formatted="false" name="brick_finish_stage">Përfundo skenën</string>
     <string formatted="false" name="brick_finish_tests">Përfundo testet</string>
+    <string formatted="false" name="brick_when_stage_exited">Kur mbyllet skena</string>
     <string formatted="false" name="brick_assert_lists">Verifiko listat</string>
     <string formatted="false" name="brick_assert_actual">Aktuale:</string>
     <string formatted="false" name="brick_assert_expected">E pritur:</string>
     <string formatted="false" name="brick_parameterized_assert">verifiko</string>
     <string formatted="false" name="brick_parameterized_equals">është e barabartë me elementin e pritur të</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulo butonin e tastierës së lojës</string>
+    <string formatted="false" name="gamepad_button_state_pressed">i shtypur</string>
+    <string formatted="false" name="gamepad_button_state_released">i lëshuar</string>
+    <string formatted="false" name="gamepad_button_up">Lart</string>
+    <string formatted="false" name="gamepad_button_down">Poshtë</string>
+    <string formatted="false" name="gamepad_button_left">Majtas</string>
+    <string formatted="false" name="gamepad_button_right">Djathtas</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Për çdo element të</item>
         <item quantity="other">Për çdo grup elementesh të</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">poshtë në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">majtas në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">djathtas në tastierën e lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butoni A i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butoni B i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butoni X i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butoni Y i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butoni lart i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butoni poshtë i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butoni majtas i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butoni djathtas i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butoni Start i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butoni Select i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butoni L1 i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butoni L2 i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1 i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2 i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blloku dhe sensori i tastierës fizike të lojës</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Shfaq bllokun dhe sensorin e tastierës fizike të lojës në redaktor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">lartësia e skenës</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensori i përparmë majtas i phiro</string>

@@ -197,6 +197,7 @@ import org.catrobat.catroid.content.bricks.ShareLaserBrick
 import org.catrobat.catroid.content.bricks.ShowBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
+import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
@@ -236,8 +237,10 @@ import org.catrobat.catroid.content.bricks.WhenBrick
 import org.catrobat.catroid.content.bricks.WhenClonedBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick
 import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
+import org.catrobat.catroid.content.bricks.WhenStageExitedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
@@ -737,6 +740,9 @@ open class CategoryBricksFactory {
         deviceBrickList.add(ResetTimerBrick())
         deviceBrickList.add(WhenBrick())
         deviceBrickList.add(WhenTouchDownBrick())
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            deviceBrickList.add(WhenGamepadButtonPressedBrick())
+        }
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             deviceBrickList.add(WhenNfcBrick())
             deviceBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
@@ -1116,7 +1122,9 @@ open class CategoryBricksFactory {
                 BrickValues.TOUCH_DURATION
             )
         )
+        assertionsBrickList.add(SimulateGamepadButtonBrick())
         assertionsBrickList.add(FinishStageBrick())
+        assertionsBrickList.add(WhenStageExitedBrick())
         assertionsBrickList.add(
             StoreCSVIntoUserListBrick(
                 BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
@@ -1226,6 +1234,8 @@ open class CategoryBricksFactory {
             is UserDefinedReceiverBrick -> category = res.getString(R.string.category_user_bricks)
             is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
             is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
+            is WhenGamepadButtonPressedBrick -> category = res.getString(R.string.category_device)
+            is WhenStageExitedBrick -> category = res.getString(R.string.category_assertions)
         }
 
         config.locale = savedLocale

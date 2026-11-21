@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">ટાઇમર રીસેટ કરો</string>
     <string formatted="false" name="brick_open">ખોલો</string>
     <string formatted="false" name="brick_in_browser">બ્રાઉઝરમાં</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">દબાય</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">જ્યારે દૃશ્ય શરૂ થાય</string>
     <string formatted="false" name="brick_when">જ્યારે ટૅપ કરવામાં આવે</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"શરૂઆત x:"</string>
     <string formatted="false" name="brick_finish_stage">મંચ સમાપ્ત કરો</string>
     <string formatted="false" name="brick_finish_tests">પરીક્ષણો સમાપ્ત કરો</string>
+    <string formatted="false" name="brick_when_stage_exited">જ્યારે મંચ પરથી બહાર નીકળવામાં આવે</string>
     <string formatted="false" name="brick_assert_lists">યાદીઓની ખાતરી કરો</string>
     <string formatted="false" name="brick_assert_actual">વાસ્તવિક:</string>
     <string formatted="false" name="brick_assert_expected">અપેક્ષિત:</string>
     <string formatted="false" name="brick_parameterized_assert">ખાતરી કરો કે</string>
     <string formatted="false" name="brick_parameterized_equals">આની અપેક્ષિત આઇટમ બરાબર છે:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">ગેમપૅડ બટનનું અનુકરણ કરો</string>
+    <string formatted="false" name="gamepad_button_state_pressed">દબાવેલું</string>
+    <string formatted="false" name="gamepad_button_state_released">છોડેલું</string>
+    <string formatted="false" name="gamepad_button_up">ઉપર</string>
+    <string formatted="false" name="gamepad_button_down">નીચે</string>
+    <string formatted="false" name="gamepad_button_left">ડાબે</string>
+    <string formatted="false" name="gamepad_button_right">જમણે</string>
+    <string formatted="false" name="gamepad_button_start">સ્ટાર્ટ</string>
+    <string formatted="false" name="gamepad_button_select">સિલેક્ટ</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">આની દરેક આઇટમ માટે:</item>
         <item quantity="other">આની આઇટમના દરેક સમૂહ માટે:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ગેમપૅડ નીચે દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ગેમપૅડ ડાબે દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ગેમપૅડ જમણે દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ગેમપૅડ બટન A દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ગેમપૅડ બટન B દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ગેમપૅડ બટન X દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ગેમપૅડ બટન Y દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ગેમપૅડ બટન ઉપર દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ગેમપૅડ બટન નીચે દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ગેમપૅડ બટન ડાબે દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ગેમપૅડ બટન જમણે દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ગેમપૅડ બટન સ્ટાર્ટ દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ગેમપૅડ બટન સિલેક્ટ દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ગેમપૅડ બટન L1 દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ગેમપૅડ બટન L2 દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ગેમપૅડ બટન R1 દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ગેમપૅડ બટન R2 દબાવ્યું</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">સંપાદકમાં ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર બતાવો.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">મંચની પહોળાઈ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">મંચની ઊંચાઈ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro આગળનું ડાબું સેન્સર</string>

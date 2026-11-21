@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
+import org.catrobat.catroid.gamepad.GamepadButton;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -275,6 +276,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
+		GamepadButton gamepadButton = GamepadButtonSensors.toGamepadButton(sensor);
+		if (gamepadButton != null) {
+			return GamepadButtonSensors.sensorValue(gamepadButton);
+		}
 		if (instance.sensorManager == null) {
 			return 0d;
 		}

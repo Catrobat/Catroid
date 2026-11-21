@@ -192,6 +192,7 @@ import org.catrobat.catroid.content.bricks.SharePlotBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -229,7 +230,9 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
+import org.catrobat.catroid.content.bricks.WhenStageExitedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
@@ -257,6 +260,7 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {
@@ -475,6 +479,7 @@ public class BrickCategoryTest {
 				{"Device", Arrays.asList(ResetTimerBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
+						WhenGamepadButtonPressedBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
 						OpenUrlBrick.class,
@@ -555,7 +560,9 @@ public class BrickCategoryTest {
 						TapAtBrick.class,
 						TapForBrick.class,
 						TouchAndSlideBrick.class,
+						SimulateGamepadButtonBrick.class,
 						FinishStageBrick.class,
+						WhenStageExitedBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},
 		});
@@ -580,6 +587,9 @@ public class BrickCategoryTest {
 		for (String setting : speechAISettings) {
 			sharedPreferencesEditor.putBoolean(setting, true);
 		}
+		// The physical gamepad brick has no own brick category either, so its setting is activated
+		// as well. It adds the brick to the Device category.
+		sharedPreferencesEditor.putBoolean(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, true);
 		sharedPreferencesEditor.commit();
 
 		createProject(ApplicationProvider.getApplicationContext());

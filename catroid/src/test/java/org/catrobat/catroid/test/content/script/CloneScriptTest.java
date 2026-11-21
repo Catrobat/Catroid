@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,9 +32,11 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
+import org.catrobat.catroid.content.WhenGamepadButtonPressedScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenStageExitedScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.junit.Before;
@@ -68,8 +70,10 @@ public class CloneScriptTest {
 				{WhenClonedScript.class.getSimpleName(), WhenClonedScript.class},
 				{WhenConditionScript.class.getSimpleName(), WhenConditionScript.class},
 				{WhenGamepadButtonScript.class.getSimpleName(), WhenGamepadButtonScript.class},
+				{WhenGamepadButtonPressedScript.class.getSimpleName(), WhenGamepadButtonPressedScript.class},
 				{WhenNfcScript.class.getSimpleName(), WhenNfcScript.class},
 				{WhenScript.class.getSimpleName(), WhenScript.class},
+				{WhenStageExitedScript.class.getSimpleName(), WhenStageExitedScript.class},
 				{WhenTouchDownScript.class.getSimpleName(), WhenTouchDownScript.class},
 				{UserDefinedScript.class.getSimpleName(), UserDefinedScript.class},
 		});

@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Sake saita agogon ƙirga</string>
     <string formatted="false" name="brick_open">Buɗe</string>
     <string formatted="false" name="brick_in_browser">a burauza</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">an danna shi</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Idan sashe ya fara</string>
     <string formatted="false" name="brick_when">Idan an taɓa</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"daga x:"</string>
     <string formatted="false" name="brick_finish_stage">Kammala fage</string>
     <string formatted="false" name="brick_finish_tests">Kammala gwaje-gwaje</string>
+    <string formatted="false" name="brick_when_stage_exited">Idan an fita daga fage</string>
     <string formatted="false" name="brick_assert_lists">Tabbatar da jeri</string>
     <string formatted="false" name="brick_assert_actual">Ainihi:</string>
     <string formatted="false" name="brick_assert_expected">Abin da ake tsammani:</string>
     <string formatted="false" name="brick_parameterized_assert">tabbatar</string>
     <string formatted="false" name="brick_parameterized_equals">daidai yake da abin da ake tsammani na</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Kwaikwayi maɓallin gamepad</string>
+    <string formatted="false" name="gamepad_button_state_pressed">an danna</string>
+    <string formatted="false" name="gamepad_button_state_released">an saki</string>
+    <string formatted="false" name="gamepad_button_up">Sama</string>
+    <string formatted="false" name="gamepad_button_down">Ƙasa</string>
+    <string formatted="false" name="gamepad_button_left">Hagu</string>
+    <string formatted="false" name="gamepad_button_right">Dama</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Don kowane abu na</item>
         <item quantity="other">Don kowane rukunin abubuwa na</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">an danna ƙasa na gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">an danna hagu na gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">an danna dama na gamepad</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">an danna maɓallin gamepad A</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">an danna maɓallin gamepad B</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">an danna maɓallin gamepad X</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">an danna maɓallin gamepad Y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">an danna maɓallin gamepad sama</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">an danna maɓallin gamepad ƙasa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">an danna maɓallin gamepad hagu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">an danna maɓallin gamepad dama</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">an danna maɓallin gamepad start</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">an danna maɓallin gamepad select</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">an danna maɓallin gamepad L1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">an danna maɓallin gamepad L2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">an danna maɓallin gamepad R1</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">an danna maɓallin gamepad R2</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Tubali da sensar gamepad na zahiri</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Nuna tubali da sensar gamepad na zahiri a cikin edita.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">faɗin fage</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tsayin fage</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensar gaba ta hagu ta phiro</string>

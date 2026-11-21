@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Taymerni nolga tushir</string>
     <string formatted="false" name="brick_open">Och:</string>
     <string formatted="false" name="brick_in_browser">brauzerda</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">bosilgan zahoti</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Koʻrinish boshlanganda</string>
     <string formatted="false" name="brick_when">Bosilganda</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"boshlanish x:"</string>
     <string formatted="false" name="brick_finish_stage">Sahnani yakunla</string>
     <string formatted="false" name="brick_finish_tests">Testlarni yakunla</string>
+    <string formatted="false" name="brick_when_stage_exited">Sahnadan chiqilganda</string>
     <string formatted="false" name="brick_assert_lists">Roʻyxatlarni tekshir</string>
     <string formatted="false" name="brick_assert_actual">Haqiqiy:</string>
     <string formatted="false" name="brick_assert_expected">Kutilgan:</string>
     <string formatted="false" name="brick_parameterized_assert">tekshir:</string>
     <string formatted="false" name="brick_parameterized_equals">quyidagining kutilgan elementiga teng:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Geympad tugmasini simulyatsiya qil</string>
+    <string formatted="false" name="gamepad_button_state_pressed">bosilgan</string>
+    <string formatted="false" name="gamepad_button_state_released">qoʻyib yuborilgan</string>
+    <string formatted="false" name="gamepad_button_up">Yuqori</string>
+    <string formatted="false" name="gamepad_button_down">Past</string>
+    <string formatted="false" name="gamepad_button_left">Chap</string>
+    <string formatted="false" name="gamepad_button_right">Oʻng</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Har bir element uchun:</item>
         <item quantity="other">Har bir elementlar toʻplami uchun:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">geympad past bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">geympad chap bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">geympad oʻng bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">geympad tugmasi A bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">geympad tugmasi B bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">geympad tugmasi X bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">geympad tugmasi Y bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">geympad tugmasi yuqori bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">geympad tugmasi past bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">geympad tugmasi chap bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">geympad tugmasi oʻng bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">geympad tugmasi start bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">geympad tugmasi select bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">geympad tugmasi L1 bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">geympad tugmasi L2 bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">geympad tugmasi R1 bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">geympad tugmasi R2 bosilgan</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Jismoniy geympad bloki va sensori</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Muharrirda jismoniy geympad bloki va sensorini koʻrsatish.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahna kengligi</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">sahna balandligi</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro old chap sensori</string>
