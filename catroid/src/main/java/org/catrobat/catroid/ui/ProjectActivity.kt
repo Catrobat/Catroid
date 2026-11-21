@@ -26,6 +26,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -34,6 +35,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -76,10 +80,6 @@ import org.catrobat.catroid.utils.setVisibleOrGone
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import org.koin.android.ext.android.inject
 import java.io.File
-import android.graphics.Bitmap
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 
 class ProjectActivity : BaseCastActivity() {
 
@@ -191,20 +191,7 @@ class ProjectActivity : BaseCastActivity() {
             pendingShortcutIcon = null
             lifecycleScope.launch {
                 val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
-                ShortcutDialogHelper.showPinShortcutDialog(
-                    this@ProjectActivity,
-                    layoutInflater,
-                    projectName,
-                    icon,
-                    isGranted,
-                    onSettingsClicked = {
-                        pendingShortcutProjectName = projectName
-                        pendingShortcutIcon = icon
-                    },
-                    onProjectRenamed = { _, newName ->
-                        supportActionBar?.title = newName
-                    }
-                )
+                showPinShortcutDialog(projectName, icon, isGranted)
             }
         }
     }
@@ -224,21 +211,36 @@ class ProjectActivity : BaseCastActivity() {
         lifecycleScope.launch {
             val icon = ShortcutHelper.loadProjectIcon(projectName)
             val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
-            ShortcutDialogHelper.showPinShortcutDialog(
-                this@ProjectActivity,
-                layoutInflater,
-                projectName,
-                icon,
-                isGranted,
-                onSettingsClicked = {
-                    pendingShortcutProjectName = projectName
-                    pendingShortcutIcon = icon
-                },
-                onProjectRenamed = { _, newName ->
-                    supportActionBar?.title = newName
-                }
-            )
+            showPinShortcutDialog(projectName, icon, isGranted)
         }
+    }
+
+    private fun showPinShortcutDialog(projectName: String, icon: Bitmap?, isGranted: Boolean) {
+        ShortcutDialogHelper.showPinShortcutDialog(
+            this,
+            layoutInflater,
+            projectName,
+            icon,
+            lifecycleScope,
+            isGranted,
+            onSettingsClicked = {
+                pendingShortcutProjectName = projectName
+                pendingShortcutIcon = icon
+            },
+            onProjectRenamed = { _, newName -> onCurrentProjectRenamed(newName) }
+        )
+    }
+
+    /**
+     * The renamed project was reloaded from its new folder. The visible list is recreated so
+     * it shows the reloaded scenes and sprites instead of the old objects.
+     */
+    private fun onCurrentProjectRenamed(newName: String) {
+        supportActionBar?.title = newName
+        val fragment = currentFragment ?: return
+        if (supportFragmentManager.isStateSaved) return
+        supportFragmentManager.beginTransaction().detach(fragment).commitNow()
+        supportFragmentManager.beginTransaction().attach(fragment).commitNow()
     }
 
     override fun onPause() {

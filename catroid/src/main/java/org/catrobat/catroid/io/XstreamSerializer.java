@@ -323,6 +323,18 @@ public final class XstreamSerializer {
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Lock loadSaveLock = new ReentrantLock();
 
+	/**
+	 * Guards every write to a project directory. Saving and renaming a project both hold this
+	 * monitor, so a save can never run between moving a project folder and updating the
+	 * in-memory project, which would recreate the old folder. The monitor is re-entrant, so a
+	 * rename may save the project while holding it.
+	 */
+	private static final Object SAVE_LOCK = new Object();
+
+	public static Object getSaveLock() {
+		return SAVE_LOCK;
+	}
+
 	private XstreamSerializer() {
 		prepareXstream(Project.class, Scene.class);
 	}
@@ -812,7 +824,7 @@ public final class XstreamSerializer {
 			return false;
 		}
 
-		synchronized (org.catrobat.catroid.io.asynctask.ProjectSaverKt.getProjectSaveLock()) {
+		synchronized (SAVE_LOCK) {
 			try {
 				cleanUpTmpCodeFile(project.getDirectory());
 			} catch (LoadingProjectException e) {

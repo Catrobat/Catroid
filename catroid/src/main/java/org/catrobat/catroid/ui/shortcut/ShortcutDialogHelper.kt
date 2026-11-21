@@ -40,17 +40,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.projectSaveLock
-import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.ui.ProjectRenameHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper.PinResult
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
+import java.io.IOException
 
 @Suppress("LongParameterList")
 object ShortcutDialogHelper {
@@ -58,8 +55,8 @@ object ShortcutDialogHelper {
     private const val MAX_DIALOG_WIDTH_DP = 345
     private const val DIALOG_WIDTH_SCREEN_RATIO = 0.86
 
+    @VisibleForTesting
     var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-    var mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 
     private fun applyDialogDimensions(dialog: AlertDialog, context: Context) {
         val displayMetrics = context.resources.displayMetrics
@@ -70,11 +67,19 @@ object ShortcutDialogHelper {
         dialog.window?.setLayout(dialogWidth, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
+    /**
+     * Shows the dialog to pin a project to the home screen.
+     *
+     * @param coroutineScope scope of the calling screen (for example its `lifecycleScope`).
+     *        A rename started from the dialog reports back through it, so nothing is shown
+     *        after the screen is gone.
+     */
     fun showPinShortcutDialog(
         context: Context,
         layoutInflater: LayoutInflater,
         projectName: String,
         icon: Bitmap?,
+        coroutineScope: CoroutineScope,
         isPermissionGranted: Boolean = ShortcutHelper.isShortcutPermissionGranted(context),
         onSettingsClicked: (() -> Unit)? = null,
         onProjectRenamed: ((oldName: String, newName: String) -> Unit)? = null
@@ -95,6 +100,7 @@ object ShortcutDialogHelper {
             layoutInflater = layoutInflater,
             projectName = projectName,
             icon = icon,
+            coroutineScope = coroutineScope,
             onProjectRenamed = onProjectRenamed
         )
     }
@@ -104,6 +110,7 @@ object ShortcutDialogHelper {
         layoutInflater: LayoutInflater,
         projectName: String,
         icon: Bitmap?,
+        coroutineScope: CoroutineScope,
         onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
     ) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_shortcut_pin, null)
@@ -122,15 +129,17 @@ object ShortcutDialogHelper {
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
         pinButton.setOnClickListener {
-            handlePinAction(
-                context,
-                dialog,
-                projectName,
-                icon,
-                nameEdit,
-                renameCheckbox,
-                onProjectRenamed
-            )
+            val editedName = nameEdit.text?.toString()?.trim()
+            val labelToUse = if (!editedName.isNullOrBlank()) editedName else projectName
+            if (renameCheckbox.isChecked && labelToUse != projectName) {
+                renameProjectAndPin(
+                    context, dialog, coroutineScope, projectName, labelToUse, icon,
+                    onProjectRenamed
+                )
+            } else {
+                dialog.dismiss()
+                pinAndReport(context, projectName, icon, labelToUse)
+            }
         }
 
         cancelButton.setOnClickListener {
@@ -173,125 +182,85 @@ object ShortcutDialogHelper {
         renameContainer.setOnClickListener(toggleCheckbox)
     }
 
-    private fun handlePinAction(
-        context: Context,
-        dialog: AlertDialog,
-        projectName: String,
-        icon: Bitmap?,
-        nameEdit: EditText,
-        renameCheckbox: CheckBox,
-        onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
-    ) {
-        val editedName = nameEdit.text?.toString()?.trim()
-        val labelToUse = if (!editedName.isNullOrBlank()) editedName else projectName
-        val shouldRenameProject = renameCheckbox.isChecked && labelToUse != projectName
-
-        if (shouldRenameProject) {
-            renameProjectAndPin(context, dialog, projectName, labelToUse, icon, onProjectRenamed)
-        } else {
-            dialog.dismiss()
-            ShortcutHelper.pinProject(context, projectName, icon, shortcutLabel = labelToUse)
+    /**
+     * Pins the project and tells the user when nothing new was added to the home screen.
+     * When the pin was requested, the launcher shows its own confirmation.
+     */
+    private fun pinAndReport(context: Context, projectName: String, icon: Bitmap?, label: String) {
+        when (ShortcutHelper.pinProject(context, projectName, icon, shortcutLabel = label)) {
+            PinResult.REQUESTED -> Unit
+            PinResult.ALREADY_PINNED ->
+                ToastUtil.showSuccess(context, R.string.shortcut_already_pinned)
+            PinResult.FAILED -> ToastUtil.showError(context, R.string.shortcut_pin_failed)
         }
     }
 
     private fun renameProjectAndPin(
         context: Context,
         dialog: AlertDialog,
+        coroutineScope: CoroutineScope,
         projectName: String,
         newName: String,
         icon: Bitmap?,
         onProjectRenamed: ((oldName: String, newName: String) -> Unit)?
     ) {
-        val destinationDir = File(
-            FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
-            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
-        )
-        val projectDir = File(
-            FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+        val rootDirectory = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val projectDirectory = File(
+            rootDirectory,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         )
-        val isCaseOnlyRename = projectName.equals(newName, ignoreCase = true) ||
-            projectDir.name.equals(destinationDir.name, ignoreCase = true)
-        val isSameUnderlyingDirectory = (isCaseOnlyRename || destinationDir.name == projectDir.name) && try {
-            destinationDir.canonicalPath == projectDir.canonicalPath
-        } catch (_: java.io.IOException) {
-            isCaseOnlyRename
-        } catch (_: SecurityException) {
-            isCaseOnlyRename
-        }
-        if (destinationDir.exists() && !isSameUnderlyingDirectory) {
+        val destinationDirectory = File(
+            rootDirectory,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
+        )
+        if (destinationDirectory.exists() &&
+            !isSameDirectory(projectDirectory, destinationDirectory)
+        ) {
             ToastUtil.showError(context, R.string.name_already_exists)
             return
         }
 
-        dialog.dismiss()
-
-        CoroutineScope(ioDispatcher).launch {
-            val success = synchronized(projectSaveLock) {
-                val currentProject = ProjectManager.getInstance()?.currentProject
-                if (currentProject != null && currentProject.name == projectName) {
-                    XstreamSerializer.getInstance().saveProject(currentProject)
-                }
-                val renamedDir = renameProject(projectDir, newName)
-                if (renamedDir != null) {
-                    if (currentProject != null && currentProject.name == projectName) {
-                        relocateOpenProject(currentProject, newName)
-                    }
-                    true
-                } else {
-                    false
-                }
+        setDialogBusy(dialog, busy = true)
+        coroutineScope.launch {
+            val renamedDirectory = ProjectRenameHelper.renameProjectAsync(
+                context, projectDirectory, projectName, newName, ioDispatcher
+            )
+            if (renamedDirectory == null) {
+                setDialogBusy(dialog, busy = false)
+                ToastUtil.showError(context, R.string.error_rename_project)
+                return@launch
             }
-
-            withContext(mainDispatcher) {
-                if (success) {
-                    ShortcutHelper.updateShortcutOnRename(context, projectName, newName)
-                    ShortcutHelper.pinProject(context, newName, icon, shortcutLabel = newName)
-                    onProjectRenamed?.invoke(projectName, newName)
-                } else {
-                    ToastUtil.showError(
-                        context,
-                        R.string.error_rename_incompatible_project
-                    )
-                }
-            }
+            dialog.dismiss()
+            onProjectRenamed?.invoke(projectName, newName)
+            pinAndReport(context, newName, icon, newName)
         }
+    }
+
+    /** Keeps the dialog open but inactive while the project is renamed. */
+    private fun setDialogBusy(dialog: AlertDialog, busy: Boolean) {
+        dialog.setCancelable(!busy)
+        dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)?.isEnabled = !busy
+        dialog.findViewById<Button>(R.id.shortcut_dialog_cancel_button)?.isEnabled = !busy
+        dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)?.isEnabled = !busy
     }
 
     /**
-     * Points the loaded project at its renamed directory. The directory and all look/sound
-     * file references are updated in memory, so unsaved edits are preserved and later saves
-     * (e.g. in onPause) are written to the new folder instead of recreating the old one.
+     * True if both files are the same folder on disk. On case-insensitive storage, a
+     * case-only rename such as "game" -> "Game" targets the folder that already exists,
+     * which must not count as a name conflict.
      */
-    @VisibleForTesting
-    fun relocateOpenProject(project: Project, newName: String) {
-        val oldDirectory = project.directory
-        val newDirectory = File(
-            oldDirectory.parentFile,
-            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(newName)
-        )
-        project.name = newName
-        project.directory = newDirectory
-
-        project.sceneList.forEach { scene ->
-            scene.project = project
-            scene.spriteList.forEach { sprite ->
-                sprite.lookList.forEach { look ->
-                    look.file = relocateFile(look.file, oldDirectory, newDirectory)
-                }
-                sprite.soundList.forEach { sound ->
-                    sound.file = relocateFile(sound.file, oldDirectory, newDirectory)
-                }
-            }
+    private fun isSameDirectory(projectDirectory: File, destinationDirectory: File): Boolean {
+        if (projectDirectory.name == destinationDirectory.name) return true
+        if (!projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true)) {
+            return false
         }
-    }
-
-    private fun relocateFile(file: File?, oldDirectory: File, newDirectory: File): File? {
-        file ?: return null
-        val oldPath = oldDirectory.absolutePath + File.separator
-        val filePath = file.absolutePath
-        if (!filePath.startsWith(oldPath)) return file
-        return File(newDirectory, filePath.removePrefix(oldPath))
+        return try {
+            projectDirectory.canonicalPath == destinationDirectory.canonicalPath
+        } catch (_: IOException) {
+            true
+        } catch (_: SecurityException) {
+            true
+        }
     }
 
     fun showShortcutPermissionDialog(

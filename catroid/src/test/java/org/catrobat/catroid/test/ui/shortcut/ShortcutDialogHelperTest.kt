@@ -29,12 +29,13 @@ import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -42,12 +43,10 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.projectSaveLock
-import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.io.asynctask.tryRenameTo
 import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper.PinResult
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -56,30 +55,34 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import java.io.File
-import java.util.concurrent.CountDownLatch
-import kotlin.concurrent.thread
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.ShadowBuild
+import org.robolectric.shadows.ShadowToast
+import java.io.File
+import java.io.IOException
 
 @RunWith(RobolectricTestRunner::class)
 class ShortcutDialogHelperTest {
 
     private lateinit var activity: AppCompatActivity
+    private val testScope = CoroutineScope(Dispatchers.Unconfined)
 
     @Before
     fun setUp() {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).setup().get()
         mockkObject(ShortcutHelper)
+        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
     }
 
     @After
     fun tearDown() {
         unmockkAll()
         ShadowBuild.reset()
+        ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
+        ProjectManager.getInstance().currentProject = null
     }
 
     @Test
@@ -91,6 +94,7 @@ class ShortcutDialogHelperTest {
             layoutInflater = activity.layoutInflater,
             projectName = "MyProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -112,6 +116,7 @@ class ShortcutDialogHelperTest {
             layoutInflater = activity.layoutInflater,
             projectName = "MyProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = false,
             onSettingsClicked = { settingsClicked = true }
         )
@@ -138,6 +143,7 @@ class ShortcutDialogHelperTest {
             layoutInflater = activity.layoutInflater,
             projectName = "OriginalName",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -167,6 +173,7 @@ class ShortcutDialogHelperTest {
             layoutInflater = activity.layoutInflater,
             projectName = "MyProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -181,13 +188,14 @@ class ShortcutDialogHelperTest {
     @Test
     fun `pin button with unchanged name pins project with project name as label`() {
         every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns PinResult.REQUESTED
 
         ShortcutDialogHelper.showPinShortcutDialog(
             context = activity,
             layoutInflater = activity.layoutInflater,
             projectName = "MyProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -209,13 +217,14 @@ class ShortcutDialogHelperTest {
     @Test
     fun `pin button with changed name and unchecked rename pins with custom label`() {
         every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns PinResult.REQUESTED
 
         ShortcutDialogHelper.showPinShortcutDialog(
             context = activity,
             layoutInflater = activity.layoutInflater,
             projectName = "OriginalProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -243,13 +252,14 @@ class ShortcutDialogHelperTest {
     @Test
     fun `pin button with blank name falls back to original project name`() {
         every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns PinResult.REQUESTED
 
         ShortcutDialogHelper.showPinShortcutDialog(
             context = activity,
             layoutInflater = activity.layoutInflater,
             projectName = "MyProject",
             icon = null,
+            coroutineScope = testScope,
             isPermissionGranted = true
         )
 
@@ -272,280 +282,174 @@ class ShortcutDialogHelperTest {
     }
 
     @Test
-    fun `relocateOpenProject updates loaded project directory and look and sound files`() {
-        val oldDir = java.io.File("/tmp/projects/OldProject")
-        val project = org.catrobat.catroid.content.Project(activity, "OldProject")
-        project.directory = oldDir
-
-        val lookFile = java.io.File(oldDir, "images/look1.png")
-        val look = org.catrobat.catroid.common.LookData("look1", lookFile)
-
-        val soundFile = java.io.File(oldDir, "sounds/sound1.mp3")
-        val sound = org.catrobat.catroid.common.SoundInfo("sound1", soundFile)
-
-        val sprite = project.sceneList[0].spriteList[0]
-        sprite.lookList.add(look)
-        sprite.soundList.add(sound)
-
-        ShortcutDialogHelper.relocateOpenProject(project, "NewProject")
-
-        assertEquals("NewProject", project.name)
-        val expectedNewDir = java.io.File(oldDir.parentFile, "NewProject")
-        assertEquals(expectedNewDir.absolutePath, project.directory.absolutePath)
-        assertEquals(
-            java.io.File(expectedNewDir, "images/look1.png").absolutePath,
-            look.file.absolutePath
-        )
-        assertEquals(
-            java.io.File(expectedNewDir, "sounds/sound1.mp3").absolutePath,
-            sound.file.absolutePath
-        )
-    }
-
-    @Test
-    fun `saveProject during open project rename does not recreate old directory and saves to new directory`() {
-        val rootDir = activity.filesDir
-        val oldProjectDir = File(rootDir, "OriginalName").apply { mkdirs() }
-        val newProjectDir = File(rootDir, "RenamedName")
-
-        val project = Project(activity, "OriginalName")
-        project.directory = oldProjectDir
-        XstreamSerializer.getInstance().saveProject(project)
-        assertTrue(oldProjectDir.exists())
-        assertTrue(File(oldProjectDir, Constants.CODE_XML_FILE_NAME).exists())
-
-        ProjectManager.getInstance().currentProject = project
-
-        val saveStarted = CountDownLatch(1)
-        val saveCompleted = CountDownLatch(1)
-        var saveResult = false
-
-        project.description = "Unsaved edit before pause"
-
-        val backgroundThread = thread {
-            saveStarted.countDown()
-            saveResult = saveProjectSerial(project, activity)
-            saveCompleted.countDown()
-        }
-
-        synchronized(projectSaveLock) {
-            saveStarted.await()
-            Thread.sleep(50)
-
-            val renamedDir = renameProject(oldProjectDir, "RenamedName")
-            assertNotNull(renamedDir)
-            ShortcutDialogHelper.relocateOpenProject(project, "RenamedName")
-        }
-
-        saveCompleted.await()
-
-        assertTrue("saveProjectSerial should succeed after rename completes", saveResult)
-        assertFalse(
-            "Old project directory must not be recreated by concurrent save",
-            oldProjectDir.exists()
-        )
-        assertTrue("New project directory must exist", newProjectDir.exists())
-        assertEquals("RenamedName", project.name)
-        assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
-        assertTrue(
-            "code.xml must exist in new directory",
-            File(newProjectDir, Constants.CODE_XML_FILE_NAME).exists()
-        )
-
-        newProjectDir.deleteRecursively()
-    }
-
-    @Test
-    fun `pin button with changed name and checked rename triggers rename and relocation`() {
-        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
-        val oldProjectDir = File(rootDir, "DialogRenameOriginal").apply { mkdirs() }
-        val newProjectDir = File(rootDir, "DialogRenameNew")
-
-        val project = Project(activity, "DialogRenameOriginal")
-        project.directory = oldProjectDir
-        XstreamSerializer.getInstance().saveProject(project)
-
-        ProjectManager.getInstance().currentProject = project
-
+    fun `pin button tells the user when the project is already pinned`() {
         every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
-        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+        every {
+            ShortcutHelper.pinProject(any(), any(), any(), any())
+        } returns PinResult.ALREADY_PINNED
 
-        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
-        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+        showDialog("MyProject")
+        pinButton().performClick()
+
+        assertEquals(
+            activity.getString(R.string.shortcut_already_pinned),
+            ShadowToast.getTextOfLatestToast()
+        )
+    }
+
+    @Test
+    fun `pin button tells the user when the launcher refuses the pin`() {
+        every { ShortcutHelper.isXiaomiDevice() } returns false
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns PinResult.FAILED
+
+        showDialog("MyProject")
+        pinButton().performClick()
+
+        assertEquals(
+            activity.getString(R.string.shortcut_pin_failed),
+            ShadowToast.getTextOfLatestToast()
+        )
+    }
+
+    @Test
+    fun `pin button with checked rename renames, reloads and pins the open project`() {
+        val oldProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "DialogRenameOriginal")
+        val newProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "DialogRenameNew")
+        openSavedProject("DialogRenameOriginal")
+        stubShortcutCalls()
 
         try {
-            var renamedCallbackOld = ""
-            var renamedCallbackNew = ""
+            var renamed: Pair<String, String>? = null
+            showDialog("DialogRenameOriginal") { old, new -> renamed = old to new }
 
-            ShortcutDialogHelper.showPinShortcutDialog(
-                context = activity,
-                layoutInflater = activity.layoutInflater,
-                projectName = "DialogRenameOriginal",
-                icon = null,
-                isPermissionGranted = true,
-                onProjectRenamed = { oldName, newName ->
-                    renamedCallbackOld = oldName
-                    renamedCallbackNew = newName
-                }
-            )
+            renameAndPin("DialogRenameNew")
 
-            val dialog = ShadowAlertDialog.getLatestAlertDialog()
-            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
-            val renameCheckbox =
-                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
-            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
-
-            nameEdit.setText("DialogRenameNew")
-            renameCheckbox.isChecked = true
-            pinBtn.performClick()
-
-            assertEquals("DialogRenameOriginal", renamedCallbackOld)
-            assertEquals("DialogRenameNew", renamedCallbackNew)
-            assertEquals("DialogRenameNew", project.name)
-            assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
+            assertEquals("DialogRenameOriginal" to "DialogRenameNew", renamed)
+            val currentProject = ProjectManager.getInstance().currentProject
+            assertEquals("DialogRenameNew", currentProject.name)
+            assertEquals(newProjectDir.absolutePath, currentProject.directory.absolutePath)
             assertFalse(oldProjectDir.exists())
             assertTrue(newProjectDir.exists())
+            assertFalse(ShadowAlertDialog.getLatestAlertDialog().isShowing)
+            verify {
+                ShortcutHelper.updateShortcutOnRename(
+                    any(), "DialogRenameOriginal", "DialogRenameNew"
+                )
+            }
+            verify {
+                ShortcutHelper.pinProject(any(), "DialogRenameNew", null, "DialogRenameNew")
+            }
         } finally {
-            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
-            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
             oldProjectDir.deleteRecursively()
             newProjectDir.deleteRecursively()
         }
     }
 
     @Test
-    fun `saveProject via XstreamSerializer directly shares projectSaveLock during rename`() {
-        val rootDir = activity.filesDir
-        val oldProjectDir = File(rootDir, "DirectSaveOriginal").apply { mkdirs() }
-        val newProjectDir = File(rootDir, "DirectSaveRenamed")
+    fun `failed rename keeps the dialog open, shows an error and does not pin`() {
+        val oldProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "DialogFailOriginal")
+        val newProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "DialogFailNew")
+        val project = openSavedProject("DialogFailOriginal")
+        stubShortcutCalls()
+        mockkStatic(XstreamSerializer::class)
+        every { XstreamSerializer.renameProject(any(), any()) } throws IOException("EACCES")
 
-        val project = Project(activity, "DirectSaveOriginal")
-        project.directory = oldProjectDir
-        XstreamSerializer.getInstance().saveProject(project)
+        try {
+            var renamedCallbackCalled = false
+            showDialog("DialogFailOriginal") { _, _ -> renamedCallbackCalled = true }
 
-        ProjectManager.getInstance().currentProject = project
+            renameAndPin("DialogFailNew")
 
-        val saveStarted = CountDownLatch(1)
-        val saveCompleted = CountDownLatch(1)
-        var saveResult = false
-
-        project.description = "Direct serializer save"
-
-        thread {
-            saveStarted.countDown()
-            saveResult = XstreamSerializer.getInstance().saveProject(project)
-            saveCompleted.countDown()
+            val dialog = ShadowAlertDialog.getLatestAlertDialog()
+            assertTrue(dialog.isShowing)
+            assertTrue(pinButton().isEnabled)
+            assertFalse(renamedCallbackCalled)
+            assertEquals(
+                activity.getString(R.string.error_rename_project),
+                ShadowToast.getTextOfLatestToast()
+            )
+            assertTrue(File(oldProjectDir, Constants.CODE_XML_FILE_NAME).exists())
+            assertFalse(newProjectDir.exists())
+            assertEquals(project, ProjectManager.getInstance().currentProject)
+            assertEquals(oldProjectDir.absolutePath, project.directory.absolutePath)
+            verify(exactly = 0) { ShortcutHelper.pinProject(any(), any(), any(), any()) }
+            verify(exactly = 0) { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) }
+        } finally {
+            oldProjectDir.deleteRecursively()
+            newProjectDir.deleteRecursively()
         }
-
-        synchronized(projectSaveLock) {
-            saveStarted.await()
-            Thread.sleep(50)
-
-            val renamedDir = renameProject(oldProjectDir, "DirectSaveRenamed")
-            assertNotNull(renamedDir)
-            ShortcutDialogHelper.relocateOpenProject(project, "DirectSaveRenamed")
-        }
-
-        saveCompleted.await()
-
-        assertTrue("Direct saveProject should succeed after rename completes", saveResult)
-        assertFalse(
-            "Old project directory must not be recreated by concurrent direct save",
-            oldProjectDir.exists()
-        )
-        assertTrue("New project directory must exist", newProjectDir.exists())
-        assertEquals("DirectSaveRenamed", project.name)
-        assertEquals(newProjectDir.absolutePath, project.directory.absolutePath)
-
-        newProjectDir.deleteRecursively()
-    }
-
-    @Test
-    fun `relocateOpenProject sets project reference on each scene to update scene directory`() {
-        val rootDir = activity.filesDir
-        val oldProjectDir = File(rootDir, "SceneTestOld").apply { mkdirs() }
-        val newProjectDir = File(rootDir, "SceneTestNew")
-
-        val project = Project(activity, "SceneTestOld")
-        project.directory = oldProjectDir
-        val scene = project.defaultScene
-
-        ShortcutDialogHelper.relocateOpenProject(project, "SceneTestNew")
-
-        assertEquals(project, scene.project)
-        assertEquals(
-            File(newProjectDir, scene.name).absolutePath,
-            scene.directory.absolutePath
-        )
-
-        oldProjectDir.deleteRecursively()
-        newProjectDir.deleteRecursively()
     }
 
     @Test
     fun `pin button with case-only rename succeeds and flushes in-memory edits`() {
-        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
-        val oldProjectDir = File(rootDir, "dialogcaseold").apply { mkdirs() }
-        val newProjectDir = File(rootDir, "DialogCaseOld")
-
-        val project = Project(activity, "dialogcaseold")
-        project.directory = oldProjectDir
-        XstreamSerializer.getInstance().saveProject(project)
-
-        ProjectManager.getInstance().currentProject = project
-
-        every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
-        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
-
-        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
-        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+        val oldProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "dialogcaseold")
+        val newProjectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "DialogCaseOld")
+        val project = openSavedProject("dialogcaseold")
+        stubShortcutCalls()
 
         try {
-            var renamedOld = ""
-            var renamedNew = ""
-
             project.description = "Unsaved memory edit that must be flushed"
+            showDialog("dialogcaseold")
 
-            ShortcutDialogHelper.showPinShortcutDialog(
-                context = activity,
-                layoutInflater = activity.layoutInflater,
-                projectName = "dialogcaseold",
-                icon = null,
-                isPermissionGranted = true,
-                onProjectRenamed = { oldName, newName ->
-                    renamedOld = oldName
-                    renamedNew = newName
-                }
-            )
+            renameAndPin("DialogCaseOld")
 
-            val dialog = ShadowAlertDialog.getLatestAlertDialog()
-            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
-            val renameCheckbox =
-                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
-            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
-
-            nameEdit.setText("DialogCaseOld")
-            renameCheckbox.isChecked = true
-            pinBtn.performClick()
-
-            assertEquals("dialogcaseold", renamedOld)
-            assertEquals("DialogCaseOld", renamedNew)
-            assertEquals("DialogCaseOld", project.name)
+            assertEquals("DialogCaseOld", ProjectManager.getInstance().currentProject.name)
             assertTrue(newProjectDir.exists())
-
-            // Verify memory edit was flushed to code.xml
-            val loadedProject = XstreamSerializer.getInstance().loadProject(
-                newProjectDir,
-                activity
-            )
+            val loadedProject = XstreamSerializer.getInstance().loadProject(newProjectDir, activity)
             assertEquals("Unsaved memory edit that must be flushed", loadedProject.description)
         } finally {
-            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
-            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
             oldProjectDir.deleteRecursively()
             newProjectDir.deleteRecursively()
+        }
+    }
+
+    @Test
+    fun `pin button with encoded special character case-only rename succeeds`() {
+        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val oldProjectDir =
+            File(rootDir, FileMetaDataExtractor.encodeSpecialCharsForFileSystem("dialog:case"))
+        val newProjectDir =
+            File(rootDir, FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Dialog:Case"))
+        openSavedProject("dialog:case")
+        stubShortcutCalls()
+
+        try {
+            var renamed: Pair<String, String>? = null
+            showDialog("dialog:case") { old, new -> renamed = old to new }
+
+            renameAndPin("Dialog:Case")
+
+            assertEquals("dialog:case" to "Dialog:Case", renamed)
+            assertEquals("Dialog:Case", ProjectManager.getInstance().currentProject.name)
+            assertTrue(newProjectDir.exists())
+        } finally {
+            oldProjectDir.deleteRecursively()
+            newProjectDir.deleteRecursively()
+        }
+    }
+
+    @Test
+    fun `rename to the name of another existing project is refused`() {
+        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
+        val projectDir = File(rootDir, "DialogTaken1")
+        val otherDir = File(rootDir, "DialogTaken2").apply { mkdirs() }
+        openSavedProject("DialogTaken1")
+        stubShortcutCalls()
+
+        try {
+            showDialog("DialogTaken1")
+            renameAndPin("DialogTaken2")
+
+            assertEquals(
+                activity.getString(R.string.name_already_exists),
+                ShadowToast.getTextOfLatestToast()
+            )
+            assertTrue(ShadowAlertDialog.getLatestAlertDialog().isShowing)
+            assertTrue(projectDir.exists())
+            verify(exactly = 0) { ShortcutHelper.pinProject(any(), any(), any(), any()) }
+        } finally {
+            projectDir.deleteRecursively()
+            otherDir.deleteRecursively()
         }
     }
 
@@ -577,62 +481,48 @@ class ShortcutDialogHelperTest {
         destDir.deleteRecursively()
     }
 
-    @Test
-    fun `pin button with encoded special character case-only rename succeeds`() {
-        val rootDir = FlavoredConstants.DEFAULT_ROOT_DIRECTORY
-        val encodedOldName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("dialog:case")
-        val encodedNewName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Dialog:Case")
-        val oldProjectDir = File(rootDir, encodedOldName).apply { mkdirs() }
-        val newProjectDir = File(rootDir, encodedNewName)
-
-        val project = Project(activity, "dialog:case")
-        project.directory = oldProjectDir
+    private fun openSavedProject(name: String): Project {
+        val projectDir = File(
+            FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
+        ).apply { mkdirs() }
+        val project = Project(activity, name)
+        project.directory = projectDir
         XstreamSerializer.getInstance().saveProject(project)
-
         ProjectManager.getInstance().currentProject = project
+        return project
+    }
 
+    private fun stubShortcutCalls() {
         every { ShortcutHelper.isXiaomiDevice() } returns false
-        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns true
-        coEvery { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+        every { ShortcutHelper.pinProject(any(), any(), any(), any()) } returns PinResult.REQUESTED
+        every { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) } just Runs
+    }
 
-        ShortcutDialogHelper.ioDispatcher = Dispatchers.Unconfined
-        ShortcutDialogHelper.mainDispatcher = Dispatchers.Unconfined
+    private fun showDialog(
+        projectName: String,
+        onProjectRenamed: ((String, String) -> Unit)? = null
+    ) {
+        ShortcutDialogHelper.showPinShortcutDialog(
+            context = activity,
+            layoutInflater = activity.layoutInflater,
+            projectName = projectName,
+            icon = null,
+            coroutineScope = testScope,
+            isPermissionGranted = true,
+            onProjectRenamed = onProjectRenamed
+        )
+    }
 
-        try {
-            var renamedOld = ""
-            var renamedNew = ""
+    private fun pinButton(): Button =
+        ShadowAlertDialog.getLatestAlertDialog()
+            .findViewById(R.id.shortcut_dialog_pin_button)
 
-            ShortcutDialogHelper.showPinShortcutDialog(
-                context = activity,
-                layoutInflater = activity.layoutInflater,
-                projectName = "dialog:case",
-                icon = null,
-                isPermissionGranted = true,
-                onProjectRenamed = { oldName, newName ->
-                    renamedOld = oldName
-                    renamedNew = newName
-                }
-            )
-
-            val dialog = ShadowAlertDialog.getLatestAlertDialog()
-            val nameEdit = dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit)
-            val renameCheckbox =
-                dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
-            val pinBtn = dialog.findViewById<Button>(R.id.shortcut_dialog_pin_button)
-
-            nameEdit.setText("Dialog:Case")
-            renameCheckbox.isChecked = true
-            pinBtn.performClick()
-
-            assertEquals("dialog:case", renamedOld)
-            assertEquals("Dialog:Case", renamedNew)
-            assertEquals("Dialog:Case", project.name)
-            assertTrue(newProjectDir.exists())
-        } finally {
-            ShortcutDialogHelper.ioDispatcher = Dispatchers.IO
-            ShortcutDialogHelper.mainDispatcher = Dispatchers.Main
-            oldProjectDir.deleteRecursively()
-            newProjectDir.deleteRecursively()
-        }
+    private fun renameAndPin(newName: String) {
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        dialog.findViewById<EditText>(R.id.shortcut_dialog_project_name_edit).setText(newName)
+        dialog.findViewById<CheckBox>(R.id.shortcut_dialog_rename_project_checkbox)
+            .isChecked = true
+        pinButton().performClick()
     }
 }

@@ -87,11 +87,16 @@ object ShortcutHelper {
     suspend fun loadProjectIcon(
         projectName: String,
         dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(dispatcher) { loadProjectIconBlocking(projectName) }
+
+    /**
+     * Blocking variant of [loadProjectIcon]. Reads from disk, so call it off the main thread.
+     */
+    fun loadProjectIconBlocking(projectName: String): Bitmap? {
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, encodedName)
-        val screenshotFile = findScreenshotFile(projectDir) ?: return@withContext null
-        decodeBitmapWithFallback(screenshotFile.absolutePath)
+        val screenshotFile = findScreenshotFile(projectDir) ?: return null
+        return decodeBitmapWithFallback(screenshotFile.absolutePath)
     }
 
     /**
@@ -158,6 +163,18 @@ object ShortcutHelper {
         return scaled
     }
 
+    /** Outcome of [pinProject]. */
+    enum class PinResult {
+        /** The launcher was asked to pin the shortcut. */
+        REQUESTED,
+
+        /** The project was already on the home screen; its shortcut was updated instead. */
+        ALREADY_PINNED,
+
+        /** The launcher refused the request or it could not be sent. */
+        FAILED
+    }
+
     /**
      * Requests a pinned shortcut for the given project. Must be called on the main thread.
      *
@@ -168,13 +185,16 @@ object ShortcutHelper {
      * with two shortcut IDs. Otherwise the encoded project name is used as ID, unless that ID
      * is already owned by a different (renamed) project, in which case a distinct ID is
      * allocated so the other project's shortcut is never overwritten.
+     *
+     * If the project's shortcut is already pinned, its label and icon are updated and the pin
+     * is not requested again, because some launchers would add a second identical icon.
      */
     fun pinProject(
         context: Context,
         projectName: String,
         icon: Bitmap? = null,
         shortcutLabel: String = projectName
-    ): Boolean {
+    ): PinResult {
         val trackedShortcuts = getTrackedShortcuts(context)
         val ownShortcut = trackedShortcuts.firstOrNull { belongsToProject(it, projectName) }
         val shortcutId = ownShortcut?.id ?: allocateShortcutId(projectName, trackedShortcuts)
@@ -194,6 +214,9 @@ object ShortcutHelper {
                 ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
             } catch (e: Exception) {
                 Log.w(TAG, "Could not update existing shortcut: ${e.message}")
+            }
+            if (ownShortcut.isPinned) {
+                return PinResult.ALREADY_PINNED
             }
         } else {
             // Register as dynamic shortcut first — keeps it tracked for rename/delete lifecycle
@@ -219,7 +242,7 @@ object ShortcutHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
-        return try {
+        val requested = try {
             ShortcutManagerCompat.requestPinShortcut(
                 context,
                 shortcutInfo,
@@ -229,6 +252,7 @@ object ShortcutHelper {
             Log.w(TAG, "Could not request pin shortcut: ${e.message}")
             false
         }
+        return if (requested) PinResult.REQUESTED else PinResult.FAILED
     }
 
     /**
@@ -239,12 +263,14 @@ object ShortcutHelper {
      * Shortcuts are matched by the project their launch intent targets, so the original
      * IDs are found even after multiple renames. Custom labels chosen by the user are kept;
      * labels that simply mirrored the old project name follow the new name.
+     *
+     * Reads the project icon from disk, so call it off the main thread.
      */
-    suspend fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
+    fun updateShortcutOnRename(context: Context, oldName: String, newName: String) {
         val ownShortcuts = getTrackedShortcuts(context).filter { belongsToProject(it, oldName) }
         if (ownShortcuts.isEmpty()) return
 
-        val icon = loadProjectIcon(newName)
+        val icon = loadProjectIconBlocking(newName)
         val updatedShortcuts = ownShortcuts.map { existing ->
             val currentLabel = existing.shortLabel?.toString()
             val label = if (currentLabel.isNullOrBlank() || currentLabel == oldName) {
@@ -326,6 +352,8 @@ object ShortcutHelper {
     /**
      * Returns all dynamic and pinned shortcuts published by the app, de-duplicated by ID.
      * Pinned shortcuts are included so tracking survives eviction from the dynamic list.
+     * They are listed first, so a shortcut that is both dynamic and pinned keeps its
+     * pinned entry.
      */
     private fun getTrackedShortcuts(context: Context): List<ShortcutInfoCompat> {
         val dynamicShortcuts = try {
@@ -338,7 +366,7 @@ object ShortcutHelper {
         } catch (e: Exception) {
             emptyList()
         }
-        return (dynamicShortcuts.orEmpty() + pinnedShortcuts.orEmpty()).distinctBy { it.id }
+        return (pinnedShortcuts.orEmpty() + dynamicShortcuts.orEmpty()).distinctBy { it.id }
     }
 
     /**

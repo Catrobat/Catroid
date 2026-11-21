@@ -32,7 +32,6 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import org.robolectric.RuntimeEnvironment
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -43,6 +42,7 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper.PinResult
 import org.catrobat.catroid.ui.shortcut.ShortcutTrampolineActivity
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.junit.After
@@ -89,11 +89,13 @@ class ShortcutHelperTest {
     private fun projectShortcut(
         id: String,
         projectName: String,
-        label: String = projectName
+        label: String = projectName,
+        pinned: Boolean = false
     ): ShortcutInfoCompat = mockk {
         every { this@mockk.id } returns id
         every { shortLabel } returns label
         every { isEnabled } returns true
+        every { isPinned } returns pinned
         every { intent } returns Intent().putExtra(
             ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
             projectName
@@ -103,7 +105,7 @@ class ShortcutHelperTest {
     // Must: Launcher unsupported guard
 
     @Test
-    fun `pinProject returns false when launcher does not support shortcuts`() {
+    fun `pinProject reports failure when launcher does not support shortcuts`() {
         every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns false
         every { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) } returns true
         every { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) } returns false
@@ -112,7 +114,7 @@ class ShortcutHelperTest {
         // UI layer (Fragment) is responsible for Snackbar feedback
         val result = ShortcutHelper.pinProject(context, "TestProject", null)
 
-        assertFalse(result)
+        assertEquals(PinResult.FAILED, result)
         verify { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
     }
 
@@ -134,7 +136,7 @@ class ShortcutHelperTest {
         every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
 
         mockkObject(ShortcutHelper)
-        coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
+        every { ShortcutHelper.loadProjectIconBlocking(any()) } returns null
 
         ShortcutHelper.updateShortcutOnRename(context, "OldName", "NewName")
 
@@ -414,7 +416,7 @@ class ShortcutHelperTest {
     // Should: Re-pin and duplicate handling
 
     @Test
-    fun `pinProject updates and re-requests pin when shortcut already exists`() {
+    fun `pinProject updates and re-requests pin when existing shortcut is not pinned`() {
         val projectName = "AlreadyPinnedProject"
         val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 
@@ -429,13 +431,57 @@ class ShortcutHelperTest {
 
         val result = ShortcutHelper.pinProject(context, projectName, null)
 
-        assertTrue(
-            "pinProject should return true and re-request pin when shortcut already exists",
-            result
-        )
+        assertEquals(PinResult.REQUESTED, result)
         verify(exactly = 0) { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
         verify { ShortcutManagerCompat.updateShortcuts(any(), any()) }
         verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
+    }
+
+    @Test
+    fun `pinProject updates already pinned shortcut without requesting a second pin`() {
+        val projectName = "AlreadyPinnedProject"
+        val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+
+        val pinnedShortcut = projectShortcut(encodedName, projectName, pinned = true)
+        every {
+            ShortcutManagerCompat.getShortcuts(any(), ShortcutManagerCompat.FLAG_MATCH_PINNED)
+        } returns listOf(pinnedShortcut)
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+
+        val result = ShortcutHelper.pinProject(
+            context, projectName, null, shortcutLabel = "New label"
+        )
+
+        assertEquals(PinResult.ALREADY_PINNED, result)
+        verify {
+            ShortcutManagerCompat.updateShortcuts(any(), match { shortcuts ->
+                shortcuts.size == 1 && shortcuts[0].id == encodedName &&
+                    shortcuts[0].shortLabel == "New label"
+            })
+        }
+        verify(exactly = 0) { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
+        verify(exactly = 0) { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
+    }
+
+    @Test
+    fun `pinProject prefers pinned entry when shortcut is both dynamic and pinned`() {
+        val projectName = "DynamicAndPinned"
+        val encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns listOf(
+            projectShortcut(encodedName, projectName, pinned = false)
+        )
+        every {
+            ShortcutManagerCompat.getShortcuts(any(), ShortcutManagerCompat.FLAG_MATCH_PINNED)
+        } returns listOf(projectShortcut(encodedName, projectName, pinned = true))
+        every { ShortcutManagerCompat.isRequestPinShortcutSupported(any()) } returns true
+        every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
+
+        val result = ShortcutHelper.pinProject(context, projectName, null)
+
+        assertEquals(PinResult.ALREADY_PINNED, result)
+        verify(exactly = 0) { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
     }
 
     @Test
@@ -443,7 +489,7 @@ class ShortcutHelperTest {
         every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
 
         mockkObject(ShortcutHelper)
-        coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
+        every { ShortcutHelper.loadProjectIconBlocking(any()) } returns null
 
         val originalId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem("Name1")
         val existingShortcut = projectShortcut(originalId, "Name2", "Name2")
@@ -476,7 +522,7 @@ class ShortcutHelperTest {
         // Now a new project named ProjectA is pinned
         val result = ShortcutHelper.pinProject(context, "ProjectA", null)
 
-        assertTrue(result)
+        assertEquals(PinResult.REQUESTED, result)
         verify { ShortcutManagerCompat.pushDynamicShortcut(any(), any()) }
         assertEquals("${originalId}_2", pushedShortcut.captured.id)
     }
@@ -504,7 +550,7 @@ class ShortcutHelperTest {
         every { ShortcutManagerCompat.updateShortcuts(any(), any()) } returns true
 
         mockkObject(ShortcutHelper)
-        coEvery { ShortcutHelper.loadProjectIcon(any()) } returns null
+        every { ShortcutHelper.loadProjectIconBlocking(any()) } returns null
 
         // Renaming Project B to Project C should NOT update Project A's shortcut
         ShortcutHelper.updateShortcutOnRename(context, "ProjectB", "ProjectC")
@@ -579,7 +625,7 @@ class ShortcutHelperTest {
     }
 
     @Test
-    fun `pinProject re-enables disabled shortcut before reusing its ID when recreating project`() {
+    fun `pinProject re-enables disabled pinned shortcut instead of pinning it twice`() {
         val projectName = "DeletedAndRecreatedProject"
         val encodedId = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
 
@@ -587,6 +633,7 @@ class ShortcutHelperTest {
             every { id } returns encodedId
             every { shortLabel } returns projectName
             every { isEnabled } returns false
+            every { isPinned } returns true
             every { intent } returns Intent().putExtra(
                 ShortcutTrampolineActivity.EXTRA_PROJECT_NAME,
                 projectName
@@ -607,17 +654,14 @@ class ShortcutHelperTest {
 
         val result = ShortcutHelper.pinProject(context, projectName, null)
 
-        assertTrue(
-            "pinProject should return true when re-pinning previously deleted project",
-            result
-        )
+        assertEquals(PinResult.ALREADY_PINNED, result)
         verify {
             ShortcutManagerCompat.enableShortcuts(any(), match { list ->
                 list.size == 1 && list[0].id == encodedId
             })
         }
         verify { ShortcutManagerCompat.updateShortcuts(any(), any()) }
-        verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
+        verify(exactly = 0) { ShortcutManagerCompat.requestPinShortcut(any(), any(), any()) }
     }
 
     @Test
@@ -631,7 +675,7 @@ class ShortcutHelperTest {
         every { ShortcutManagerCompat.requestPinShortcut(any(), any(), null) } returns true
 
         val result = ShortcutHelper.pinProject(context, projectName, null)
-        assertTrue(result)
+        assertEquals(PinResult.REQUESTED, result)
         verify { ShortcutManagerCompat.requestPinShortcut(any(), any(), null) }
     }
 }

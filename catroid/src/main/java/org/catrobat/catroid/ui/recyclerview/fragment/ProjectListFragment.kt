@@ -38,6 +38,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,11 +57,11 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectCopier
 import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.ProjectRenameHelper
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
@@ -151,6 +152,7 @@ class ProjectListFragment(
                 }
             })
         } else {
+            setShowProgressBar(false)
             ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
     }
@@ -453,20 +455,14 @@ class ProjectListFragment(
         item ?: return
         name ?: return
         if (name != item.name) {
-            val oldName = item.name
+            val context = requireContext()
             setShowProgressBar(true)
-            ProjectRenamer(item.directory, name).renameProjectAsync(
-                onRenameProjectComplete = { success: Boolean ->
-                    onRenameFinished(success)
-                    if (success) {
-                        coroutineScope.launch {
-                            ShortcutHelper.updateShortcutOnRename(
-                                requireContext(), oldName, name
-                            )
-                        }
-                    }
-                }
-            )
+            viewLifecycleOwner.lifecycleScope.launch {
+                val renamedDirectory = ProjectRenameHelper.renameProjectAsync(
+                    context, item.directory, item.name, name
+                )
+                onRenameFinished(renamedDirectory != null)
+            }
         }
     }
 
@@ -683,14 +679,16 @@ class ProjectListFragment(
     private fun showPinShortcutDialog(
         projectName: String,
         icon: android.graphics.Bitmap?,
-        isPermissionGranted: Boolean = ShortcutHelper.isShortcutPermissionGranted(requireContext())
+        isPermissionGranted: Boolean
     ) {
         val context = context ?: return
+        if (view == null) return
         ShortcutDialogHelper.showPinShortcutDialog(
             context,
             layoutInflater,
             projectName,
             icon,
+            viewLifecycleOwner.lifecycleScope,
             isPermissionGranted,
             onSettingsClicked = {
                 pendingShortcutProjectName = projectName

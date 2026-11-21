@@ -56,22 +56,27 @@ class ProjectRenamer(
     }
 }
 
+/**
+ * Moves a project folder and rewrites the `<programName>` in its code.xml.
+ *
+ * If rewriting code.xml fails after the folder was moved, the folder is moved back, so the
+ * project is never left half renamed. Returns the renamed directory, or null on failure.
+ */
 fun renameProject(projectDirectory: File, destinationName: String): File? {
-    synchronized(projectSaveLock) {
+    synchronized(XstreamSerializer.getSaveLock()) {
         val destinationDirectory = File(
             projectDirectory.parent,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
         )
-        val file = File(
-            destinationDirectory,
-            Constants.CODE_XML_FILE_NAME
-        )
+        val codeFile = File(destinationDirectory, Constants.CODE_XML_FILE_NAME)
 
-        val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
-            file,
-            destinationName
-        )
-        if (!success) {
+        if (!tryRenameTo(projectDirectory, destinationDirectory)) {
+            return null
+        }
+        if (!tryRenameProject(codeFile, destinationName)) {
+            if (!tryRenameTo(destinationDirectory, projectDirectory)) {
+                Log.e(TAG, "Rollback of ${destinationDirectory.name} failed")
+            }
             return null
         }
 
@@ -109,12 +114,11 @@ fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     }
 }
 
-fun tryRenameProject(projectDirectory: File, destinationName: String): Boolean {
+fun tryRenameProject(codeFile: File, destinationName: String): Boolean {
     return try {
-        XstreamSerializer.renameProject(projectDirectory, destinationName)
-        true
+        XstreamSerializer.renameProject(codeFile, destinationName)
     } catch (e: IOException) {
-        Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to $destinationName", e)
+        Log.e(TAG, "Cannot rename project in ${codeFile.absolutePath} to $destinationName", e)
         false
     }
 }

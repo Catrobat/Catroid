@@ -54,15 +54,11 @@ class ProjectSaver(private val project: Project, context: Context) {
     }
 }
 
-val projectSaveLock = Any()
-
 fun saveProjectSerial(project: Project?, context: Context): Boolean {
     project ?: return false
-    synchronized(projectSaveLock) {
-        saveLegoNXTSettingsToProject(project, context)
-        saveLegoEV3SettingsToProject(project, context)
-        return XstreamSerializer.getInstance().saveProject(project)
-    }
+    saveLegoNXTSettingsToProject(project, context)
+    saveLegoEV3SettingsToProject(project, context)
+    return XstreamSerializer.getInstance().saveProject(project)
 }
 
 private fun saveLegoNXTSettingsToProject(project: Project, context: Context) {
