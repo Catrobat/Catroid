@@ -1053,6 +1053,7 @@
     <string formatted="false" name="brick_reset_timer">Atstatyti laikmatį</string>
     <string formatted="false" name="brick_open">Atidaryti</string>
     <string formatted="false" name="brick_in_browser">naršyklėje</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">paspaudžiamas</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kai epizodas prasideda</string>
     <string formatted="false" name="brick_when">Kai tave paliečia</string>
@@ -1107,11 +1108,21 @@
     <string formatted="false" name="brick_touch_from_x">"nuo x:"</string>
     <string formatted="false" name="brick_finish_stage">Baigti sceną</string>
     <string formatted="false" name="brick_finish_tests">Baigti testus</string>
+    <string formatted="false" name="brick_when_stage_exited">Kai išeinama iš scenos</string>
     <string formatted="false" name="brick_assert_lists">Patikrinti sąrašus</string>
     <string formatted="false" name="brick_assert_actual">Faktinė:</string>
     <string formatted="false" name="brick_assert_expected">Tikėtina:</string>
     <string formatted="false" name="brick_parameterized_assert">patikrinti, ar</string>
     <string formatted="false" name="brick_parameterized_equals">lygu tikėtinam elementui iš</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Imituoti žaidimų pulto mygtuką</string>
+    <string formatted="false" name="gamepad_button_state_pressed">paspaustas</string>
+    <string formatted="false" name="gamepad_button_state_released">atleistas</string>
+    <string formatted="false" name="gamepad_button_up">Aukštyn</string>
+    <string formatted="false" name="gamepad_button_down">Žemyn</string>
+    <string formatted="false" name="gamepad_button_left">Kairėn</string>
+    <string formatted="false" name="gamepad_button_right">Dešinėn</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Kiekvienam elementui iš</item>
         <item quantity="few">Kiekvienam elementų rinkiniui iš</item>
@@ -1788,6 +1799,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">žaidimų pulto „žemyn“ paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">žaidimų pulto „kairėn“ paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">žaidimų pulto „dešinėn“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">žaidimų pulto mygtukas A paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">žaidimų pulto mygtukas B paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">žaidimų pulto mygtukas X paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">žaidimų pulto mygtukas Y paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">žaidimų pulto mygtukas „aukštyn“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">žaidimų pulto mygtukas „žemyn“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">žaidimų pulto mygtukas „kairėn“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">žaidimų pulto mygtukas „dešinėn“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">žaidimų pulto mygtukas „Start“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">žaidimų pulto mygtukas „Select“ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">žaidimų pulto mygtukas L1 paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">žaidimų pulto mygtukas L2 paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">žaidimų pulto mygtukas R1 paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">žaidimų pulto mygtukas R2 paspaustas</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fizinio žaidimų pulto blokas ir jutiklis</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Rodyti fizinio žaidimų pulto bloką ir jutiklį rengyklėje.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">scenos plotis</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">scenos aukštis</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro priekinis kairysis jutiklis</string>

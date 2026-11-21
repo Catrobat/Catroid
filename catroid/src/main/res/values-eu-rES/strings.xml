@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Berrezarri kronometroa</string>
     <string formatted="false" name="brick_open">Ireki</string>
     <string formatted="false" name="brick_in_browser">nabigatzailean</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">sakatzen denean</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Eszena hastean</string>
     <string formatted="false" name="brick_when">Sakatzean</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"hemendik: x:"</string>
     <string formatted="false" name="brick_finish_stage">Amaitu agertokia</string>
     <string formatted="false" name="brick_finish_tests">Amaitu probak</string>
+    <string formatted="false" name="brick_when_stage_exited">Agertokitik irtetean</string>
     <string formatted="false" name="brick_assert_lists">Egiaztatu zerrendak</string>
     <string formatted="false" name="brick_assert_actual">Benetakoa:</string>
     <string formatted="false" name="brick_assert_expected">Esperotakoa:</string>
     <string formatted="false" name="brick_parameterized_assert">egiaztatu</string>
     <string formatted="false" name="brick_parameterized_equals">eta zerrenda honetan espero den elementua berdinak direla:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulatu joko-kontrolagailuaren botoia</string>
+    <string formatted="false" name="gamepad_button_state_pressed">sakatuta</string>
+    <string formatted="false" name="gamepad_button_state_released">askatuta</string>
+    <string formatted="false" name="gamepad_button_up">Gora</string>
+    <string formatted="false" name="gamepad_button_down">Behera</string>
+    <string formatted="false" name="gamepad_button_left">Ezkerrera</string>
+    <string formatted="false" name="gamepad_button_right">Eskuinera</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Zerrenda honetako elementu bakoitzeko:</item>
         <item quantity="other">Zerrenda hauetako elementu-tupla bakoitzeko:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">joko-kontrolagailuaren behera sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">joko-kontrolagailuaren ezkerrera sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">joko-kontrolagailuaren eskuinera sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">joko-kontrolagailuaren A botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">joko-kontrolagailuaren B botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">joko-kontrolagailuaren X botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">joko-kontrolagailuaren Y botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">joko-kontrolagailuaren gora botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">joko-kontrolagailuaren behera botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">joko-kontrolagailuaren ezkerrera botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">joko-kontrolagailuaren eskuinera botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">joko-kontrolagailuaren start botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">joko-kontrolagailuaren select botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">joko-kontrolagailuaren L1 botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">joko-kontrolagailuaren L2 botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1 botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2 botoia sakatuta</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu fisikoaren blokea eta sentsorea</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Erakutsi joko-kontrolagailu fisikoaren blokea eta sentsorea editorean.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agertokiaren altuera</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro aurreko ezkerreko sentsorea</string>

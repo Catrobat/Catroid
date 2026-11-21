@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Taymeri sıfırla</string>
     <string formatted="false" name="brick_open">Aç:</string>
     <string formatted="false" name="brick_in_browser">brauzerdə</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">basılan anda</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Epizod başlayanda</string>
     <string formatted="false" name="brick_when">Toxunulanda</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"başlanğıc x:"</string>
     <string formatted="false" name="brick_finish_stage">Səhnəni bitir</string>
     <string formatted="false" name="brick_finish_tests">Testləri bitir</string>
+    <string formatted="false" name="brick_when_stage_exited">Səhnədən çıxılanda</string>
     <string formatted="false" name="brick_assert_lists">Siyahıları yoxla</string>
     <string formatted="false" name="brick_assert_actual">Faktiki:</string>
     <string formatted="false" name="brick_assert_expected">Gözlənilən:</string>
     <string formatted="false" name="brick_parameterized_assert">yoxla:</string>
     <string formatted="false" name="brick_parameterized_equals">bunun gözlənilən elementinə bərabərdir:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Oyun pultunun düyməsini simulyasiya et</string>
+    <string formatted="false" name="gamepad_button_state_pressed">basılı</string>
+    <string formatted="false" name="gamepad_button_state_released">buraxılmış</string>
+    <string formatted="false" name="gamepad_button_up">Yuxarı</string>
+    <string formatted="false" name="gamepad_button_down">Aşağı</string>
+    <string formatted="false" name="gamepad_button_left">Sol</string>
+    <string formatted="false" name="gamepad_button_right">Sağ</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Bunun hər elementi üçün:</item>
         <item quantity="other">Bunun hər element dəsti üçün:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">oyun pultunda aşağı basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">oyun pultunda sol basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">oyun pultunda sağ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">oyun pultunun düyməsi A basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">oyun pultunun düyməsi B basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">oyun pultunun düyməsi X basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">oyun pultunun düyməsi Y basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">oyun pultunun düyməsi yuxarı basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">oyun pultunun düyməsi aşağı basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">oyun pultunun düyməsi sol basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">oyun pultunun düyməsi sağ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">oyun pultunun düyməsi start basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">oyun pultunun düyməsi select basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">oyun pultunun düyməsi L1 basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun pultunun düyməsi L2 basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1 basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2 basılıb</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziki oyun pultu bloku və sensoru</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Redaktorda fiziki oyun pultu blokunu və sensorunu göstər.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">səhnənin hündürlüyü</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ön sol sensor</string>

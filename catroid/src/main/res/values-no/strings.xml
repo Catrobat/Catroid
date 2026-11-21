@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Nullstill tidtakeren</string>
     <string formatted="false" name="brick_open">Åpne</string>
     <string formatted="false" name="brick_in_browser">i nettleseren</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">trykkes ned</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Når scenen starter</string>
     <string formatted="false" name="brick_when">Når du blir trykket på</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"fra x:"</string>
     <string formatted="false" name="brick_finish_stage">Lukk spilleflaten</string>
     <string formatted="false" name="brick_finish_tests">Avslutt testene</string>
+    <string formatted="false" name="brick_when_stage_exited">Når spilleflaten lukkes</string>
     <string formatted="false" name="brick_assert_lists">Kontroller lister</string>
     <string formatted="false" name="brick_assert_actual">Faktisk:</string>
     <string formatted="false" name="brick_assert_expected">Forventet:</string>
     <string formatted="false" name="brick_parameterized_assert">kontroller at</string>
     <string formatted="false" name="brick_parameterized_equals">er lik forventet element i</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuler spillkontrollknapp</string>
+    <string formatted="false" name="gamepad_button_state_pressed">trykket ned</string>
+    <string formatted="false" name="gamepad_button_state_released">sluppet</string>
+    <string formatted="false" name="gamepad_button_up">Opp</string>
+    <string formatted="false" name="gamepad_button_down">Ned</string>
+    <string formatted="false" name="gamepad_button_left">Venstre</string>
+    <string formatted="false" name="gamepad_button_right">Høyre</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For hvert element i</item>
         <item quantity="other">For hver tuppel av elementer i</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">spillkontroll ned trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">spillkontroll venstre trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">spillkontroll høyre trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">spillkontrollknapp A trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">spillkontrollknapp B trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">spillkontrollknapp X trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">spillkontrollknapp Y trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">spillkontrollknapp opp trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">spillkontrollknapp ned trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">spillkontrollknapp venstre trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">spillkontrollknapp høyre trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">spillkontrollknapp start trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">spillkontrollknapp select trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">spillkontrollknapp L1 trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">spillkontrollknapp L2 trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spillkontrollknapp R1 trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spillkontrollknapp R2 trykket</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kloss og sensor for fysisk spillkontroll</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Vis klossen og sensoren for fysisk spillkontroll i redigeringsverktøyet.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spilleflatens bredde</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spilleflatens høyde</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor foran venstre</string>

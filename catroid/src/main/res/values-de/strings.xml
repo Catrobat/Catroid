@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Setze Stoppuhr zurück</string>
     <string formatted="false" name="brick_open">Öffne</string>
     <string formatted="false" name="brick_in_browser">im Browser</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">gedrückt</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Wenn die Szene startet</string>
     <string formatted="false" name="brick_when">Wenn angetippt</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"von x:"</string>
     <string formatted="false" name="brick_finish_stage">Beende Bühne</string>
     <string formatted="false" name="brick_finish_tests">Beende Tests</string>
+    <string formatted="false" name="brick_when_stage_exited">Wenn die Bühne verlassen wird</string>
     <string formatted="false" name="brick_assert_lists">Prüfe Listen</string>
     <string formatted="false" name="brick_assert_actual">Tatsächlich:</string>
     <string formatted="false" name="brick_assert_expected">Erwartet:</string>
     <string formatted="false" name="brick_parameterized_assert">prüfe</string>
     <string formatted="false" name="brick_parameterized_equals">gleich erwartetem Element von</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuliere Gamepad-Taste</string>
+    <string formatted="false" name="gamepad_button_state_pressed">gedrückt</string>
+    <string formatted="false" name="gamepad_button_state_released">losgelassen</string>
+    <string formatted="false" name="gamepad_button_up">Oben</string>
+    <string formatted="false" name="gamepad_button_down">Unten</string>
+    <string formatted="false" name="gamepad_button_left">Links</string>
+    <string formatted="false" name="gamepad_button_right">Rechts</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Für jedes Element von</item>
         <item quantity="other">Für jedes Tupel von Elementen von</item>
@@ -1696,6 +1707,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">Gamepad unten gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">Gamepad links gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">Gamepad rechts gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">Gamepad-Taste A gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">Gamepad-Taste B gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">Gamepad-Taste X gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">Gamepad-Taste Y gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">Gamepad-Taste oben gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">Gamepad-Taste unten gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">Gamepad-Taste links gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">Gamepad-Taste rechts gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">Gamepad-Taste Start gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">Gamepad-Taste Select gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">Gamepad-Taste L1 gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">Gamepad-Taste L2 gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">Gamepad-Taste R1 gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">Gamepad-Taste R2 gedrückt</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Baustein und Sensor für physisches Gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Baustein und Sensor für physisches Gamepad im Editor anzeigen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">Bühnenbreite</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">Bühnenhöhe</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro Sensor vorne links</string>

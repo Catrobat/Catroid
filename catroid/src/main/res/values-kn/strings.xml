@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">ಟೈಮರ್ ಮರುಹೊಂದಿಸಿ</string>
     <string formatted="false" name="brick_open">ತೆರೆಯಿರಿ:</string>
     <string formatted="false" name="brick_in_browser">ಬ್ರೌಸರ್‌ನಲ್ಲಿ</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">ಒತ್ತಿದಾಗ</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">ದೃಶ್ಯ ಪ್ರಾರಂಭವಾದಾಗ</string>
     <string formatted="false" name="brick_when">ಟ್ಯಾಪ್ ಮಾಡಿದಾಗ</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"ಇಲ್ಲಿಂದ x:"</string>
     <string formatted="false" name="brick_finish_stage">ವೇದಿಕೆಯನ್ನು ಮುಗಿಸಿ</string>
     <string formatted="false" name="brick_finish_tests">ಪರೀಕ್ಷೆಗಳನ್ನು ಮುಗಿಸಿ</string>
+    <string formatted="false" name="brick_when_stage_exited">ವೇದಿಕೆಯಿಂದ ನಿರ್ಗಮಿಸಿದಾಗ</string>
     <string formatted="false" name="brick_assert_lists">ಪಟ್ಟಿಗಳನ್ನು ದೃಢಪಡಿಸಿ</string>
     <string formatted="false" name="brick_assert_actual">ನಿಜವಾದದ್ದು:</string>
     <string formatted="false" name="brick_assert_expected">ನಿರೀಕ್ಷಿತ:</string>
     <string formatted="false" name="brick_parameterized_assert">ದೃಢಪಡಿಸಿ:</string>
     <string formatted="false" name="brick_parameterized_equals">ಇದರ ನಿರೀಕ್ಷಿತ ಐಟಂಗೆ ಸಮ:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಅನುಕರಿಸಿ</string>
+    <string formatted="false" name="gamepad_button_state_pressed">ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="gamepad_button_state_released">ಬಿಡಲಾಗಿದೆ</string>
+    <string formatted="false" name="gamepad_button_up">ಮೇಲೆ</string>
+    <string formatted="false" name="gamepad_button_down">ಕೆಳಗೆ</string>
+    <string formatted="false" name="gamepad_button_left">ಎಡ</string>
+    <string formatted="false" name="gamepad_button_right">ಬಲ</string>
+    <string formatted="false" name="gamepad_button_start">ಸ್ಟಾರ್ಟ್</string>
+    <string formatted="false" name="gamepad_button_select">ಸೆಲೆಕ್ಟ್</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ಇದರ ಪ್ರತಿ ಐಟಂಗೆ:</item>
         <item quantity="other">ಇದರ ಪ್ರತಿ ಐಟಂ ಗುಂಪಿಗೆ:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಕೆಳಗೆ ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಎಡ ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಲ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ A ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ B ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ X ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ Y ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಮೇಲೆ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಕೆಳಗೆ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಎಡ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಬಲ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಸ್ಟಾರ್ಟ್ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಸೆಲೆಕ್ಟ್ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ L1 ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ L2 ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R1 ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R2 ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ಭೌತಿಕ ಗೇಮ್‌ಪ್ಯಾಡ್ ಬ್ಲಾಕ್ ಮತ್ತು ಸೆನ್ಸರ್</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">ಸಂಪಾದಕದಲ್ಲಿ ಭೌತಿಕ ಗೇಮ್‌ಪ್ಯಾಡ್ ಬ್ಲಾಕ್ ಮತ್ತು ಸೆನ್ಸರ್ ಅನ್ನು ತೋರಿಸಿ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ವೇದಿಕೆಯ ಅಗಲ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ವೇದಿಕೆಯ ಎತ್ತರ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ಮುಂದಿನ ಎಡ ಸೆನ್ಸರ್</string>

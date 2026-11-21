@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">කාල ගණකය යළි සකසන්න</string>
     <string formatted="false" name="brick_open">විවෘත කරන්න:</string>
     <string formatted="false" name="brick_in_browser">බ්‍රවුසරයේ</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">එබූ විට</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">දර්ශනය ආරම්භ වූ විට</string>
     <string formatted="false" name="brick_when">තට්ටු කළ විට</string>
@@ -1025,11 +1026,21 @@
     <string formatted="false" name="brick_touch_from_x">"සිට x:"</string>
     <string formatted="false" name="brick_finish_stage">වේදිකාව අවසන් කරන්න</string>
     <string formatted="false" name="brick_finish_tests">පරීක්ෂණ අවසන් කරන්න</string>
+    <string formatted="false" name="brick_when_stage_exited">වේදිකාවෙන් පිටවූ විට</string>
     <string formatted="false" name="brick_assert_lists">ලැයිස්තු තහවුරු කරන්න</string>
     <string formatted="false" name="brick_assert_actual">සැබෑ:</string>
     <string formatted="false" name="brick_assert_expected">අපේක්ෂිත:</string>
     <string formatted="false" name="brick_parameterized_assert">තහවුරු කරන්න:</string>
     <string formatted="false" name="brick_parameterized_equals">මෙහි අපේක්ෂිත අයිතමයට සමානයි:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">ගේම්පෑඩ් බොත්තම අනුකරණය කරන්න</string>
+    <string formatted="false" name="gamepad_button_state_pressed">ඔබා ඇත</string>
+    <string formatted="false" name="gamepad_button_state_released">මුදා හැර ඇත</string>
+    <string formatted="false" name="gamepad_button_up">ඉහළ</string>
+    <string formatted="false" name="gamepad_button_down">පහළ</string>
+    <string formatted="false" name="gamepad_button_left">වම</string>
+    <string formatted="false" name="gamepad_button_right">දකුණ</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">මෙහි එක් එක් අයිතමය සඳහා:</item>
         <item quantity="other">මෙහි එක් එක් අයිතම කට්ටලය සඳහා:</item>
@@ -1698,6 +1709,22 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ගේම්පෑඩ් පහළ ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ගේම්පෑඩ් වම ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ගේම්පෑඩ් දකුණ ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ගේම්පෑඩ් බොත්තම A ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ගේම්පෑඩ් බොත්තම B ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ගේම්පෑඩ් බොත්තම X ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ගේම්පෑඩ් බොත්තම Y ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ගේම්පෑඩ් බොත්තම ඉහළ ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ගේම්පෑඩ් බොත්තම පහළ ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ගේම්පෑඩ් බොත්තම වම ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ගේම්පෑඩ් බොත්තම දකුණ ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ගේම්පෑඩ් බොත්තම Start ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ගේම්පෑඩ් බොත්තම Select ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ගේම්පෑඩ් බොත්තම L1 ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ගේම්පෑඩ් බොත්තම L2 ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ගේම්පෑඩ් බොත්තම R1 ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ගේම්පෑඩ් බොත්තම R2 ඔබා ඇත</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">සංස්කාරකයේ භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය පෙන්වන්න.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">වේදිකාවේ පළල</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">වේදිකාවේ උස</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ඉදිරි වම් සංවේදකය</string>
