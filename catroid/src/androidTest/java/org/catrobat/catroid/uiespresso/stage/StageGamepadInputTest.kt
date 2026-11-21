@@ -32,9 +32,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -61,6 +59,7 @@ import org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVar
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -69,7 +68,8 @@ import org.junit.runner.RunWith
 
 /**
  * Sends key events of a physical game controller to a running stage and checks that they reach the
- * gamepad scripts and sensors of the project, and that everything else keeps Android's handling.
+ * gamepad scripts and sensors of the project, that an unused B leaves the stage, and that everything
+ * else keeps Android's handling.
  */
 @Category(Cat.AppUi::class, Level.Smoke::class)
 @RunWith(AndroidJUnit4::class)
@@ -124,7 +124,7 @@ class StageGamepadInputTest {
     }
 
     @Test
-    fun unusedBOpensStageMenuLikeBack() {
+    fun unusedBFinishesStageWithoutStageMenu() {
         val aPresses = addPressCounter(GamepadButton.A)
         startStage()
         pressKey(KeyEvent.KEYCODE_BUTTON_A)
@@ -132,7 +132,8 @@ class StageGamepadInputTest {
 
         pressKey(KeyEvent.KEYCODE_BUTTON_B)
 
-        onStageDialogContinueButton().check(matches(isDisplayed()))
+        waitUntilStageFinishes()
+        assertFalse(stageActivity.dialogIsShowing())
     }
 
     @Test
@@ -144,6 +145,7 @@ class StageGamepadInputTest {
 
         assertUserVariableEqualsWithTimeout(bPresses, 1.0, TIMEOUT_MILLIS)
         onView(withId(R.id.stage_dialog_button_continue)).check(doesNotExist())
+        assertFalse(stageActivity.isFinishing)
     }
 
     @Test
@@ -161,13 +163,19 @@ class StageGamepadInputTest {
     }
 
     @Test
-    fun projectWithoutGamepadElementsConsumesNoControllerKey() {
+    fun projectWithoutGamepadElementsConsumesOnlyControllerB() {
         startStage()
 
-        listOf(KeyEvent.KEYCODE_BUTTON_A, KeyEvent.KEYCODE_BUTTON_B, KeyEvent.KEYCODE_DPAD_UP).forEach { keyCode ->
+        listOf(KeyEvent.KEYCODE_BUTTON_A, KeyEvent.KEYCODE_DPAD_UP).forEach { keyCode ->
             assertFalse(isConsumedByStage(keyEvent(KeyEvent.ACTION_DOWN, keyCode, GAMEPAD)))
             assertFalse(isConsumedByStage(keyEvent(KeyEvent.ACTION_UP, keyCode, GAMEPAD)))
         }
+        assertFalse(stageActivity.isFinishing)
+
+        assertTrue(isConsumedByStage(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B, GAMEPAD)))
+        assertTrue(isConsumedByStage(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_B, GAMEPAD)))
+
+        waitUntilStageFinishes()
     }
 
     @Test
@@ -235,6 +243,14 @@ class StageGamepadInputTest {
         stageStartedGate.waitUntilEvaluated(STAGE_START_TIMEOUT_MILLIS)
     }
 
+    private fun waitUntilStageFinishes() {
+        val deadline = SystemClock.uptimeMillis() + TIMEOUT_MILLIS
+        while (!stageActivity.isFinishing) {
+            assertTrue("The stage did not finish", SystemClock.uptimeMillis() < deadline)
+            SystemClock.sleep(POLL_INTERVAL_MILLIS)
+        }
+    }
+
     private fun pressKey(keyCode: Int, source: Int = GAMEPAD) {
         sendKey(KeyEvent.ACTION_DOWN, keyCode, source)
         sendKey(KeyEvent.ACTION_UP, keyCode, source)
@@ -271,5 +287,6 @@ class StageGamepadInputTest {
         private const val STAGE_START_TIMEOUT_MILLIS = 5000
         private const val TIMEOUT_MILLIS = 3000
         private const val QUIET_PERIOD_MILLIS = 500
+        private const val POLL_INTERVAL_MILLIS = 50L
     }
 }

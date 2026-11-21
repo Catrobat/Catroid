@@ -232,6 +232,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
+import org.catrobat.catroid.content.bricks.WhenStageExitedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
@@ -561,6 +562,7 @@ public class BrickCategoryTest {
 						TouchAndSlideBrick.class,
 						SimulateGamepadButtonBrick.class,
 						FinishStageBrick.class,
+						WhenStageExitedBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},
 		});

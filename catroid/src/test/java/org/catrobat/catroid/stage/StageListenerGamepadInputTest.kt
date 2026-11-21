@@ -33,16 +33,24 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import org.catrobat.catroid.content.EventWrapper
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
+import org.catrobat.catroid.content.WhenStageExitedScript
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId
+import org.catrobat.catroid.content.eventids.StageExitedEventId
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager
+import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton.A
 import org.catrobat.catroid.gamepad.GamepadButton.B
 import org.catrobat.catroid.gamepad.GamepadInputSource.KEY
+import org.catrobat.catroid.gamepad.GamepadInputSource.SIMULATED
+import org.catrobat.catroid.stage.StageExitController.State
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -50,6 +58,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito.atLeast
+import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
@@ -60,6 +69,7 @@ class StageListenerGamepadInputTest {
     private val stageListener = StageListener()
 
     private val previousGl20: GL20? = Gdx.gl20
+    private var finishStageCount = 0
     private val previousGraphics: Graphics? = Gdx.graphics
 
     @Before
@@ -76,6 +86,7 @@ class StageListenerGamepadInputTest {
         stageListener.shapeRenderer = mock(ShapeRenderer::class.java)
         stageListener.cameraPositioner = mock(CameraPositioner::class.java)
         stageListener.embroideryPatternManager = mock(EmbroideryPatternManager::class.java)
+        useStageExitControllerFor(project)
     }
 
     @After
@@ -119,6 +130,135 @@ class StageListenerGamepadInputTest {
 
         assertFalse(stageListener.gamepadInput.isPressed(B))
         assertFiredEventIds(GamepadButtonPressedEventId(A))
+    }
+
+    @Test
+    fun `stage owns one exit controller without a pending exit`() {
+        val listener = StageListener()
+
+        assertSame(listener.stageExitController, listener.stageExitController)
+        assertEquals(State.NONE, listener.stageExitController.state)
+    }
+
+    @Test
+    fun `pressing an unused B requests a stage exit like finish stage`() {
+        pressAndRelease(B)
+
+        assertEquals(1, finishStageCount)
+        assertFiredEventIds(GamepadButtonPressedEventId(B))
+    }
+
+    @Test
+    fun `simulated press of an unused B requests a stage exit`() {
+        stageListener.gamepadInput.setButtonState(B, SIMULATED, true)
+        stageListener.applyPendingGamepadInput()
+
+        assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `holding or releasing an unused B requests no further stage exit`() {
+        stageListener.gamepadInput.setButtonState(B, KEY, true)
+        stageListener.applyPendingGamepadInput()
+        stageListener.gamepadInput.setButtonState(B, SIMULATED, true)
+        stageListener.applyPendingGamepadInput()
+        stageListener.gamepadInput.setButtonState(B, KEY, false)
+        stageListener.gamepadInput.setButtonState(B, SIMULATED, false)
+        stageListener.applyPendingGamepadInput()
+
+        assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `pressing other buttons requests no stage exit`() {
+        GamepadButton.entries.filter { it != B }.forEach { pressAndRelease(it) }
+
+        assertEquals(0, finishStageCount)
+    }
+
+    @Test
+    fun `pressing B in a project that uses B requests no stage exit`() {
+        useStageExitControllerFor(projectWith(WhenGamepadButtonPressedScript(B.name)))
+
+        pressAndRelease(B)
+
+        assertEquals(0, finishStageCount)
+        assertFiredEventIds(GamepadButtonPressedEventId(B))
+    }
+
+    @Test
+    fun `pressing B in a project that only uses B in a commented out script requests a stage exit`() {
+        val commentedOutScript = WhenGamepadButtonPressedScript(B.name).apply { isCommentedOut = true }
+        useStageExitControllerFor(projectWith(WhenGamepadButtonPressedScript(A.name), commentedOutScript))
+
+        pressAndRelease(B)
+
+        assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `B pressed on a paused stage requests the stage exit once the stage runs again`() {
+        stageListener.setPaused(true)
+        stageListener.gamepadInput.setButtonState(B, KEY, true)
+
+        stageListener.render()
+        assertEquals(0, finishStageCount)
+
+        stageListener.setPaused(false)
+        stageListener.render()
+        assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `rendering a running stage fires the stage exited event of a pending exit`() {
+        val catchProject = mock(Project::class.java)
+        doReturn(projectWith(WhenStageExitedScript()).sceneList).`when`(catchProject).sceneList
+        setField("project", catchProject)
+        useStageExitControllerFor(catchProject)
+        stageListener.stageExitController.requestFinishStage()
+        stageListener.setPaused(true)
+
+        stageListener.render()
+        assertEquals(State.PENDING, stageListener.stageExitController.state)
+
+        stageListener.setPaused(false)
+        stageListener.render()
+
+        val firedEvents = ArgumentCaptor.forClass(EventWrapper::class.java)
+        verify(catchProject).fireToAllSprites(firedEvents.capture())
+        assertEquals(listOf<EventId>(StageExitedEventId), firedEvents.allValues.map { it.eventId })
+        assertEquals(State.EXITED, stageListener.stageExitController.state)
+        assertEquals(1, finishStageCount)
+    }
+
+    private fun pressAndRelease(button: GamepadButton) {
+        stageListener.gamepadInput.setButtonState(button, KEY, true)
+        stageListener.applyPendingGamepadInput()
+        stageListener.gamepadInput.setButtonState(button, KEY, false)
+        stageListener.applyPendingGamepadInput()
+    }
+
+    /**
+     * Gives the stage an exit controller that looks at [controllerProject], records finishing the
+     * stage and runs hand-offs to the UI thread at once.
+     */
+    private fun useStageExitControllerFor(controllerProject: Project) {
+        setField(
+            "stageExitController",
+            StageExitController(
+                project = { controllerProject },
+                finishStage = { finishStageCount++ },
+                runOnUiThread = { it.run() }
+            )
+        )
+    }
+
+    private fun projectWith(vararg scripts: Script): Project {
+        val scriptProject = Project()
+        val scene = Scene("Scene", scriptProject)
+        scene.addSprite(Sprite("Sprite").apply { scripts.forEach { addScript(it) } })
+        scriptProject.addScene(scene)
+        return scriptProject
     }
 
     private fun assertFiredEventIds(vararg expectedEventIds: EventId) {

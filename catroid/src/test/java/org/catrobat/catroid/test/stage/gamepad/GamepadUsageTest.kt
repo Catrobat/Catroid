@@ -284,34 +284,44 @@ class GamepadUsageTest {
     }
 
     @Test
-    fun `stage handles no button for a project without gamepad elements`() {
+    fun `stage handles only B for a project without gamepad elements`() {
         val usage = GamepadUsage.of(projectWith(StartScript().withBricks(SetXBrick(Formula(NUMBER_VALUE)))))
 
-        GamepadButton.entries.forEach { button -> assertFalse(button.name, usage.isHandledByStage(button)) }
+        GamepadButton.entries.forEach { button ->
+            assertEquals(button.name, button == B, usage.isHandledByStage(button))
+        }
     }
 
     @Test
-    fun `stage handles every button but B when the project uses another button`() {
+    fun `stage handles only B without a project`() {
+        val usage = GamepadUsage.of(null)
+
+        GamepadButton.entries.forEach { button ->
+            assertEquals(button.name, button == B, usage.isHandledByStage(button))
+        }
+    }
+
+    @Test
+    fun `stage handles every button when the project uses another button`() {
         val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript("A")))
 
-        GamepadButton.entries.forEach { button ->
-            assertEquals(button.name, button != B, usage.isHandledByStage(button))
-        }
+        assertFalse(usage.isUsed(B))
+        GamepadButton.entries.forEach { button -> assertTrue(button.name, usage.isHandledByStage(button)) }
     }
 
     @Test
-    fun `stage handles every button but B when the project only uses a sensor`() {
+    fun `stage handles every button when the project only uses a sensor`() {
         val usage = GamepadUsage.of(projectWith(StartScript().withBricks(SetXBrick(sensorFormula(START)))))
 
-        GamepadButton.entries.forEach { button ->
-            assertEquals(button.name, button != B, usage.isHandledByStage(button))
-        }
+        assertFalse(usage.isUsed(B))
+        GamepadButton.entries.forEach { button -> assertTrue(button.name, usage.isHandledByStage(button)) }
     }
 
     @Test
     fun `stage handles every button when the project uses B`() {
         val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript("B")))
 
+        assertTrue(usage.isUsed(B))
         GamepadButton.entries.forEach { button -> assertTrue(button.name, usage.isHandledByStage(button)) }
     }
 
@@ -319,17 +329,29 @@ class GamepadUsageTest {
     fun `stage handles every button when the project uses the B sensor`() {
         val usage = GamepadUsage.of(projectWith(StartScript().withBricks(SetXBrick(sensorFormula(B)))))
 
+        assertTrue(usage.isUsed(B))
         GamepadButton.entries.forEach { button -> assertTrue(button.name, usage.isHandledByStage(button)) }
     }
 
     @Test
-    fun `stage does not handle B when only a commented out script uses it`() {
+    fun `B used only by a commented out script is unused but still handled by the stage`() {
         val commentedOutScript = WhenGamepadButtonPressedScript("B").apply { isCommentedOut = true }
 
         val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript("A"), commentedOutScript))
 
+        assertFalse(usage.isUsed(B))
         assertTrue(usage.isHandledByStage(A))
-        assertFalse(usage.isHandledByStage(B))
+        assertTrue(usage.isHandledByStage(B))
+    }
+
+    @Test
+    fun `B used only by the simulate gamepad button testing brick is unused`() {
+        val script = StartScript().withBricks(SimulateGamepadButtonBrick("B", true))
+
+        val usage = GamepadUsage.of(projectWith(script))
+
+        assertFalse(usage.isUsed(B))
+        assertTrue(usage.isHandledByStage(B))
     }
 
     private fun assertUsesNoGamepad(usage: GamepadUsage) {
@@ -337,7 +359,7 @@ class GamepadUsageTest {
         assertFalse(usage.usesGamepad)
         GamepadButton.entries.forEach { button ->
             assertFalse(button.name, usage.isUsed(button))
-            assertFalse(button.name, usage.isHandledByStage(button))
+            assertEquals(button.name, button == B, usage.isHandledByStage(button))
         }
     }
 

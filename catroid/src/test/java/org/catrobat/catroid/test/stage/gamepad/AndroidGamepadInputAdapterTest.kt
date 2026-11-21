@@ -44,6 +44,12 @@ import android.view.MotionEvent.AXIS_LTRIGGER
 import android.view.MotionEvent.AXIS_RTRIGGER
 import android.view.MotionEvent.AXIS_X
 import android.view.MotionEvent.AXIS_Y
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton.A
 import org.catrobat.catroid.gamepad.GamepadButton.B
@@ -61,13 +67,18 @@ import org.catrobat.catroid.gamepad.GamepadButton.X
 import org.catrobat.catroid.gamepad.GamepadButton.Y
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource
+import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter
+import org.catrobat.catroid.stage.gamepad.StageGamepadInputAdapterFactory
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
@@ -106,6 +117,11 @@ class AndroidGamepadInputAdapterTest {
             inputDevice(KEYBOARD_DEVICE_ID, SOURCE_KEYBOARD),
             inputDevice(REMOTE_CONTROL_DEVICE_ID, SOURCE_KEYBOARD or SOURCE_DPAD)
         ).associateBy { it.id }
+    }
+
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
     }
 
     @Test
@@ -627,6 +643,82 @@ class AndroidGamepadInputAdapterTest {
         adapter.unregister(null)
     }
 
+    @Test
+    fun `stage adapter consumes and forwards controller B in every project`() {
+        useStageGamepadInput()
+        val projects = listOf(
+            null,
+            Project(),
+            projectWith(StartScript()),
+            projectWith(WhenGamepadButtonPressedScript(A.name)),
+            projectWith(WhenGamepadButtonPressedScript(B.name))
+        )
+
+        projects.forEachIndexed { index, project ->
+            val stageAdapter = StageGamepadInputAdapterFactory.create(project)
+
+            val downConsumed = stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B))
+            assertTrue("B down consumed in project $index", downConsumed)
+            applyPendingInput()
+            assertPressedExactly(B)
+            val upConsumed = stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_B))
+            assertTrue("B up consumed in project $index", upConsumed)
+            applyPendingInput()
+            assertPressedExactly()
+        }
+        assertFired(B, B, B, B, B)
+    }
+
+    @Test
+    fun `stage adapter consumes other buttons only in a project with gamepad elements`() {
+        useStageGamepadInput()
+        val adapterWithoutGamepad = StageGamepadInputAdapterFactory.create(projectWith(StartScript()))
+        val adapterWithGamepad =
+            StageGamepadInputAdapterFactory.create(projectWith(WhenGamepadButtonPressedScript(X.name)))
+
+        KEY_CODE_BUTTONS.filterValues { it != B }.keys.forEach { keyCode ->
+            assertFalse(adapterWithoutGamepad.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, keyCode)))
+            assertTrue(adapterWithGamepad.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, keyCode)))
+        }
+    }
+
+    @Test
+    fun `stage adapter does not consume B from a keyboard`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(Project())
+
+        assertFalse(
+            stageAdapter.dispatchKeyEvent(
+                keyEvent(
+                    KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B,
+                    source = SOURCE_KEYBOARD, deviceId = KEYBOARD_DEVICE_ID
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `stage adapter does not consume B without a running stage`() {
+        val stageAdapter = StageGamepadInputAdapterFactory.create(Project())
+
+        assertFalse(stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+    }
+
+    /** Lets the adapters of [StageGamepadInputAdapterFactory] feed [input] as gamepad input of the stage. */
+    private fun useStageGamepadInput() {
+        val stageListener = mock(StageListener::class.java)
+        doReturn(input).`when`(stageListener).gamepadInput
+        StageActivity.stageListener = stageListener
+    }
+
+    private fun projectWith(vararg scripts: Script): Project {
+        val project = Project()
+        val scene = Scene("Scene", project)
+        scene.addSprite(Sprite("Sprite").apply { scripts.forEach { addScript(it) } })
+        project.addScene(scene)
+        return project
+    }
+
     private fun holdButtonsFromAllSources() {
         keyDown(KeyEvent.KEYCODE_BUTTON_A)
         moveAxes(AXIS_HAT_X to -1f, AXIS_RTRIGGER to 1f)
@@ -677,10 +769,19 @@ class AndroidGamepadInputAdapterTest {
         deviceId: Int = GAMEPAD_DEVICE_ID
     ): Boolean = dispatchKey(KeyEvent.ACTION_UP, keyCode, source, deviceId, repeatCount = 0)
 
-    private fun dispatchKey(action: Int, keyCode: Int, source: Int, deviceId: Int, repeatCount: Int): Boolean {
+    private fun dispatchKey(action: Int, keyCode: Int, source: Int, deviceId: Int, repeatCount: Int): Boolean =
+        adapter.dispatchKeyEvent(keyEvent(action, keyCode, source, deviceId, repeatCount))
+
+    private fun keyEvent(
+        action: Int,
+        keyCode: Int,
+        source: Int = SOURCE_GAMEPAD,
+        deviceId: Int = GAMEPAD_DEVICE_ID,
+        repeatCount: Int = 0
+    ): KeyEvent {
         val event = KeyEvent(0L, 0L, action, keyCode, repeatCount, 0, deviceId, 0, 0, source)
         shadowOf(event).setDevice(devices[deviceId])
-        return adapter.dispatchKeyEvent(event)
+        return event
     }
 
     private fun moveAxes(

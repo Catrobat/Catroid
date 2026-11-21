@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.WhenGamepadButtonPressedScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.WhenStageExitedScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -72,6 +73,7 @@ public class CommentOutScriptTest {
 				{WhenGamepadButtonPressedScript.class.getSimpleName(), WhenGamepadButtonPressedScript.class},
 				{WhenNfcScript.class.getSimpleName(), WhenNfcScript.class},
 				{WhenScript.class.getSimpleName(), WhenScript.class},
+				{WhenStageExitedScript.class.getSimpleName(), WhenStageExitedScript.class},
 				{WhenTouchDownScript.class.getSimpleName(), WhenTouchDownScript.class},
 				{UserDefinedScript.class.getSimpleName(), UserDefinedScript.class},
 		});
