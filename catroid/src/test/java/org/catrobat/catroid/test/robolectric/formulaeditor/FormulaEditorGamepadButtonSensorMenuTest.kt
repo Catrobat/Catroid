@@ -99,7 +99,7 @@ class FormulaEditorGamepadButtonSensorMenuTest {
         idleMainLooper()
         clickMenuItem(EXPECTED_LABELS.indexOf("Up"))
 
-        assertEquals("gamepad button up pressed", formulaText())
+        assertEquals("gamepad button up▾pressed", formulaText())
         assertFalse(latestDialog().isShowing)
     }
 
@@ -112,9 +112,9 @@ class FormulaEditorGamepadButtonSensorMenuTest {
         idleMainLooper()
         clickMenuItem(EXPECTED_LABELS.indexOf("R2"))
 
-        assertEquals("gamepad button R2 pressed", formulaText())
+        assertEquals("gamepad button R2▾pressed", formulaText())
         assertTrue(formulaEditorEditText.undo())
-        assertEquals("gamepad button A pressed", formulaText())
+        assertEquals("gamepad button A▾pressed", formulaText())
     }
 
     @Test
@@ -127,7 +127,7 @@ class FormulaEditorGamepadButtonSensorMenuTest {
         latestDialog().cancel()
         idleMainLooper()
 
-        assertEquals("gamepad button A pressed", formulaText())
+        assertEquals("gamepad button A▾pressed", formulaText())
     }
 
     @Test
@@ -154,7 +154,7 @@ class FormulaEditorGamepadButtonSensorMenuTest {
         formulaEditorFragment.addResourceToActiveFormula(
             R.string.formula_editor_sensor_gamepad_button_a_pressed
         )
-        assertEquals("gamepad button A pressed", formulaText())
+        assertEquals("gamepad button A▾pressed", formulaText())
     }
 
     /** Selects the sensor token in the same way as a tap on its text does. */
