@@ -634,9 +634,7 @@ public class SettingsFragment extends PreferenceFragment {
 		boolean isChosenLanguageUsable = !DEVICE_LANGUAGE.equals(languageTag)
 				&& Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
 				&& AvailableLanguages.fromContext(context).isAvailable(languageTag);
-		return isChosenLanguageUsable
-				? Locale.forLanguageTag(languageTag)
-				: Locale.forLanguageTag(defaultSystemLanguage);
+		return Locale.forLanguageTag(isChosenLanguageUsable ? languageTag : defaultSystemLanguage);
 	}
 
 	public static void updateLocale(Context context, Locale locale) {
