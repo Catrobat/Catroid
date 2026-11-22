@@ -196,6 +196,7 @@ class FormulaEditorGamepadButtonSensorMenuTest {
         const val TAP_OFFSET = 2
 
         val EXPECTED_LABELS = listOf(
+            "Any",
             "A", "B", "X", "Y",
             "Up", "Down", "Left", "Right",
             "Start", "Select",

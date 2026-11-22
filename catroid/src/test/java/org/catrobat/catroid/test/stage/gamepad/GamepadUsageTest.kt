@@ -109,6 +109,88 @@ class GamepadUsageTest {
     }
 
     @Test
+    fun `event script of any button uses every button except B`() {
+        val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID)))
+
+        assertEquals(GamepadButton.entries.toSet() - B, usage.usedButtons)
+        assertTrue(usage.usesGamepad)
+        assertFalse(usage.isUsed(B))
+    }
+
+    @Test
+    fun `sensor for any button uses every button except B`() {
+        val anySensor = formulaOf(sensorElement(Sensors.GAMEPAD_BUTTON_ANY_PRESSED))
+
+        val usage = GamepadUsage.of(projectWith(StartScript().withBricks(SetXBrick(anySensor))))
+
+        assertEquals(GamepadButton.entries.toSet() - B, usage.usedButtons)
+        assertFalse(usage.isUsed(B))
+    }
+
+    @Test
+    fun `project with any button hands all controller buttons to the stage`() {
+        val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID)))
+
+        GamepadButton.entries.forEach { button -> assertTrue(button.name, usage.isHandledByStage(button)) }
+    }
+
+    @Test
+    fun `unused B does not count for any button`() {
+        val usage = GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID)))
+
+        assertFalse(usage.countsForAny(B))
+        assertFalse(usage.startsAnyButtonScripts(B))
+        assertTrue(usage.countsForAny(A))
+        assertTrue(usage.startsAnyButtonScripts(A))
+    }
+
+    @Test
+    fun `explicitly used B counts for any button`() {
+        val usage = GamepadUsage.of(
+            projectWith(
+                WhenGamepadButtonPressedScript(GamepadButton.ANY_ID),
+                WhenGamepadButtonPressedScript(B.name)
+            )
+        )
+
+        assertTrue(usage.isUsed(B))
+        assertTrue(usage.countsForAny(B))
+        assertTrue(usage.startsAnyButtonScripts(B))
+    }
+
+    @Test
+    fun `commented out B script does not make B count for any button`() {
+        val commentedOutB = WhenGamepadButtonPressedScript(B.name).apply { isCommentedOut = true }
+
+        val usage = GamepadUsage.of(
+            projectWith(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID), commentedOutB)
+        )
+
+        assertFalse(usage.countsForAny(B))
+    }
+
+    @Test
+    fun `commented out any button script starts nothing`() {
+        val commentedOutAny = WhenGamepadButtonPressedScript(GamepadButton.ANY_ID).apply { isCommentedOut = true }
+
+        val usage = GamepadUsage.of(projectWith(commentedOutAny, WhenGamepadButtonPressedScript(A.name)))
+
+        assertFalse(usage.startsAnyButtonScripts(A))
+        assertEquals(setOf(A), usage.usedButtons)
+    }
+
+    @Test
+    fun `compute dialog takes B for the any sensor only if the project uses B`() {
+        val anySensor = formulaOf(sensorElement(Sensors.GAMEPAD_BUTTON_ANY_PRESSED))
+        val withoutB = projectWith(StartScript())
+        val withB = projectWith(WhenGamepadButtonPressedScript(B.name))
+
+        assertEquals(GamepadButton.entries.toSet() - B, GamepadUsage.buttonsForCompute(anySensor, withoutB))
+        assertEquals(GamepadButton.entries.toSet(), GamepadUsage.buttonsForCompute(anySensor, withB))
+        assertEquals(setOf(X), GamepadUsage.buttonsForCompute(sensorFormula(X), withB))
+    }
+
+    @Test
     fun `event script of an unknown button uses no gamepad`() {
         assertUsesNoGamepad(GamepadUsage.of(projectWith(WhenGamepadButtonPressedScript("HOME"))))
     }

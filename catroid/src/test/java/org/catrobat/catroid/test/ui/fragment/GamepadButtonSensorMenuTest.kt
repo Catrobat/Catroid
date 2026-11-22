@@ -58,7 +58,7 @@ class GamepadButtonSensorMenuTest {
     }
 
     @Test
-    fun `menu offers the labels of all buttons in button order`() {
+    fun `menu offers any and the labels of all buttons in button order`() {
         assertEquals(EXPECTED_LABELS, menu.getLabels(activity))
     }
 
@@ -185,9 +185,10 @@ class GamepadButtonSensorMenuTest {
     private fun idleMainLooper() = shadowOf(Looper.getMainLooper()).idle()
 
     private companion object {
-        const val UP_POSITION = 4
+        const val UP_POSITION = 5
 
         val EXPECTED_LABELS = listOf(
+            "Any",
             "A", "B", "X", "Y",
             "Up", "Down", "Left", "Right",
             "Start", "Select",
@@ -195,6 +196,7 @@ class GamepadButtonSensorMenuTest {
         )
 
         val GAMEPAD_BUTTON_SENSORS = listOf(
+            Sensors.GAMEPAD_BUTTON_ANY_PRESSED,
             Sensors.GAMEPAD_BUTTON_A_PRESSED,
             Sensors.GAMEPAD_BUTTON_B_PRESSED,
             Sensors.GAMEPAD_BUTTON_X_PRESSED,
@@ -212,6 +214,7 @@ class GamepadButtonSensorMenuTest {
         )
 
         val EXPECTED_REPLACEMENTS = listOf(
+            R.string.formula_editor_sensor_gamepad_button_any_pressed,
             R.string.formula_editor_sensor_gamepad_button_a_pressed,
             R.string.formula_editor_sensor_gamepad_button_b_pressed,
             R.string.formula_editor_sensor_gamepad_button_x_pressed,

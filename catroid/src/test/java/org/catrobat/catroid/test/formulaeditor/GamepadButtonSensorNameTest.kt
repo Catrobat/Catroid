@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.formulaeditor
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.sensorNameResId
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.junit.Assert.assertEquals
@@ -76,6 +77,16 @@ class GamepadButtonSensorNameTest {
 
                 assertTrue("$tag $button: $name", name.contains("${button.name}$DROPDOWN_ARROW"))
             }
+        }
+    }
+
+    @Test
+    fun `sensor for any button has one dropdown arrow in every language`() {
+        languageTags.forEach { tag ->
+            val name = contextFor(tag).getString(R.string.formula_editor_sensor_gamepad_button_any_pressed)
+
+            assertEquals("$tag: $name", 1, name.count { it == DROPDOWN_ARROW })
+            assertFalse("$tag: $name", name.startsWith(DROPDOWN_ARROW))
         }
     }
 

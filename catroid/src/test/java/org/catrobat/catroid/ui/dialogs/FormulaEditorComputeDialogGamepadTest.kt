@@ -39,6 +39,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
@@ -115,6 +116,34 @@ class FormulaEditorComputeDialogGamepadTest {
 
         assertTrue(dialog.dispatchGenericMotionEvent(hatMotion(hatY = HAT_CENTER)))
         assertEquals(falseString(), dialog.result())
+    }
+
+    @Test
+    fun `shows the any sensor as pressed while a button is held`() {
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_ANY_PRESSED)
+
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_X)))
+        assertEquals(trueString(), dialog.result())
+
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_X)))
+        assertEquals(falseString(), dialog.result())
+    }
+
+    @Test
+    fun `any sensor leaves an unused B to Android`() {
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_ANY_PRESSED)
+
+        assertFalse(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+        assertEquals(falseString(), dialog.result())
+    }
+
+    @Test
+    fun `any sensor counts B when the project uses B`() {
+        ProjectManager.getInstance().currentSprite.addScript(WhenGamepadButtonPressedScript("B"))
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_ANY_PRESSED)
+
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+        assertEquals(trueString(), dialog.result())
     }
 
     @Test

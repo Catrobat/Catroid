@@ -75,6 +75,14 @@ class GamepadButtonSensorDisplayTest {
     }
 
     @Test
+    fun `formula editor shows the sensor for any button`() {
+        assertEquals(
+            "gamepad button any▾pressed",
+            externSensorString(Sensors.GAMEPAD_BUTTON_ANY_PRESSED).trim()
+        )
+    }
+
+    @Test
     fun `formula editor keeps showing legacy Chromecast gamepad sensors`() {
         assertEquals("gamepad A pressed", externSensorString(Sensors.GAMEPAD_A_PRESSED).trim())
         assertEquals("gamepad up pressed", externSensorString(Sensors.GAMEPAD_UP_PRESSED).trim())

@@ -189,6 +189,7 @@ class FormulaEditorGamepadButtonMenuTest {
         const val TAP_OFFSET = 2
 
         val EXPECTED_LABEL_IDS = listOf(
+            R.string.gamepad_button_any,
             R.string.gamepad_button_a,
             R.string.gamepad_button_b,
             R.string.gamepad_button_x,

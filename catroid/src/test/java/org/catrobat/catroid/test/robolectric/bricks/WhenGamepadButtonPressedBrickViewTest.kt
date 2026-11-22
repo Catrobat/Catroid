@@ -70,16 +70,45 @@ class WhenGamepadButtonPressedBrickViewTest {
     }
 
     @Test
-    fun `spinner offers the localized labels of all buttons in button order`() {
+    fun `spinner offers any and the localized labels of all buttons in button order`() {
         val brick = WhenGamepadButtonPressedBrick()
 
         createView(brick)
 
         assertEquals(EXPECTED_LABELS, optionNames(buttonSpinner(brick)))
         assertEquals(
-            GamepadButton.entries.map { activity.getString(it.labelResId) },
+            listOf(activity.getString(R.string.gamepad_button_any)) +
+                GamepadButton.entries.map { activity.getString(it.labelResId) },
             optionNames(buttonSpinner(brick))
         )
+    }
+
+    @Test
+    fun `spinner shows any for a script of any button`() {
+        val brick = WhenGamepadButtonPressedBrick(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID))
+
+        createView(brick)
+
+        assertEquals("Any", selectedName(buttonSpinner(brick)))
+    }
+
+    @Test
+    fun `spinner shows button A and not any for an unknown button`() {
+        val brick = WhenGamepadButtonPressedBrick(WhenGamepadButtonPressedScript("HOME"))
+
+        createView(brick)
+
+        assertEquals("A", selectedName(buttonSpinner(brick)))
+    }
+
+    @Test
+    fun `selecting any stores its stable ID`() {
+        val brick = WhenGamepadButtonPressedBrick()
+        createView(brick)
+
+        select(buttonSpinner(brick), "Any")
+
+        assertEquals(GamepadButton.ANY_ID, script(brick).button)
     }
 
     @Test
@@ -119,7 +148,7 @@ class WhenGamepadButtonPressedBrickViewTest {
         buttonOptions(buttonSpinner(brick)).forEach { option ->
             brick.onItemSelected(R.id.brick_when_gamepad_button_pressed_spinner, option)
 
-            assertEquals(option.button.name, script(brick).button)
+            assertEquals(option.buttonId, script(brick).button)
         }
     }
 
@@ -172,7 +201,7 @@ class WhenGamepadButtonPressedBrickViewTest {
 
     private companion object {
         val EXPECTED_LABELS = listOf(
-            "A", "B", "X", "Y", "Up", "Down", "Left", "Right", "Start", "Select", "L1", "L2", "R1", "R2"
+            "Any", "A", "B", "X", "Y", "Up", "Down", "Left", "Right", "Start", "Select", "L1", "L2", "R1", "R2"
         )
     }
 }

@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
 import org.catrobat.catroid.content.WhenStageExitedScript
+import org.catrobat.catroid.content.eventids.AnyGamepadButtonPressedEventId
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId
 import org.catrobat.catroid.content.eventids.StageExitedEventId
@@ -229,6 +230,51 @@ class StageListenerGamepadInputTest {
         assertEquals(listOf<EventId>(StageExitedEventId), firedEvents.allValues.map { it.eventId })
         assertEquals(State.EXITED, stageListener.stageExitController.state)
         assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `press fires the any button event for a project with such a script`() {
+        useProjectScripts(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID))
+
+        pressAndRelease(A)
+
+        assertFiredEventIds(GamepadButtonPressedEventId(A), AnyGamepadButtonPressedEventId)
+    }
+
+    @Test
+    fun `unused B exits the stage without firing the any button event`() {
+        useProjectScripts(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID))
+
+        pressAndRelease(B)
+
+        assertFiredEventIds(GamepadButtonPressedEventId(B))
+        assertEquals(1, finishStageCount)
+    }
+
+    @Test
+    fun `explicitly used B fires the any button event and stays on the stage`() {
+        useProjectScripts(
+            WhenGamepadButtonPressedScript(GamepadButton.ANY_ID),
+            WhenGamepadButtonPressedScript(B.name)
+        )
+
+        pressAndRelease(B)
+
+        assertFiredEventIds(GamepadButtonPressedEventId(B), AnyGamepadButtonPressedEventId)
+        assertEquals(0, finishStageCount)
+    }
+
+    @Test
+    fun `press fires no any button event without such a script`() {
+        useProjectScripts(WhenGamepadButtonPressedScript(A.name))
+
+        pressAndRelease(A)
+
+        assertFiredEventIds(GamepadButtonPressedEventId(A))
+    }
+
+    private fun useProjectScripts(vararg scripts: Script) {
+        doReturn(projectWith(*scripts).sceneList).`when`(project).sceneList
     }
 
     private fun pressAndRelease(button: GamepadButton) {
