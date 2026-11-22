@@ -40,6 +40,7 @@ import android.util.DisplayMetrics;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.AvailableLanguages;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
@@ -586,8 +587,10 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setLanguage() {
+		final String[] availableLanguageTags =
+				AvailableLanguages.fromContext(getActivity()).filter(LANGUAGE_TAGS);
 		final List<String> languagesNames = new ArrayList<>();
-		for (String languageTag : LANGUAGE_TAGS) {
+		for (String languageTag : availableLanguageTags) {
 			if (DEVICE_LANGUAGE.equals(languageTag)) {
 				languagesNames.add(getResources().getString(R.string.device_language));
 			} else {
@@ -601,7 +604,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
 		listPreference.setEntries(languages);
-		listPreference.setEntryValues(LANGUAGE_TAGS);
+		listPreference.setEntryValues(availableLanguageTags);
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
 			String selectedLanguageTag = languageTag.toString();
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
@@ -613,21 +616,25 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static void setToChosenLanguage(Activity activity) {
-		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
-		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
-		Locale mLocale;
-		if (languageTag.equals(DEVICE_LANGUAGE)) {
-			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
-		} else {
-			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
-					? Locale.forLanguageTag(languageTag)
-					: Locale.forLanguageTag(defaultSystemLanguage);
-		}
+		Locale mLocale = getChosenLocale(activity);
 
 		Locale.setDefault(mLocale);
 		updateLocale(activity, mLocale);
 		updateLocale(activity.getApplicationContext(), mLocale);
 		SensorHandler.setUserLocaleTag(mLocale.toLanguageTag());
+	}
+
+	/**
+	 * Returns the locale of the language chosen in the settings. Falls back to the device language
+	 * if no language was chosen or the chosen language is not installed on the device.
+	 */
+	public static Locale getChosenLocale(Context context) {
+		String languageTag = getSharedPreferences(context.getApplicationContext())
+				.getString(LANGUAGE_TAG_KEY, "");
+		boolean isChosenLanguageUsable = !DEVICE_LANGUAGE.equals(languageTag)
+				&& Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
+				&& AvailableLanguages.fromContext(context).isAvailable(languageTag);
+		return Locale.forLanguageTag(isChosenLanguageUsable ? languageTag : defaultSystemLanguage);
 	}
 
 	public static void updateLocale(Context context, Locale locale) {
