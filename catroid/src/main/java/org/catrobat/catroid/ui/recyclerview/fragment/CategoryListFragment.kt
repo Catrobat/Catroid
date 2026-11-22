@@ -26,7 +26,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -40,12 +39,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 
-import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.LegoSensorType
-import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
@@ -60,7 +57,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.AddUserListDialog
 import org.koin.java.KoinJavaComponent.inject
-import java.util.Locale
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.core.net.toUri
@@ -179,23 +175,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return null
     }
 
-    private fun getLanguage(activity: Activity): String {
-        var language = "?language="
-        val sharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
-        val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
-        val mLocale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
-            Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
-        } else {
-            if (SharedPreferenceKeys.LANGUAGE_TAGS.contains(languageTag)) {
-                languageTag?.let { Locale.forLanguageTag(it) }
-            } else {
-                Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
-            }
-        }
-        language += mLocale?.language
-        return language
-    }
+    private fun getLanguage(activity: Activity): String =
+        "?language=" + SettingsFragment.getChosenLocale(activity).language
 
     private fun addResourceToActiveFormulaInFormulaEditor(
         categoryListItem: CategoryListItem,
