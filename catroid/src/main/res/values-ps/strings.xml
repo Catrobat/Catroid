@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">د ګیم‌پډ ښکته کېکاږل شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">د ګیم‌پډ کیڼ کېکاږل شوی</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">د ګیم‌پډ ښي کېکاږل شوی</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">د ګیم‌پیډ تڼۍ A کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">د ګیم‌پیډ تڼۍ B کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">د ګیم‌پیډ تڼۍ X کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">د ګیم‌پیډ تڼۍ Y کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">د ګیم‌پیډ تڼۍ پورته کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">د ګیم‌پیډ تڼۍ ښکته کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">د ګیم‌پیډ تڼۍ کیڼ کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">د ګیم‌پیډ تڼۍ ښي کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">د ګیم‌پیډ تڼۍ Start کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">د ګیم‌پیډ تڼۍ Select کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">د ګیم‌پیډ تڼۍ L1 کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">د ګیم‌پیډ تڼۍ L2 کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1 کېکاږل شوې</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2 کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">د ګیم‌پیډ تڼۍ A▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">د ګیم‌پیډ تڼۍ B▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">د ګیم‌پیډ تڼۍ X▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">د ګیم‌پیډ تڼۍ Y▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">د ګیم‌پیډ تڼۍ پورته▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">د ګیم‌پیډ تڼۍ ښکته▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">د ګیم‌پیډ تڼۍ کیڼ▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">د ګیم‌پیډ تڼۍ ښي▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">د ګیم‌پیډ تڼۍ Start▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">د ګیم‌پیډ تڼۍ Select▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">د ګیم‌پیډ تڼۍ L1▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">د ګیم‌پیډ تڼۍ L2▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2▾کېکاږل شوې</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د فزیکي ګیم‌پیډ بلاک او سینسر</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">په ایډیټر کې د فزیکي ګیم‌پیډ بلاک او سینسر ښکاره کړئ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>

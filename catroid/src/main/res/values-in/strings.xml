@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">tombol bawah gamepad ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">tombol kiri gamepad ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">tombol kanan gamepad ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tombol gamepad A ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tombol gamepad B ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tombol gamepad X ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tombol gamepad Y ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tombol gamepad atas ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tombol gamepad bawah ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tombol gamepad kiri ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tombol gamepad kanan ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tombol gamepad start ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tombol gamepad select ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tombol gamepad L1 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tombol gamepad L2 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2 ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tombol gamepad A▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tombol gamepad B▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tombol gamepad X▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tombol gamepad Y▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tombol gamepad atas▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tombol gamepad bawah▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tombol gamepad kiri▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tombol gamepad kanan▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tombol gamepad start▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tombol gamepad select▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tombol gamepad L1▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tombol gamepad L2▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2▾ditekan</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan sensor gamepad fisik</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tampilkan blok dan sensor gamepad fisik di editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>

@@ -1799,20 +1799,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad dole stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad doľava stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad doprava stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tlačidlo gamepadu A stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tlačidlo gamepadu B stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tlačidlo gamepadu X stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tlačidlo gamepadu Y stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tlačidlo gamepadu hore stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tlačidlo gamepadu dole stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tlačidlo gamepadu doľava stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tlačidlo gamepadu doprava stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tlačidlo gamepadu start stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tlačidlo gamepadu select stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tlačidlo gamepadu L1 stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tlačidlo gamepadu L2 stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačidlo gamepadu R1 stlačené</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačidlo gamepadu R2 stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tlačidlo gamepadu A▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tlačidlo gamepadu B▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tlačidlo gamepadu X▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tlačidlo gamepadu Y▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tlačidlo gamepadu hore▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tlačidlo gamepadu dole▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tlačidlo gamepadu doľava▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tlačidlo gamepadu doprava▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tlačidlo gamepadu start▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tlačidlo gamepadu select▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tlačidlo gamepadu L1▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tlačidlo gamepadu L2▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačidlo gamepadu R1▾stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačidlo gamepadu R2▾stlačené</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok a senzor fyzického gamepadu</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Zobraziť blok a senzor fyzického gamepadu v editore.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šírka javiska</string>

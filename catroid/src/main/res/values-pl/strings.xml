@@ -1799,20 +1799,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad w dół naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad w lewo naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad w prawo naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">przycisk gamepada A naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">przycisk gamepada B naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">przycisk gamepada X naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">przycisk gamepada Y naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">przycisk gamepada w górę naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">przycisk gamepada w dół naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">przycisk gamepada w lewo naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">przycisk gamepada w prawo naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">przycisk gamepada start naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">przycisk gamepada select naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">przycisk gamepada L1 naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">przycisk gamepada L2 naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">przycisk gamepada R1 naciśnięty</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">przycisk gamepada R2 naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">przycisk gamepada A▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">przycisk gamepada B▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">przycisk gamepada X▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">przycisk gamepada Y▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">przycisk gamepada w górę▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">przycisk gamepada w dół▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">przycisk gamepada w lewo▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">przycisk gamepada w prawo▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">przycisk gamepada start▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">przycisk gamepada select▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">przycisk gamepada L1▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">przycisk gamepada L2▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">przycisk gamepada R1▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">przycisk gamepada R2▾naciśnięty</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok i czujnik fizycznego gamepada</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Pokaż blok i czujnik fizycznego gamepada w edytorze.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">szerokość sceny</string>

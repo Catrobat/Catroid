@@ -1799,20 +1799,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">на геймпаді натиснуто «вниз»</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">на геймпаді натиснуто «ліворуч»</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">на геймпаді натиснуто «праворуч»</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">на геймпаді натиснуто кнопку A</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">на геймпаді натиснуто кнопку B</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">на геймпаді натиснуто кнопку X</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">на геймпаді натиснуто кнопку Y</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">на геймпаді натиснуто кнопку «вгору»</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">на геймпаді натиснуто кнопку «вниз»</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">на геймпаді натиснуто кнопку «ліворуч»</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">на геймпаді натиснуто кнопку «праворуч»</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">на геймпаді натиснуто кнопку Start</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">на геймпаді натиснуто кнопку Select</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">на геймпаді натиснуто кнопку L1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">на геймпаді натиснуто кнопку L2</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">на геймпаді натиснуто кнопку R1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">на геймпаді натиснуто кнопку R2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">на геймпаді натиснуто кнопку A▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">на геймпаді натиснуто кнопку B▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">на геймпаді натиснуто кнопку X▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">на геймпаді натиснуто кнопку Y▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">на геймпаді натиснуто кнопку «вгору»▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">на геймпаді натиснуто кнопку «вниз»▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">на геймпаді натиснуто кнопку «ліворуч»▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">на геймпаді натиснуто кнопку «праворуч»▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">на геймпаді натиснуто кнопку Start▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">на геймпаді натиснуто кнопку Select▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">на геймпаді натиснуто кнопку L1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">на геймпаді натиснуто кнопку L2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">на геймпаді натиснуто кнопку R1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">на геймпаді натиснуто кнопку R2▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок і датчик фізичного геймпада</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Показувати блок і датчик фізичного геймпада в редакторі.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина сцени</string>

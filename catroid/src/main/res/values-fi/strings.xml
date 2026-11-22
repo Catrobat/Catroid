@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">peliohjaimen alas painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">peliohjaimen vasen painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">peliohjaimen oikea painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">peliohjaimen painike A painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">peliohjaimen painike B painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">peliohjaimen painike X painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">peliohjaimen painike Y painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">peliohjaimen painike ylös painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">peliohjaimen painike alas painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">peliohjaimen painike vasen painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">peliohjaimen painike oikea painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">peliohjaimen painike start painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">peliohjaimen painike select painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">peliohjaimen painike L1 painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">peliohjaimen painike L2 painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1 painettu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2 painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">peliohjaimen painike A▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">peliohjaimen painike B▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">peliohjaimen painike X▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">peliohjaimen painike Y▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">peliohjaimen painike ylös▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">peliohjaimen painike alas▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">peliohjaimen painike vasen▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">peliohjaimen painike oikea▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">peliohjaimen painike start▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">peliohjaimen painike select▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">peliohjaimen painike L1▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">peliohjaimen painike L2▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2▾painettu</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fyysisen peliohjaimen palikka ja anturi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Näytä fyysisen peliohjaimen palikka ja anturi editorissa.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">esiintymislavan leveys</string>

@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">গেমপ্যাডের নিচ চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">গেমপ্যাডের বাঁ চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">গেমপ্যাডের ডান চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">গেমপ্যাডের A বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">গেমপ্যাডের B বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">গেমপ্যাডের X বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">গেমপ্যাডের Y বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">গেমপ্যাডের ওপর বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">গেমপ্যাডের নিচ বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">গেমপ্যাডের বাঁ বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">গেমপ্যাডের ডান বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">গেমপ্যাডের স্টার্ট বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">গেমপ্যাডের সিলেক্ট বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">গেমপ্যাডের L1 বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">গেমপ্যাডের L2 বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">গেমপ্যাডের R1 বোতাম চাপা হয়েছে</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">গেমপ্যাডের R2 বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">গেমপ্যাডের A▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">গেমপ্যাডের B▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">গেমপ্যাডের X▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">গেমপ্যাডের Y▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">গেমপ্যাডের ওপর▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">গেমপ্যাডের নিচ▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">গেমপ্যাডের বাঁ▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">গেমপ্যাডের ডান▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">গেমপ্যাডের স্টার্ট▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">গেমপ্যাডের সিলেক্ট▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">গেমপ্যাডের L1▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">গেমপ্যাডের L2▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">গেমপ্যাডের R1▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">গেমপ্যাডের R2▾বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">সম্পাদকে ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর দেখান।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">মঞ্চের প্রস্থ</string>

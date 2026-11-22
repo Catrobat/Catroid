@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">게임패드 아래 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">게임패드 왼쪽 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">게임패드 오른쪽 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">게임패드 버튼 A 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">게임패드 버튼 B 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">게임패드 버튼 X 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">게임패드 버튼 Y 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">게임패드 위 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">게임패드 아래 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">게임패드 왼쪽 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">게임패드 오른쪽 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">게임패드 스타트 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">게임패드 셀렉트 버튼 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">게임패드 버튼 L1 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">게임패드 버튼 L2 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">게임패드 버튼 R1 눌림</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">게임패드 버튼 R2 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">게임패드 버튼 A▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">게임패드 버튼 B▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">게임패드 버튼 X▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">게임패드 버튼 Y▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">게임패드 위▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">게임패드 아래▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">게임패드 왼쪽▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">게임패드 오른쪽▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">게임패드 스타트▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">게임패드 셀렉트▾버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">게임패드 버튼 L1▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">게임패드 버튼 L2▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">게임패드 버튼 R1▾눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">게임패드 버튼 R2▾눌림</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">물리 게임패드 블록 및 센서</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">편집기에 물리 게임패드 블록과 센서 표시</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">무대 너비</string>

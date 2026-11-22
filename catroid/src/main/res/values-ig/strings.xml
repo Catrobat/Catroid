@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">a pịrị ala na gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">a pịrị aka ekpe na gamepad</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">a pịrị aka nri na gamepad</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">a pịrị bọtịnụ gamepad A</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">a pịrị bọtịnụ gamepad B</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">a pịrị bọtịnụ gamepad X</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">a pịrị bọtịnụ gamepad Y</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">a pịrị bọtịnụ gamepad elu</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">a pịrị bọtịnụ gamepad ala</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">a pịrị bọtịnụ gamepad aka ekpe</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">a pịrị bọtịnụ gamepad aka nri</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">a pịrị bọtịnụ gamepad start</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">a pịrị bọtịnụ gamepad select</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">a pịrị bọtịnụ gamepad L1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">a pịrị bọtịnụ gamepad L2</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a pịrị bọtịnụ gamepad R1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a pịrị bọtịnụ gamepad R2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">a pịrị bọtịnụ gamepad A▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">a pịrị bọtịnụ gamepad B▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">a pịrị bọtịnụ gamepad X▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">a pịrị bọtịnụ gamepad Y▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">a pịrị bọtịnụ gamepad elu▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">a pịrị bọtịnụ gamepad ala▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">a pịrị bọtịnụ gamepad aka ekpe▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">a pịrị bọtịnụ gamepad aka nri▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">a pịrị bọtịnụ gamepad start▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">a pịrị bọtịnụ gamepad select▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">a pịrị bọtịnụ gamepad L1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">a pịrị bọtịnụ gamepad L2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a pịrị bọtịnụ gamepad R1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a pịrị bọtịnụ gamepad R2▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blọk na sensọ gamepad ngwaike</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Gosi blọk na sensọ gamepad ngwaike n\'ebe ndezi.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">obosara ogbo</string>

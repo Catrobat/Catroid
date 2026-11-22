@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ਗੇਮਪੈਡ ਹੇਠਾਂ ਦਬਾਇਆ ਗਿਆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ਗੇਮਪੈਡ ਖੱਬੇ ਦਬਾਇਆ ਗਿਆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ਗੇਮਪੈਡ ਸੱਜੇ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ਗੇਮਪੈਡ ਬਟਨ A ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ਗੇਮਪੈਡ ਬਟਨ B ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ਗੇਮਪੈਡ ਬਟਨ X ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ਗੇਮਪੈਡ ਬਟਨ Y ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ਗੇਮਪੈਡ ਬਟਨ ਉੱਪਰ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ਗੇਮਪੈਡ ਬਟਨ ਹੇਠਾਂ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ਗੇਮਪੈਡ ਬਟਨ ਖੱਬੇ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸੱਜੇ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸਟਾਰਟ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸਿਲੈਕਟ ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ਗੇਮਪੈਡ ਬਟਨ L1 ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ਗੇਮਪੈਡ ਬਟਨ L2 ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ਗੇਮਪੈਡ ਬਟਨ R1 ਦਬਾਇਆ ਗਿਆ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ਗੇਮਪੈਡ ਬਟਨ R2 ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ਗੇਮਪੈਡ ਬਟਨ A▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ਗੇਮਪੈਡ ਬਟਨ B▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ਗੇਮਪੈਡ ਬਟਨ X▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ਗੇਮਪੈਡ ਬਟਨ Y▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ਗੇਮਪੈਡ ਬਟਨ ਉੱਪਰ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ਗੇਮਪੈਡ ਬਟਨ ਹੇਠਾਂ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ਗੇਮਪੈਡ ਬਟਨ ਖੱਬੇ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸੱਜੇ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸਟਾਰਟ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ਗੇਮਪੈਡ ਬਟਨ ਸਿਲੈਕਟ▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ਗੇਮਪੈਡ ਬਟਨ L1▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ਗੇਮਪੈਡ ਬਟਨ L2▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ਗੇਮਪੈਡ ਬਟਨ R1▾ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ਗੇਮਪੈਡ ਬਟਨ R2▾ਦਬਾਇਆ ਗਿਆ</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ਫਿਜ਼ੀਕਲ ਗੇਮਪੈਡ ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ਐਡੀਟਰ ਵਿੱਚ ਫਿਜ਼ੀਕਲ ਗੇਮਪੈਡ ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਦਿਖਾਓ।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ਸਟੇਜ ਦੀ ਚੌੜਾਈ</string>

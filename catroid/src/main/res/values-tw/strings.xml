@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">wɔamia gamepad fam</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">wɔamia gamepad benkum</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">wɔamia gamepad nifa</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">wɔamia gamepad bɔtom A</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">wɔamia gamepad bɔtom B</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">wɔamia gamepad bɔtom X</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">wɔamia gamepad bɔtom Y</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">wɔamia gamepad bɔtom soro</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">wɔamia gamepad bɔtom fam</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">wɔamia gamepad bɔtom benkum</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">wɔamia gamepad bɔtom nifa</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">wɔamia gamepad bɔtom start</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">wɔamia gamepad bɔtom select</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">wɔamia gamepad bɔtom L1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">wɔamia gamepad bɔtom L2</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">wɔamia gamepad bɔtom R1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">wɔamia gamepad bɔtom R2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">wɔamia gamepad bɔtom A▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">wɔamia gamepad bɔtom B▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">wɔamia gamepad bɔtom X▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">wɔamia gamepad bɔtom Y▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">wɔamia gamepad bɔtom soro▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">wɔamia gamepad bɔtom fam▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">wɔamia gamepad bɔtom benkum▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">wɔamia gamepad bɔtom nifa▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">wɔamia gamepad bɔtom start▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">wɔamia gamepad bɔtom select▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">wɔamia gamepad bɔtom L1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">wɔamia gamepad bɔtom L2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">wɔamia gamepad bɔtom R1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">wɔamia gamepad bɔtom R2▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad ankasa blɔk ne sɛnsa</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Kyerɛ gamepad ankasa blɔk ne sɛnsa wɔ editor no mu.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agoprama tɛtrɛtɛ</string>

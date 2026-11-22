@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">గేమ్‌ప్యాడ్ కిందికి నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">గేమ్‌ప్యాడ్ ఎడమ నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">గేమ్‌ప్యాడ్ కుడి నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">గేమ్‌ప్యాడ్ బటన్ A నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">గేమ్‌ప్యాడ్ బటన్ B నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">గేమ్‌ప్యాడ్ బటన్ X నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">గేమ్‌ప్యాడ్ బటన్ Y నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">గేమ్‌ప్యాడ్ బటన్ పైకి నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">గేమ్‌ప్యాడ్ బటన్ కిందికి నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">గేమ్‌ప్యాడ్ బటన్ ఎడమ నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">గేమ్‌ప్యాడ్ బటన్ కుడి నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">గేమ్‌ప్యాడ్ బటన్ స్టార్ట్ నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">గేమ్‌ప్యాడ్ బటన్ సెలెక్ట్ నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">గేమ్‌ప్యాడ్ బటన్ L1 నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">గేమ్‌ప్యాడ్ బటన్ L2 నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">గేమ్‌ప్యాడ్ బటన్ R1 నొక్కబడింది</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">గేమ్‌ప్యాడ్ బటన్ R2 నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">గేమ్‌ప్యాడ్ బటన్ A▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">గేమ్‌ప్యాడ్ బటన్ B▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">గేమ్‌ప్యాడ్ బటన్ X▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">గేమ్‌ప్యాడ్ బటన్ Y▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">గేమ్‌ప్యాడ్ బటన్ పైకి▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">గేమ్‌ప్యాడ్ బటన్ కిందికి▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">గేమ్‌ప్యాడ్ బటన్ ఎడమ▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">గేమ్‌ప్యాడ్ బటన్ కుడి▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">గేమ్‌ప్యాడ్ బటన్ స్టార్ట్▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">గేమ్‌ప్యాడ్ బటన్ సెలెక్ట్▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">గేమ్‌ప్యాడ్ బటన్ L1▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">గేమ్‌ప్యాడ్ బటన్ L2▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">గేమ్‌ప్యాడ్ బటన్ R1▾నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">గేమ్‌ప్యాడ్ బటన్ R2▾నొక్కబడింది</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ బ్లాక్ మరియు సెన్సార్</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ఎడిటర్‌లో భౌతిక గేమ్‌ప్యాడ్ బ్లాక్ మరియు సెన్సార్‌ను చూపించు.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">వేదిక వెడల్పు</string>

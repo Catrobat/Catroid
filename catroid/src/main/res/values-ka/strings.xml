@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">გეიმპადის „ქვემოთ“ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">გეიმპადის „მარცხნივ“ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">გეიმპადის „მარჯვნივ“ დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">გეიმპადის ღილაკი A დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">გეიმპადის ღილაკი B დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">გეიმპადის ღილაკი X დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">გეიმპადის ღილაკი Y დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">გეიმპადის ღილაკი „ზემოთ“ დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">გეიმპადის ღილაკი „ქვემოთ“ დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">გეიმპადის ღილაკი „მარცხნივ“ დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">გეიმპადის ღილაკი „მარჯვნივ“ დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">გეიმპადის ღილაკი Start დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">გეიმპადის ღილაკი Select დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">გეიმპადის ღილაკი L1 დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">გეიმპადის ღილაკი L2 დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">გეიმპადის ღილაკი R1 დაჭერილია</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">გეიმპადის ღილაკი R2 დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">გეიმპადის ღილაკი A▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">გეიმპადის ღილაკი B▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">გეიმპადის ღილაკი X▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">გეიმპადის ღილაკი Y▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">გეიმპადის ღილაკი „ზემოთ“▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">გეიმპადის ღილაკი „ქვემოთ“▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">გეიმპადის ღილაკი „მარცხნივ“▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">გეიმპადის ღილაკი „მარჯვნივ“▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">გეიმპადის ღილაკი Start▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">გეიმპადის ღილაკი Select▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">გეიმპადის ღილაკი L1▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">გეიმპადის ღილაკი L2▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">გეიმპადის ღილაკი R1▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">გეიმპადის ღილაკი R2▾დაჭერილია</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ფიზიკური გეიმპადის ბლოკი და სენსორი</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">რედაქტორში ფიზიკური გეიმპადის ბლოკისა და სენსორის ჩვენება.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">სცენის სიგანე</string>

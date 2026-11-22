@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">геймпад төмен басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">геймпад сол басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">геймпад оң басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">геймпад түймесі A басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">геймпад түймесі B басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">геймпад түймесі X басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">геймпад түймесі Y басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">геймпад түймесі жоғары басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">геймпад түймесі төмен басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">геймпад түймесі сол басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">геймпад түймесі оң басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">геймпад түймесі Start басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">геймпад түймесі Select басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">геймпад түймесі L1 басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">геймпад түймесі L2 басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">геймпад түймесі R1 басулы</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">геймпад түймесі R2 басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">геймпад түймесі A▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">геймпад түймесі B▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">геймпад түймесі X▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">геймпад түймесі Y▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">геймпад түймесі жоғары▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">геймпад түймесі төмен▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">геймпад түймесі сол▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">геймпад түймесі оң▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">геймпад түймесі Start▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">геймпад түймесі Select▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">геймпад түймесі L1▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">геймпад түймесі L2▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">геймпад түймесі R1▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">геймпад түймесі R2▾басулы</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Физикалық геймпад блогы мен сенсоры</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Редакторда физикалық геймпад блогы мен сенсорын көрсету.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">сахна ені</string>

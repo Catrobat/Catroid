@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">копчето долу на геимпадот е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">копчето лево на геимпадот е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">копчето десно на геимпадот е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">копчето A на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">копчето B на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">копчето X на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">копчето Y на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">копчето горе на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">копчето долу на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">копчето лево на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">копчето десно на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">копчето Start на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">копчето Select на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">копчето L1 на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">копчето L2 на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">копчето R1 на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">копчето R2 на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">копчето A▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">копчето B▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">копчето X▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">копчето Y▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">копчето горе▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">копчето долу▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">копчето лево▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">копчето десно▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">копчето Start▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">копчето Select▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">копчето L1▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">копчето L2▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">копчето R1▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">копчето R2▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физички геимпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Прикажи го блокот и сензорот за физички геимпад во уредувачот.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на бината</string>

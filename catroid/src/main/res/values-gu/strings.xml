@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ગેમપૅડ નીચે દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ગેમપૅડ ડાબે દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ગેમપૅડ જમણે દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ગેમપૅડ બટન A દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ગેમપૅડ બટન B દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ગેમપૅડ બટન X દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ગેમપૅડ બટન Y દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ગેમપૅડ બટન ઉપર દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ગેમપૅડ બટન નીચે દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ગેમપૅડ બટન ડાબે દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ગેમપૅડ બટન જમણે દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ગેમપૅડ બટન સ્ટાર્ટ દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ગેમપૅડ બટન સિલેક્ટ દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ગેમપૅડ બટન L1 દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ગેમપૅડ બટન L2 દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ગેમપૅડ બટન R1 દબાવ્યું</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ગેમપૅડ બટન R2 દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ગેમપૅડ બટન A▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ગેમપૅડ બટન B▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ગેમપૅડ બટન X▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ગેમપૅડ બટન Y▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ગેમપૅડ બટન ઉપર▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ગેમપૅડ બટન નીચે▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ગેમપૅડ બટન ડાબે▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ગેમપૅડ બટન જમણે▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ગેમપૅડ બટન સ્ટાર્ટ▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ગેમપૅડ બટન સિલેક્ટ▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ગેમપૅડ બટન L1▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ગેમપૅડ બટન L2▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ગેમપૅડ બટન R1▾દબાવ્યું</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ગેમપૅડ બટન R2▾દબાવ્યું</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">સંપાદકમાં ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર બતાવો.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">મંચની પહોળાઈ</string>

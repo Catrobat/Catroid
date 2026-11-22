@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">κουμπί κάτω χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">κουμπί αριστερά χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">κουμπί δεξιά χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">κουμπί A φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">κουμπί B φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">κουμπί X φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">κουμπί Y φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">κουμπί πάνω φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">κουμπί κάτω φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">κουμπί αριστερά φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">κουμπί δεξιά φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">κουμπί Start φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">κουμπί Select φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">κουμπί L1 φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">κουμπί L2 φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1 φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2 φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">κουμπί A▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">κουμπί B▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">κουμπί X▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">κουμπί Y▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">κουμπί πάνω▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">κουμπί κάτω▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">κουμπί αριστερά▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">κουμπί δεξιά▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">κουμπί Start▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">κουμπί Select▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">κουμπί L1▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">κουμπί L2▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Μπλοκ και αισθητήρας φυσικού χειριστηρίου</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Εμφάνιση του μπλοκ και του αισθητήρα φυσικού χειριστηρίου στον επεξεργαστή.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>

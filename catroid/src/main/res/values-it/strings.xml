@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad giù premuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad sinistra premuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad destra premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">pulsante A del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">pulsante B del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">pulsante X del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">pulsante Y del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">pulsante su del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">pulsante giù del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">pulsante sinistra del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">pulsante destra del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">pulsante start del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">pulsante select del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">pulsante L1 del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pulsante L2 del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pulsante R1 del gamepad premuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pulsante R2 del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">pulsante A▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">pulsante B▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">pulsante X▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">pulsante Y▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">pulsante su▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">pulsante giù▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">pulsante sinistra▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">pulsante destra▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">pulsante start▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">pulsante select▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">pulsante L1▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pulsante L2▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pulsante R1▾del gamepad premuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pulsante R2▾del gamepad premuto</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blocco e sensore del gamepad fisico</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Mostra il blocco e il sensore del gamepad fisico nell\'editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">larghezza dello Stage</string>

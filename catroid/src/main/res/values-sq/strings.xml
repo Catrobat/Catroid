@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">poshtë në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">majtas në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">djathtas në tastierën e lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butoni A i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butoni B i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butoni X i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butoni Y i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butoni lart i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butoni poshtë i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butoni majtas i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butoni djathtas i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butoni Start i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butoni Select i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butoni L1 i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butoni L2 i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1 i tastierës fizike të lojës u shtyp</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2 i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butoni A▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butoni B▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butoni X▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butoni Y▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butoni lart▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butoni poshtë▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butoni majtas▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butoni djathtas▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butoni Start▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butoni Select▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butoni L1▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butoni L2▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2▾i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blloku dhe sensori i tastierës fizike të lojës</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Shfaq bllokun dhe sensorin e tastierës fizike të lojës në redaktor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>

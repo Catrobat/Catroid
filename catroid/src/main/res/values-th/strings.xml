@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">กดปุ่มลงของเกมแพด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">กดปุ่มซ้ายของเกมแพด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">กดปุ่มขวาของเกมแพด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ปุ่มเกมแพด A ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ปุ่มเกมแพด B ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ปุ่มเกมแพด X ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ปุ่มเกมแพด Y ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ปุ่มเกมแพดทิศขึ้นถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ปุ่มเกมแพดทิศลงถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ปุ่มเกมแพดทิศซ้ายถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ปุ่มเกมแพดทิศขวาถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ปุ่มเกมแพด Start ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ปุ่มเกมแพด Select ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ปุ่มเกมแพด L1 ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ปุ่มเกมแพด L2 ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ปุ่มเกมแพด R1 ถูกกด</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ปุ่มเกมแพด R2 ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ปุ่มเกมแพด A▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ปุ่มเกมแพด B▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ปุ่มเกมแพด X▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ปุ่มเกมแพด Y▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ปุ่มเกมแพดทิศขึ้น▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ปุ่มเกมแพดทิศลง▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ปุ่มเกมแพดทิศซ้าย▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ปุ่มเกมแพดทิศขวา▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ปุ่มเกมแพด Start▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ปุ่มเกมแพด Select▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ปุ่มเกมแพด L1▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ปุ่มเกมแพด L2▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ปุ่มเกมแพด R1▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ปุ่มเกมแพด R2▾ถูกกด</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">บล็อกและเซ็นเซอร์เกมแพดจริง</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">แสดงบล็อกและเซ็นเซอร์เกมแพดจริงในตัวแก้ไข</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>

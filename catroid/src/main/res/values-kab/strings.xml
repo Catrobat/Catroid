@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">akessar n umsenqed n wurar yettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">zelmeḍ n umsenqed n wurar yettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">yefus n umsenqed n wurar yettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">taqeffalt A n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">taqeffalt B n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">taqeffalt X n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">taqeffalt Y n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">taqeffalt asawen n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">taqeffalt akessar n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">taqeffalt zelmeḍ n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">taqeffalt yefus n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">taqeffalt start n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">taqeffalt select n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">taqeffalt L1 n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">taqeffalt L2 n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">taqeffalt R1 n umsenqed n wurar tettwasit</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">taqeffalt R2 n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">taqeffalt A▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">taqeffalt B▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">taqeffalt X▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">taqeffalt Y▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">taqeffalt asawen▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">taqeffalt akessar▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">taqeffalt zelmeḍ▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">taqeffalt yefus▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">taqeffalt start▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">taqeffalt select▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">taqeffalt L1▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">taqeffalt L2▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">taqeffalt R1▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">taqeffalt R2▾n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ablug d umaṭṭaf n umsenqed n wurar n tidet</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Sken ablug d umaṭṭaf n umsenqed n wurar n tidet deg umaẓrag.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">tehri n usayes</string>

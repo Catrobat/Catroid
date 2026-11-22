@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">pinindot ang gamepad pababa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">pinindot ang gamepad pakaliwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">pinindot ang gamepad pakanan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">pinindot ang gamepad button A</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">pinindot ang gamepad button B</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">pinindot ang gamepad button X</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">pinindot ang gamepad button Y</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">pinindot ang gamepad button pataas</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">pinindot ang gamepad button pababa</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">pinindot ang gamepad button pakaliwa</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">pinindot ang gamepad button pakanan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">pinindot ang gamepad button start</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">pinindot ang gamepad button select</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">pinindot ang gamepad button L1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pinindot ang gamepad button L2</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pinindot ang gamepad button R1</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pinindot ang gamepad button R2</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">pinindot ang gamepad button A▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">pinindot ang gamepad button B▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">pinindot ang gamepad button X▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">pinindot ang gamepad button Y▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">pinindot ang gamepad button pataas▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">pinindot ang gamepad button pababa▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">pinindot ang gamepad button pakaliwa▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">pinindot ang gamepad button pakanan▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">pinindot ang gamepad button start▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">pinindot ang gamepad button select▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">pinindot ang gamepad button L1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pinindot ang gamepad button L2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pinindot ang gamepad button R1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pinindot ang gamepad button R2▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Block at sensor ng pisikal na gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Ipakita ang block at sensor ng pisikal na gamepad sa editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lapad ng entablado</string>

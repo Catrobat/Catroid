@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">butang bawah pad permainan ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">butang kiri pad permainan ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">butang kanan pad permainan ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butang pad permainan A ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butang pad permainan B ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butang pad permainan X ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butang pad permainan Y ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butang pad permainan atas ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butang pad permainan bawah ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butang pad permainan kiri ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butang pad permainan kanan ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butang pad permainan start ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butang pad permainan select ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butang pad permainan L1 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butang pad permainan L2 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butang pad permainan R1 ditekan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butang pad permainan R2 ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butang pad permainan A▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butang pad permainan B▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butang pad permainan X▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butang pad permainan Y▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butang pad permainan atas▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butang pad permainan bawah▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butang pad permainan kiri▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butang pad permainan kanan▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butang pad permainan start▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butang pad permainan select▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butang pad permainan L1▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butang pad permainan L2▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butang pad permainan R1▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butang pad permainan R2▾ditekan</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan penderia pad permainan fizikal</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tunjukkan blok dan penderia pad permainan fizikal dalam editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar pentas</string>

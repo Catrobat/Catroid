@@ -1707,20 +1707,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">Gamepad unten gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">Gamepad links gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">Gamepad rechts gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">Gamepad-Taste A gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">Gamepad-Taste B gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">Gamepad-Taste X gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">Gamepad-Taste Y gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">Gamepad-Taste oben gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">Gamepad-Taste unten gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">Gamepad-Taste links gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">Gamepad-Taste rechts gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">Gamepad-Taste Start gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">Gamepad-Taste Select gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">Gamepad-Taste L1 gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">Gamepad-Taste L2 gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">Gamepad-Taste R1 gedrückt</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">Gamepad-Taste R2 gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">Gamepad-Taste A▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">Gamepad-Taste B▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">Gamepad-Taste X▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">Gamepad-Taste Y▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">Gamepad-Taste oben▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">Gamepad-Taste unten▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">Gamepad-Taste links▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">Gamepad-Taste rechts▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">Gamepad-Taste Start▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">Gamepad-Taste Select▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">Gamepad-Taste L1▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">Gamepad-Taste L2▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">Gamepad-Taste R1▾gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">Gamepad-Taste R2▾gedrückt</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Baustein und Sensor für physisches Gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Baustein und Sensor für physisches Gamepad im Editor anzeigen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">Bühnenbreite</string>

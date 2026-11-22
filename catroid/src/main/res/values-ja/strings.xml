@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ゲームパッド下が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ゲームパッド左が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ゲームパッド右が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ゲームパッドのボタン A が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ゲームパッドのボタン B が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ゲームパッドのボタン X が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ゲームパッドのボタン Y が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ゲームパッドの上ボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ゲームパッドの下ボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ゲームパッドの左ボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ゲームパッドの右ボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ゲームパッドのスタートボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ゲームパッドのセレクトボタンが押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ゲームパッドのボタン L1 が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ゲームパッドのボタン L2 が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ゲームパッドのボタン R1 が押された</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ゲームパッドのボタン R2 が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ゲームパッドのボタン A▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ゲームパッドのボタン B▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ゲームパッドのボタン X▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ゲームパッドのボタン Y▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ゲームパッドの上▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ゲームパッドの下▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ゲームパッドの左▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ゲームパッドの右▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ゲームパッドのスタート▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ゲームパッドのセレクト▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ゲームパッドのボタン L1▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ゲームパッドのボタン L2▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ゲームパッドのボタン R1▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ゲームパッドのボタン R2▾が押された</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">物理ゲームパッドのブロックとセンサー</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">エディターに物理ゲームパッドのブロックとセンサーを表示する。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ステージの幅</string>

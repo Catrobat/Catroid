@@ -1709,20 +1709,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">geympad past bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">geympad chap bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">geympad oʻng bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">geympad tugmasi A bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">geympad tugmasi B bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">geympad tugmasi X bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">geympad tugmasi Y bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">geympad tugmasi yuqori bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">geympad tugmasi past bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">geympad tugmasi chap bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">geympad tugmasi oʻng bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">geympad tugmasi start bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">geympad tugmasi select bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">geympad tugmasi L1 bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">geympad tugmasi L2 bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">geympad tugmasi R1 bosilgan</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">geympad tugmasi R2 bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">geympad tugmasi A▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">geympad tugmasi B▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">geympad tugmasi X▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">geympad tugmasi Y▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">geympad tugmasi yuqori▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">geympad tugmasi past▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">geympad tugmasi chap▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">geympad tugmasi oʻng▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">geympad tugmasi start▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">geympad tugmasi select▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">geympad tugmasi L1▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">geympad tugmasi L2▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">geympad tugmasi R1▾bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">geympad tugmasi R2▾bosilgan</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Jismoniy geympad bloki va sensori</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Muharrirda jismoniy geympad bloki va sensorini koʻrsatish.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahna kengligi</string>

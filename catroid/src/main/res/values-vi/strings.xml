@@ -1664,20 +1664,20 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">nút xuống tay cầm được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">nút trái tay cầm được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">nút phải tay cầm được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">nút tay cầm A được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">nút tay cầm B được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">nút tay cầm X được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">nút tay cầm Y được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">nút tay cầm lên được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">nút tay cầm xuống được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">nút tay cầm trái được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">nút tay cầm phải được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">nút tay cầm Start được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">nút tay cầm Select được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">nút tay cầm L1 được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">nút tay cầm L2 được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">nút tay cầm R1 được nhấn</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">nút tay cầm R2 được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">nút tay cầm A▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">nút tay cầm B▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">nút tay cầm X▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">nút tay cầm Y▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">nút tay cầm lên▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">nút tay cầm xuống▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">nút tay cầm trái▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">nút tay cầm phải▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">nút tay cầm Start▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">nút tay cầm Select▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">nút tay cầm L1▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">nút tay cầm L2▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">nút tay cầm R1▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">nút tay cầm R2▾được nhấn</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Khối lệnh và cảm biến tay cầm vật lý</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Hiện khối lệnh và cảm biến tay cầm vật lý trong trình soạn thảo.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">chiều rộng sân khấu</string>
