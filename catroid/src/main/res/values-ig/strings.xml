@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Ịmepụta okwu</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Gbanye blọk na sensọ ịmepụta okwu</string>
     <string formatted="false" name="preference_title_ai_face_detection">Ịchọpụta ihu</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Nchọpụta aha ihu</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Ịchọpụta aha ihu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Gbanye blọk na sensọ ịchọpụta ihu</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Kwado brik na sensọ nchọpụta aha ihu</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Gbanye blọk na sensọ ịchọpụta aha ihu</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Gbanye blọk na sensọ ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Ịmata ederede</string>
@@ -699,7 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Engine ntụgharị ederede gaa n\'okwu\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Kamera azụ\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Ịchọpụta ihu\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Nchọpụta aha ihu\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Ịchọpụta aha ihu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Ịmata ihe\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Ịchọpụta ọnọdụ ahụ\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Ịchọpụta ederede\n</string>
@@ -1699,7 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">Njirimara ọdịdị</string>
     <string formatted="false" name="formula_editor_object_movement">Njirimara mmegharị</string>
     <string formatted="false" name="formula_editor_device_face_detection">Ịchọpụta ihu</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Nchọpụta aha ihu</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Ịchọpụta aha ihu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Ịmata ederede</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Ịmata ihe</string>

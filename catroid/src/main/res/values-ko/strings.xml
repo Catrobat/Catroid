@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">음성 합성</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">음성 합성 블록 및 센서 활성화</string>
     <string formatted="false" name="preference_title_ai_face_detection">얼굴 감지</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">얼굴 이름 인식</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">얼굴 이름 감지</string>
     <string formatted="false" name="preference_description_ai_face_detection">얼굴 감지 블록 및 센서 활성화</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">얼굴 이름 인식 브릭 및 센서 활성화</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">얼굴 이름 감지 블록 및 센서 활성화</string>
     <string formatted="false" name="preference_title_ai_pose_detection">자세 감지</string>
     <string formatted="false" name="preference_description_ai_pose_detection">자세 감지 블록 및 센서 활성화</string>
     <string formatted="false" name="preference_title_ai_text_recognition">텍스트 인식</string>
@@ -699,7 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환(TTS) 엔진\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 후면 카메라\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 얼굴 감지\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 얼굴 이름 인식\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 얼굴 이름 감지\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 물체 인식\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 자세 감지\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 텍스트 감지\n</string>
@@ -1699,7 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">모양 속성</string>
     <string formatted="false" name="formula_editor_object_movement">동작 속성</string>
     <string formatted="false" name="formula_editor_device_face_detection">얼굴 감지</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">얼굴 이름 인식</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">얼굴 이름 감지</string>
     <string formatted="false" name="formula_editor_device_pose_detection">자세 감지</string>
     <string formatted="false" name="formula_editor_device_text_recognition">텍스트 인식</string>
     <string formatted="false" name="formula_editor_device_object_recognition">물체 인식</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">현재 항목</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">리스트로 만들기</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">첫 번째 얼굴 보임</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">임계값을 사용한 인식된 얼굴 이름</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">임계값을 사용한 감지된 얼굴 이름</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">첫 번째 얼굴 크기</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">첫 번째 얼굴 x 위치</string>

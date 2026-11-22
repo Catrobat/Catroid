@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Sintesi vocale</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Abilita i blocchi e i sensori di sintesi vocale</string>
     <string formatted="false" name="preference_title_ai_face_detection">Rilevamento del volto</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Rilevamento nome volto</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Rilevamento del nome del volto</string>
     <string formatted="false" name="preference_description_ai_face_detection">Abilita i blocchi e i sensori di rilevamento del volto</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Abilita mattoni e sensori del rilevamento nome volto</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Abilita i blocchi e i sensori di rilevamento del nome del volto</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Rilevamento della posa</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Abilita i blocchi e i sensori di rilevamento della posa</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Riconoscimento del testo</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Motore di sintesi vocale\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Fotocamera posteriore\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Rilevamento del volto\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rilevamento nome volto\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rilevamento del nome del volto\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Riconoscimento degli oggetti\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Rilevamento della posa\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Rilevamento del testo\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Proprietà dell\'aspetto</string>
     <string formatted="false" name="formula_editor_object_movement">Proprietà del movimento</string>
     <string formatted="false" name="formula_editor_device_face_detection">Rilevamento del volto</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Rilevamento nome volto</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Rilevamento del nome del volto</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Rilevamento della posa</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Riconoscimento del testo</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Riconoscimento degli oggetti</string>

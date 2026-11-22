@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Syntéza reči</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Povoliť bloky a senzory syntézy reči</string>
     <string formatted="false" name="preference_title_ai_face_detection">Detekcia tváre</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Rozpoznávanie mena podľa tváre</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Detekcia mena podľa tváre</string>
     <string formatted="false" name="preference_description_ai_face_detection">Povoliť bloky a senzory detekcie tváre</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Povoliť bloky a senzory rozpoznávania mena podľa tváre</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Povoliť bloky a senzory detekcie mena podľa tváre</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Detekcia pózy</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Povoliť bloky a senzory detekcie pózy</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Rozpoznávanie textu</string>
@@ -813,7 +813,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Nástroj na prevod textu na reč\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Zadný fotoaparát\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Detekcia tváre\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rozpoznávanie mena podľa tváre\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Detekcia mena podľa tváre\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Rozpoznávanie objektov\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Detekcia pózy\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Detekcia textu\n</string>
@@ -1834,7 +1834,7 @@
     <string formatted="false" name="formula_editor_object_look">Vlastnosti vzhľadu</string>
     <string formatted="false" name="formula_editor_object_movement">Vlastnosti pohybu</string>
     <string formatted="false" name="formula_editor_device_face_detection">Detekcia tváre</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Rozpoznávanie mena podľa tváre</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Detekcia mena podľa tváre</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Detekcia pózy</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Rozpoznávanie textu</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Rozpoznávanie objektov</string>
@@ -1879,7 +1879,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktuálne položky</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Vytvoriť ako zoznam</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">prvá tvár je viditeľná</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">rozpoznané meno tváre s prahom</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">detegované meno tváre s prahom</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">veľkosť prvej tváre</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">pozícia x prvej tváre</string>

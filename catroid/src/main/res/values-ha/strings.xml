@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Gano fuska</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Gano sunan fuska</string>
     <string formatted="false" name="preference_description_ai_face_detection">Kunna tubala da sensoshin gano fuska</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Kunna tubali da na\'urori masu gano sunan fuska</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Kunna tubala da sensoshin gano sunan fuska</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Gano yanayin jiki</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Kunna tubala da sensoshin gano yanayin jiki</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Gane rubutu</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Gesichtserkennung</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Gesichtsnamen-Erkennung</string>
     <string formatted="false" name="preference_description_ai_face_detection">Bausteine und Sensoren für Gesichtserkennung aktivieren</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Bausteine und Sensoren zur Gesichtsnamen-Erkennung aktivieren</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Bausteine und Sensoren für Gesichtsnamen-Erkennung aktivieren</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Posenerkennung</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Bausteine und Sensoren für Posenerkennung aktivieren</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Texterkennung</string>

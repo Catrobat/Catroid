@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">चेहरा पहचान</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">चेहरे के नाम की पहचान</string>
     <string formatted="false" name="preference_description_ai_face_detection">चेहरा पहचान के ब्लॉक और सेंसर चालू करें</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">चेहरे के नाम की पहचान वाली ईंटें और सेंसर सक्षम करें</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">चेहरे के नाम की पहचान के ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_ai_pose_detection">मुद्रा पहचान</string>
     <string formatted="false" name="preference_description_ai_pose_detection">मुद्रा पहचान के ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_ai_text_recognition">टेक्स्ट पहचान</string>

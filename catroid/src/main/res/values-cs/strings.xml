@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Rozpoznávání obličejů</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Rozpoznávání jména podle obličeje</string>
     <string formatted="false" name="preference_description_ai_face_detection">Zapnout bloky a senzory rozpoznávání obličejů</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Povolit bloky a senzory rozpoznávání jména podle obličeje</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Zapnout bloky a senzory rozpoznávání jména podle obličeje</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Rozpoznávání postoje</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Zapnout bloky a senzory rozpoznávání postoje</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Rozpoznávání textu</string>

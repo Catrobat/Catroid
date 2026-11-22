@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">تركيب الكلام</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">تفعيل لبنات ومستشعرات تركيب الكلام</string>
     <string formatted="false" name="preference_title_ai_face_detection">اكتشاف الوجوه</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">التعرف على اسم الوجه</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">اكتشاف اسم الوجه</string>
     <string formatted="false" name="preference_description_ai_face_detection">تفعيل لبنات ومستشعرات اكتشاف الوجوه</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">تمكين طوب وأجهزة استشعار التعرف على اسم الوجه</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">تفعيل لبنات ومستشعرات اكتشاف اسم الوجه</string>
     <string formatted="false" name="preference_title_ai_pose_detection">اكتشاف وضعية الجسم</string>
     <string formatted="false" name="preference_description_ai_pose_detection">تفعيل لبنات ومستشعرات اكتشاف وضعية الجسم</string>
     <string formatted="false" name="preference_title_ai_text_recognition">التعرّف على النصوص</string>
@@ -889,7 +889,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 اكتشاف الوجوه\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 التعرف على اسم الوجه\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 اكتشاف اسم الوجه\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 التعرّف على الأشياء\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 اكتشاف وضعية الجسم\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 اكتشاف النصوص\n</string>
@@ -1924,7 +1924,7 @@
     <string formatted="false" name="formula_editor_object_look">خصائص المظهر</string>
     <string formatted="false" name="formula_editor_object_movement">خصائص الحركة</string>
     <string formatted="false" name="formula_editor_device_face_detection">اكتشاف الوجوه</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">التعرف على اسم الوجه</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">اكتشاف اسم الوجه</string>
     <string formatted="false" name="formula_editor_device_pose_detection">اكتشاف وضعية الجسم</string>
     <string formatted="false" name="formula_editor_device_text_recognition">التعرّف على النصوص</string>
     <string formatted="false" name="formula_editor_device_object_recognition">التعرّف على الأشياء</string>

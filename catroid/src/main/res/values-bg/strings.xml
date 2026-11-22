@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Разпознаване на лица</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Разпознаване на имена по лице</string>
     <string formatted="false" name="preference_description_ai_face_detection">Включи блоковете и сензорите за разпознаване на лица</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Активиране на блоковете и сензорите за разпознаване на имена по лице</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Включи блоковете и сензорите за разпознаване на имена по лице</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Разпознаване на поза</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Включи блоковете и сензорите за разпознаване на поза</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Разпознаване на текст</string>

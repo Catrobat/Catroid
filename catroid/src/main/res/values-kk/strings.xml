@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Бетті анықтау</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Бет атауын анықтау</string>
     <string formatted="false" name="preference_description_ai_face_detection">Бетті анықтау блоктары мен сенсорларын қосу</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Бет атауын анықтау кірпіштері мен сенсорларын қосу</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Бет атауын анықтау блоктары мен сенсорларын қосу</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Дене қалпын анықтау</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Дене қалпын анықтау блоктары мен сенсорларын қосу</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Мәтінді тану</string>

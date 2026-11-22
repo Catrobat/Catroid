@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">د وینا جوړونه</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">د وینا جوړونې بلاکونه او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_face_detection">د مخ موندنه</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">د مخ د نوم کشف</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">د مخ د نوم موندنه</string>
     <string formatted="false" name="preference_description_ai_face_detection">د مخ موندنې بلاکونه او سینسرونه فعال کړئ</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">د مخ د نوم د کشف خښتې او سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">د مخ د نوم موندنې بلاکونه او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">د بدن د حالت موندنه</string>
     <string formatted="false" name="preference_description_ai_pose_detection">د بدن د حالت موندنې بلاکونه او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">د متن پېژندنه</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 له متن څخه د وینا انجن\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 شاتنۍ کمره\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 د مخ موندنه\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 د مخ د نوم کشف\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 د مخ د نوم موندنه\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 د شیانو پېژندنه\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 د بدن د حالت موندنه\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 د متن موندنه\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">د بڼې ځانګړتیاوې</string>
     <string formatted="false" name="formula_editor_object_movement">د حرکت ځانګړتیاوې</string>
     <string formatted="false" name="formula_editor_device_face_detection">د مخ موندنه</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">د مخ د نوم کشف</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">د مخ د نوم موندنه</string>
     <string formatted="false" name="formula_editor_device_pose_detection">د بدن د حالت موندنه</string>
     <string formatted="false" name="formula_editor_device_text_recognition">د متن پېژندنه</string>
     <string formatted="false" name="formula_editor_device_object_recognition">د شیانو پېژندنه</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">اوسني توکي</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">لیست یې کړئ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">لومړی مخ ښکاري</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">له حد سره کشف شوی د مخ نوم</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">له حد سره موندل شوی د مخ نوم</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">د لومړي مخ اندازه</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">د لومړي مخ x ځای</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">การตรวจจับใบหน้า</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">การตรวจจับชื่อจากใบหน้า</string>
     <string formatted="false" name="preference_description_ai_face_detection">เปิดใช้งานบล็อกและเซ็นเซอร์การตรวจจับใบหน้า</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">เปิดใช้งานอิฐและเซ็นเซอร์ตรวจจับชื่อจากใบหน้า</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">เปิดใช้งานบล็อกและเซ็นเซอร์การตรวจจับชื่อจากใบหน้า</string>
     <string formatted="false" name="preference_title_ai_pose_detection">การตรวจจับท่าทาง</string>
     <string formatted="false" name="preference_description_ai_pose_detection">เปิดใช้งานบล็อกและเซ็นเซอร์การตรวจจับท่าทาง</string>
     <string formatted="false" name="preference_title_ai_text_recognition">การรู้จำข้อความ</string>

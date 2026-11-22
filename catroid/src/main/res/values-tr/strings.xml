@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Yüz algılama</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Yüz adı algılama</string>
     <string formatted="false" name="preference_description_ai_face_detection">Yüz algılama bloklarını ve sensörlerini etkinleştirir</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Yüz adı algılama tuğlalarını ve sensörlerini etkinleştir</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Yüz adı algılama bloklarını ve sensörlerini etkinleştirir</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Poz algılama</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Poz algılama bloklarını ve sensörlerini etkinleştirir</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Metin tanıma</string>

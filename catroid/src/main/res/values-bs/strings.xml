@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Prepoznavanje lica</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Prepoznavanje imena po licu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Omogući blokove i senzore za prepoznavanje lica</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Omogući cigle i senzore za prepoznavanje imena po licu</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Omogući blokove i senzore za prepoznavanje imena po licu</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Prepoznavanje poze</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Omogući blokove i senzore za prepoznavanje poze</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Prepoznavanje teksta</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Pengesanan wajah</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Pengesanan nama wajah</string>
     <string formatted="false" name="preference_description_ai_face_detection">Dayakan blok dan penderia pengesanan wajah</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Dayakan bata dan penderia pengesanan nama wajah</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Dayakan blok dan penderia pengesanan nama wajah</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pengesanan pose</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Dayakan blok dan penderia pengesanan pose</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Pengecaman teks</string>

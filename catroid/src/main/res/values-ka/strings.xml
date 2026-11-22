@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">მეტყველების სინთეზი</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">მეტყველების სინთეზის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_face_detection">სახის აღმოჩენა</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">სახის სახელის ამოცნობა</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">სახის სახელის აღმოჩენა</string>
     <string formatted="false" name="preference_description_ai_face_detection">სახის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">სახის სახელის ამოცნობის ბლოკებისა და სენსორების ჩართვა</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">სახის სახელის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_pose_detection">პოზის აღმოჩენა</string>
     <string formatted="false" name="preference_description_ai_pose_detection">პოზის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ტექსტის ამოცნობა</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 ტექსტის მეტყველებად გარდამქმნელი ძრავა\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 უკანა კამერა\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 სახის აღმოჩენა\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 სახის სახელის ამოცნობა\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 სახის სახელის აღმოჩენა\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 ობიექტების ამოცნობა\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 პოზის აღმოჩენა\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 ტექსტის აღმოჩენა\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">იერსახის თვისებები</string>
     <string formatted="false" name="formula_editor_object_movement">მოძრაობის თვისებები</string>
     <string formatted="false" name="formula_editor_device_face_detection">სახის აღმოჩენა</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">სახის სახელის ამოცნობა</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">სახის სახელის აღმოჩენა</string>
     <string formatted="false" name="formula_editor_device_pose_detection">პოზის აღმოჩენა</string>
     <string formatted="false" name="formula_editor_device_text_recognition">ტექსტის ამოცნობა</string>
     <string formatted="false" name="formula_editor_device_object_recognition">ობიექტების ამოცნობა</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">მიმდინარე ელემენტები</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">სიად გადაქცევა</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">პირველი სახე ჩანს</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">ამოცნობილი სახის სახელი ზღვრით</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">აღმოჩენილი სახის სახელი ზღვრით</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">პირველი სახის ზომა</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">პირველი სახის x პოზიცია</string>

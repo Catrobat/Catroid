@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Nitq sintezi</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Nitq sintezi bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_face_detection">Üzün aşkarlanması</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Üz adının tanınması</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Üz adının aşkarlanması</string>
     <string formatted="false" name="preference_description_ai_face_detection">Üzün aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Üz adının tanınması blokları və sensorlarını aktivləşdir</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Üz adının aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pozanın aşkarlanması</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Pozanın aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Mətnin tanınması</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Mətni nitqə çevirmə mühərriki\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Arxa kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Üzün aşkarlanması\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Üz adının tanınması\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Üz adının aşkarlanması\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Obyektlərin tanınması\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pozanın aşkarlanması\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Mətnin aşkarlanması\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Görünüş xüsusiyyətləri</string>
     <string formatted="false" name="formula_editor_object_movement">Hərəkət xüsusiyyətləri</string>
     <string formatted="false" name="formula_editor_device_face_detection">Üzün aşkarlanması</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Üz adının tanınması</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Üz adının aşkarlanması</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pozanın aşkarlanması</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Mətnin tanınması</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Obyektlərin tanınması</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">cari elementlər</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Siyahı et</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">birinci üz görünür</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">hədd ilə tanınan üz adı</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">hədd ilə aşkarlanan üz adı</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">birinci üzün ölçüsü</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">birinci üzün x mövqeyi</string>

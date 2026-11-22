@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">顔検出</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">顔の名前の検出</string>
     <string formatted="false" name="preference_description_ai_face_detection">顔検出のブロックとセンサーを有効にする</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">顔の名前の検出用ブリックとセンサーを有効にする</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">顔の名前の検出のブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ポーズ検出</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ポーズ検出のブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_ai_text_recognition">文字認識</string>

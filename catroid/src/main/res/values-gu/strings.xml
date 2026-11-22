@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">વાણી સંશ્લેષણ</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">વાણી સંશ્લેષણના બ્લોક અને સેન્સર ચાલુ કરો</string>
     <string formatted="false" name="preference_title_ai_face_detection">ચહેરો શોધવો</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">ચહેરાના નામની ઓળખ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">ચહેરાનું નામ શોધવું</string>
     <string formatted="false" name="preference_description_ai_face_detection">ચહેરો શોધવાના બ્લોક અને સેન્સર ચાલુ કરો</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">ચહેરાના નામની ઓળખના બ્રિક્સ અને સેન્સર સક્ષમ કરો</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">ચહેરાનું નામ શોધવાના બ્લોક અને સેન્સર ચાલુ કરો</string>
     <string formatted="false" name="preference_title_ai_pose_detection">મુદ્રા શોધવી</string>
     <string formatted="false" name="preference_description_ai_pose_detection">મુદ્રા શોધવાના બ્લોક અને સેન્સર ચાલુ કરો</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ટેક્સ્ટ ઓળખ</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 ટેક્સ્ટ-ટુ-સ્પીચ એન્જિન\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 પાછળનો કૅમેરા\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 ચહેરો શોધવો\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 ચહેરાના નામની ઓળખ\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 ચહેરાનું નામ શોધવું\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 વસ્તુ ઓળખ\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 મુદ્રા શોધવી\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 ટેક્સ્ટ શોધવું\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">દેખાવના ગુણધર્મો</string>
     <string formatted="false" name="formula_editor_object_movement">ગતિના ગુણધર્મો</string>
     <string formatted="false" name="formula_editor_device_face_detection">ચહેરો શોધવો</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">ચહેરાના નામની ઓળખ</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">ચહેરાનું નામ શોધવું</string>
     <string formatted="false" name="formula_editor_device_pose_detection">મુદ્રા શોધવી</string>
     <string formatted="false" name="formula_editor_device_text_recognition">ટેક્સ્ટ ઓળખ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">વસ્તુ ઓળખ</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">વર્તમાન આઇટમ</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">તેને યાદી બનાવો</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">પહેલો ચહેરો દેખાય છે</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">થ્રેશોલ્ડ સાથે ઓળખાયેલું ચહેરાનું નામ</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">થ્રેશોલ્ડ સાથે શોધાયેલું ચહેરાનું નામ</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">પહેલા ચહેરાનું કદ</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">પહેલા ચહેરાનું x સ્થાન</string>

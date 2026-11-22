@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Sinteza govora</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Omogoči kocke in senzorje za sintezo govora</string>
     <string formatted="false" name="preference_title_ai_face_detection">Zaznavanje obraza</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Prepoznavanje imena po obrazu</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Zaznavanje imena po obrazu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Omogoči kocke in senzorje za zaznavanje obraza</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Omogoči zidake in senzorje za prepoznavanje imena po obrazu</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Omogoči kocke in senzorje za zaznavanje imena po obrazu</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Zaznavanje drže</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Omogoči kocke in senzorje za zaznavanje drže</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Prepoznavanje besedila</string>
@@ -813,7 +813,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Mehanizem za pretvorbo besedila v govor\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Zadnja kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Zaznavanje obraza\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Prepoznavanje imena po obrazu\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Zaznavanje imena po obrazu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Prepoznavanje predmetov\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Zaznavanje drže\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Zaznavanje besedila\n</string>
@@ -1834,7 +1834,7 @@
     <string formatted="false" name="formula_editor_object_look">Lastnosti videza</string>
     <string formatted="false" name="formula_editor_object_movement">Lastnosti gibanja</string>
     <string formatted="false" name="formula_editor_device_face_detection">Zaznavanje obraza</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Prepoznavanje imena po obrazu</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Zaznavanje imena po obrazu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Zaznavanje drže</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Prepoznavanje besedila</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Prepoznavanje predmetov</string>
@@ -1879,7 +1879,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">trenutni elementi</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Naj bo seznam</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">prvi obraz je viden</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">prepoznano ime obraza s pragom</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">zaznano ime obraza s pragom</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">velikost prvega obraza</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">položaj x prvega obraza</string>

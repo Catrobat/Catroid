@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">چهري جي سڃاڻپ</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">چهري جي نالي جي سڃاڻپ</string>
     <string formatted="false" name="preference_description_ai_face_detection">چهري جي سڃاڻپ وارا بلاڪ ۽ سينسر فعال ڪريو</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">چهري جي نالي جي سڃاڻپ جون سرون ۽ سينسر فعال ڪريو</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">چهري جي نالي جي سڃاڻپ وارا بلاڪ ۽ سينسر فعال ڪريو</string>
     <string formatted="false" name="preference_title_ai_pose_detection">جسم جي پوز جي سڃاڻپ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">جسم جي پوز جي سڃاڻپ وارا بلاڪ ۽ سينسر فعال ڪريو</string>
     <string formatted="false" name="preference_title_ai_text_recognition">متن جي سڃاڻپ</string>

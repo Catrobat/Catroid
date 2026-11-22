@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">முகம் கண்டறிதல்</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">முகப் பெயர் கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_face_detection">முகம் கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">முகப் பெயர் கண்டறிதல் கட்டுமானங்கற்கள் மற்றும் சென்சார்களை இயக்கு</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">முகப் பெயர் கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_ai_pose_detection">உடல்நிலை கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_pose_detection">உடல்நிலை கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_ai_text_recognition">உரை அறிதல்</string>

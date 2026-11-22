@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">تشخیص چهره</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">تشخیص نام چهره</string>
     <string formatted="false" name="preference_description_ai_face_detection">فعال کردن بلوک‌ها و حسگرهای تشخیص چهره</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">فعال کردن آجرها و سنسورهای تشخیص نام چهره</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">فعال کردن بلوک‌ها و حسگرهای تشخیص نام چهره</string>
     <string formatted="false" name="preference_title_ai_pose_detection">تشخیص حالت بدن</string>
     <string formatted="false" name="preference_description_ai_pose_detection">فعال کردن بلوک‌ها و حسگرهای تشخیص حالت بدن</string>
     <string formatted="false" name="preference_title_ai_text_recognition">تشخیص متن</string>

@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Kasa kenkan</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Ma kasa kenkan blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_face_detection">Anim hunu</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Anim din mu nhunu</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Anim din hunu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Ma anim hunu blɔk ne sɛnsa nyɛ adwuma</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Ma anim din mu nhunu bricks ne sensors nyɛ adwuma</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Ma anim din hunu blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Nipadua gyinabea hunu</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Ma nipadua gyinabea hunu blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Nkyerɛwee hunu</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Nkyerɛwee-kɔ-kasa engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Akyiri kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Anim hunu\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Anim din mu nhunu\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Anim din hunu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Nneɛma hunu\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Nipadua gyinabea hunu\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Nkyerɛwee hunu\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Nsɛsoɔ su ahodoɔ</string>
     <string formatted="false" name="formula_editor_object_movement">Nkanhoɔ su ahodoɔ</string>
     <string formatted="false" name="formula_editor_device_face_detection">Anim hunu</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Anim din mu nhunu</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Anim din hunu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Nipadua gyinabea hunu</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Nkyerɛwee hunu</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Nneɛma hunu</string>

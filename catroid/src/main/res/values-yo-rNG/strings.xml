@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Ìdámọ̀ ojú</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Ìdámọ̀ orúkọ ojú</string>
     <string formatted="false" name="preference_description_ai_face_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ ojú ṣiṣẹ́</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Mú àwọn bíríkì àti sensọ ìdámọ̀ orúkọ ojú ṣiṣẹ́</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ orúkọ ojú ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Ìdámọ̀ ìdúró ara</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ ìdúró ara ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Ìdámọ̀ ọ̀rọ̀ kíkọ</string>

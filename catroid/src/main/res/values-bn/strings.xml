@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">কণ্ঠস্বর সংশ্লেষণ</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">কণ্ঠস্বর সংশ্লেষণের ব্লক ও সেন্সর চালু করুন</string>
     <string formatted="false" name="preference_title_ai_face_detection">মুখ শনাক্তকরণ</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">মুখের নাম সনাক্তকরণ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">মুখের নাম শনাক্তকরণ</string>
     <string formatted="false" name="preference_description_ai_face_detection">মুখ শনাক্তকরণের ব্লক ও সেন্সর চালু করুন</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">মুখের নাম সনাক্তকরণের ইট ও সেন্সর সক্ষম করুন</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">মুখের নাম শনাক্তকরণের ব্লক ও সেন্সর চালু করুন</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ভঙ্গি শনাক্তকরণ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ভঙ্গি শনাক্তকরণের ব্লক ও সেন্সর চালু করুন</string>
     <string formatted="false" name="preference_title_ai_text_recognition">টেক্সট শনাক্তকরণ</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 টেক্সট-টু-স্পিচ ইঞ্জিন\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 মুখ শনাক্তকরণ\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 মুখের নাম সনাক্তকরণ\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 মুখের নাম শনাক্তকরণ\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 বস্তু শনাক্তকরণ\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 ভঙ্গি শনাক্তকরণ\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 টেক্সট শনাক্তকরণ\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">রূপের বৈশিষ্ট্য</string>
     <string formatted="false" name="formula_editor_object_movement">গতির বৈশিষ্ট্য</string>
     <string formatted="false" name="formula_editor_device_face_detection">মুখ শনাক্তকরণ</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">মুখের নাম সনাক্তকরণ</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">মুখের নাম শনাক্তকরণ</string>
     <string formatted="false" name="formula_editor_device_pose_detection">ভঙ্গি শনাক্তকরণ</string>
     <string formatted="false" name="formula_editor_device_text_recognition">টেক্সট শনাক্তকরণ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">বস্তু শনাক্তকরণ</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">বর্তমান আইটেম</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">এটিকে তালিকা বানান</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">প্রথম মুখ দেখা যাচ্ছে</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">থ্রেশহোল্ড সহ সনাক্ত করা মুখের নাম</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">থ্রেশহোল্ড সহ শনাক্ত করা মুখের নাম</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">প্রথম মুখের আকার</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">প্রথম মুখের x অবস্থান</string>

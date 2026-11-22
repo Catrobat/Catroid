@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Tifin n wudem</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Tifin n yisem n wudem</string>
     <string formatted="false" name="preference_description_ai_face_detection">Rmed iblugen d imaṭṭafen n tifin n wudem</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Rmed iblukan d yimeḥsasen n tifin n yisem n wudem</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Rmed iblugen d imaṭṭafen n tifin n yisem n wudem</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Tifin n tɣessa</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Rmed iblugen d imaṭṭafen n tifin n tɣessa</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Tiɣimit n uḍris</string>

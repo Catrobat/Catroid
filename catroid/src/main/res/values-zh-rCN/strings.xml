@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">人脸检测</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">人脸姓名检测</string>
     <string formatted="false" name="preference_description_ai_face_detection">启用人脸检测积木和传感器</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">启用人脸姓名检测砖块和传感器</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">启用人脸姓名检测积木和传感器</string>
     <string formatted="false" name="preference_title_ai_pose_detection">姿势检测</string>
     <string formatted="false" name="preference_description_ai_pose_detection">启用姿势检测积木和传感器</string>
     <string formatted="false" name="preference_title_ai_text_recognition">文字识别</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Arcfelismerés</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Arcnév-felismerés</string>
     <string formatted="false" name="preference_description_ai_face_detection">Arcfelismerő blokkok és érzékelők engedélyezése</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Arcnév-felismerési kockák és érzékelők engedélyezése</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Arcnév-felismerő blokkok és érzékelők engedélyezése</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Testtartás-felismerés</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Testtartás-felismerő blokkok és érzékelők engedélyezése</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Szövegfelismerés</string>

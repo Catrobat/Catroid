@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">സംഭാഷണ സംശ്ലേഷണം</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">സംഭാഷണ സംശ്ലേഷണ ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
     <string formatted="false" name="preference_title_ai_face_detection">മുഖം കണ്ടെത്തൽ</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">മുഖത്തിന്റെ പേര് തിരിച്ചറിയൽ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">മുഖത്തിന്റെ പേര് കണ്ടെത്തൽ</string>
     <string formatted="false" name="preference_description_ai_face_detection">മുഖം കണ്ടെത്തൽ ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">മുഖത്തിന്റെ പേര് തിരിച്ചറിയൽ ബ്രിക്കുകളും സെൻസറുകളും പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">മുഖത്തിന്റെ പേര് കണ്ടെത്തൽ ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ശരീരനില കണ്ടെത്തൽ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ശരീരനില കണ്ടെത്തൽ ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ടെക്സ്റ്റ് തിരിച്ചറിയൽ</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എഞ്ചിൻ\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 പിൻ ക്യാമറ\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 മുഖം കണ്ടെത്തൽ\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 മുഖത്തിന്റെ പേര് തിരിച്ചറിയൽ\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 മുഖത്തിന്റെ പേര് കണ്ടെത്തൽ\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 വസ്തു തിരിച്ചറിയൽ\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 ശരീരനില കണ്ടെത്തൽ\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 ടെക്സ്റ്റ് കണ്ടെത്തൽ\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">രൂപത്തിന്റെ ഗുണവിശേഷങ്ങൾ</string>
     <string formatted="false" name="formula_editor_object_movement">ചലനത്തിന്റെ ഗുണവിശേഷങ്ങൾ</string>
     <string formatted="false" name="formula_editor_device_face_detection">മുഖം കണ്ടെത്തൽ</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">മുഖത്തിന്റെ പേര് തിരിച്ചറിയൽ</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">മുഖത്തിന്റെ പേര് കണ്ടെത്തൽ</string>
     <string formatted="false" name="formula_editor_device_pose_detection">ശരീരനില കണ്ടെത്തൽ</string>
     <string formatted="false" name="formula_editor_device_text_recognition">ടെക്സ്റ്റ് തിരിച്ചറിയൽ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">വസ്തു തിരിച്ചറിയൽ</string>

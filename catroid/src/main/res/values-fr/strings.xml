@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Détection des visages</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Détection du nom des visages</string>
     <string formatted="false" name="preference_description_ai_face_detection">Activer les briques et les capteurs de détection des visages</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Activer les briques et capteurs de détection du nom des visages</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Activer les briques et les capteurs de détection du nom des visages</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Détection de la posture</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Activer les briques et les capteurs de détection de la posture</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Reconnaissance de texte</string>

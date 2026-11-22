@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Detección de caras</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Detección do nome da cara</string>
     <string formatted="false" name="preference_description_ai_face_detection">Activar bloques e sensores de detección de caras</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Activar os bloques e sensores de detección do nome da cara</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Activar bloques e sensores de detección do nome da cara</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Detección de posturas</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Activar bloques e sensores de detección de posturas</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Recoñecemento de texto</string>

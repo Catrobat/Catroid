@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Синтеза на говор</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Овозможи блокови и сензори за синтеза на говор</string>
     <string formatted="false" name="preference_title_ai_face_detection">Откривање лица</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Препознавање имиња по лице</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Откривање имиња по лице</string>
     <string formatted="false" name="preference_description_ai_face_detection">Овозможи блокови и сензори за откривање лица</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Овозможи блокови и сензори за препознавање имиња по лице</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Овозможи блокови и сензори за откривање имиња по лице</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Откривање пози</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Овозможи блокови и сензори за откривање пози</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Препознавање текст</string>
@@ -737,7 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Мотор за претворање текст во говор\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Задна камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Откривање лица\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Препознавање имиња по лице\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Откривање имиња по лице\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Препознавање објекти\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Откривање пози\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Откривање текст\n</string>
@@ -1744,7 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Својства на изгледот</string>
     <string formatted="false" name="formula_editor_object_movement">Својства на движењето</string>
     <string formatted="false" name="formula_editor_device_face_detection">Откривање лица</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Препознавање имиња по лице</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Откривање имиња по лице</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Откривање пози</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Препознавање текст</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Препознавање објекти</string>
@@ -1789,7 +1789,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">тековни ставки</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Направи ја листа</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">првото лице е видливо</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">препознаено име на лице со праг</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">откриено име на лице со праг</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">големина на првото лице</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">позиција x на првото лице</string>

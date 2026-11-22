@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Kasvojentunnistus</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Kasvojen nimen tunnistus</string>
     <string formatted="false" name="preference_description_ai_face_detection">Ota kasvojentunnistuspalikat ja -anturit käyttöön</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Ota käyttöön kasvojen nimen tunnistuksen palikat ja anturit</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Ota kasvojen nimen tunnistuksen palikat ja anturit käyttöön</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Asennontunnistus</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Ota asennontunnistuspalikat ja -anturit käyttöön</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Tekstintunnistus</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Pagtukoy ng mukha</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Pagtukoy ng pangalan ng mukha</string>
     <string formatted="false" name="preference_description_ai_face_detection">I-enable ang mga block at sensor para sa pagtukoy ng mukha</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">I-enable ang mga brick at sensor para sa pagtukoy ng pangalan ng mukha</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">I-enable ang mga block at sensor para sa pagtukoy ng pangalan ng mukha</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pagtukoy ng tindig</string>
     <string formatted="false" name="preference_description_ai_pose_detection">I-enable ang mga block at sensor para sa pagtukoy ng tindig</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Pagkilala ng teksto</string>

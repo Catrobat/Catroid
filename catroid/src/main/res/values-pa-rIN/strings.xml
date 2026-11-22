@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">ਚਿਹਰੇ ਦੀ ਪਛਾਣ</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">ਚਿਹਰੇ ਦੇ ਨਾਮ ਦੀ ਪਛਾਣ</string>
     <string formatted="false" name="preference_description_ai_face_detection">ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਾਲੇ ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਚਾਲੂ ਕਰੋ</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">ਚਿਹਰੇ ਦੇ ਨਾਮ ਦੀ ਪਛਾਣ ਦੀਆਂ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ ਯੋਗ ਕਰੋ</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">ਚਿਹਰੇ ਦੇ ਨਾਮ ਦੀ ਪਛਾਣ ਵਾਲੇ ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਚਾਲੂ ਕਰੋ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ਸਰੀਰਕ ਮੁਦਰਾ ਦੀ ਪਛਾਣ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ਸਰੀਰਕ ਮੁਦਰਾ ਦੀ ਪਛਾਣ ਵਾਲੇ ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਚਾਲੂ ਕਰੋ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ਟੈਕਸਟ ਦੀ ਪਛਾਣ</string>

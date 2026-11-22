@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">Deteksi wajah</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">Deteksi nama wajah</string>
     <string formatted="false" name="preference_description_ai_face_detection">Aktifkan blok dan sensor deteksi wajah</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Aktifkan batu bata dan sensor deteksi nama wajah</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Aktifkan blok dan sensor deteksi nama wajah</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Deteksi pose</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Aktifkan blok dan sensor deteksi pose</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Pengenalan teks</string>

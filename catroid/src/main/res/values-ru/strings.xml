@@ -119,9 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Синтез речи</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Включить блоки и датчики синтеза речи</string>
     <string formatted="false" name="preference_title_ai_face_detection">Обнаружение лиц</string>
-    <string formatted="false" name="preference_title_ai_face_name_detection">Распознавание имени по лицу</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Обнаружение имени по лицу</string>
     <string formatted="false" name="preference_description_ai_face_detection">Включить блоки и датчики обнаружения лиц</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">Включить блоки и датчики распознавания имени по лицу</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Включить блоки и датчики обнаружения имени по лицу</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Обнаружение позы</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Включить блоки и датчики обнаружения позы</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Распознавание текста</string>
@@ -813,7 +813,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Синтезатор речи\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Задняя камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Обнаружение лиц\n</string>
-    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Распознавание имени по лицу\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Обнаружение имени по лицу\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Распознавание объектов\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Обнаружение позы\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Обнаружение текста\n</string>
@@ -1834,7 +1834,7 @@
     <string formatted="false" name="formula_editor_object_look">Свойства образа</string>
     <string formatted="false" name="formula_editor_object_movement">Свойства движения</string>
     <string formatted="false" name="formula_editor_device_face_detection">Обнаружение лиц</string>
-    <string formatted="false" name="formula_editor_device_face_name_detection">Распознавание имени по лицу</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Обнаружение имени по лицу</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Обнаружение позы</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Распознавание текста</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Распознавание объектов</string>
@@ -1879,7 +1879,7 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">текущие элементы</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Сделать списком</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">видно первое лицо</string>
-    <string formatted="false" name="formula_editor_function_face_name_with_threshold">распознанное имя по лицу с порогом</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">обнаруженное имя по лицу с порогом</string>
     <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">размер первого лица</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">положение первого лица по оси X</string>

@@ -121,7 +121,7 @@
     <string formatted="false" name="preference_title_ai_face_detection">ಮುಖ ಪತ್ತೆ</string>
     <string formatted="false" name="preference_title_ai_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆ</string>
     <string formatted="false" name="preference_description_ai_face_detection">ಮುಖ ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
-    <string formatted="false" name="preference_description_ai_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆಯ ಬ್ರಿಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ಭಂಗಿ ಪತ್ತೆ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ಭಂಗಿ ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆ</string>
