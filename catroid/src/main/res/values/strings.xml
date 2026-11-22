@@ -2389,5 +2389,4 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="face_train_name_missing">That name is no longer in the list</string>
     <string formatted="false" name="face_train_not_saved">The names could not be saved</string>
     <string formatted="false" name="face_train_name_line_break">A name can\'t contain a line break</string>
-    <string formatted="false" name="face_train_name_unknown">\"Unknown\" means nobody was recognized, so it can\'t be a name</string>
 </resources>

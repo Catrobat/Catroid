@@ -78,7 +78,7 @@ object FaceNameDetector : Detector {
     @Volatile
     internal var frameSource: ((frontCamera: Boolean) -> Bitmap?)? = null
 
-    /** Loads the face models on first use; until then the name stays Unknown. */
+    /** Loads the face models on first use; until then the name stays empty. */
     @VisibleForTesting
     internal var recognizerProvider: () -> Recognizer? = {
         CatroidApplication.getAppContext()?.let { Recognizer.getInstance(it) }
@@ -89,7 +89,7 @@ object FaceNameDetector : Detector {
     /**
      * Set when the face models could not be loaded. Until the next program
      * start, or until the training brick loads the models successfully (see
-     * [onModelsLoaded]), no frame is analysed and the name stays Unknown,
+     * [onModelsLoaded]), no frame is analysed and the name stays empty,
      * instead of the models being loaded again for every frame.
      */
     @Volatile
@@ -144,7 +144,7 @@ object FaceNameDetector : Detector {
 
     /**
      * Start of a program run, including a restart from the stage menu: no
-     * frames in the window and "detected face name" back to Unknown.
+     * frames in the window and "detected face name" back to empty.
      */
     /** Called when the program reads "detected face name": from now on frames are analysed. */
     @JvmStatic
@@ -293,7 +293,7 @@ object FaceNameDetector : Detector {
             cachedRecognizer = null
             window.clear()
         }
-        Log.e(TAG, "The face models cannot be used; detected face name stays Unknown", cause)
+        Log.e(TAG, "The face models cannot be used; detected face name stays empty", cause)
         return null
     }
 

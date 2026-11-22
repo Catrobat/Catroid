@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -319,15 +319,14 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     }
 
     /**
-     * Catroid's name checks; no line break, as the face database stores one name
-     * per line; and not Unknown, which the sensor reports when it recognises nobody.
+     * Catroid's name checks, and no line break, as the face database stores one
+     * name per line.
      */
     @VisibleForTesting
     internal class FaceNameWatcher : InputWatcher.TextWatcher() {
         override fun validateInput(input: String, context: Context): String? =
             when {
                 Recognizer.hasLineBreak(input) -> context.getString(R.string.face_train_name_line_break)
-                Recognizer.isNoMatchValue(input) -> context.getString(R.string.face_train_name_unknown)
                 else -> super.validateInput(input, context)
             }
 

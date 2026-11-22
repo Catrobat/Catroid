@@ -37,7 +37,7 @@ import kotlin.math.min
  * applies the formula's explicit threshold ([nameWithThreshold]), independent
  * of the number of enrolled people and the previous name. A frame without a
  * usable face changes nothing, until no usable face was seen for
- * [NO_FACE_RESET_MS]; then the window is cleared and the name is [UNKNOWN]. A
+ * [NO_FACE_RESET_MS]; then the window is cleared and the name is empty ([UNKNOWN]). A
  * usable face after that time starts a fresh decision, even if no frame came
  * in between.
  *
@@ -161,7 +161,11 @@ class FaceNameWindow {
     }
 
     companion object {
-        const val UNKNOWN: String = "Unknown"
+        /**
+         * Nobody recognized. Programs compare against this value, so it must be
+         * the same in every language: a translated word would break shared projects.
+         */
+        const val UNKNOWN: String = ""
 
         /** Usable frames whose scores are averaged. More frames, less noise. */
         const val FRAMES = 3
@@ -169,7 +173,7 @@ class FaceNameWindow {
         /** At most one analysed frame per this many milliseconds. */
         const val FRAME_INTERVAL_MS = 300L
 
-        /** Without a usable face for this long, the name goes back to Unknown. */
+        /** Without a usable face for this long, the name goes back to [UNKNOWN]. */
         const val NO_FACE_RESET_MS = 1000L
 
         /**
