@@ -358,6 +358,9 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             eventBrickList.add(WhenNfcBrick())
         }
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            eventBrickList.add(WhenGamepadButtonPressedBrick())
+        }
         return eventBrickList
     }
 
