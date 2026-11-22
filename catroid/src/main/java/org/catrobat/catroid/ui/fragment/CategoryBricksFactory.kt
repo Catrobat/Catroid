@@ -735,6 +735,14 @@ open class CategoryBricksFactory {
         return dataBrickList
     }
 
+    private fun createLookOrBackgroundRequestBrick(isBackgroundSprite: Boolean): Brick = when {
+        !isBackgroundSprite -> LookRequestBrick(BrickValues.LOOK_REQUEST)
+        ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() ->
+            BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+
+        else -> BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST)
+    }
+
     @SuppressWarnings("ComplexMethod")
     protected fun setupDeviceCategoryList(
         context: Context,
@@ -752,14 +760,7 @@ open class CategoryBricksFactory {
             deviceBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
         }
         deviceBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
-        when {
-            !isBackgroundSprite -> deviceBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(
-                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
-            )
-
-            else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
-        }
+        deviceBrickList.add(createLookOrBackgroundRequestBrick(isBackgroundSprite))
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
         deviceBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
 

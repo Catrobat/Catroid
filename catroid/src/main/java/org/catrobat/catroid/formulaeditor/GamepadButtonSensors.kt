@@ -106,7 +106,8 @@ var formulaEditorGamepadInput: GamepadInput? = null
  * editor's Compute dialog or else on the running stage, otherwise 0.0, also when neither is open.
  */
 fun GamepadButton.sensorValue(): Double {
-    val gamepadInput = formulaEditorGamepadInput ?: StageActivity.stageListener?.gamepadInput
+    val gamepadInput: GamepadInput? =
+        formulaEditorGamepadInput ?: StageActivity.stageListener?.gamepadInput
     return if (gamepadInput?.isPressed(this) == true) {
         PRESSED_VALUE
     } else {

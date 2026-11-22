@@ -49,7 +49,8 @@ class WhenGamepadButtonPressedScript(
 
     /** An event id that only equals itself, so no fired event ever starts the script. */
     private class NeverFiredEventId : EventId() {
-        override fun equals(other: Any?): Boolean = this === other
+        override fun equals(other: Any?): Boolean =
+            other is NeverFiredEventId && this === other
 
         override fun hashCode(): Int = System.identityHashCode(this)
     }

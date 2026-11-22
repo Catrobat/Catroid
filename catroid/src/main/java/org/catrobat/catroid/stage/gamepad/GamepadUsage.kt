@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.toGamepadButton
@@ -104,9 +105,11 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
 
         /** The buttons whose gamepad button sensors [formula] contains. */
         @JvmStatic
-        fun buttonsUsedBy(formula: Formula): Set<GamepadButton> =
-            formula.root?.getUserDataRecursive(ElementType.SENSOR).orEmpty()
+        fun buttonsUsedBy(formula: Formula): Set<GamepadButton> {
+            val root: FormulaElement? = formula.root
+            return root?.getUserDataRecursive(ElementType.SENSOR).orEmpty()
                 .mapNotNull { sensorName -> Sensors.getSensorByValue(sensorName)?.toGamepadButton() }
                 .toSet()
+        }
     }
 }
