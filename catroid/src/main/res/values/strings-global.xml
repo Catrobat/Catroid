@@ -51,7 +51,7 @@
 
     <string formatted="false" name="about_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
     <string formatted="false" name="terms_of_use_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
-    <string formatted="false" name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
+    <string formatted="false" name="preference_raspi_help_link">https://catrobat.org/docs/</string>
 
     <!-- name of shared preference file used for storing names of approved projects -->
     <string formatted="false" name="preference_approved_list_file_key" translatable="false">

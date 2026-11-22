@@ -199,9 +199,9 @@ public final class BrickValues {
 
 	//Constants Web
 	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
-	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
-	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
-	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
+	public static final String LOOK_REQUEST = "https://share.catrobat.org/brick-defaults/penguin.png";
+	public static final String BACKGROUND_REQUEST = "https://share.catrobat.org/brick-defaults/halloween-portrait.png";
+	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://share.catrobat.org/brick-defaults/halloween-landscape.png";
 
 	//Constant Instruments
 	public static final int DEFAULT_NOTE = 70;

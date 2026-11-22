@@ -57,6 +57,8 @@ import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -227,7 +229,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
+			return (!isShareUrl(url) || url.contains(CATROBAT_HELP_URL))
 					&& !url.contains(LIBRARY_BASE_URL);
 		}
 	}
@@ -282,8 +284,32 @@ public class WebViewActivity extends AppCompatActivity {
 		return extension;
 	}
 
+	/**
+	 * Exact scheme/host/port match against the share site, so the login cookies never reach another
+	 * host: the old share.catrob.at domain is no longer ours, and a prefix match would also accept
+	 * hosts like share.catrobat.org.example.com.
+	 */
+	@VisibleForTesting
+	public static boolean isShareUrl(String url) {
+		if (url == null) {
+			return false;
+		}
+		try {
+			URI uri = new URI(url);
+			URI share = new URI(MAIN_URL_HTTPS);
+			return share.getHost().equalsIgnoreCase(uri.getHost())
+					&& share.getScheme().equalsIgnoreCase(uri.getScheme())
+					&& share.getPort() == uri.getPort();
+		} catch (URISyntaxException e) {
+			return false;
+		}
+	}
+
 	@VisibleForTesting
 	public static void setLoginCookies(String url, SharedPreferences sharedPreferences, CookieManager cookieManager) {
+		if (!isShareUrl(url)) {
+			return;
+		}
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 

@@ -69,7 +69,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/setup_jacoco.gradle'
 apply from: 'gradle/emulator.gradle'
@@ -167,7 +166,7 @@ android {
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
-                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterHost: "share.catrobat.org",
                                  intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""

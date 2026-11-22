@@ -53,7 +53,7 @@ public class WebViewActivityLoginCookieTest {
 
 	private CookieManager cookieManagerMock;
 	private SharedPreferences sharedPreferencesMock;
-	private String urlStub = "url";
+	private String urlStub = "https://share.catrobat.org/app/";
 	private String username = "username #1";
 	private String token = "token";
 
@@ -94,6 +94,17 @@ public class WebViewActivityLoginCookieTest {
 				.setCookie(eq(urlStub), eq(generateCookie(USERNAME_COOKIE_NAME, URLEncoder.encode(username, "UTF-8"))));
 		verify(cookieManagerMock, times(1))
 				.setCookie(eq(urlStub), eq(generateCookie(TOKEN_COOKIE_NAME, token)));
+		verifyNoMoreInteractions(cookieManagerMock);
+	}
+
+	@Test
+	public void testNoCookiesForOtherHosts() {
+		when(sharedPreferencesMock.getString(eq(USERNAME), eq(NO_USERNAME))).thenReturn(username);
+		when(sharedPreferencesMock.getString(eq(TOKEN), eq(NO_TOKEN))).thenReturn(token);
+
+		WebViewActivity.setLoginCookies("https://share.catrob.at/app/", sharedPreferencesMock, cookieManagerMock);
+		WebViewActivity.setLoginCookies("https://share.catrobat.org.example.com/", sharedPreferencesMock, cookieManagerMock);
+
 		verifyNoMoreInteractions(cookieManagerMock);
 	}
 
