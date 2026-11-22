@@ -26,7 +26,6 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.catrobat.catroid.R
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -65,11 +64,11 @@ class FaceNameWatcherTest {
         assertEquals(context.getString(R.string.face_train_name_line_break), watcher.validateInput("Bo\nb", context))
     }
 
-    /** The sensor reports Unknown when it recognises nobody, so that cannot be a name. */
+    /** No match is the empty text, so no word is reserved, in any language. */
     @Test
-    fun theNoMatchValueIsRejected() {
+    fun unknownIsAnOrdinaryName() {
         for (name in listOf("Unknown", " unknown ", "UNKNOWN")) {
-            assertNotNull("'$name' must be rejected", watcher.validateInput(name, context))
+            assertNull("'$name' must be accepted", watcher.validateInput(name, context))
         }
     }
 }

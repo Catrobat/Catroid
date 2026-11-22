@@ -196,7 +196,7 @@ class FaceNameSensorStageTest {
         trainBoth()
         fixture = "p02_test.jpg"
         val project = createProject()
-        val strictName = UserVariable("strictName", "")
+        val strictName = UserVariable("strictName", NOT_READ_YET)
         project.addUserVariable(strictName)
         UiTestUtils.getDefaultTestSprite(project).addScript(
             StartScript().apply {
@@ -494,7 +494,7 @@ class FaceNameSensorStageTest {
         firstBrick: Brick? = null
     ): Project {
         val project = UiTestUtils.createDefaultTestProject("FaceNameSensorStageTest")
-        name = UserVariable("name", "")
+        name = UserVariable("name", NOT_READ_YET)
         ticks = UserVariable("ticks", 0.0)
         faceX = UserVariable("faceX", 0.0)
         project.addUserVariable(name)
@@ -549,6 +549,7 @@ class FaceNameSensorStageTest {
     }
 
     private fun assertNameStaysUnknown(durationMs: Long) {
+        waitForName(UNKNOWN)
         val end = System.currentTimeMillis() + durationMs
         while (System.currentTimeMillis() < end) {
             val value = name.value
@@ -665,7 +666,10 @@ class FaceNameSensorStageTest {
     }
 
     private companion object {
-        const val UNKNOWN = "Unknown"
+        const val UNKNOWN = ""
+
+        /** Differs from no match, so a variable the sensor never reached cannot pass as one. */
+        const val NOT_READ_YET = "not read yet"
         const val CAMERA_RELEASE_TIMEOUT_MS = 3_000L
 
         /** Recognition loads its models on first use; generous for a slow phone. */

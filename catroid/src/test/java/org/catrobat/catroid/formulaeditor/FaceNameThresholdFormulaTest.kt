@@ -262,6 +262,50 @@ class FaceNameThresholdFormulaTest {
         }
     }
 
+    /**
+     * No match is the empty text. It is the same in every language, so a project
+     * shared between languages keeps working and there is no word to translate.
+     */
+    @Test
+    fun noMatchIsTheEmptyText() {
+        assertEquals("", parse(functionTokens(number(STRICT))).interpretObject(scope))
+    }
+
+    @Test
+    fun aProgramCanCompareTheNameWithTheEmptyText() {
+        assertTrue(parse(comparedWithEmptyText(STRICT)).interpretBoolean(scope))
+        assertFalse(parse(comparedWithEmptyText("0.53")).interpretBoolean(scope))
+    }
+
+    @Test
+    fun theLengthOfNoMatchIsZero() {
+        val tokens = listOf(
+            InternToken(FUNCTION_NAME, Functions.LENGTH.name),
+            InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN)
+        ) + functionTokens(number(STRICT)) + InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE)
+
+        assertEquals(0.0, parse(tokens).interpretDouble(scope), 0.0)
+    }
+
+    @Test
+    fun theComparisonWithTheEmptyTextSurvivesSavingAndLoading() {
+        val brick = SayBubbleBrick().apply {
+            setFormulaWithBrickField(Brick.BrickField.STRING, parse(comparedWithEmptyText(STRICT)))
+        }
+        val xstream = XstreamSerializer.getInstance().xstream
+
+        val loaded = xstream.fromXML(xstream.toXML(brick)) as SayBubbleBrick
+
+        assertTrue(loaded.getFormulaWithBrickField(Brick.BrickField.STRING).interpretBoolean(scope))
+    }
+
+    private fun number(value: String) = InternToken(InternTokenType.NUMBER, value)
+
+    private fun comparedWithEmptyText(threshold: String): List<InternToken> =
+        functionTokens(number(threshold)) +
+            InternToken(OPERATOR, Operators.EQUAL.name) +
+            InternToken(STRING, "")
+
     private fun insertedTokens(): List<InternToken> = InternFormulaKeyboardAdapter()
         .createInternTokenListByResourceId(R.string.formula_editor_function_face_name_with_threshold, "")
 
@@ -289,5 +333,6 @@ class FaceNameThresholdFormulaTest {
 
     companion object {
         private const val PERSON = "Ada"
+        private const val STRICT = "0.9"
     }
 }
