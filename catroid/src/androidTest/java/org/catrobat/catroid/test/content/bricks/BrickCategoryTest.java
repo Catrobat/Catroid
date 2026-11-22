@@ -365,7 +365,8 @@ public class BrickCategoryTest {
 						WhenClonedBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenStageExitedBrick.class)},
+						WhenStageExitedBrick.class,
+						WhenGamepadButtonPressedBrick.class)},
 				{"Looks", Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
@@ -589,8 +590,8 @@ public class BrickCategoryTest {
 			sharedPreferencesEditor.putBoolean(setting, true);
 		}
 		// The physical gamepad bricks have no own brick category either, so their setting is
-		// activated as well. It adds the event brick to the Device category and the Simulate
-		// gamepad button brick to the Testing category.
+		// activated as well. It adds the event brick to the Device and Event categories and the
+		// Simulate gamepad button brick to the Testing category.
 		sharedPreferencesEditor.putBoolean(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, true);
 		sharedPreferencesEditor.commit();
 

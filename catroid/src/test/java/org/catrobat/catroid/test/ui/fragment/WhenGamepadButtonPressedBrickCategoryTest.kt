@@ -107,9 +107,46 @@ class WhenGamepadButtonPressedBrickCategoryTest {
     }
 
     @Test
-    fun `event category does not offer the brick`() {
+    fun `event category offers the brick once at its end with the setting on`() {
         setPhysicalGamepadSetting(true)
 
+        val eventBricks = brickClassesOf(R.string.category_event)
+
+        assertEquals(WhenGamepadButtonPressedBrick::class.java, eventBricks.last())
+        assertEquals(1, eventBricks.count { it == WhenGamepadButtonPressedBrick::class.java })
+    }
+
+    @Test
+    fun `event category offers the brick after the NFC brick`() {
+        setPhysicalGamepadSetting(true)
+        sharedPreferences.edit().putBoolean(SettingsFragment.SETTINGS_SHOW_NFC_BRICKS, true).commit()
+
+        val eventBricks = brickClassesOf(R.string.category_event)
+
+        assertEquals(WhenGamepadButtonPressedBrick::class.java, eventBricks.last())
+        assertEquals(WhenNfcBrick::class.java, eventBricks[eventBricks.lastIndex - 1])
+    }
+
+    @Test
+    fun `event category offers the brick for the background too`() {
+        setPhysicalGamepadSetting(true)
+
+        val backgroundEventBricks = categoryBricksFactory
+            .getBricks(context.getString(R.string.category_event), true, context)
+            .map { it.javaClass }
+
+        assertEquals(WhenGamepadButtonPressedBrick::class.java, backgroundEventBricks.last())
+    }
+
+    @Test
+    fun `event category does not offer the brick with the setting off`() {
+        setPhysicalGamepadSetting(false)
+
+        assertFalse(brickClassesOf(R.string.category_event).contains(WhenGamepadButtonPressedBrick::class.java))
+    }
+
+    @Test
+    fun `event category does not offer the brick by default`() {
         assertFalse(brickClassesOf(R.string.category_event).contains(WhenGamepadButtonPressedBrick::class.java))
     }
 
