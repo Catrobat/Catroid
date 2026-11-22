@@ -277,13 +277,21 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			StageExitController.requestExitOfRunningStage(this::finishToMarketingScreen);
-		} else if (!StageExitController.forcePendingExitOfRunningStage()) {
-			StageLifeCycleController.stagePause(this);
-			idlingResource.increment();
-			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
-					success -> runOnUiThread(() -> idlingResource.decrement()));
-			stageDialog.show();
+		} else {
+			StageExitController.requestExitOfRunningStage(this::showStageMenu);
 		}
+	}
+
+	private void showStageMenu() {
+		if (isFinishing()) {
+			return;
+		}
+		stageListener.getStageExitController().reset();
+		StageLifeCycleController.stagePause(this);
+		idlingResource.increment();
+		stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+				success -> runOnUiThread(() -> idlingResource.decrement()));
+		stageDialog.show();
 	}
 
 	private void finishFromShortcut() {

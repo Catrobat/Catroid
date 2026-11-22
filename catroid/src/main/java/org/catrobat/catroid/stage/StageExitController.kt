@@ -31,19 +31,20 @@ import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.stage.gamepad.GamepadUsage
 
 /**
- * Lets the "When stage is exited" catch scripts of a project finish their work before a real exit
- * of the stage.
+ * Lets the "When stage is exited" catch scripts of a project finish their work before the project
+ * is exited.
  *
- * Real exits are the brick "Finish stage", an Android Back press that leaves the stage directly,
- * and a press of gamepad button B that the project does not use. Opening the stage menu,
- * restarting and the test results of "Finish tests" and failing asserts are no such exits.
+ * Exits are an Android Back press, which leads to the stage menu or, in a shortcut or standalone
+ * APK, leaves the stage, the brick "Finish stage", and a press of gamepad button B that the project
+ * does not use. The buttons of the stage menu, restarting and the test results of "Finish tests"
+ * and failing asserts are no such exits.
  *
  * Without catch scripts (commented out ones do not count) every exit runs at once on the calling
  * thread, exactly as before. With catch scripts, the first exit becomes pending: the next stage
- * frame fires [StageExitedEventId] once to all sprites, the stage keeps running, and once all
- * started catch scripts have finished, the pending exit runs on the UI thread. A further exit
- * request while the exit is pending forces it, so a second Back press or a "Finish stage" brick
- * inside a catch script exits at once.
+ * frame fires [StageExitedEventId] once to all sprites, so the catch scripts run in parallel like
+ * broadcast scripts, the stage keeps running, and once all started catch scripts have finished, the
+ * pending exit runs on the UI thread. A further exit request while the exit is pending forces it,
+ * so a second Back press or a "Finish stage" brick inside a catch script exits at once.
  *
  * Exit requests may come from any thread. [onFrame] and [onGamepadButtonPressed] run on the GL
  * thread of the stage.
@@ -60,7 +61,10 @@ class StageExitController @JvmOverloads constructor(
 
     /** The progress of a real exit of the stage. */
     enum class State {
-        /** No exit was requested, or every exit ran at once because there are no catch scripts. */
+        /**
+         * No exit was requested, every exit ran at once because there are no catch scripts, or the
+         * last exit was [reset].
+         */
         NONE,
 
         /** An exit waits for the catch scripts. */
@@ -77,7 +81,8 @@ class StageExitController @JvmOverloads constructor(
     private var currentState = State.NONE
     private var pendingExit: Runnable? = null
 
-    /** The fired stage exited event, which waits for the catch scripts. Only used on the GL thread. */
+    /** The fired stage exited event of the pending exit, which waits for the catch scripts. */
+    @Volatile
     private var stageExitedEvent: EventWrapper? = null
 
     val state: State
@@ -99,6 +104,7 @@ class StageExitController @JvmOverloads constructor(
                 State.NONE -> {
                     currentState = State.PENDING
                     pendingExit = exitAction
+                    stageExitedEvent = null
                     null
                 }
                 State.PENDING -> takePendingExit(State.FORCED)
@@ -112,21 +118,14 @@ class StageExitController @JvmOverloads constructor(
     fun requestFinishStage() = requestExit(finishStage)
 
     /**
-     * Forces a pending exit to run at once.
-     *
-     * @return true if an exit is pending or has already run, so that nothing else should happen,
-     * false if there is no exit
+     * Forgets the last exit, so that the next one runs the catch scripts again. The stage calls it
+     * when the stage menu opens, because the project can continue from there.
      */
-    fun forcePendingExit(): Boolean {
-        val forcedExit = synchronized(lock) {
-            when (currentState) {
-                State.NONE -> return false
-                State.PENDING -> takePendingExit(State.FORCED)
-                State.EXITED, State.FORCED -> null
-            }
+    fun reset() {
+        synchronized(lock) {
+            currentState = State.NONE
+            pendingExit = null
         }
-        forcedExit?.let(runOnUiThread)
-        return true
     }
 
     /**
@@ -187,10 +186,6 @@ class StageExitController @JvmOverloads constructor(
         fun requestExitOfRunningStage(exitAction: Runnable) {
             ofRunningStage()?.requestExit(exitAction) ?: exitAction.run()
         }
-
-        /** Forces a pending exit of the running stage, see [forcePendingExit]. */
-        @JvmStatic
-        fun forcePendingExitOfRunningStage(): Boolean = ofRunningStage()?.forcePendingExit() ?: false
 
         private fun runOnStageUiThread(action: Runnable) {
             StageActivity.activeStageActivity?.get()?.runOnUiThread(action)
