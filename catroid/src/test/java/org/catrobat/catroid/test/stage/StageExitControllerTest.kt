@@ -106,8 +106,6 @@ class StageExitControllerTest {
     @Test
     fun `new controller has no exit`() {
         assertEquals(State.NONE, controller.state)
-        assertFalse(controller.forcePendingExit())
-        assertEquals(State.NONE, controller.state)
     }
 
     @Test
@@ -127,7 +125,7 @@ class StageExitControllerTest {
 
         assertEquals(2, exitCount)
         assertEquals(1, finishStageCount)
-        assertFalse(controller.forcePendingExit())
+        assertEquals(State.NONE, controller.state)
     }
 
     @Test
@@ -253,12 +251,11 @@ class StageExitControllerTest {
     }
 
     @Test
-    fun `forcing reports and runs a pending exit only once`() {
+    fun `further requests run a pending exit only once`() {
         addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
         controller.requestExit(exitAction)
 
-        assertTrue(controller.forcePendingExit())
-        assertTrue(controller.forcePendingExit())
+        controller.requestExit(exitAction)
         controller.requestExit(exitAction)
         runFrames(FEW_FRAMES)
         runUiThread()
@@ -272,7 +269,7 @@ class StageExitControllerTest {
         addCatchScript(ChangeXByNBrick(X_DELTA))
         controller.requestExit(exitAction)
 
-        controller.forcePendingExit()
+        controller.requestExit(exitAction)
         runFrames(FEW_FRAMES)
         runUiThread()
 
@@ -281,17 +278,65 @@ class StageExitControllerTest {
     }
 
     @Test
-    fun `finished exit reports that an exit happened`() {
+    fun `request after a finished exit is ignored`() {
         addCatchScript()
         controller.requestExit(exitAction)
         runFrames()
 
-        assertTrue(controller.forcePendingExit())
         controller.requestExit(exitAction)
         runUiThread()
 
         assertEquals(State.EXITED, controller.state)
         assertEquals(1, exitCount)
+    }
+
+    @Test
+    fun `reset lets the next exit run the catch scripts again`() {
+        addCatchScript(ChangeXByNBrick(X_DELTA))
+        controller.requestExit(exitAction)
+        runFrames()
+        runUiThread()
+
+        controller.reset()
+        assertEquals(State.NONE, controller.state)
+        controller.requestExit(exitAction)
+        assertEquals(State.PENDING, controller.state)
+        runFrames()
+        runUiThread()
+
+        assertEquals(2, exitCount)
+        assertEquals(2 * X_DELTA, xPosition())
+    }
+
+    @Test
+    fun `reset after a forced exit lets the next exit wait for the catch scripts again`() {
+        addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
+        controller.requestExit(exitAction)
+        runFrames(FEW_FRAMES)
+        controller.requestExit(exitAction)
+        runUiThread()
+        assertEquals(State.FORCED, controller.state)
+
+        controller.reset()
+        controller.requestExit(exitAction)
+        runFrames(FEW_FRAMES)
+        runUiThread()
+
+        assertEquals(State.PENDING, controller.state)
+        assertEquals(1, exitCount)
+    }
+
+    @Test
+    fun `reset drops a pending exit`() {
+        addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
+        controller.requestExit(exitAction)
+
+        controller.reset()
+        runFrames(FEW_FRAMES)
+        runUiThread()
+
+        assertEquals(State.NONE, controller.state)
+        assertEquals(0, exitCount)
     }
 
     @Test

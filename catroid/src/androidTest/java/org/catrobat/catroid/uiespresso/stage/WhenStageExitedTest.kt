@@ -29,6 +29,7 @@ import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -43,6 +44,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.WhenStageExitedScript
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
@@ -66,9 +68,9 @@ import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 
 /**
- * Checks that the Testing brick "When stage is exited" runs on real exits of the stage before the
- * stage closes, that opening the stage menu is no exit, and that a second Back press forces the
- * exit while a catch script is still running.
+ * Checks that the event brick "When stage is exited" runs when Android Back or "Finish stage" exits
+ * the project, before the stage menu opens or the stage closes. All its scripts run in parallel, and
+ * a second Back press or a "Finish stage" brick in one of them ends the wait.
  */
 @Category(Cat.AppUi::class, Level.Smoke::class)
 @RunWith(AndroidJUnit4::class)
@@ -96,15 +98,104 @@ class WhenStageExitedTest {
     }
 
     @Test
-    fun backInNormalModeOpensStageMenuAndRunsNoCatch() {
-        addCatchScript(setCatchState(CAUGHT))
+    fun backWithoutCatchScriptOpensStageMenuAtOnce() {
         startStage()
 
         pressBack()
 
         onView(withId(R.id.stage_dialog_button_continue)).inRoot(isDialog()).check(matches(isDisplayed()))
-        assertUserVariableNotEqualsForTimeMs(catchState, CAUGHT, QUIET_PERIOD_MILLIS)
         assertFalse(stageActivity.isFinishing)
+    }
+
+    @Test
+    fun backInNormalModeRunsCatchThenOpensStageMenu() {
+        addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
+        startStage()
+
+        pressBackUnconditionally()
+
+        assertUserVariableEqualsWithTimeout(catchState, CAUGHT, TIMEOUT_MILLIS)
+        assertFalse(stageActivity.dialogIsShowing())
+        waitUntilStageMenuShows()
+        assertEquals(CATCH_DONE, catchState.value)
+        assertFalse(stageActivity.isFinishing)
+    }
+
+    @Test
+    fun allCatchScriptsRunInParallelBeforeStageMenu() {
+        val secondCatchState = UserVariable("second catch state", NOT_CAUGHT)
+        project.addUserVariable(secondCatchState)
+        addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
+        addCatchScript(
+            SetVariableBrick(Formula(CAUGHT), secondCatchState),
+            WaitBrick(2 * CATCH_MILLIS),
+            SetVariableBrick(Formula(CATCH_DONE), secondCatchState)
+        )
+        startStage()
+
+        pressBackUnconditionally()
+
+        assertUserVariableEqualsWithTimeout(secondCatchState, CAUGHT, CATCH_MILLIS / 2)
+        assertEquals(CAUGHT, catchState.value)
+        assertUserVariableEqualsWithTimeout(catchState, CATCH_DONE, TIMEOUT_MILLIS)
+        assertFalse(stageActivity.dialogIsShowing())
+        waitUntilStageMenuShows()
+        assertEquals(CATCH_DONE, secondCatchState.value)
+    }
+
+    @Test
+    fun secondBackInNormalModeOpensStageMenuDuringLongCatch() {
+        addCatchScript(setCatchState(CAUGHT), WaitBrick(LONG_CATCH_MILLIS), setCatchState(CATCH_DONE))
+        startStage()
+        pressBackUnconditionally()
+        assertUserVariableEqualsWithTimeout(catchState, CAUGHT, TIMEOUT_MILLIS)
+        assertFalse(stageActivity.dialogIsShowing())
+
+        pressBackUnconditionally()
+
+        waitUntilStageMenuShows()
+        assertEquals(CAUGHT, catchState.value)
+    }
+
+    @Test
+    fun finishStageInsideCatchOfBackOpensStageMenuWithoutWaitingForOtherCatch() {
+        addCatchScript(WaitBrick(LONG_CATCH_MILLIS))
+        addCatchScript(setCatchState(CAUGHT), ExitStageBrick())
+        startStage()
+
+        pressBackUnconditionally()
+
+        waitUntilStageMenuShows()
+        assertEquals(CAUGHT, catchState.value)
+        assertFalse(stageActivity.isFinishing)
+    }
+
+    @Test
+    fun backAfterContinueRunsCatchAgain() {
+        addCatchScript(ChangeVariableBrick(Formula(CAUGHT), catchState))
+        startStage()
+        pressBackUnconditionally()
+        waitUntilStageMenuShows()
+        assertEquals(CAUGHT, catchState.value)
+
+        onView(withId(R.id.stage_dialog_button_continue)).inRoot(isDialog()).perform(click())
+        pressBackUnconditionally()
+
+        assertUserVariableEqualsWithTimeout(catchState, 2 * CAUGHT, TIMEOUT_MILLIS)
+        waitUntilStageMenuShows()
+    }
+
+    @Test
+    fun stageMenuBackLeavesWithoutRunningCatchAgain() {
+        addCatchScript(ChangeVariableBrick(Formula(CAUGHT), catchState))
+        startStage()
+        pressBackUnconditionally()
+        waitUntilStageMenuShows()
+
+        onView(withId(R.id.stage_dialog_button_back)).inRoot(isDialog()).perform(click())
+
+        waitUntilStageFinishes()
+        assertEquals(CAUGHT, catchState.value)
     }
 
     @Test
@@ -204,6 +295,14 @@ class WhenStageExitedTest {
                 KeyCharacterMap.VIRTUAL_KEYBOARD, 0, 0, InputDevice.SOURCE_GAMEPAD
             )
             InstrumentationRegistry.getInstrumentation().sendKeySync(event)
+        }
+    }
+
+    private fun waitUntilStageMenuShows() {
+        val deadline = SystemClock.uptimeMillis() + TIMEOUT_MILLIS
+        while (!stageActivity.dialogIsShowing()) {
+            assertTrue("The stage menu did not open", SystemClock.uptimeMillis() < deadline)
+            SystemClock.sleep(POLL_INTERVAL_MILLIS)
         }
     }
 
