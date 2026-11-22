@@ -65,6 +65,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		spinner.setAdapter(adapter);
 		spinner.setSelection(0);
 		spinner.setOnItemSelectedListener(this);
+		skipSpinnerForSingleNewOption();
 	}
 
 	public BrickSpinner(Integer spinnerId, @NonNull View parent, List<Nameable> items) {
@@ -73,6 +74,21 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 
 	public void setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
 		this.onItemSelectedListener = onItemSelectedListener;
+	}
+
+	private void skipSpinnerForSingleNewOption() {
+		spinner.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (adapter.getCount() == 1 && adapter.getItem(0).getClass().equals(NewOption.class)) {
+					if (event.getAction() == MotionEvent.ACTION_UP && onItemSelectedListener != null) {
+						onItemSelectedListener.onNewOptionSelected(spinnerid);
+					}
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	@Override
