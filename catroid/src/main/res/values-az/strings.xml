@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Sağ</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">İstənilən</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Bunun hər elementi üçün:</item>
         <item quantity="other">Bunun hər element dəsti üçün:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun pultunun düyməsi L2▾basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1▾basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2▾basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾basılıb</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziki oyun pultu bloku və sensoru</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Redaktorda fiziki oyun pultu blokunu və sensorunu göstər.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>

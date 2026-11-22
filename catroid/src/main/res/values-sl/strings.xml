@@ -1123,6 +1123,7 @@
     <string formatted="false" name="gamepad_button_right">Desno</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Katerikoli</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Za vsak element seznama</item>
         <item quantity="two">Za vsako skupino elementov seznamov</item>
@@ -1813,6 +1814,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gumb L2▾fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gumb R1▾fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gumb R2▾fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gumb katerikoli▾fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kocka in senzor fizičnega igralnega ploščka</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Prikaži kocko in senzor fizičnega igralnega ploščka v urejevalniku.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina odra</string>

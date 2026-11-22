@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">ساڄي</string>
     <string formatted="false" name="gamepad_button_start">اسٽارٽ</string>
     <string formatted="false" name="gamepad_button_select">سليڪٽ</string>
+    <string formatted="false" name="gamepad_button_any">ڪوبه</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">هن جي هر آئٽم لاءِ:</item>
         <item quantity="other">هن جي آئٽمن جي هر مجموعي لاءِ:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">گيم پيڊ بٽڻ L2▾دٻايو ويو</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گيم پيڊ بٽڻ R1▾دٻايو ويو</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گيم پيڊ بٽڻ R2▾دٻايو ويو</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گيم پيڊ بٽڻ ڪوبه▾دٻايو ويو</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">فزيڪل گيم پيڊ بلاڪ ۽ سينسر</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ايڊيٽر ۾ فزيڪل گيم پيڊ بلاڪ ۽ سينسر ڏيکاريو.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٽيج جي ويڪر</string>

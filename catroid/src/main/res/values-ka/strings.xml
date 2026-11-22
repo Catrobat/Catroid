@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">მარჯვნივ</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">ნებისმიერი</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ყოველი ელემენტისთვის სიიდან:</item>
         <item quantity="other">ელემენტების ყოველი ჯგუფისთვის სიებიდან:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">გეიმპადის ღილაკი L2▾დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">გეიმპადის ღილაკი R1▾დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">გეიმპადის ღილაკი R2▾დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">გეიმპადის ღილაკი „ნებისმიერი“▾დაჭერილია</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ფიზიკური გეიმპადის ბლოკი და სენსორი</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">რედაქტორში ფიზიკური გეიმპადის ბლოკისა და სენსორის ჩვენება.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">სცენის სიგანე</string>

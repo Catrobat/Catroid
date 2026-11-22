@@ -63,6 +63,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.SoundBackup;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.eventids.AnyGamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
@@ -71,6 +72,7 @@ import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.gamepad.GamepadInput;
+import org.catrobat.catroid.stage.gamepad.GamepadUsage;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -179,6 +181,7 @@ public class StageListener implements ApplicationListener {
 	private ScreenshotSaver screenshotSaver;
 
 	private final GamepadInput gamepadInput = new GamepadInput();
+	private volatile GamepadUsage gamepadUsage;
 	private final StageExitController stageExitController = new StageExitController(() -> project);
 
 	public StageListener() {
@@ -192,6 +195,7 @@ public class StageListener implements ApplicationListener {
 		shapeRenderer = new ShapeRenderer();
 
 		project = ProjectManager.getInstance().getCurrentProject();
+		gamepadUsage = null;
 		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
 
 		if (stage == null) {
@@ -860,6 +864,17 @@ public class StageListener implements ApplicationListener {
 		return gamepadInput;
 	}
 
+	/** The gamepad elements of the running project, which do not change while the stage runs. */
+	@NonNull
+	public GamepadUsage getGamepadUsage() {
+		GamepadUsage usage = gamepadUsage;
+		if (usage == null) {
+			usage = GamepadUsage.of(project);
+			gamepadUsage = usage;
+		}
+		return usage;
+	}
+
 	@NonNull
 	public StageExitController getStageExitController() {
 		return stageExitController;
@@ -869,6 +884,9 @@ public class StageListener implements ApplicationListener {
 	void applyPendingGamepadInput() {
 		gamepadInput.applyPendingInput(button -> {
 			project.fireToAllSprites(new EventWrapper(new GamepadButtonPressedEventId(button), false));
+			if (getGamepadUsage().startsAnyButtonScripts(button)) {
+				project.fireToAllSprites(new EventWrapper(AnyGamepadButtonPressedEventId.INSTANCE, false));
+			}
 			stageExitController.onGamepadButtonPressed(button);
 		});
 	}

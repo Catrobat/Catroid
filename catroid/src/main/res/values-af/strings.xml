@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Regs</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Enige</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Vir elke item van</item>
         <item quantity="other">Vir elke tupel van items van</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">spelbeheerderknoppie L2▾gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelbeheerderknoppie R1▾gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelbeheerderknoppie R2▾gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelbeheerderknoppie enige▾gedruk</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fisiese spelbeheerderblok en -sensor</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Wys die fisiese spelbeheerderblok en -sensor in die redigeerder.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">verhoogwydte</string>

@@ -25,6 +25,7 @@ package org.catrobat.catroid.content
 
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick
+import org.catrobat.catroid.content.eventids.AnyGamepadButtonPressedEventId
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId
 import org.catrobat.catroid.gamepad.GamepadButton
@@ -32,7 +33,8 @@ import org.catrobat.catroid.gamepad.GamepadButton
 /**
  * Script that starts whenever [button] of a physical gamepad changes from released to pressed.
  *
- * @property button the stable ID of the button, see [GamepadButton.fromId]. An unknown ID, for
+ * @property button the stable ID of the button, see [GamepadButton.fromId], or
+ * [GamepadButton.ANY_ID] to start for every button that counts for "any". An unknown ID, for
  * example from a newer Catroid version, is kept as it is, but never starts the script.
  */
 class WhenGamepadButtonPressedScript(
@@ -43,9 +45,13 @@ class WhenGamepadButtonPressedScript(
     override fun getScriptBrick(): ScriptBrick =
         scriptBrick ?: WhenGamepadButtonPressedBrick(this)
 
-    /** Returns the pressed event id of [button], or an id that no fired event matches. */
+    /** Returns the event id of the choice in [button], or an id that no fired event matches. */
     override fun createEventId(sprite: Sprite): EventId =
-        GamepadButton.fromId(button)?.let { GamepadButtonPressedEventId(it) } ?: NeverFiredEventId()
+        if (button == GamepadButton.ANY_ID) {
+            AnyGamepadButtonPressedEventId
+        } else {
+            GamepadButton.fromId(button)?.let { GamepadButtonPressedEventId(it) } ?: NeverFiredEventId()
+        }
 
     /** An event id that only equals itself, so no fired event ever starts the script. */
     private class NeverFiredEventId : EventId() {

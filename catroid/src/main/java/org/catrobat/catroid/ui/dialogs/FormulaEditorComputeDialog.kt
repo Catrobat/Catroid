@@ -105,7 +105,8 @@ open class FormulaEditorComputeDialog(
             SensorHandler.registerListener(this)
         }
 
-        val usedGamepadButtons = GamepadUsage.buttonsUsedBy(formula)
+        val usedGamepadButtons =
+            GamepadUsage.buttonsForCompute(formula, ProjectManager.getInstance().currentProject)
         gamepadInput = usedGamepadButtons.takeIf { it.isNotEmpty() }?.let { buttons ->
             FormulaEditorGamepadInput(buttons) { showFormulaResult(scope, AndroidStringProvider(context)) }
         }

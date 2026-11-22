@@ -1082,6 +1082,7 @@
     <string formatted="false" name="gamepad_button_right">Desno</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Bilo koje</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Za svaku stavku iz</item>
         <item quantity="few">Za svaku grupu stavki iz</item>
@@ -1768,6 +1769,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">dugme kontrolera L2▾pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">dugme kontrolera R1▾pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">dugme kontrolera R2▾pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">dugme kontrolera bilo koje▾pritisnuto</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok i senzor fizičkog kontrolera</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Prikaži blok i senzor fizičkog kontrolera u uređivaču.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>

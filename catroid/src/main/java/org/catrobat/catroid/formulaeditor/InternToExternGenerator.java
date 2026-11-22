@@ -246,6 +246,8 @@ public class InternToExternGenerator {
 			INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(GamepadButtonSensors.getSensor(button).name(),
 					GamepadButtonSensors.getSensorNameResId(button));
 		}
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_BUTTON_ANY_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_button_any_pressed);
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_1.name(), R.string.formula_editor_sensor_lego_nxt_1);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);

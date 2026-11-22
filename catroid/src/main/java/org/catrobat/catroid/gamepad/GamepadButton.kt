@@ -37,6 +37,12 @@ enum class GamepadButton {
 
     companion object {
         /**
+         * The stable ID of the choice "any button" in event scripts. It is no physical button, so
+         * it is not an entry of this enum and [fromId] does not return a button for it.
+         */
+        const val ANY_ID = "ANY"
+
+        /**
          * Returns the button whose stable ID is exactly [id] (case-sensitive, not trimmed), or
          * `null` if [id] is `null` or unknown.
          */

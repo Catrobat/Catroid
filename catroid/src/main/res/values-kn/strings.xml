@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">ಬಲ</string>
     <string formatted="false" name="gamepad_button_start">ಸ್ಟಾರ್ಟ್</string>
     <string formatted="false" name="gamepad_button_select">ಸೆಲೆಕ್ಟ್</string>
+    <string formatted="false" name="gamepad_button_any">ಯಾವುದೇ</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ಇದರ ಪ್ರತಿ ಐಟಂಗೆ:</item>
         <item quantity="other">ಇದರ ಪ್ರತಿ ಐಟಂ ಗುಂಪಿಗೆ:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ L2▾ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R1▾ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R2▾ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಯಾವುದೇ▾ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ಭೌತಿಕ ಗೇಮ್‌ಪ್ಯಾಡ್ ಬ್ಲಾಕ್ ಮತ್ತು ಸೆನ್ಸರ್</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ಸಂಪಾದಕದಲ್ಲಿ ಭೌತಿಕ ಗೇಮ್‌ಪ್ಯಾಡ್ ಬ್ಲಾಕ್ ಮತ್ತು ಸೆನ್ಸರ್ ಅನ್ನು ತೋರಿಸಿ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ವೇದಿಕೆಯ ಅಗಲ</string>

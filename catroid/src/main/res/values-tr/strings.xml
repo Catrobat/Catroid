@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Sağ</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Herhangi biri</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Şu listenin her öğesi için:</item>
         <item quantity="other">Şu listenin her öğe grubu için:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun kumandası L2▾düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun kumandası R1▾düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun kumandası R2▾düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun kumandası herhangi bir▾düğmesi basılı</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziksel oyun kumandası bloğu ve sensörü</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Düzenleyicide fiziksel oyun kumandası bloğunu ve sensörünü gösterir.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahne genişliği</string>

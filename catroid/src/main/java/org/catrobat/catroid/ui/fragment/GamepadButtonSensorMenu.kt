@@ -26,10 +26,11 @@ package org.catrobat.catroid.ui.fragment
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.formulaeditor.isGamepadButtonSensor
 import org.catrobat.catroid.formulaeditor.sensorNameResId
-import org.catrobat.catroid.formulaeditor.toGamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.ui.gamepad.labelResId
 
@@ -37,8 +38,9 @@ import org.catrobat.catroid.ui.gamepad.labelResId
  * The menu that changes which button a selected "gamepad button ... pressed" sensor in the formula
  * editor checks.
  *
- * The menu lists the localized labels of all gamepad buttons and never offers free text. Choosing a
- * label asks [replaceSelection] to replace the selected sensor by the sensor of that button.
+ * The menu lists "any" and the localized labels of all gamepad buttons and never offers free text.
+ * Choosing a label asks [replaceSelection] to replace the selected sensor by the sensor of that
+ * choice.
  * Cancelling the menu leaves the formula unchanged.
  */
 class GamepadButtonSensorMenu(private val replaceSelection: ReplaceSelectionListener) {
@@ -50,20 +52,26 @@ class GamepadButtonSensorMenu(private val replaceSelection: ReplaceSelectionList
 
     /** Returns the localized labels of the menu items, in the order in which buttons are offered. */
     fun getLabels(context: Context): List<String> =
-        GamepadButton.entries.map { button -> context.getString(button.labelResId) }
+        listOf(context.getString(R.string.gamepad_button_any)) +
+            GamepadButton.entries.map { button -> context.getString(button.labelResId) }
 
     /**
      * Replaces the selected sensor by the sensor of the button at the menu [position]. Positions
      * outside of the menu are ignored.
      */
     fun choose(position: Int) {
-        GamepadButton.entries.getOrNull(position)?.let { button ->
+        if (position == ANY_POSITION) {
+            replaceSelection.replaceSelectionWith(R.string.formula_editor_sensor_gamepad_button_any_pressed)
+            return
+        }
+        GamepadButton.entries.getOrNull(position - FIRST_BUTTON_POSITION)?.let { button ->
             replaceSelection.replaceSelectionWith(button.sensorNameResId)
         }
     }
 
     /**
-     * Shows the menu if [selectedTokens] consist of exactly one physical gamepad button sensor.
+     * Shows the menu if [selectedTokens] consist of exactly one physical gamepad button sensor or
+     * the sensor for any button.
      *
      * @return whether the menu is shown
      */
@@ -78,14 +86,18 @@ class GamepadButtonSensorMenu(private val replaceSelection: ReplaceSelectionList
     }
 
     companion object {
-        /** Returns whether [selectedTokens] consist of exactly one physical gamepad button sensor. */
+        private const val ANY_POSITION = 0
+        private const val FIRST_BUTTON_POSITION = 1
+
+        /**
+         * Returns whether [selectedTokens] consist of exactly one physical gamepad button sensor or
+         * the sensor for any button.
+         */
         @JvmStatic
         fun isGamepadButtonSensorSelection(selectedTokens: List<InternToken>?): Boolean =
-            selectedTokens?.singleOrNull()?.sensorGamepadButton() != null
+            selectedTokens?.singleOrNull()?.isGamepadButtonSensorToken() == true
 
-        private fun InternToken.sensorGamepadButton(): GamepadButton? =
-            takeIf { it.isSensor }
-                ?.let { Sensors.getSensorByValue(it.tokenStringValue) }
-                ?.toGamepadButton()
+        private fun InternToken.isGamepadButtonSensorToken(): Boolean =
+            isSensor && Sensors.getSensorByValue(tokenStringValue)?.isGamepadButtonSensor == true
     }
 }

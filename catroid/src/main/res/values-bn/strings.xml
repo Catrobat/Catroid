@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">ডান</string>
     <string formatted="false" name="gamepad_button_start">স্টার্ট</string>
     <string formatted="false" name="gamepad_button_select">সিলেক্ট</string>
+    <string formatted="false" name="gamepad_button_any">যেকোনো</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">এই তালিকার প্রতিটি আইটেমের জন্য:</item>
         <item quantity="other">এই তালিকাগুলোর আইটেমের প্রতিটি সেটের জন্য:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">গেমপ্যাডের L2▾বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">গেমপ্যাডের R1▾বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">গেমপ্যাডের R2▾বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">গেমপ্যাডের যেকোনো▾বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">সম্পাদকে ফিজিক্যাল গেমপ্যাড ব্লক ও সেন্সর দেখান।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">মঞ্চের প্রস্থ</string>

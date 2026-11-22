@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Dreta</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Qualsevol</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Per a cada element de</item>
         <item quantity="other">Per a cada tupla d\'elements de</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">botó L2▾del comandament físic premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botó R1▾del comandament físic premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botó R2▾del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾del comandament físic premut</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Bloc i sensor del comandament físic</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Mostra el bloc i el sensor del comandament físic a l\'editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>

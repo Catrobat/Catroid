@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">දකුණ</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">ඕනෑම</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">මෙහි එක් එක් අයිතමය සඳහා:</item>
         <item quantity="other">මෙහි එක් එක් අයිතම කට්ටලය සඳහා:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ගේම්පෑඩ් බොත්තම L2▾ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ගේම්පෑඩ් බොත්තම R1▾ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ගේම්පෑඩ් බොත්තම R2▾ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ගේම්පෑඩ් බොත්තම ඕනෑම▾ඔබා ඇත</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">සංස්කාරකයේ භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය පෙන්වන්න.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">වේදිකාවේ පළල</string>

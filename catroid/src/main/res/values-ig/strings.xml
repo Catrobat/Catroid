@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">Aka nri</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Ọ bụla</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Maka otu ihe ọ bụla nke</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">a pịrị bọtịnụ gamepad L2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a pịrị bọtịnụ gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a pịrị bọtịnụ gamepad R2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">a pịrị bọtịnụ gamepad ọ bụla▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blọk na sensọ gamepad ngwaike</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Gosi blọk na sensọ gamepad ngwaike n\'ebe ndezi.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">obosara ogbo</string>

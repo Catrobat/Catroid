@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Δεξιά</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Οποιοδήποτε</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Για κάθε στοιχείο από</item>
         <item quantity="other">Για κάθε πλειάδα στοιχείων από</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">κουμπί L2▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2▾φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">κουμπί οποιοδήποτε▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Μπλοκ και αισθητήρας φυσικού χειριστηρίου</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Εμφάνιση του μπλοκ και του αισθητήρα φυσικού χειριστηρίου στον επεξεργαστή.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>

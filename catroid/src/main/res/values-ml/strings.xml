@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">വലത്</string>
     <string formatted="false" name="gamepad_button_start">സ്റ്റാർട്ട്</string>
     <string formatted="false" name="gamepad_button_select">സെലക്റ്റ്</string>
+    <string formatted="false" name="gamepad_button_any">ഏതെങ്കിലും</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ഇതിലെ ഓരോ ഇനത്തിനും:</item>
         <item quantity="other">ഇതിലെ ഇനങ്ങളുടെ ഓരോ കൂട്ടത്തിനും:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ഗെയിംപാഡ് ബട്ടൺ L2▾അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ഗെയിംപാഡ് ബട്ടൺ R1▾അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ഗെയിംപാഡ് ബട്ടൺ R2▾അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ഗെയിംപാഡ് ഏതെങ്കിലും▾ബട്ടൺ അമർത്തി</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ഫിസിക്കൽ ഗെയിംപാഡ് ബ്ലോക്കും സെൻസറും</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">എഡിറ്ററിൽ ഫിസിക്കൽ ഗെയിംപാഡ് ബ്ലോക്കും സെൻസറും കാണിക്കുക.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">വേദിയുടെ വീതി</string>

@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Højre</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Vilkårlig</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For hvert element i</item>
         <item quantity="other">For hver tupel af elementer i</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad-knap L2▾trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad-knap R1▾trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad-knap R2▾trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad-knap vilkårlig▾trykket</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Klods og sensor til fysisk gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Vis klodsen og sensoren til fysisk gamepad i editoren.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spillefladens bredde</string>

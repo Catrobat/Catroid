@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">ขวา</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">ใดก็ได้</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">สำหรับแต่ละชุดรายการของ</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ปุ่มเกมแพด L2▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ปุ่มเกมแพด R1▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ปุ่มเกมแพด R2▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ปุ่มเกมแพดใดก็ได้▾ถูกกด</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">บล็อกและเซ็นเซอร์เกมแพดจริง</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">แสดงบล็อกและเซ็นเซอร์เกมแพดจริงในตัวแก้ไข</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>

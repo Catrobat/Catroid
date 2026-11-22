@@ -55,7 +55,7 @@ class SimulateGamepadButtonBrick(
         createSpinner(
             R.id.brick_simulate_gamepad_button_spinner,
             buttonOptions,
-            buttonOptions.firstOrNull { it.button.name == button }
+            buttonOptions.firstOrNull { it.buttonId == button }
         )
 
         val stateOptions = listOf(
@@ -84,7 +84,7 @@ class SimulateGamepadButtonBrick(
 
     override fun onItemSelected(spinnerId: Int?, item: Nameable?) {
         when (item) {
-            is GamepadButtonOption -> button = item.button.name
+            is GamepadButtonOption -> button = item.buttonId
             is PressedStateOption -> pressed = item.pressed
         }
     }

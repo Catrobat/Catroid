@@ -1082,6 +1082,7 @@
     <string formatted="false" name="gamepad_button_right">Десно</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Било које</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">За сваку ставку из</item>
         <item quantity="few">За сваку групу ставки из</item>
@@ -1768,6 +1769,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">дугме контролера L2▾притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">дугме контролера R1▾притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">дугме контролера R2▾притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">дугме контролера било које▾притиснуто</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор физичког контролера</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Прикажи блок и сензор физичког контролера у уређивачу.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина позорнице</string>

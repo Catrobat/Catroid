@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Eskuinera</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Edozein</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Zerrenda honetako elementu bakoitzeko:</item>
         <item quantity="other">Zerrenda hauetako elementu-tupla bakoitzeko:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">joko-kontrolagailuaren L2▾botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1▾botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2▾botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾botoia sakatuta</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu fisikoaren blokea eta sentsorea</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Erakutsi joko-kontrolagailu fisikoaren blokea eta sentsorea editorean.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>

@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Höger</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Valfri</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">För varje element i</item>
         <item quantity="other">För varje tupel av element i</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">spelkontrollknapp L2▾nedtryckt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelkontrollknapp R1▾nedtryckt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelkontrollknapp R2▾nedtryckt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelkontrollknapp valfri▾nedtryckt</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Block och sensor för fysisk spelkontroll</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Visa blocket och sensorn för fysisk spelkontroll i redigeraren.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spelplanens bredd</string>

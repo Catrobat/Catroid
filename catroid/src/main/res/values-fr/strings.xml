@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Droite</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">N\'importe lequel</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pour chaque élément de</item>
         <item quantity="other">Pour chaque tuple d\'éléments de</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">bouton L2▾de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾de la manette physique appuyé</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Brique et capteur de manette physique</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Afficher la brique et le capteur de manette physique dans l\'éditeur.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>

@@ -1082,6 +1082,7 @@
     <string formatted="false" name="gamepad_button_right">Dreapta</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Oricare</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pentru fiecare element din</item>
         <item quantity="few">Pentru fiecare tuplu de elemente din</item>
@@ -1768,6 +1769,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butonul de gamepad L2▾apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butonul de gamepad R1▾apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butonul de gamepad R2▾apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butonul de gamepad oricare▾apăsat</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blocul și senzorul pentru gamepad fizic</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Afișează blocul și senzorul pentru gamepad fizic în editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lățimea zonei de joc</string>

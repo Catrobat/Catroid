@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Оң</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Кез келген</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Мына тізімнің әр элементі үшін:</item>
         <item quantity="other">Мына тізімдердің әр элементтер тобы үшін:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">геймпад түймесі L2▾басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">геймпад түймесі R1▾басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">геймпад түймесі R2▾басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">геймпад түймесі кез келген▾басулы</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Физикалық геймпад блогы мен сенсоры</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Редакторда физикалық геймпад блогы мен сенсорын көрсету.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">сахна ені</string>

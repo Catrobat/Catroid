@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">Ọ̀tún</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Èyíkéyìí</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Fún àkójọpọ̀ ohun kọ̀ọ̀kan láti inú</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">a tẹ bọ́tìnnì gamepad L2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a tẹ bọ́tìnnì gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a tẹ bọ́tìnnì gamepad R2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">a tẹ bọ́tìnnì gamepad èyíkéyìí▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fi búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi hàn nínú olóòtú.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ìbú ìtàgé</string>

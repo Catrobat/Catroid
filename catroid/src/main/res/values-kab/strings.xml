@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Yefus</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Yal yiwet</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">I yal aferdis n</item>
         <item quantity="other">I yal agraw n yiferdisen n</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">taqeffalt L2▾n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">taqeffalt R1▾n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">taqeffalt R2▾n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">taqeffalt yal yiwet▾n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ablug d umaṭṭaf n umsenqed n wurar n tidet</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Sken ablug d umaṭṭaf n umsenqed n wurar n tidet deg umaẓrag.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">tehri n usayes</string>

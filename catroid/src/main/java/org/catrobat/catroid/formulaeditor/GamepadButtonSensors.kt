@@ -29,6 +29,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
 
 private const val PRESSED_VALUE = 1.0
 private const val RELEASED_VALUE = 0.0
@@ -79,7 +80,8 @@ private val buttonsBySensor: Map<Sensors, GamepadButton> =
     GamepadButton.entries.associateBy { it.sensor }
 
 private val sensorsBySensorNameResId: Map<Int, Sensors> =
-    GamepadButton.entries.associate { it.sensorNameResId to it.sensor }
+    GamepadButton.entries.associate { it.sensorNameResId to it.sensor } +
+        (R.string.formula_editor_sensor_gamepad_button_any_pressed to Sensors.GAMEPAD_BUTTON_ANY_PRESSED)
 
 /**
  * Returns the physical gamepad button whose pressed state this sensor reports, or `null` for any
@@ -93,6 +95,10 @@ fun Sensors.toGamepadButton(): GamepadButton? = buttonsBySensor[this]
  */
 fun findGamepadButtonSensor(@StringRes sensorNameResId: Int): Sensors? =
     sensorsBySensorNameResId[sensorNameResId]
+
+/** Whether this is the sensor of a physical gamepad button or the sensor for any button. */
+val Sensors.isGamepadButtonSensor: Boolean
+    get() = this == Sensors.GAMEPAD_BUTTON_ANY_PRESSED || toGamepadButton() != null
 
 /**
  * The gamepad input that the formula editor's Compute dialog receives while it is open, or `null`.
@@ -112,5 +118,32 @@ fun GamepadButton.sensorValue(): Double {
         PRESSED_VALUE
     } else {
         RELEASED_VALUE
+    }
+}
+
+/**
+ * The value of [sensor] if it is a physical gamepad button sensor or the sensor for any button,
+ * otherwise `null`.
+ */
+fun gamepadButtonSensorValue(sensor: Sensors): Double? =
+    if (sensor == Sensors.GAMEPAD_BUTTON_ANY_PRESSED) {
+        if (isAnyGamepadButtonPressed()) PRESSED_VALUE else RELEASED_VALUE
+    } else {
+        sensor.toGamepadButton()?.sensorValue()
+    }
+
+/**
+ * The Compute dialog only receives the buttons that count for its formula. On the stage, an unused
+ * B is the exit button and does not count, see [org.catrobat.catroid.stage.gamepad.GamepadUsage].
+ */
+private fun isAnyGamepadButtonPressed(): Boolean {
+    val computeDialogInput: GamepadInput? = formulaEditorGamepadInput
+    if (computeDialogInput != null) {
+        return GamepadButton.entries.any(computeDialogInput::isPressed)
+    }
+    val stageListener: StageListener = StageActivity.stageListener ?: return false
+    val stageInput = stageListener.gamepadInput
+    return GamepadButton.entries.any { button ->
+        stageInput.isPressed(button) && stageListener.gamepadUsage.countsForAny(button)
     }
 }

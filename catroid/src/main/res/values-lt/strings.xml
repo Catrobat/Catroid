@@ -1123,6 +1123,7 @@
     <string formatted="false" name="gamepad_button_right">Dešinėn</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Bet kuris</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Kiekvienam elementui iš</item>
         <item quantity="few">Kiekvienam elementų rinkiniui iš</item>
@@ -1813,6 +1814,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">žaidimų pulto mygtukas L2▾paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">žaidimų pulto mygtukas R1▾paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">žaidimų pulto mygtukas R2▾paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">žaidimų pulto mygtukas „bet kuris“▾paspaustas</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fizinio žaidimų pulto blokas ir jutiklis</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Rodyti fizinio žaidimų pulto bloką ir jutiklį rengyklėje.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">scenos plotis</string>

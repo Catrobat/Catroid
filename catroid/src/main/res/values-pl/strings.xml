@@ -1123,6 +1123,7 @@
     <string formatted="false" name="gamepad_button_right">W prawo</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Dowolny</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Dla każdego elementu z</item>
         <item quantity="few">Dla każdej krotki elementów z</item>
@@ -1813,6 +1814,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">przycisk gamepada L2▾naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">przycisk gamepada R1▾naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">przycisk gamepada R2▾naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">przycisk gamepada dowolny▾naciśnięty</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok i czujnik fizycznego gamepada</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Pokaż blok i czujnik fizycznego gamepada w edytorze.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">szerokość sceny</string>

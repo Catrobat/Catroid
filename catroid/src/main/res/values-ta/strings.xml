@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">வலது</string>
     <string formatted="false" name="gamepad_button_start">ஸ்டார்ட்</string>
     <string formatted="false" name="gamepad_button_select">செலக்ட்</string>
+    <string formatted="false" name="gamepad_button_any">ஏதேனும்</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">இதன் ஒவ்வொரு உருப்படிக்கும்:</item>
         <item quantity="other">இவற்றின் ஒவ்வொரு உருப்படித் தொகுப்புக்கும்:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">கேம்பேட் பொத்தான் L2▾அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾அழுத்தப்பட்டது</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">வன்பொருள் கேம்பேட் தொகுதி மற்றும் உணரி</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">திருத்தியில் வன்பொருள் கேம்பேட் தொகுதியையும் உணரியையும் காட்டு.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>

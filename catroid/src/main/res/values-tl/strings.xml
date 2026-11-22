@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Pakanan</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Kahit alin</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Para sa bawat item ng</item>
         <item quantity="other">Para sa bawat tuple ng mga item ng</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">pinindot ang gamepad button L2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pinindot ang gamepad button R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pinindot ang gamepad button R2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">pinindot ang gamepad button kahit alin▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Block at sensor ng pisikal na gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Ipakita ang block at sensor ng pisikal na gamepad sa editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lapad ng entablado</string>

@@ -32,11 +32,12 @@ import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.GamepadButtonOption
+import org.catrobat.catroid.gamepad.GamepadButton
 
 /**
  * Device event brick "When gamepad button [A] pressed" that represents a
- * [WhenGamepadButtonPressedScript]. Its spinner offers the localized labels of all gamepad buttons
- * and stores the stable ID of the selected button in the script.
+ * [WhenGamepadButtonPressedScript]. Its spinner offers "any" and the localized labels of all gamepad
+ * buttons and stores the stable ID of the selected choice in the script.
  */
 class WhenGamepadButtonPressedBrick(
     private var script: WhenGamepadButtonPressedScript
@@ -64,20 +65,23 @@ class WhenGamepadButtonPressedBrick(
 
     override fun getView(context: Context): View {
         super.getView(context)
-        val buttonOptions = GamepadButtonOption.createAll(context)
+        val buttonOptions = GamepadButtonOption.createAllWithAny(context)
         BrickSpinner<GamepadButtonOption>(
             R.id.brick_when_gamepad_button_pressed_spinner,
             view,
             buttonOptions.toMutableList<Nameable>()
         ).apply {
             setOnItemSelectedListener(this@WhenGamepadButtonPressedBrick)
-            setSelection(buttonOptions.firstOrNull { it.button.name == script.button })
+            setSelection(
+                buttonOptions.firstOrNull { it.buttonId == script.button }
+                    ?: buttonOptions.firstOrNull { it.buttonId == GamepadButton.A.name }
+            )
         }
         return view
     }
 
     override fun onItemSelected(spinnerId: Int?, item: GamepadButtonOption?) {
-        item?.let { script.button = it.button.name }
+        item?.let { script.button = it.buttonId }
     }
 
     override fun onNewOptionSelected(spinnerId: Int?) = Unit

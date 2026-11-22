@@ -1082,6 +1082,7 @@
     <string formatted="false" name="gamepad_button_right">ימינה</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">כלשהו</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">לכל פריט של</item>
         <item quantity="two">לכל צירוף פריטים של</item>
@@ -1768,6 +1769,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">כפתור השלט L2▾נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">כפתור השלט R1▾נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">כפתור השלט R2▾נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">כפתור השלט כלשהו▾נלחץ</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">לבנה וחיישן של שלט פיזי</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">הצגת הלבנה והחיישן של השלט הפיזי בעורך.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>

@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Kulia</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Chochote</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Kwa kila kipengee cha</item>
         <item quantity="other">Kwa kila kundi la vipengee vya</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">kitufe cha gamepad L2▾kimebonyezwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">kitufe cha gamepad R1▾kimebonyezwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">kitufe cha gamepad R2▾kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">kitufe cha gamepad chochote▾kimebonyezwa</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kipande na kihisi cha gamepad halisi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Onyesha kipande na kihisi cha gamepad halisi kwenye kihariri.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">upana wa jukwaa</string>

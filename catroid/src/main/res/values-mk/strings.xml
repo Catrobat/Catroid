@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Десно</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Кое било</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">За секоја ставка од</item>
         <item quantity="other">За секоја n-торка ставки од</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">копчето L2▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">копчето R1▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">копчето R2▾на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">копчето кое било▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физички геимпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Прикажи го блокот и сензорот за физички геимпад во уредувачот.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на бината</string>

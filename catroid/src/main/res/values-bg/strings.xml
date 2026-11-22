@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Надясно</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Който и да е</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">За всеки елемент от</item>
         <item quantity="other">За всяка група елементи от</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">бутон L2▾на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">бутон R1▾на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">бутон R2▾на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">бутон който и да е▾на физическия геймпад е натиснат</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физически геймпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Показвай блока и сензора за физически геймпад в редактора.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на сцената</string>

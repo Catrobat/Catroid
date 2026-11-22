@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Oikea</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Mikä tahansa</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Jokaiselle alkiolle listasta</item>
         <item quantity="other">Jokaiselle alkioiden monikolle listasta</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">peliohjaimen painike L2▾painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1▾painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2▾painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">peliohjaimen painike mikä tahansa▾painettu</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fyysisen peliohjaimen palikka ja anturi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Näytä fyysisen peliohjaimen palikka ja anturi editorissa.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">esiintymislavan leveys</string>

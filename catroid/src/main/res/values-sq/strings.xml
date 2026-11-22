@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Djathtas</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Cilido</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Për çdo element të</item>
         <item quantity="other">Për çdo grup elementesh të</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butoni L2▾i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1▾i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2▾i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butoni cilido▾i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blloku dhe sensori i tastierës fizike të lojës</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Shfaq bllokun dhe sensorin e tastierës fizike të lojës në redaktor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>

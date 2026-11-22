@@ -48,7 +48,6 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.gamepad.GamepadButton;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -276,9 +275,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
-		GamepadButton gamepadButton = GamepadButtonSensors.toGamepadButton(sensor);
-		if (gamepadButton != null) {
-			return GamepadButtonSensors.sensorValue(gamepadButton);
+		Double gamepadButtonValue = GamepadButtonSensors.gamepadButtonSensorValue(sensor);
+		if (gamepadButtonValue != null) {
+			return gamepadButtonValue;
 		}
 		if (instance.sensorManager == null) {
 			return 0d;

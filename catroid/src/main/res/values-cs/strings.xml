@@ -1123,6 +1123,7 @@
     <string formatted="false" name="gamepad_button_right">Doprava</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Libovolné</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pro každou položku ze seznamu</item>
         <item quantity="few">Pro každou n-tici položek ze seznamů</item>
@@ -1813,6 +1814,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tlačítko gamepadu L2▾stisknuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačítko gamepadu R1▾stisknuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačítko gamepadu R2▾stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tlačítko gamepadu libovolné▾stisknuto</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok a senzor fyzického gamepadu</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Zobrazit blok a senzor fyzického gamepadu v editoru.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šířka jeviště</string>

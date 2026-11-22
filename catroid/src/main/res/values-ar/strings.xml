@@ -1205,6 +1205,7 @@
     <string formatted="false" name="gamepad_button_right">يمين</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">أي زر</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="zero">لكل مجموعة عناصر من</item>
         <item quantity="one">لكل عنصر من</item>
@@ -1903,6 +1904,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">زر لوحة الألعاب L2▾مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">زر لوحة الألعاب R1▾مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">زر لوحة الألعاب R2▾مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">زر لوحة الألعاب أي▾مضغوط</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">لبنة ومستشعر لوحة الألعاب الفعلية</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">إظهار لبنة ومستشعر لوحة الألعاب الفعلية في المحرر.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">عرض المسرح</string>

@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">右</string>
     <string formatted="false" name="gamepad_button_start">スタート</string>
     <string formatted="false" name="gamepad_button_select">セレクト</string>
+    <string formatted="false" name="gamepad_button_any">任意</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">次のリストの項目ごとに</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ゲームパッドのボタン L2▾が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ゲームパッドのボタン R1▾が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ゲームパッドのボタン R2▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ゲームパッドの任意▾ボタンが押された</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">物理ゲームパッドのブロックとセンサー</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">エディターに物理ゲームパッドのブロックとセンサーを表示する。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ステージの幅</string>

@@ -24,15 +24,16 @@
 package org.catrobat.catroid.content.bricks.brickspinner
 
 import android.content.Context
+import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.ui.gamepad.labelResId
 
 /**
- * A [BrickSpinner] entry that shows the localized label of a gamepad [button] and carries the
- * button itself, so bricks can store its stable ID instead of the label.
+ * A [BrickSpinner] entry that shows a localized label and carries the stable [buttonId] of a gamepad
+ * button or of the choice "any button", so bricks can store the ID instead of the label.
  */
-class GamepadButtonOption(private var label: String, val button: GamepadButton) : Nameable {
+class GamepadButtonOption(private var label: String, val buttonId: String) : Nameable {
 
     override fun getName(): String = label
 
@@ -45,7 +46,13 @@ class GamepadButtonOption(private var label: String, val button: GamepadButton) 
         @JvmStatic
         fun createAll(context: Context): List<GamepadButtonOption> =
             GamepadButton.entries.map { button ->
-                GamepadButtonOption(context.getString(button.labelResId), button)
+                GamepadButtonOption(context.getString(button.labelResId), button.name)
             }
+
+        /** Creates the option "any button", followed by one option per gamepad button. */
+        @JvmStatic
+        fun createAllWithAny(context: Context): List<GamepadButtonOption> =
+            listOf(GamepadButtonOption(context.getString(R.string.gamepad_button_any), GamepadButton.ANY_ID)) +
+                createAll(context)
     }
 }

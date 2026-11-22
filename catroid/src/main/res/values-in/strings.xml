@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">Kanan</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Apa saja</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Untuk setiap tupel item dari</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tombol gamepad L2▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2▾ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tombol gamepad apa saja▾ditekan</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan sensor gamepad fisik</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tampilkan blok dan sensor gamepad fisik di editor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>

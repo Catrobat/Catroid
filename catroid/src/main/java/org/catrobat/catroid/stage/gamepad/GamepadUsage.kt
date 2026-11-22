@@ -47,7 +47,10 @@ import org.catrobat.catroid.gamepad.GamepadButton
  *
  * @property usedButtons the buttons the project reacts to
  */
-class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
+class GamepadUsage private constructor(
+    val usedButtons: Set<GamepadButton>,
+    private val hasAnyButtonScript: Boolean
+) {
 
     /** Whether the project reacts to any physical gamepad button. */
     @get:JvmName("usesGamepad")
@@ -68,30 +71,69 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
     fun isHandledByStage(button: GamepadButton): Boolean =
         button == GamepadButton.B || usesGamepad
 
+    /**
+     * Whether [button] counts for the choice "any". While the project does not use B explicitly, B
+     * is the exit button of the stage, so "any" neither reacts to it nor counts as using it.
+     */
+    fun countsForAny(button: GamepadButton): Boolean =
+        button != GamepadButton.B || isUsed(GamepadButton.B)
+
+    /** Whether a press of [button] starts the project's "any button" event scripts. */
+    fun startsAnyButtonScripts(button: GamepadButton): Boolean =
+        hasAnyButtonScript && countsForAny(button)
+
     companion object {
         /** Scans all scenes, sprites and scripts of [project]; `null` uses no gamepad. */
         @JvmStatic
         fun of(project: Project?): GamepadUsage =
-            GamepadUsage(project?.let(::usedButtonsOf).orEmpty())
+            GamepadUsage(
+                project?.let(::usedButtonsOf).orEmpty(),
+                project?.let(::hasAnyButtonScript) ?: false
+            )
+
+        /**
+         * The buttons that the Compute dialog of [formula] takes: the buttons of the formula, and B
+         * for the sensor "any" only if [project] uses B explicitly.
+         */
+        @JvmStatic
+        fun buttonsForCompute(formula: Formula, project: Project?): Set<GamepadButton> {
+            val buttons = buttonsUsedBy(formula)
+            val countsB = sensorsOf(formula).contains(Sensors.GAMEPAD_BUTTON_ANY_PRESSED) &&
+                of(project).isUsed(GamepadButton.B)
+            return if (countsB) buttons + GamepadButton.B else buttons
+        }
 
         private fun usedButtonsOf(project: Project): Set<GamepadButton> = buildSet {
+            activeScriptsOf(project).forEach { script -> addButtonsUsedBy(script) }
+        }
+
+        private fun hasAnyButtonScript(project: Project): Boolean =
+            activeScriptsOf(project).any { script ->
+                script is WhenGamepadButtonPressedScript && script.button == GamepadButton.ANY_ID
+            }
+
+        private fun activeScriptsOf(project: Project): Sequence<Script> =
             project.sceneList.asSequence()
                 .flatMap { scene -> scene.spriteList }
                 .flatMap { sprite -> sprite.scriptList }
                 .filterNot { script -> script.isCommentedOut }
-                .forEach { script -> addButtonsUsedBy(script) }
-        }
 
         private fun MutableSet<GamepadButton>.addButtonsUsedBy(script: Script) {
-            eventButtonOf(script)?.let { add(it) }
+            addAll(eventButtonsOf(script))
             activeBricksOf(script)
                 .filterIsInstance<FormulaBrick>()
                 .flatMap { brick -> brick.formulas }
                 .forEach { formula -> addAll(buttonsUsedBy(formula)) }
         }
 
-        private fun eventButtonOf(script: Script): GamepadButton? =
-            (script as? WhenGamepadButtonPressedScript)?.let { GamepadButton.fromId(it.button) }
+        private fun eventButtonsOf(script: Script): Set<GamepadButton> {
+            val button = (script as? WhenGamepadButtonPressedScript)?.button
+            return if (button == GamepadButton.ANY_ID) {
+                BUTTONS_OF_ANY
+            } else {
+                setOfNotNull(GamepadButton.fromId(button))
+            }
+        }
 
         /**
          * The bricks of [script] that are not commented out, including its script brick and all
@@ -103,13 +145,25 @@ class GamepadUsage private constructor(val usedButtons: Set<GamepadButton>) {
                 .asSequence()
                 .filterNot { brick -> brick.isCommentedOut }
 
-        /** The buttons whose gamepad button sensors [formula] contains. */
+        /** The buttons of the gamepad button sensors in [formula]; "any" never includes B. */
         @JvmStatic
-        fun buttonsUsedBy(formula: Formula): Set<GamepadButton> {
+        fun buttonsUsedBy(formula: Formula): Set<GamepadButton> =
+            sensorsOf(formula).flatMapTo(mutableSetOf()) { sensor ->
+                if (sensor == Sensors.GAMEPAD_BUTTON_ANY_PRESSED) {
+                    BUTTONS_OF_ANY
+                } else {
+                    listOfNotNull(sensor.toGamepadButton())
+                }
+            }
+
+        private fun sensorsOf(formula: Formula): List<Sensors> {
             val root: FormulaElement? = formula.root
             return root?.getUserDataRecursive(ElementType.SENSOR).orEmpty()
-                .mapNotNull { sensorName -> Sensors.getSensorByValue(sensorName)?.toGamepadButton() }
-                .toSet()
+                .mapNotNull { sensorName -> Sensors.getSensorByValue(sensorName) }
         }
+
+        /** What the choice "any" uses by itself, so it keeps an otherwise unused B as exit button. */
+        private val BUTTONS_OF_ANY: Set<GamepadButton> =
+            (GamepadButton.entries - GamepadButton.B).toSet()
     }
 }

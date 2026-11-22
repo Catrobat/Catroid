@@ -1000,6 +1000,7 @@
     <string formatted="false" name="gamepad_button_right">Phải</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Bất kỳ</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Với mỗi bộ phần tử của</item>
     </plurals>
@@ -1678,6 +1679,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">nút tay cầm L2▾được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">nút tay cầm R1▾được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">nút tay cầm R2▾được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">nút tay cầm bất kỳ▾được nhấn</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Khối lệnh và cảm biến tay cầm vật lý</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Hiện khối lệnh và cảm biến tay cầm vật lý trong trình soạn thảo.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">chiều rộng sân khấu</string>

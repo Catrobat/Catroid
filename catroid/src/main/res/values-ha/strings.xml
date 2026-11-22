@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Dama</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Kowane</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Don kowane abu na</item>
         <item quantity="other">Don kowane rukunin abubuwa na</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">an danna maɓallin gamepad L2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">an danna maɓallin gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">an danna maɓallin gamepad R2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">an danna maɓallin gamepad kowane▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Tubali da sensar gamepad na zahiri</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Nuna tubali da sensar gamepad na zahiri a cikin edita.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">faɗin fage</string>

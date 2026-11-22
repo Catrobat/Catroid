@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">Jobbra</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Bármelyik</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Minden elemre ebből:</item>
         <item quantity="other">Minden elemcsoportra ezekből:</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">játékvezérlő L2▾gomb lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">játékvezérlő R1▾gomb lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">játékvezérlő R2▾gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">játékvezérlő bármelyik▾gomb lenyomva</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fizikai játékvezérlő blokk és érzékelő</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">A fizikai játékvezérlő blokk és érzékelő megjelenítése a szerkesztőben.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>

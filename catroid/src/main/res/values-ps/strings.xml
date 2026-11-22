@@ -1041,6 +1041,7 @@
     <string formatted="false" name="gamepad_button_right">ښي</string>
     <string formatted="false" name="gamepad_button_start">Start</string>
     <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">هره</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">د دې د هر توکي لپاره</item>
         <item quantity="other">د دې د توکو د هرې ډلې لپاره</item>
@@ -1723,6 +1724,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">د ګیم‌پیډ تڼۍ L2▾کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1▾کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2▾کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">د ګیم‌پیډ تڼۍ هره▾کېکاږل شوې</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د فزیکي ګیم‌پیډ بلاک او سینسر</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">په ایډیټر کې د فزیکي ګیم‌پیډ بلاک او سینسر ښکاره کړئ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>
