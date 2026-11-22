@@ -130,8 +130,10 @@
     <string formatted="false" name="preference_description_ai_speech_synthetization">Enable
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Arcfelismerés</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Arcnév-felismerés</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Arcnév-felismerési kockák és érzékelők engedélyezése</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -788,6 +790,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Arcnév-felismerés\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -940,6 +943,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name">Arcminták hozzáadása és betanítás</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Rezgés ennyi ideig:</string>
@@ -1812,6 +1816,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Arcnév-felismerés</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
@@ -1857,6 +1862,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktuális elemek</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Tedd listává</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">arc_felismerve</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">felismert arcnév küszöbértékkel</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">arc_méret</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">arc_x_pozíció</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">arc_y_pozíció</string>
@@ -2103,4 +2110,28 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">Arcnevek</string>
+    <string formatted="false" name="face_train_choose_name">Koppints egy névre fotók hozzáadásához</string>
+    <string formatted="false" name="face_train_retrain">Az arcfelismerés frissült. Koppints minden névre, és add hozzá újra a fotóit</string>
+    <string formatted="false" name="face_train_add_new_name">Új név hozzáadása</string>
+    <string formatted="false" name="face_train_no_names">Még nincsenek nevek.</string>
+    <string formatted="false" name="face_train_name_hint">Adj meg egy nevet</string>
+    <string formatted="false" name="face_train_name_subtitle">Írd be a nevet, majd válassz olyan fotókat, amelyeken csak az a személy látható</string>
+    <string formatted="false" name="face_train_delete">Név törlése</string>
+    <string formatted="false" name="face_train_delete_choose_title">Melyik nevet töröljük?</string>
+    <string formatted="false" name="face_train_delete_title">Törlöd ezt: \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Betanítás</string>
+    <string formatted="false" name="face_train_progress_photo">%1$d. fotó / %2$d</string>
+    <string formatted="false" name="face_train_success">Sikeres betanítás</string>
+    <string formatted="false" name="face_train_no_face">A kiválasztott fotókon nem található arc</string>
+    <string formatted="false" name="face_train_several_people">Válassz olyan fotókat, amelyeken csak ez a személy látható</string>
+    <string formatted="false" name="face_train_success_some_skipped">Sikeres betanítás. A több személyt ábrázoló fotók kimaradtak</string>
+    <string formatted="false" name="face_train_error">A betanítás sikertelen: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Nincs kiválasztott fotó</string>
+    <string formatted="false" name="face_train_no_photo_picker">Nem található alkalmazás fotók kiválasztásához</string>
+    <string formatted="false" name="face_train_name_rejected">Ez a név nem használható</string>
+    <string formatted="false" name="face_train_not_available">Az arcfelismerést nem sikerült elindítani</string>
+    <string formatted="false" name="face_train_name_missing">Ez a név már nincs a listában</string>
+    <string formatted="false" name="face_train_not_saved">A neveket nem sikerült menteni</string>
+    <string formatted="false" name="face_train_name_line_break">A név nem tartalmazhat sortörést</string>
 </resources>

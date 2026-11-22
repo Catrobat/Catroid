@@ -132,8 +132,10 @@
         คำสั่งสังเคราะห์เสียงพูดและเซ็นเซอร์</string>
     <string formatted="false" name="preference_title_ai_face_detection">ใบหน้า
         การตรวจจับ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">การตรวจจับชื่อจากใบหน้า</string>
     <string formatted="false" name="preference_description_ai_face_detection">เปิดใช้งาน
         อิฐและเซ็นเซอร์ตรวจจับใบหน้า</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">เปิดใช้งานอิฐและเซ็นเซอร์ตรวจจับชื่อจากใบหน้า</string>
     <string formatted="false" name="preference_title_ai_pose_detection">การตรวจจับท่าทาง</string>
     <string formatted="false" name="preference_description_ai_pose_detection">เปิดใช้งาน
         ก่อให้เกิดการตรวจจับคำสั่งและเซ็นเซอร์</string>
@@ -737,6 +739,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 เครื่องมือแปลงข้อความเป็นคำพูด \n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 กล้องด้านหลัง \n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 การตรวจจับใบหน้า \n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 การตรวจจับชื่อจากใบหน้า\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 จดจำวัตถุ \n </string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 การตรวจจับท่าทาง \n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 การตรวจจับข้อความ \n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">ลบรูปลักษณ์</string>
     <string formatted="false" name="brick_delete_background">ลบพื้นหลัง</string>
     <string formatted="false" name="brick_flash">เปิดไฟฉาย</string>
+    <string formatted="false" name="brick_face_name">เพิ่มตัวอย่างใบหน้าและฝึก</string>
     <string formatted="false" name="brick_flash_on">เปิด</string>
     <string formatted="false" name="brick_flash_off">ปิด</string>
     <string formatted="false" name="brick_vibration">สั่นเป็นเวลา</string>
@@ -1742,6 +1746,7 @@
     <string formatted="false" name="formula_editor_object_look">ดูคุณสมบัติ</string>
     <string formatted="false" name="formula_editor_object_movement">คุณสมบัติเคลื่อนที่</string>
     <string formatted="false" name="formula_editor_device_face_detection">ตรวจจับใบหน้า</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">การตรวจจับชื่อจากใบหน้า</string>
     <string formatted="false" name="formula_editor_device_pose_detection">การตรวจจับท่าทาง</string>
     <string formatted="false" name="formula_editor_device_text_recognition">การจดจำข้อความ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">การจดจำวัตถุ</string>
@@ -1787,6 +1792,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">รายการปัจจุบัน</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">ทำให้เป็นรายการ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">ใบหน้าแรกสามารถมองเห็นได้</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">ชื่อใบหน้าที่ตรวจพบพร้อมค่าเกณฑ์</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">ขนาดใบหน้าแรก</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ใบหน้า x ตำแหน่งแรก</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ใบหน้า y ตำแหน่งแรก</string>
@@ -2027,4 +2034,28 @@
     <string formatted="false" name="undo_sort">เลิกทำการเรียงลำดับ</string>
     <string formatted="false" name="sort">เรียงลำดับ</string>
     <string formatted="false" name="checkbox">ทำเครื่องหมาย</string>
+    <string formatted="false" name="face_train_title">ชื่อใบหน้า</string>
+    <string formatted="false" name="face_train_choose_name">แตะชื่อเพื่อเพิ่มรูปภาพ</string>
+    <string formatted="false" name="face_train_retrain">อัปเดตการจดจำใบหน้าแล้ว แตะแต่ละชื่อและเพิ่มรูปภาพอีกครั้ง</string>
+    <string formatted="false" name="face_train_add_new_name">เพิ่มชื่อใหม่</string>
+    <string formatted="false" name="face_train_no_names">ยังไม่มีชื่อ</string>
+    <string formatted="false" name="face_train_name_hint">ป้อนชื่อ</string>
+    <string formatted="false" name="face_train_name_subtitle">พิมพ์ชื่อ แล้วเลือกรูปภาพที่มีเฉพาะบุคคลนั้น</string>
+    <string formatted="false" name="face_train_delete">ลบชื่อ</string>
+    <string formatted="false" name="face_train_delete_choose_title">ต้องการลบชื่อใด</string>
+    <string formatted="false" name="face_train_delete_title">ลบ \"%1$s\" หรือไม่</string>
+    <string formatted="false" name="face_train_progress_title">กำลังฝึก</string>
+    <string formatted="false" name="face_train_progress_photo">รูปภาพ %1$d จาก %2$d</string>
+    <string formatted="false" name="face_train_success">ฝึกสำเร็จ</string>
+    <string formatted="false" name="face_train_no_face">ไม่พบใบหน้าในรูปภาพที่เลือก</string>
+    <string formatted="false" name="face_train_several_people">เลือกรูปภาพที่มีเฉพาะบุคคลนี้</string>
+    <string formatted="false" name="face_train_success_some_skipped">ฝึกสำเร็จ ข้ามรูปภาพที่มีหลายคนแล้ว</string>
+    <string formatted="false" name="face_train_error">การฝึกล้มเหลว: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">ไม่ได้เลือกรูปภาพ</string>
+    <string formatted="false" name="face_train_no_photo_picker">ไม่พบแอปสำหรับเลือกรูปภาพ</string>
+    <string formatted="false" name="face_train_name_rejected">ไม่สามารถใช้ชื่อนี้ได้</string>
+    <string formatted="false" name="face_train_not_available">ไม่สามารถเริ่มการจดจำใบหน้าได้</string>
+    <string formatted="false" name="face_train_name_missing">ชื่อนั้นไม่อยู่ในรายการแล้ว</string>
+    <string formatted="false" name="face_train_not_saved">ไม่สามารถบันทึกชื่อได้</string>
+    <string formatted="false" name="face_train_name_line_break">ชื่อต้องไม่มีการขึ้นบรรทัดใหม่</string>
 </resources>

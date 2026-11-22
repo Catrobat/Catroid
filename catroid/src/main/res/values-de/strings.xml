@@ -129,7 +129,9 @@
     <string formatted="false" name="preference_description_ai_speech_synthetization">        Sprachsynthetisierungsbausteine und Sensoren aktivieren</string>
     <string formatted="false" name="preference_title_ai_face_detection">Gesichts
         Erkennung</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Gesichtsnamen-Erkennung</string>
     <string formatted="false" name="preference_description_ai_face_detection">        Gesichtserkennungsbausteine und Sensoren aktivieren</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Bausteine und Sensoren zur Gesichtsnamen-Erkennung aktivieren</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose-Erkennung</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Pose-Detection
          Bausteine und Sensoren aktivieren</string>
@@ -777,6 +779,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-to-Speech Modul\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Hintere Kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Gesichts erkennung\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Gesichtsnamen-Erkennung\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Objekterkennung\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose-Erkennung\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Texterkennung\n</string>
@@ -928,6 +931,7 @@
     <string formatted="false" name="brick_delete_look">Lösche Aussehen</string>
     <string formatted="false" name="brick_delete_background">Lösche Hintergrund</string>
     <string formatted="false" name="brick_flash">Schalte Blitz</string>
+    <string formatted="false" name="brick_face_name">Gesichtsbeispiele hinzufügen und trainieren</string>
     <string formatted="false" name="brick_flash_on">ein</string>
     <string formatted="false" name="brick_flash_off">aus</string>
     <string formatted="false" name="brick_vibration">Vibrieren für</string>
@@ -1774,6 +1778,7 @@
     <string formatted="false" name="formula_editor_object_look">Eigenschaften fürs Aussehen</string>
     <string formatted="false" name="formula_editor_object_movement">Physikalische Eigenschaften</string>
     <string formatted="false" name="formula_editor_device_face_detection">Gesichtserkennung</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Gesichtsnamen-Erkennung</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose-Erkennung</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Texterkennung</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Objekterkennung</string>
@@ -1819,6 +1824,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktuelle Elemente</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Liste erstellen</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">Gesicht erkannt</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">erkannter Gesichtsname mit Schwellenwert</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">Gesichtsgröße</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">Gesichtsposition x</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">Gesichtsposition y</string>
@@ -2059,4 +2066,28 @@
     <string formatted="false" name="undo_sort">sortieren rückgängig machen </string>
     <string formatted="false" name="sort">Sortieren</string>
     <string formatted="false" name="checkbox">Häkchen</string>
+    <string formatted="false" name="face_train_title">Gesichtsnamen</string>
+    <string formatted="false" name="face_train_choose_name">Tippe auf einen Namen, um Fotos hinzuzufügen</string>
+    <string formatted="false" name="face_train_retrain">Die Gesichtserkennung wurde aktualisiert. Tippe auf jeden Namen und füge seine Fotos erneut hinzu</string>
+    <string formatted="false" name="face_train_add_new_name">Neuen Namen hinzufügen</string>
+    <string formatted="false" name="face_train_no_names">Noch keine Namen.</string>
+    <string formatted="false" name="face_train_name_hint">Gib einen Namen ein</string>
+    <string formatted="false" name="face_train_name_subtitle">Gib den Namen ein und wähle dann Fotos aus, die nur diese Person zeigen</string>
+    <string formatted="false" name="face_train_delete">Einen Namen löschen</string>
+    <string formatted="false" name="face_train_delete_choose_title">Welchen Namen löschen?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" löschen?</string>
+    <string formatted="false" name="face_train_progress_title">Training</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d von %2$d</string>
+    <string formatted="false" name="face_train_success">Erfolgreich trainiert</string>
+    <string formatted="false" name="face_train_no_face">In den ausgewählten Fotos wurde kein Gesicht gefunden</string>
+    <string formatted="false" name="face_train_several_people">Wähle Fotos aus, die nur diese Person zeigen</string>
+    <string formatted="false" name="face_train_success_some_skipped">Erfolgreich trainiert. Fotos mit mehreren Personen wurden übersprungen</string>
+    <string formatted="false" name="face_train_error">Training fehlgeschlagen: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Keine Fotos ausgewählt</string>
+    <string formatted="false" name="face_train_no_photo_picker">Keine App zum Auswählen von Fotos gefunden</string>
+    <string formatted="false" name="face_train_name_rejected">Dieser Name kann nicht verwendet werden</string>
+    <string formatted="false" name="face_train_not_available">Die Gesichtserkennung konnte nicht gestartet werden</string>
+    <string formatted="false" name="face_train_name_missing">Dieser Name ist nicht mehr in der Liste</string>
+    <string formatted="false" name="face_train_not_saved">Die Namen konnten nicht gespeichert werden</string>
+    <string formatted="false" name="face_train_name_line_break">Ein Name darf keinen Zeilenumbruch enthalten</string>
 </resources>

@@ -132,8 +132,10 @@
         স্পিচ সংশ্লেষকরণ ইট এবং সেন্সর</string>
     <string formatted="false" name="preference_title_ai_face_detection">মুখ
         সনাক্তকরণ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">মুখের নাম সনাক্তকরণ</string>
     <string formatted="false" name="preference_description_ai_face_detection">সক্ষম করুন
         মুখ সনাক্তকরণ ইট এবং সেন্সর sors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">মুখের নাম সনাক্তকরণের ইট ও সেন্সর সক্ষম করুন</string>
     <string formatted="false" name="preference_title_ai_pose_detection">সনাক্তকরণ ভঙ্গ করুন</string>
     <string formatted="false" name="preference_description_ai_pose_detection">সক্ষম করুন
         সনাক্তকরণ ইট এবং সেন্সর ভঙ্গ করুন</string>
@@ -763,6 +765,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 পাঠ্য থেকে স্পিচ ইঞ্জিন \n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা \n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 মুখ সনাক্তকরণ\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 মুখের নাম সনাক্তকরণ\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 বস্তুর স্বীকৃতি\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 পোজ সনাক্তকরণ \n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 পাঠ্য সনাক্তকরণ\n</string>
@@ -914,6 +917,7 @@
     <string formatted="false" name="brick_delete_look">চেহারা মুছুন</string>
     <string formatted="false" name="brick_delete_background">পটভূমি মুছুন</string>
     <string formatted="false" name="brick_flash">ফ্ল্যাশলাইট চালু করুন</string>
+    <string formatted="false" name="brick_face_name">মুখের নমুনা যোগ করুন ও প্রশিক্ষণ দিন</string>
     <string formatted="false" name="brick_flash_on">চালু</string>
     <string formatted="false" name="brick_flash_off">বন্ধ</string>
     <string formatted="false" name="brick_vibration">কম্পনের জন্য</string>
@@ -1773,6 +1777,7 @@
     <string formatted="false" name="formula_editor_object_look">বৈশিষ্ট্যগুলি দেখুন</string>
     <string formatted="false" name="formula_editor_object_movement">গতি বৈশিষ্ট্য</string>
     <string formatted="false" name="formula_editor_device_face_detection">মুখ সনাক্তকরণ</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">মুখের নাম সনাক্তকরণ</string>
     <string formatted="false" name="formula_editor_device_pose_detection">সনাক্তকরণ ভঙ্গ করুন</string>
     <string formatted="false" name="formula_editor_device_text_recognition">পাঠ্য স্বীকৃতি</string>
     <string formatted="false" name="formula_editor_device_object_recognition">বস্তুর স্বীকৃতি</string>
@@ -1818,6 +1823,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">বর্তমান আইটেম</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">এটি একটি তালিকা তৈরি করুন</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">চেহারা দৃশ্যমান হয়</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">থ্রেশহোল্ড সহ সনাক্ত করা মুখের নাম</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">মুখের আকার</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">মুখ x অবস্থান</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">মুখ y অবস্থান</string>
@@ -2045,4 +2052,28 @@
     <string formatted="false" name="undo_sort">সাজানোর পূর্বাবস্থায় ফেরান</string>
     <string formatted="false" name="sort">সাজান</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">মুখের নাম</string>
+    <string formatted="false" name="face_train_choose_name">ছবি যোগ করতে একটি নামে ট্যাপ করুন</string>
+    <string formatted="false" name="face_train_retrain">মুখ শনাক্তকরণ আপডেট হয়েছে। প্রতিটি নামে ট্যাপ করে তার ছবি আবার যোগ করুন</string>
+    <string formatted="false" name="face_train_add_new_name">নতুন নাম যোগ করুন</string>
+    <string formatted="false" name="face_train_no_names">এখনও কোনো নাম নেই।</string>
+    <string formatted="false" name="face_train_name_hint">একটি নাম লিখুন</string>
+    <string formatted="false" name="face_train_name_subtitle">নাম লিখুন, তারপর শুধু সেই ব্যক্তিকে দেখায় এমন ছবি বেছে নিন</string>
+    <string formatted="false" name="face_train_delete">একটি নাম মুছুন</string>
+    <string formatted="false" name="face_train_delete_choose_title">কোন নাম মুছবেন?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" মুছবেন?</string>
+    <string formatted="false" name="face_train_progress_title">প্রশিক্ষণ চলছে</string>
+    <string formatted="false" name="face_train_progress_photo">ছবি %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">সফলভাবে প্রশিক্ষণ হয়েছে</string>
+    <string formatted="false" name="face_train_no_face">নির্বাচিত ছবিতে কোনো মুখ পাওয়া যায়নি</string>
+    <string formatted="false" name="face_train_several_people">শুধু এই ব্যক্তিকে দেখায় এমন ছবি বেছে নিন</string>
+    <string formatted="false" name="face_train_success_some_skipped">সফলভাবে প্রশিক্ষণ হয়েছে। একাধিক ব্যক্তির ছবি বাদ দেওয়া হয়েছে</string>
+    <string formatted="false" name="face_train_error">প্রশিক্ষণ ব্যর্থ হয়েছে: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">কোনো ছবি নির্বাচন করা হয়নি</string>
+    <string formatted="false" name="face_train_no_photo_picker">ছবি বেছে নেওয়ার কোনো অ্যাপ পাওয়া যায়নি</string>
+    <string formatted="false" name="face_train_name_rejected">এই নাম ব্যবহার করা যাবে না</string>
+    <string formatted="false" name="face_train_not_available">মুখ শনাক্তকরণ শুরু করা যায়নি</string>
+    <string formatted="false" name="face_train_name_missing">ওই নামটি আর তালিকায় নেই</string>
+    <string formatted="false" name="face_train_not_saved">নামগুলো সংরক্ষণ করা যায়নি</string>
+    <string formatted="false" name="face_train_name_line_break">নামে লাইন ব্রেক থাকতে পারে না</string>
 </resources>

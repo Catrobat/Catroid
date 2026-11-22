@@ -132,8 +132,10 @@
       bricks at sensors para sa speech synthetization</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
       detection</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Pagtukoy ng pangalan ng mukha</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
        bricks at sensors para sa face detection</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">I-enable ang mga brick at sensor para sa pagtukoy ng pangalan ng mukha</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
        bricks at sensors para sa pose detection</string>
@@ -789,6 +791,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-to-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Likod na camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Pagtukoy ng pangalan ng mukha\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -940,6 +943,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string formatted="false" name="brick_delete_look">Burahin ang larawan</string>
     <string formatted="false" name="brick_delete_background">Burahin ang background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name">Magdagdag ng mga sample ng mukha at sanayin</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Vibrate for</string>
@@ -1812,6 +1816,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Pagtukoy ng pangalan ng mukha</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Pagkilala sa bagay</string>
@@ -1857,6 +1862,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">current items</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">first face is visible</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">natukoy na pangalan ng mukha na may threshold</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">first face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">first face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">first face y position</string>
@@ -2103,4 +2110,28 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">Mga pangalan ng mukha</string>
+    <string formatted="false" name="face_train_choose_name">Mag-tap ng pangalan para magdagdag ng mga larawan</string>
+    <string formatted="false" name="face_train_retrain">Na-update ang pagkilala ng mukha. I-tap ang bawat pangalan at idagdag muli ang mga larawan nito</string>
+    <string formatted="false" name="face_train_add_new_name">Magdagdag ng bagong pangalan</string>
+    <string formatted="false" name="face_train_no_names">Wala pang mga pangalan.</string>
+    <string formatted="false" name="face_train_name_hint">Maglagay ng pangalan</string>
+    <string formatted="false" name="face_train_name_subtitle">I-type ang pangalan, tapos pumili ng mga larawang iyon lang na tao ang makikita</string>
+    <string formatted="false" name="face_train_delete">Burahin ang isang pangalan</string>
+    <string formatted="false" name="face_train_delete_choose_title">Aling pangalan ang buburahin?</string>
+    <string formatted="false" name="face_train_delete_title">Burahin ang \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Nagsasanay</string>
+    <string formatted="false" name="face_train_progress_photo">Larawan %1$d ng %2$d</string>
+    <string formatted="false" name="face_train_success">Matagumpay na nasanay</string>
+    <string formatted="false" name="face_train_no_face">Walang nakitang mukha sa mga napiling larawan</string>
+    <string formatted="false" name="face_train_several_people">Pumili ng mga larawang ang taong ito lang ang makikita</string>
+    <string formatted="false" name="face_train_success_some_skipped">Matagumpay na nasanay. Nilaktawan ang mga larawang may ilang tao</string>
+    <string formatted="false" name="face_train_error">Hindi nagtagumpay ang pagsasanay: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Walang napiling larawan</string>
+    <string formatted="false" name="face_train_no_photo_picker">Walang nakitang app para pumili ng mga larawan</string>
+    <string formatted="false" name="face_train_name_rejected">Hindi magagamit ang pangalang ito</string>
+    <string formatted="false" name="face_train_not_available">Hindi masimulan ang pagkilala ng mukha</string>
+    <string formatted="false" name="face_train_name_missing">Wala na sa listahan ang pangalang iyon</string>
+    <string formatted="false" name="face_train_not_saved">Hindi ma-save ang mga pangalan</string>
+    <string formatted="false" name="face_train_name_line_break">Hindi maaaring may line break ang pangalan</string>
 </resources>

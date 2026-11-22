@@ -132,8 +132,10 @@
         konuşma sentezleme tuğlaları ve sensörleri</string>
     <string formatted="false" name="preference_title_ai_face_detection">Yüz
         tespit etme</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Yüz adı algılama</string>
     <string formatted="false" name="preference_description_ai_face_detection">Etkinleştir
         yüz algılama tuğlaları ve sensörler</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Yüz adı algılama tuğlalarını ve sensörlerini etkinleştir</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Poz algılama</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Etkinleştir
         poz algılama tuğlaları ve sensörler</string>
@@ -763,6 +765,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Metin Okuma motoru\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Arka kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Yüz algılama\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Yüz adı algılama\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Obje tanıma\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Poz algılama\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Metin algılama\n</string>
@@ -914,6 +917,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string formatted="false" name="brick_delete_look">Görüntüyü sil</string>
     <string formatted="false" name="brick_delete_background">Arka planı sil</string>
     <string formatted="false" name="brick_flash">Flash ışığını</string>
+    <string formatted="false" name="brick_face_name">Yüz örnekleri ekle ve eğit</string>
     <string formatted="false" name="brick_flash_on">aç</string>
     <string formatted="false" name="brick_flash_off">kapa</string>
     <string formatted="false" name="brick_vibration">Titreşim için</string>
@@ -1765,6 +1769,7 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="formula_editor_object_look">Görünüm özellikleri</string>
     <string formatted="false" name="formula_editor_object_movement">Hareket özellikleri</string>
     <string formatted="false" name="formula_editor_device_face_detection">Yüz tanıma</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Yüz adı algılama</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Poz algılama</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Metin tanıma</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Obje tanıma</string>
@@ -1810,6 +1815,8 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="formula_editor_fragment_data_current_items">şuan ki eşyalar</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Liste yap</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">ilk yüz bulundu</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">eşik değeriyle algılanan yüz adı</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">yüz_boyutlar</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ilk yüzün x pozisyonu</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ilk yüzün y konumu</string>
@@ -2048,4 +2055,28 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="undo_sort">Sıralamayı geri al</string>
     <string formatted="false" name="sort">Sırala</string>
     <string formatted="false" name="checkbox">onay kutusu</string>
+    <string formatted="false" name="face_train_title">Yüz adları</string>
+    <string formatted="false" name="face_train_choose_name">Fotoğraf eklemek için bir ada dokun</string>
+    <string formatted="false" name="face_train_retrain">Yüz tanıma güncellendi. Her ada dokun ve fotoğraflarını yeniden ekle</string>
+    <string formatted="false" name="face_train_add_new_name">Yeni ad ekle</string>
+    <string formatted="false" name="face_train_no_names">Henüz ad yok.</string>
+    <string formatted="false" name="face_train_name_hint">Bir ad gir</string>
+    <string formatted="false" name="face_train_name_subtitle">Adı yaz, ardından yalnızca o kişiyi gösteren fotoğrafları seç</string>
+    <string formatted="false" name="face_train_delete">Bir adı sil</string>
+    <string formatted="false" name="face_train_delete_choose_title">Hangi ad silinsin?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" silinsin mi?</string>
+    <string formatted="false" name="face_train_progress_title">Eğitiliyor</string>
+    <string formatted="false" name="face_train_progress_photo">Fotoğraf %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">Eğitim başarılı</string>
+    <string formatted="false" name="face_train_no_face">Seçilen fotoğraflarda yüz bulunamadı</string>
+    <string formatted="false" name="face_train_several_people">Yalnızca bu kişiyi gösteren fotoğrafları seç</string>
+    <string formatted="false" name="face_train_success_some_skipped">Eğitim başarılı. Birden fazla kişi içeren fotoğraflar atlandı</string>
+    <string formatted="false" name="face_train_error">Eğitim başarısız oldu: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Fotoğraf seçilmedi</string>
+    <string formatted="false" name="face_train_no_photo_picker">Fotoğraf seçmek için uygulama bulunamadı</string>
+    <string formatted="false" name="face_train_name_rejected">Bu ad kullanılamaz</string>
+    <string formatted="false" name="face_train_not_available">Yüz tanıma başlatılamadı</string>
+    <string formatted="false" name="face_train_name_missing">Bu ad artık listede değil</string>
+    <string formatted="false" name="face_train_not_saved">Adlar kaydedilemedi</string>
+    <string formatted="false" name="face_train_name_line_break">Ad satır sonu içeremez</string>
 </resources>

@@ -132,8 +132,10 @@
         آجر تشخیص گفتار و سنسورها</string>
     <string formatted="false" name="preference_title_ai_face_detection">        شناسایی
 چهره</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">تشخیص نام چهره</string>
     <string formatted="false" name="preference_description_ai_face_detection">فعال کردن
         شناسایی چهره و سنسورها</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">فعال کردن آجرها و سنسورهای تشخیص نام چهره</string>
     <string formatted="false" name="preference_title_ai_pose_detection">تشخیص ظاهری</string>
     <string formatted="false" name="preference_description_ai_pose_detection">فعال کردن
         آجر تشخیص ژست و سنسورها</string>
@@ -737,6 +739,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 موتور تبدیل متن به گفتار\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 دوربین عقب\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 شناسایی چهره\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 تشخیص نام چهره\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 تشخیص شی\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 تشخیص پوس\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 تشخیص متن\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">حذف نگاه</string>
     <string formatted="false" name="brick_delete_background">حذف پس زمینه</string>
     <string formatted="false" name="brick_flash">چراغ قوه را بچرخانید</string>
+    <string formatted="false" name="brick_face_name">افزودن نمونه‌های چهره و آموزش</string>
     <string formatted="false" name="brick_flash_on">روشن</string>
     <string formatted="false" name="brick_flash_off">خاموش</string>
     <string formatted="false" name="brick_vibration">لرزش برای</string>
@@ -1736,6 +1740,7 @@
     <string formatted="false" name="formula_editor_object_look">به خواص نگاه کنید</string>
     <string formatted="false" name="formula_editor_object_movement">خواص حرکت</string>
     <string formatted="false" name="formula_editor_device_face_detection">شناسایی چهره</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">تشخیص نام چهره</string>
     <string formatted="false" name="formula_editor_device_pose_detection">تشخیص ظاهری</string>
     <string formatted="false" name="formula_editor_device_text_recognition">تشخیص متن</string>
     <string formatted="false" name="formula_editor_device_object_recognition">تشخیص شی</string>
@@ -1780,6 +1785,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">موارد فعلی</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">آن را یک لیست بسازید</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">صورت اول قابل مشاهده است</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">نام چهرهٔ شناسایی‌شده با آستانه</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">اندازه اول صورت</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">اولین صورت x موقعیت</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">موقعیت چهره اول y</string>
@@ -2001,4 +2008,28 @@
     <string formatted="false" name="undo_sort">لغو مرتب‌سازی</string>
     <string formatted="false" name="sort">مرتب سازی</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">نام‌های چهره</string>
+    <string formatted="false" name="face_train_choose_name">برای افزودن عکس روی یک نام ضربه بزنید</string>
+    <string formatted="false" name="face_train_retrain">تشخیص چهره به‌روزرسانی شد. روی هر نام ضربه بزنید و عکس‌های آن را دوباره اضافه کنید</string>
+    <string formatted="false" name="face_train_add_new_name">افزودن نام جدید</string>
+    <string formatted="false" name="face_train_no_names">هنوز نامی وجود ندارد.</string>
+    <string formatted="false" name="face_train_name_hint">یک نام وارد کنید</string>
+    <string formatted="false" name="face_train_name_subtitle">نام را بنویسید، سپس عکس‌هایی را انتخاب کنید که فقط همان شخص را نشان می‌دهند</string>
+    <string formatted="false" name="face_train_delete">حذف یک نام</string>
+    <string formatted="false" name="face_train_delete_choose_title">کدام نام حذف شود؟</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" حذف شود؟</string>
+    <string formatted="false" name="face_train_progress_title">در حال آموزش</string>
+    <string formatted="false" name="face_train_progress_photo">عکس %1$d از %2$d</string>
+    <string formatted="false" name="face_train_success">آموزش با موفقیت انجام شد</string>
+    <string formatted="false" name="face_train_no_face">در عکس‌های انتخاب‌شده چهره‌ای پیدا نشد</string>
+    <string formatted="false" name="face_train_several_people">عکس‌هایی را انتخاب کنید که فقط این شخص را نشان می‌دهند</string>
+    <string formatted="false" name="face_train_success_some_skipped">آموزش با موفقیت انجام شد. عکس‌های دارای چند نفر نادیده گرفته شدند</string>
+    <string formatted="false" name="face_train_error">آموزش ناموفق بود: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">هیچ عکسی انتخاب نشده است</string>
+    <string formatted="false" name="face_train_no_photo_picker">برنامه‌ای برای انتخاب عکس پیدا نشد</string>
+    <string formatted="false" name="face_train_name_rejected">از این نام نمی‌توان استفاده کرد</string>
+    <string formatted="false" name="face_train_not_available">تشخیص چهره شروع نشد</string>
+    <string formatted="false" name="face_train_name_missing">آن نام دیگر در فهرست نیست</string>
+    <string formatted="false" name="face_train_not_saved">نام‌ها ذخیره نشدند</string>
+    <string formatted="false" name="face_train_name_line_break">نام نمی‌تواند شکست خط داشته باشد</string>
 </resources>

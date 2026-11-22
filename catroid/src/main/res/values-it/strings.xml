@@ -132,8 +132,10 @@
         mattoni e sensori di sintesi vocale</string>
     <string formatted="false" name="preference_title_ai_face_detection">Rilevamento
         volto</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Rilevamento nome volto</string>
     <string formatted="false" name="preference_description_ai_face_detection">Abilita
         mattoni e sensori del rilevamento volto</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Abilita mattoni e sensori del rilevamento nome volto</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Rilevamento posa</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Abilita
         mattoni e sensori del rilevamento posa</string>
@@ -790,6 +792,7 @@ app
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Motore di Sintesi Vocale\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Rilevamento volto\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rilevamento nome volto\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Riconoscimento oggetto\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Rilevamento della posa\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Rilevamento testuale\n</string>
@@ -942,6 +945,7 @@ app
     <string formatted="false" name="brick_delete_look">Elimina aspetto</string>
     <string formatted="false" name="brick_delete_background">Elimina sfondo</string>
     <string formatted="false" name="brick_flash">Accendi la torcia</string>
+    <string formatted="false" name="brick_face_name">Aggiungi campioni di volti e addestra</string>
     <string formatted="false" name="brick_flash_on">acceso</string>
     <string formatted="false" name="brick_flash_off">spento</string>
     <string formatted="false" name="brick_vibration">Vibra per</string>
@@ -1808,6 +1812,7 @@ con tolleranza %        </string>
     <string formatted="false" name="formula_editor_object_look">Proprietà aspetto</string>
     <string formatted="false" name="formula_editor_object_movement">proprietà del movimento</string>
     <string formatted="false" name="formula_editor_device_face_detection">Rilevamento volto</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Rilevamento nome volto</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Rilevamento posa</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Riconoscimento testo</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Riconoscimento oggetto</string>
@@ -1853,6 +1858,8 @@ con tolleranza %        </string>
     <string formatted="false" name="formula_editor_fragment_data_current_items">elementi attuali</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Crea un elenco</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">volto_riconosciuto</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">nome del volto rilevato con soglia</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">dimensione_volto</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">posizione x volto</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">posizione y volto</string>
@@ -2096,4 +2103,28 @@ con tolleranza %        </string>
     <string formatted="false" name="undo_sort">Annulla ordinamento</string>
     <string formatted="false" name="sort">Ordina</string>
     <string formatted="false" name="checkbox">casella di controllo</string>
+    <string formatted="false" name="face_train_title">Nomi dei volti</string>
+    <string formatted="false" name="face_train_choose_name">Tocca un nome per aggiungere foto</string>
+    <string formatted="false" name="face_train_retrain">Il riconoscimento facciale è stato aggiornato. Tocca ogni nome e aggiungi di nuovo le sue foto</string>
+    <string formatted="false" name="face_train_add_new_name">Aggiungi nuovo nome</string>
+    <string formatted="false" name="face_train_no_names">Ancora nessun nome.</string>
+    <string formatted="false" name="face_train_name_hint">Inserisci un nome</string>
+    <string formatted="false" name="face_train_name_subtitle">Scrivi il nome, poi scegli foto che mostrano solo quella persona</string>
+    <string formatted="false" name="face_train_delete">Elimina un nome</string>
+    <string formatted="false" name="face_train_delete_choose_title">Quale nome eliminare?</string>
+    <string formatted="false" name="face_train_delete_title">Eliminare \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Addestramento</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d di %2$d</string>
+    <string formatted="false" name="face_train_success">Addestramento riuscito</string>
+    <string formatted="false" name="face_train_no_face">Nessun volto trovato nelle foto selezionate</string>
+    <string formatted="false" name="face_train_several_people">Scegli foto che mostrano solo questa persona</string>
+    <string formatted="false" name="face_train_success_some_skipped">Addestramento riuscito. Le foto con più persone sono state saltate</string>
+    <string formatted="false" name="face_train_error">Addestramento non riuscito: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Nessuna foto selezionata</string>
+    <string formatted="false" name="face_train_no_photo_picker">Nessuna app trovata per scegliere le foto</string>
+    <string formatted="false" name="face_train_name_rejected">Questo nome non può essere usato</string>
+    <string formatted="false" name="face_train_not_available">Impossibile avviare il riconoscimento facciale</string>
+    <string formatted="false" name="face_train_name_missing">Quel nome non è più nell\'elenco</string>
+    <string formatted="false" name="face_train_not_saved">Impossibile salvare i nomi</string>
+    <string formatted="false" name="face_train_name_line_break">Un nome non può contenere un\'interruzione di riga</string>
 </resources>

@@ -132,8 +132,10 @@
         блоки и датчики синтеза речи</string>
     <string formatted="false" name="preference_title_ai_face_detection">Обнаружение
         лица</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Распознавание имени по лицу</string>
     <string formatted="false" name="preference_description_ai_face_detection">Включить
         блоки и датчики обнаружения лица</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Включить блоки и датчики распознавания имени по лицу</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Обнаружение позы</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Включить
         блоки и датчики обнаружения позы</string>
@@ -866,6 +868,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Программа преобразования текста в речь\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Задняя камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Обнаружение лица\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Распознавание имени по лицу\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Распознавание объектов\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Обнаружение позы\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Обнаружение текста\n</string>
@@ -1022,6 +1025,7 @@
     <string formatted="false" name="brick_delete_look">Удалить образ</string>
     <string formatted="false" name="brick_delete_background">Удалить фон</string>
     <string formatted="false" name="brick_flash">Включить фонарик</string>
+    <string formatted="false" name="brick_face_name">Добавить образцы лиц и обучить</string>
     <string formatted="false" name="brick_flash_on">вкл.</string>
     <string formatted="false" name="brick_flash_off">выкл.</string>
     <string formatted="false" name="brick_vibration">Вибрировать</string>
@@ -1902,6 +1906,7 @@
     <string formatted="false" name="formula_editor_object_look">Свойства образа</string>
     <string formatted="false" name="formula_editor_object_movement">Свойства движения</string>
     <string formatted="false" name="formula_editor_device_face_detection">Обнаружение лица</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Распознавание имени по лицу</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Обнаружение позы</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Распознавание текста</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Распознавание объектов</string>
@@ -1947,6 +1952,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">текущие предметы</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Сделать списком</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">видно первое лицо</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">распознанное имя по лицу с порогом</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">размер первого лица</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">первое лицо по оси X</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">первое лицо по оси Y</string>
@@ -2194,4 +2201,28 @@
     <string formatted="false" name="undo_sort">Не сортировать</string>
     <string formatted="false" name="sort">Сортировать</string>
     <string formatted="false" name="checkbox">флажок</string>
+    <string formatted="false" name="face_train_title">Имена лиц</string>
+    <string formatted="false" name="face_train_choose_name">Нажмите на имя, чтобы добавить фото</string>
+    <string formatted="false" name="face_train_retrain">Распознавание лиц обновлено. Нажмите на каждое имя и добавьте его фото заново</string>
+    <string formatted="false" name="face_train_add_new_name">Добавить новое имя</string>
+    <string formatted="false" name="face_train_no_names">Имён пока нет.</string>
+    <string formatted="false" name="face_train_name_hint">Введите имя</string>
+    <string formatted="false" name="face_train_name_subtitle">Введите имя, затем выберите фото, на которых только этот человек</string>
+    <string formatted="false" name="face_train_delete">Удалить имя</string>
+    <string formatted="false" name="face_train_delete_choose_title">Какое имя удалить?</string>
+    <string formatted="false" name="face_train_delete_title">Удалить \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Обучение</string>
+    <string formatted="false" name="face_train_progress_photo">Фото %1$d из %2$d</string>
+    <string formatted="false" name="face_train_success">Обучение успешно завершено</string>
+    <string formatted="false" name="face_train_no_face">На выбранных фото лицо не найдено</string>
+    <string formatted="false" name="face_train_several_people">Выберите фото, на которых только этот человек</string>
+    <string formatted="false" name="face_train_success_some_skipped">Обучение успешно завершено. Фото с несколькими людьми пропущены</string>
+    <string formatted="false" name="face_train_error">Ошибка обучения: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Фото не выбраны</string>
+    <string formatted="false" name="face_train_no_photo_picker">Не найдено приложение для выбора фото</string>
+    <string formatted="false" name="face_train_name_rejected">Это имя нельзя использовать</string>
+    <string formatted="false" name="face_train_not_available">Не удалось запустить распознавание лиц</string>
+    <string formatted="false" name="face_train_name_missing">Этого имени больше нет в списке</string>
+    <string formatted="false" name="face_train_not_saved">Не удалось сохранить имена</string>
+    <string formatted="false" name="face_train_name_line_break">Имя не может содержать перенос строки</string>
 </resources>

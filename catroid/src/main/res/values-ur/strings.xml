@@ -129,8 +129,10 @@
         مصنوعی اینٹوں اور سینسر کو فعال کریں</string>
     <string formatted="false" name="preference_title_ai_face_detection">چہرہ
         شناخت</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">چہرے کے نام کی شناخت</string>
     <string formatted="false" name="preference_description_ai_face_detection">چہرے کا پتہ لگانے اینٹوں اور سینسر کو 
         فعال کریں</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">چہرے کے نام کی شناخت کی اینٹیں اور سینسر فعال کریں</string>
     <string formatted="false" name="preference_title_ai_pose_detection">پوز کا تشخیص</string>
     <string formatted="false" name="preference_description_ai_pose_detection">پوز کا تشخیص اینٹوں اور سینسر کو فعال کریں</string>
     <string formatted="false" name="preference_title_ai_text_recognition">متن کی
@@ -766,6 +768,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\ u2022 متن سے بات کرنے والے انجن \ n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\ u2022 ریئر کیمرے \ n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022چہرہ شناخت\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 چہرے کے نام کی شناخت\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">چیز کی شناخت</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022پوز کا پتہ لگانا\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022متن کا پتہ لگانا\n</string>
@@ -918,6 +921,7 @@
     <string formatted="false" name="brick_delete_look">نظر کو حذف کریں۔</string>
     <string formatted="false" name="brick_delete_background">پس منظر کو حذف کریں۔</string>
     <string formatted="false" name="brick_flash">ٹارچ کو چالو کریں</string>
+    <string formatted="false" name="brick_face_name">چہرے کے نمونے شامل کریں اور تربیت دیں</string>
     <string formatted="false" name="brick_flash_on">پر</string>
     <string formatted="false" name="brick_flash_off">بند</string>
     <string formatted="false" name="brick_vibration">جھولنا کے لئے</string>
@@ -1778,6 +1782,7 @@
     <string formatted="false" name="formula_editor_object_look">خصوصیات دیکھیں</string>
     <string formatted="false" name="formula_editor_object_movement">حرکت خصوصیات</string>
     <string formatted="false" name="formula_editor_device_face_detection">چہرہ شناخت</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">چہرے کے نام کی شناخت</string>
     <string formatted="false" name="formula_editor_device_pose_detection">پوز کا تشخیص</string>
     <string formatted="false" name="formula_editor_device_text_recognition">متن کی شناخت</string>
     <string formatted="false" name="formula_editor_device_object_recognition">چیز کی شناخت</string>
@@ -1822,6 +1827,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">حالیہ اشیا</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">اس کی ایک فہرست بنائیں</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">چہرہ دکھائی دیتا ہے</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">حد کے ساتھ شناخت شدہ چہرے کا نام</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">چہرے کا سائز</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">چہرہ  x پوزیشن</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">چہرہ y پوزیشن</string>
@@ -2051,4 +2058,28 @@
     <string formatted="false" name="undo_sort"> بلا ترتیب</string>
     <string formatted="false" name="sort">با ترتیب </string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">چہروں کے نام</string>
+    <string formatted="false" name="face_train_choose_name">تصاویر شامل کرنے کے لیے کسی نام پر ٹیپ کریں</string>
+    <string formatted="false" name="face_train_retrain">چہرے کی شناخت اپ ڈیٹ ہو گئی ہے۔ ہر نام پر ٹیپ کر کے اس کی تصاویر دوبارہ شامل کریں</string>
+    <string formatted="false" name="face_train_add_new_name">نیا نام شامل کریں</string>
+    <string formatted="false" name="face_train_no_names">ابھی کوئی نام نہیں ہے۔</string>
+    <string formatted="false" name="face_train_name_hint">کوئی نام درج کریں</string>
+    <string formatted="false" name="face_train_name_subtitle">نام لکھیں، پھر ایسی تصاویر منتخب کریں جن میں صرف وہی شخص ہو</string>
+    <string formatted="false" name="face_train_delete">کوئی نام خارج کریں</string>
+    <string formatted="false" name="face_train_delete_choose_title">کون سا نام خارج کرنا ہے؟</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" خارج کریں؟</string>
+    <string formatted="false" name="face_train_progress_title">تربیت جاری ہے</string>
+    <string formatted="false" name="face_train_progress_photo">تصویر %1$d از %2$d</string>
+    <string formatted="false" name="face_train_success">تربیت کامیاب رہی</string>
+    <string formatted="false" name="face_train_no_face">منتخب تصاویر میں کوئی چہرہ نہیں ملا</string>
+    <string formatted="false" name="face_train_several_people">ایسی تصاویر منتخب کریں جن میں صرف یہی شخص ہو</string>
+    <string formatted="false" name="face_train_success_some_skipped">تربیت کامیاب رہی۔ کئی لوگوں والی تصاویر چھوڑ دی گئیں</string>
+    <string formatted="false" name="face_train_error">تربیت ناکام ہو گئی: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">کوئی تصویر منتخب نہیں کی گئی</string>
+    <string formatted="false" name="face_train_no_photo_picker">تصاویر منتخب کرنے کے لیے کوئی ایپ نہیں ملی</string>
+    <string formatted="false" name="face_train_name_rejected">یہ نام استعمال نہیں کیا جا سکتا</string>
+    <string formatted="false" name="face_train_not_available">چہرے کی شناخت شروع نہیں ہو سکی</string>
+    <string formatted="false" name="face_train_name_missing">وہ نام اب فہرست میں نہیں ہے</string>
+    <string formatted="false" name="face_train_not_saved">نام محفوظ نہیں ہو سکے</string>
+    <string formatted="false" name="face_train_name_line_break">نام میں لائن بریک نہیں ہو سکتا</string>
 </resources>

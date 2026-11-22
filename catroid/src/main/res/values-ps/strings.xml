@@ -133,7 +133,9 @@
         ترکیب خښتې او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_face_detection">د مخ 
         کشف</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">د مخ د نوم کشف</string>
     <string formatted="false" name="preference_description_ai_face_detection">د مخ کشف خښتې او سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">د مخ د نوم د کشف خښتې او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">د حالت کشف</string>
     <string formatted="false" name="preference_description_ai_pose_detection">د پوز 
         کشف خښتې او سینسرونه فعال کړئ</string>
@@ -787,6 +789,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022د متن څخه وینا ماشین\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022شاته کیمره\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022د مخ کشف\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 د مخ د نوم کشف\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 د څیز پیژندنه\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022د حالت کشف\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022د متن کشف\n</string>
@@ -938,6 +941,7 @@
     <string formatted="false" name="brick_delete_look">نظر ړنګ کړئ</string>
     <string formatted="false" name="brick_delete_background">پس منظر ړنګ کړئ</string>
     <string formatted="false" name="brick_flash">فلش لائټ وګرځوئ</string>
+    <string formatted="false" name="brick_face_name">د مخ نمونې اضافه کړئ او روزنه ورکړئ</string>
     <string formatted="false" name="brick_flash_on">پر</string>
     <string formatted="false" name="brick_flash_off">بند</string>
     <string formatted="false" name="brick_vibration">لپاره وایبریټ</string>
@@ -1808,6 +1812,7 @@
     <string formatted="false" name="formula_editor_object_look">ملکیتونه وګورئ</string>
     <string formatted="false" name="formula_editor_object_movement">د حرکت ځانګړتیاوې</string>
     <string formatted="false" name="formula_editor_device_face_detection">د مخ کشف</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">د مخ د نوم کشف</string>
     <string formatted="false" name="formula_editor_device_pose_detection">د حالت کشف</string>
     <string formatted="false" name="formula_editor_device_text_recognition">د متن پیژندنه</string>
     <string formatted="false" name="formula_editor_device_object_recognition">د څیز پیژندنه</string>
@@ -1852,6 +1857,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">اوسني توکي</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">دا یو لیست جوړ کړئ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">face is visible</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">له حد سره کشف شوی د مخ نوم</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">face y position</string>
@@ -2080,4 +2087,28 @@
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">ترتیب</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">د مخونو نومونه</string>
+    <string formatted="false" name="face_train_choose_name">د عکسونو اضافه کولو لپاره په یوه نوم ټک وکړئ</string>
+    <string formatted="false" name="face_train_retrain">د مخ پېژندنه تازه شوه. په هر نوم ټک وکړئ او عکسونه یې بیا اضافه کړئ</string>
+    <string formatted="false" name="face_train_add_new_name">نوی نوم اضافه کړئ</string>
+    <string formatted="false" name="face_train_no_names">تر اوسه نوم نشته.</string>
+    <string formatted="false" name="face_train_name_hint">یو نوم ولیکئ</string>
+    <string formatted="false" name="face_train_name_subtitle">نوم ولیکئ، بیا هغه عکسونه وټاکئ چې یوازې هماغه کس ښيي</string>
+    <string formatted="false" name="face_train_delete">یو نوم پاک کړئ</string>
+    <string formatted="false" name="face_train_delete_choose_title">کوم نوم پاک شي؟</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" پاک شي؟</string>
+    <string formatted="false" name="face_train_progress_title">روزنه روانه ده</string>
+    <string formatted="false" name="face_train_progress_photo">عکس %1$d له %2$d</string>
+    <string formatted="false" name="face_train_success">په بریالیتوب روزل شو</string>
+    <string formatted="false" name="face_train_no_face">په ټاکل شویو عکسونو کې مخ ونه موندل شو</string>
+    <string formatted="false" name="face_train_several_people">هغه عکسونه وټاکئ چې یوازې دا کس ښيي</string>
+    <string formatted="false" name="face_train_success_some_skipped">په بریالیتوب روزل شو. د څو کسانو عکسونه پرېښودل شول</string>
+    <string formatted="false" name="face_train_error">روزنه ناکامه شوه: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">هېڅ عکس نه دی ټاکل شوی</string>
+    <string formatted="false" name="face_train_no_photo_picker">د عکسونو ټاکلو لپاره اپلیکیشن ونه موندل شو</string>
+    <string formatted="false" name="face_train_name_rejected">دا نوم نشي کارېدلی</string>
+    <string formatted="false" name="face_train_not_available">د مخ پېژندنه پیل نشوه</string>
+    <string formatted="false" name="face_train_name_missing">هغه نوم نور په لیست کې نشته</string>
+    <string formatted="false" name="face_train_not_saved">نومونه خوندي نشول</string>
+    <string formatted="false" name="face_train_name_line_break">نوم د کرښې ماتول نشي لرلی</string>
 </resources>

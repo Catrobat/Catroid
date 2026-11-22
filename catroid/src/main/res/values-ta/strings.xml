@@ -132,8 +132,10 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
         detection</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">முகப் பெயர் கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">முகப் பெயர் கண்டறிதல் கட்டுமானங்கற்கள் மற்றும் சென்சார்களை இயக்கு</string>
     <string formatted="false" name="preference_title_ai_pose_detection">போஸ் கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -781,6 +783,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">உரை-க்கு-பேச்சு இயந்திரம்</string>
     <string formatted="false" name="prestage_no_back_camera_available">பின் கேமரா</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 முகப் பெயர் கண்டறிதல்\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -933,6 +936,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">ஒளிரும் விளக்கை இயக்கவும்</string>
+    <string formatted="false" name="brick_face_name">முக மாதிரிகளைச் சேர்த்துப் பயிற்சியளி</string>
     <string formatted="false" name="brick_flash_on">மீது</string>
     <string formatted="false" name="brick_flash_off">ஆஃப்</string>
     <string formatted="false" name="brick_vibration">க்கு அதிர்வு</string>
@@ -1792,6 +1796,7 @@
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">இயக்க பண்புகள்</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">முகப் பெயர் கண்டறிதல்</string>
     <string formatted="false" name="formula_editor_device_pose_detection">போஸ் கண்டறிதல்</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
@@ -1837,6 +1842,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">தற்போதைய உருப்படிகள்</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">அதை ஒரு பட்டியலாக ஆக்குங்கள்</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">முகம் தெரியும்</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">வரம்புடன் கண்டறியப்பட்ட முகப் பெயர்</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">முகம் அளவு</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">முகம் x நிலை</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">முகம் y நிலை</string>
@@ -2069,4 +2076,28 @@
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">வரிசைப்படுத்து</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">முகப் பெயர்கள்</string>
+    <string formatted="false" name="face_train_choose_name">புகைப்படங்களைச் சேர்க்க ஒரு பெயரைத் தட்டவும்</string>
+    <string formatted="false" name="face_train_retrain">முக அடையாளம் புதுப்பிக்கப்பட்டது. ஒவ்வொரு பெயரையும் தட்டி அதன் புகைப்படங்களை மீண்டும் சேர்க்கவும்</string>
+    <string formatted="false" name="face_train_add_new_name">புதிய பெயரைச் சேர்</string>
+    <string formatted="false" name="face_train_no_names">இன்னும் பெயர்கள் இல்லை.</string>
+    <string formatted="false" name="face_train_name_hint">ஒரு பெயரை உள்ளிடவும்</string>
+    <string formatted="false" name="face_train_name_subtitle">பெயரைத் தட்டச்சு செய்து, அந்த நபரை மட்டும் காட்டும் புகைப்படங்களைத் தேர்ந்தெடுக்கவும்</string>
+    <string formatted="false" name="face_train_delete">ஒரு பெயரை அழி</string>
+    <string formatted="false" name="face_train_delete_choose_title">எந்தப் பெயரை அழிக்க வேண்டும்?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" அழிக்கவா?</string>
+    <string formatted="false" name="face_train_progress_title">பயிற்சி நடக்கிறது</string>
+    <string formatted="false" name="face_train_progress_photo">புகைப்படம் %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">பயிற்சி வெற்றிகரமாக முடிந்தது</string>
+    <string formatted="false" name="face_train_no_face">தேர்ந்தெடுத்த புகைப்படங்களில் முகம் கிடைக்கவில்லை</string>
+    <string formatted="false" name="face_train_several_people">இந்த நபரை மட்டும் காட்டும் புகைப்படங்களைத் தேர்ந்தெடுக்கவும்</string>
+    <string formatted="false" name="face_train_success_some_skipped">பயிற்சி வெற்றிகரமாக முடிந்தது. பலர் உள்ள புகைப்படங்கள் தவிர்க்கப்பட்டன</string>
+    <string formatted="false" name="face_train_error">பயிற்சி தோல்வியடைந்தது: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">புகைப்படங்கள் எதுவும் தேர்ந்தெடுக்கப்படவில்லை</string>
+    <string formatted="false" name="face_train_no_photo_picker">புகைப்படங்களைத் தேர்ந்தெடுக்க செயலி கிடைக்கவில்லை</string>
+    <string formatted="false" name="face_train_name_rejected">இந்தப் பெயரைப் பயன்படுத்த முடியாது</string>
+    <string formatted="false" name="face_train_not_available">முக அடையாளத்தைத் தொடங்க முடியவில்லை</string>
+    <string formatted="false" name="face_train_name_missing">அந்தப் பெயர் இனி பட்டியலில் இல்லை</string>
+    <string formatted="false" name="face_train_not_saved">பெயர்களைச் சேமிக்க முடியவில்லை</string>
+    <string formatted="false" name="face_train_name_line_break">பெயரில் வரி முறிவு இருக்கக்கூடாது</string>
 </resources>

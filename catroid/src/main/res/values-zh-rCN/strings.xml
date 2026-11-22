@@ -132,8 +132,10 @@
         语音合成砖和传感器</string>
     <string formatted="false" name="preference_title_ai_face_detection">脸部
         检测</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">人脸姓名检测</string>
     <string formatted="false" name="preference_description_ai_face_detection">启用
         人脸检测砖和传感器</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">启用人脸姓名检测砖块和传感器</string>
     <string formatted="false" name="preference_title_ai_pose_detection">姿势检测</string>
     <string formatted="false" name="preference_description_ai_pose_detection">启用
         姿势检测砖和传感器</string>
@@ -735,6 +737,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 文字转语音引擎\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 人脸检测\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 人脸姓名检测\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 对象识别\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 鼻子检测\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 文本检测\n</string>
@@ -884,6 +887,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="brick_delete_look">删除外观？</string>
     <string formatted="false" name="brick_delete_background">删除背景色：</string>
     <string formatted="false" name="brick_flash">设置闪光灯为</string>
+    <string formatted="false" name="brick_face_name">添加人脸样本并训练</string>
     <string formatted="false" name="brick_flash_on">开</string>
     <string formatted="false" name="brick_flash_off">关</string>
     <string formatted="false" name="brick_vibration">震动，持续</string>
@@ -1743,6 +1747,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="formula_editor_object_look">查看属性</string>
     <string formatted="false" name="formula_editor_object_movement">运动属性</string>
     <string formatted="false" name="formula_editor_device_face_detection">面部检测</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">人脸姓名检测</string>
     <string formatted="false" name="formula_editor_device_pose_detection">姿势检测</string>
     <string formatted="false" name="formula_editor_device_text_recognition">文本识别</string>
     <string formatted="false" name="formula_editor_device_object_recognition">对象识别</string>
@@ -1788,6 +1793,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="formula_editor_fragment_data_current_items">当前数据项</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">创建一个列表</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">第一个面可见</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">带阈值的检测到的人脸姓名</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">第一个面大小</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">第一面X位置</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">第一面Y位置</string>
@@ -2020,4 +2027,28 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string formatted="false" name="undo_sort">撤销排序</string>
     <string formatted="false" name="sort">排序</string>
     <string formatted="false" name="checkbox">复选框</string>
+    <string formatted="false" name="face_train_title">人脸姓名</string>
+    <string formatted="false" name="face_train_choose_name">点按姓名以添加照片</string>
+    <string formatted="false" name="face_train_retrain">人脸识别已更新。请点按每个姓名并重新添加其照片</string>
+    <string formatted="false" name="face_train_add_new_name">添加新姓名</string>
+    <string formatted="false" name="face_train_no_names">还没有姓名。</string>
+    <string formatted="false" name="face_train_name_hint">输入姓名</string>
+    <string formatted="false" name="face_train_name_subtitle">输入姓名,然后选择只包含此人的照片</string>
+    <string formatted="false" name="face_train_delete">删除姓名</string>
+    <string formatted="false" name="face_train_delete_choose_title">要删除哪个姓名?</string>
+    <string formatted="false" name="face_train_delete_title">要删除\"%1$s\"吗?</string>
+    <string formatted="false" name="face_train_progress_title">正在训练</string>
+    <string formatted="false" name="face_train_progress_photo">照片 %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">训练成功</string>
+    <string formatted="false" name="face_train_no_face">所选照片中未找到人脸</string>
+    <string formatted="false" name="face_train_several_people">请选择只包含此人的照片</string>
+    <string formatted="false" name="face_train_success_some_skipped">训练成功。已跳过包含多人的照片</string>
+    <string formatted="false" name="face_train_error">训练失败:%1$s</string>
+    <string formatted="false" name="face_train_no_photos">未选择照片</string>
+    <string formatted="false" name="face_train_no_photo_picker">未找到可用于选择照片的应用</string>
+    <string formatted="false" name="face_train_name_rejected">无法使用此姓名</string>
+    <string formatted="false" name="face_train_not_available">无法启动人脸识别</string>
+    <string formatted="false" name="face_train_name_missing">该姓名已不在列表中</string>
+    <string formatted="false" name="face_train_not_saved">无法保存姓名</string>
+    <string formatted="false" name="face_train_name_line_break">姓名不能包含换行符</string>
 </resources>

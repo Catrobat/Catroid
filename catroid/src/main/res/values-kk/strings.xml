@@ -131,8 +131,10 @@
         сөздерді синтездейтін кірпіштермен сенсорлар</string>
     <string formatted="false" name="preference_title_ai_face_detection">Бет
         анықтау</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Бет атауын анықтау</string>
     <string formatted="false" name="preference_description_ai_face_detection">Қосу
         бетті есте сақтау сенсорларымен кірпіштерін қосу</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Бет атауын анықтау кірпіштері мен сенсорларын қосу</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Қалыпты анықтау</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Қосу
         қалыпты анықтау кірпіштерімен сенсорлар</string>
@@ -762,6 +764,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Мәтінді сөйлеуге арналған қосымшасы\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Артқы камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Адам бетін анықтау\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Бет атауын анықтау\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Обьектті тану\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Позаны тану\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Текстты тану\n</string>
@@ -914,6 +917,7 @@
     <string formatted="false" name="brick_delete_look">Суретті кетіру</string>
     <string formatted="false" name="brick_delete_background">Фонды кетіру</string>
     <string formatted="false" name="brick_flash">Қолшамды қосу</string>
+    <string formatted="false" name="brick_face_name">Бет үлгілерін қосу және үйрету</string>
     <string formatted="false" name="brick_flash_on">қосулы</string>
     <string formatted="false" name="brick_flash_off">сөндірулі</string>
     <string formatted="false" name="brick_vibration">Дірілдеу</string>
@@ -1784,6 +1788,7 @@
     <string formatted="false" name="formula_editor_object_look">Қасиеттері көру</string>
     <string formatted="false" name="formula_editor_object_movement">Қозғалыс қасиеттері</string>
     <string formatted="false" name="formula_editor_device_face_detection">Бет анықтау</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Бет атауын анықтау</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Қалыпты анықтау</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Мәтінді тану</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Обьектті тану</string>
@@ -1829,6 +1834,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">осы заттар</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Тізім қылу</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">face is visible</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">шегі бар анықталған бет атауы</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">face y position</string>
@@ -2072,4 +2079,28 @@
     <string formatted="false" name="undo_sort">Сұрыптамау</string>
     <string formatted="false" name="sort">Сорт</string>
     <string formatted="false" name="checkbox">жалауша</string>
+    <string formatted="false" name="face_train_title">Бет атаулары</string>
+    <string formatted="false" name="face_train_choose_name">Фото қосу үшін атауды түртіңіз</string>
+    <string formatted="false" name="face_train_retrain">Бетті тану жаңартылды. Әр атауды түртіп, оның фотоларын қайта қосыңыз</string>
+    <string formatted="false" name="face_train_add_new_name">Жаңа атау қосу</string>
+    <string formatted="false" name="face_train_no_names">Әзірге атаулар жоқ.</string>
+    <string formatted="false" name="face_train_name_hint">Атауды енгізіңіз</string>
+    <string formatted="false" name="face_train_name_subtitle">Атауды жазып, содан кейін тек сол адам бейнеленген фотоларды таңдаңыз</string>
+    <string formatted="false" name="face_train_delete">Атауды жою</string>
+    <string formatted="false" name="face_train_delete_choose_title">Қай атау жойылсын?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" жойылсын ба?</string>
+    <string formatted="false" name="face_train_progress_title">Үйретілуде</string>
+    <string formatted="false" name="face_train_progress_photo">Фото %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">Сәтті үйретілді</string>
+    <string formatted="false" name="face_train_no_face">Таңдалған фотоларда бет табылмады</string>
+    <string formatted="false" name="face_train_several_people">Тек осы адам бейнеленген фотоларды таңдаңыз</string>
+    <string formatted="false" name="face_train_success_some_skipped">Сәтті үйретілді. Бірнеше адам бар фотолар өткізіліп жіберілді</string>
+    <string formatted="false" name="face_train_error">Үйрету сәтсіз аяқталды: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Фотолар таңдалмаған</string>
+    <string formatted="false" name="face_train_no_photo_picker">Фото таңдайтын қолданба табылмады</string>
+    <string formatted="false" name="face_train_name_rejected">Бұл атауды пайдалану мүмкін емес</string>
+    <string formatted="false" name="face_train_not_available">Бетті тану басталмады</string>
+    <string formatted="false" name="face_train_name_missing">Бұл атау енді тізімде жоқ</string>
+    <string formatted="false" name="face_train_not_saved">Атауларды сақтау мүмкін болмады</string>
+    <string formatted="false" name="face_train_name_line_break">Атауда жол ауысуы болмауы керек</string>
 </resources>

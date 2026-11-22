@@ -132,8 +132,10 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Face
         detection</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Rozpoznávanie mena podľa tváre</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Povoliť bloky a senzory rozpoznávania mena podľa tváre</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pose detection</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -863,6 +865,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rozpoznávanie mena podľa tváre\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -1019,6 +1022,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Zapnúť baterku</string>
+    <string formatted="false" name="brick_face_name">Pridať vzorky tvárí a natrénovať</string>
     <string formatted="false" name="brick_flash_on">zapnuté</string>
     <string formatted="false" name="brick_flash_off">vypnuté</string>
     <string formatted="false" name="brick_vibration">Vibrovať</string>
@@ -1899,6 +1903,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Face detection</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Rozpoznávanie mena podľa tváre</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pose detection</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Object recognition</string>
@@ -1944,6 +1949,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">current items</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">face is visible</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">rozpoznané meno tváre s prahom</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">face size</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">face x position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">face y position</string>
@@ -2190,4 +2197,28 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">Mená tvárí</string>
+    <string formatted="false" name="face_train_choose_name">Klepnutím na meno pridáte fotky</string>
+    <string formatted="false" name="face_train_retrain">Rozpoznávanie tvárí bolo aktualizované. Klepnite na každé meno a znova pridajte jeho fotky</string>
+    <string formatted="false" name="face_train_add_new_name">Pridať nové meno</string>
+    <string formatted="false" name="face_train_no_names">Zatiaľ žiadne mená.</string>
+    <string formatted="false" name="face_train_name_hint">Zadajte meno</string>
+    <string formatted="false" name="face_train_name_subtitle">Napíšte meno a potom vyberte fotky, na ktorých je iba táto osoba</string>
+    <string formatted="false" name="face_train_delete">Vymazať meno</string>
+    <string formatted="false" name="face_train_delete_choose_title">Ktoré meno vymazať?</string>
+    <string formatted="false" name="face_train_delete_title">Vymazať \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Trénovanie</string>
+    <string formatted="false" name="face_train_progress_photo">Fotka %1$d z %2$d</string>
+    <string formatted="false" name="face_train_success">Úspešne natrénované</string>
+    <string formatted="false" name="face_train_no_face">Na vybraných fotkách sa nenašla žiadna tvár</string>
+    <string formatted="false" name="face_train_several_people">Vyberte fotky, na ktorých je iba táto osoba</string>
+    <string formatted="false" name="face_train_success_some_skipped">Úspešne natrénované. Fotky s viacerými ľuďmi boli preskočené</string>
+    <string formatted="false" name="face_train_error">Trénovanie zlyhalo: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Nie sú vybrané žiadne fotky</string>
+    <string formatted="false" name="face_train_no_photo_picker">Nenašla sa aplikácia na výber fotiek</string>
+    <string formatted="false" name="face_train_name_rejected">Toto meno sa nedá použiť</string>
+    <string formatted="false" name="face_train_not_available">Rozpoznávanie tvárí sa nepodarilo spustiť</string>
+    <string formatted="false" name="face_train_name_missing">Toto meno už v zozname nie je</string>
+    <string formatted="false" name="face_train_not_saved">Mená sa nepodarilo uložiť</string>
+    <string formatted="false" name="face_train_name_line_break">Meno nemôže obsahovať zalomenie riadka</string>
 </resources>

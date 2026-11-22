@@ -132,8 +132,10 @@
         speech synthetization bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_face_detection">Prepoznavanje
         obraza</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Prepoznavanje imena po obrazu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Omogoči zidake in senzorje za prepoznavanje imena po obrazu</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Prepoznavanje postavitve</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -868,6 +870,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Prepoznavanje imena po obrazu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -1024,6 +1027,7 @@
     <string formatted="false" name="brick_delete_look">Delete look</string>
     <string formatted="false" name="brick_delete_background">Delete background</string>
     <string formatted="false" name="brick_flash">Turn flashlight</string>
+    <string formatted="false" name="brick_face_name">Dodaj vzorce obrazov in uči</string>
     <string formatted="false" name="brick_flash_on">on</string>
     <string formatted="false" name="brick_flash_off">off</string>
     <string formatted="false" name="brick_vibration">Vibrirati za</string>
@@ -1906,6 +1910,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_object_look">Look properties</string>
     <string formatted="false" name="formula_editor_object_movement">Motion properties</string>
     <string formatted="false" name="formula_editor_device_face_detection">Prepoznavanje obraza</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Prepoznavanje imena po obrazu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Prepoznavanje postavitve</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Text recognition</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Prepoznavanje objekta</string>
@@ -1951,6 +1956,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_fragment_data_current_items">trenutnih nalog</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Spremeni v seznam</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">zaznan_obraz</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">prepoznano ime obraza s pragom</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">velikost_obraza</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">x_pozicija_obraza</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">y_pozicija_obraza</string>
@@ -2197,4 +2204,28 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="undo_sort">Undo sort</string>
     <string formatted="false" name="sort">Sort</string>
     <string formatted="false" name="checkbox">checkbox</string>
+    <string formatted="false" name="face_train_title">Imena obrazov</string>
+    <string formatted="false" name="face_train_choose_name">Tapni ime, da dodaš fotografije</string>
+    <string formatted="false" name="face_train_retrain">Prepoznavanje obrazov je posodobljeno. Tapni vsako ime in znova dodaj njegove fotografije</string>
+    <string formatted="false" name="face_train_add_new_name">Dodaj novo ime</string>
+    <string formatted="false" name="face_train_no_names">Imen še ni.</string>
+    <string formatted="false" name="face_train_name_hint">Vnesi ime</string>
+    <string formatted="false" name="face_train_name_subtitle">Vpiši ime, nato izberi fotografije, na katerih je samo ta oseba</string>
+    <string formatted="false" name="face_train_delete">Izbriši ime</string>
+    <string formatted="false" name="face_train_delete_choose_title">Katero ime izbrisati?</string>
+    <string formatted="false" name="face_train_delete_title">Izbrišem \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Učenje</string>
+    <string formatted="false" name="face_train_progress_photo">Fotografija %1$d od %2$d</string>
+    <string formatted="false" name="face_train_success">Učenje je uspelo</string>
+    <string formatted="false" name="face_train_no_face">Na izbranih fotografijah ni bilo najdenega obraza</string>
+    <string formatted="false" name="face_train_several_people">Izberi fotografije, na katerih je samo ta oseba</string>
+    <string formatted="false" name="face_train_success_some_skipped">Učenje je uspelo. Fotografije z več osebami so bile preskočene</string>
+    <string formatted="false" name="face_train_error">Učenje ni uspelo: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Ni izbranih fotografij</string>
+    <string formatted="false" name="face_train_no_photo_picker">Ni najdene aplikacije za izbiro fotografij</string>
+    <string formatted="false" name="face_train_name_rejected">Tega imena ni mogoče uporabiti</string>
+    <string formatted="false" name="face_train_not_available">Prepoznavanja obrazov ni bilo mogoče zagnati</string>
+    <string formatted="false" name="face_train_name_missing">Tega imena ni več na seznamu</string>
+    <string formatted="false" name="face_train_not_saved">Imen ni bilo mogoče shraniti</string>
+    <string formatted="false" name="face_train_name_line_break">Ime ne sme vsebovati preloma vrstice</string>
 </resources>
