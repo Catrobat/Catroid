@@ -883,10 +883,12 @@ public class StageListener implements ApplicationListener {
 	@VisibleForTesting
 	void applyPendingGamepadInput() {
 		gamepadInput.applyPendingInput(button -> {
-			project.fireToAllSprites(new EventWrapper(new GamepadButtonPressedEventId(button), false));
+			// The script of the pressed button starts last, so that within an object its result
+			// stays visible when it changes the same thing as a script for any button.
 			if (getGamepadUsage().startsAnyButtonScripts(button)) {
 				project.fireToAllSprites(new EventWrapper(AnyGamepadButtonPressedEventId.INSTANCE, false));
 			}
+			project.fireToAllSprites(new EventWrapper(new GamepadButtonPressedEventId(button), false));
 			stageExitController.onGamepadButtonPressed(button);
 		});
 	}
