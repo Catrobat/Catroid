@@ -233,12 +233,12 @@ class StageListenerGamepadInputTest {
     }
 
     @Test
-    fun `press fires the any button event for a project with such a script`() {
+    fun `press fires the any button event before the event of the button`() {
         useProjectScripts(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID))
 
         pressAndRelease(A)
 
-        assertFiredEventIds(GamepadButtonPressedEventId(A), AnyGamepadButtonPressedEventId)
+        assertFiredEventIds(AnyGamepadButtonPressedEventId, GamepadButtonPressedEventId(A))
     }
 
     @Test
@@ -260,7 +260,7 @@ class StageListenerGamepadInputTest {
 
         pressAndRelease(B)
 
-        assertFiredEventIds(GamepadButtonPressedEventId(B), AnyGamepadButtonPressedEventId)
+        assertFiredEventIds(AnyGamepadButtonPressedEventId, GamepadButtonPressedEventId(B))
         assertEquals(0, finishStageCount)
     }
 
