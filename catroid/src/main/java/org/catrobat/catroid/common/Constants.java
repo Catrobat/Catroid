@@ -137,15 +137,18 @@ public final class Constants {
 	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
-	public static final String CATROBAT_FORMULA_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_DOCS_URL = "https://share.catrobat.org/app/docs";
+	public static final String CATROBAT_DOCS_REFERENCE_URL = CATROBAT_DOCS_URL + "/reference";
+	public static final String CATROBAT_BRICK_HELP_URL = CATROBAT_DOCS_REFERENCE_URL + "/bricks/by-class/";
+	public static final String CATROBAT_FORMULA_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL;
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://developer.catrobat.org/pages/legal/licenses/";
-	public static final String WEB_REQUEST_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String WEB_REQUEST_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL + "/bricks/WebRequestBrick";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = "https://developer.catrobat.org/pages/legal/terms-of-use-and-service/";
-	public static final String CATROBAT_FUNCTIONS_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_LOGIC_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_SENSORS_WIKI_URL = "https://catrobat.org/docs/";
-	public static final String CATROBAT_OBJECT_WIKI_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL;
+	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL;
+	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL;
+	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_DOCS_REFERENCE_URL;
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";

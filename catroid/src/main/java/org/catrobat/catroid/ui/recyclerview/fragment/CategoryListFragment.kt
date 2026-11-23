@@ -180,7 +180,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun getLanguage(activity: Activity): String {
-        var language = "?language="
+        var language = "?locale="
         val sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
         val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")

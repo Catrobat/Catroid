@@ -39,6 +39,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,447 +56,447 @@ public class BricksHelpUrlTest {
 	static {
 		brickToHelpUrlMapping = new HashMap<>();
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoMoveBackwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoMoveBackwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeSizeByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeSizeByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeSizeByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoTakingPictureBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoTakingPictureBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoTakingPictureBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.NoteBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/NoteBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/NoteBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/InsertItemIntoUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/InsertItemIntoUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneFlipBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneFlipBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneFlipBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroMotorMoveBackwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroMotorMoveBackwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SayForBubbleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SayForBubbleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SayForBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneEmergencyBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneEmergencyBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneEmergencyBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveRightBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveRightBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveRightBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfLogicBeginBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfLogicBeginBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfLogicBeginBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.NextLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/NextLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/NextLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundByIndexAndWaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBackgroundByIndexAndWaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShowBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShowBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ShowBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SpeakAndWaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SpeakAndWaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SpeakAndWaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideTextBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/HideTextBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/HideTextBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneSwitchCameraBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneSwitchCameraBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetFrictionBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetFrictionBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetFrictionBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneTurnLeftBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneTurnLeftBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneTurnLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAndWaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlaySoundAndWaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAtBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAtBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlaySoundAtBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBackgroundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroPlayToneBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroPlayToneBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroPlayToneBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetPhysicsObjectTypeBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetPhysicsObjectTypeBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoTurnBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoTurnBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoTurnBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RepeatBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RepeatBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RepeatBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ForVariableFromToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ForVariableFromToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ForVariableFromToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ForItemInUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ForItemInUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ForItemInUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SayBubbleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SayBubbleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SayBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBrightnessBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBrightnessBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBrightnessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WebRequestBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WebRequestBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WebRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LookRequestBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LookRequestBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LookRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BackgroundRequestBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/BackgroundRequestBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/BackgroundRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoEv3MotorMoveBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoEv3MotorMoveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/HideBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/HideBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeYByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeYByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeYByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfOnEdgeBounceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfOnEdgeBounceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenNfcBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenNfcBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenNfcBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BroadcastWaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/BroadcastWaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/BroadcastWaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PenUpBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PenUpBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PenUpBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CameraBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CameraBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/CameraBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfThenLogicBeginBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfThenLogicBeginBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenBounceOffBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenBounceOffBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenBounceOffBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SceneStartBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SceneStartBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SceneStartBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoEv3MotorStopBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoEv3MotorStopBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoNxtMotorMoveBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoNxtMotorMoveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RepeatUntilBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RepeatUntilBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RepeatUntilBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroMotorMoveForwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroMotorMoveForwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfLogicElseBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfLogicElseBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfLogicElseBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoNoSoundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoNoSoundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoNoSoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RaspiIfLogicBeginBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RaspiIfLogicBeginBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeXByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeXByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeXByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeColorByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeColorByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeColorByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetThreadColorBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetThreadColorBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetThreadColorBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TurnLeftSpeedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TurnLeftSpeedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoEv3PlayToneBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoEv3PlayToneBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TurnRightBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TurnRightBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TurnRightBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CloneBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CloneBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/CloneBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TurnLeftBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TurnLeftBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TurnLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ClearGraphicEffectBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ClearGraphicEffectBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BroadcastBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/BroadcastBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/BroadcastBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FlashBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FlashBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/FlashBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopSoundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopSoundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopSoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopAllSoundsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopAllSoundsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopAllSoundsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteListOnDeviceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WriteListOnDeviceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoSoundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoSoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PreviousLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PreviousLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PreviousLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ComeToFrontBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ComeToFrontBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ComeToFrontBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReadListFromDeviceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ReadListFromDeviceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PenDownBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PenDownBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PenDownBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveLeftBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveLeftBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetSizeToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetSizeToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetSizeToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WaitUntilBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WaitUntilBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WaitUntilBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ArduinoSendDigitalValueBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ArduinoSendDigitalValueBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeVolumeByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeVolumeByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoJumpLongBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoJumpLongBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoJumpLongBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveBackwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveBackwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StampBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StampBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StampBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroIfLogicBeginBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroIfLogicBeginBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RaspiPwmBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RaspiPwmBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RaspiPwmBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaceAtBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaceAtBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlaceAtBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopScriptBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopScriptBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopScriptBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ArduinoSendPWMValueBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ArduinoSendPWMValueBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DronePlayLedAnimationBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DronePlayLedAnimationBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PointToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PointToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PointToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetXBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetXBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetXBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenConditionBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenConditionBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenConditionBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RaspiSendDigitalValueBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RaspiSendDigitalValueBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BroadcastReceiverBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/BroadcastReceiverBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/BroadcastReceiverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SpeakBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SpeakBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SpeakBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfLogicEndBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfLogicEndBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfLogicEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoMoveForwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoMoveForwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenClonedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenClonedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenClonedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveDownBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveDownBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveDownBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ClearBackgroundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ClearBackgroundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ClearBackgroundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertEqualsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/AssertEqualsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/AssertEqualsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroMotorStopBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroMotorStopBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroMotorStopBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapAtBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TapAtBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TapAtBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoJumpHighBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoJumpHighBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoJumpHighBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FinishStageBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FinishStageBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/FinishStageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoRotateRightBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoRotateRightBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StitchBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StitchBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPenSizeBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetPenSizeBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetPenSizeBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeBrightnessByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeBrightnessByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoEv3SetLedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoEv3SetLedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetVolumeToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetVolumeToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetVolumeToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PointInDirectionBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PointInDirectionBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PointInDirectionBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SceneTransitionBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SceneTransitionBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SceneTransitionBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoRotateLeftBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoRotateLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetVariableBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetVariableBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetVariableBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GoNStepsBackBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/GoNStepsBackBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/GoNStepsBackBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkForBubbleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ThinkForBubbleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ThinkForBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetLookByIndexBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetLookByIndexBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetLookByIndexBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.IfThenLogicEndBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/IfThenLogicEndBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/IfThenLogicEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetTextBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTextBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetTextBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetTransparencyBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTransparencyBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetTransparencyBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ForeverBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ForeverBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ForeverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeTransparencyByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeTransparencyByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetColorBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetColorBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetColorBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetRotationStyleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetRotationStyleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetRotationStyleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundAndWaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBackgroundAndWaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenStartedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenStartedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenStartedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteItemOfUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DeleteItemOfUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ClearUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ClearUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ClearUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GoToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/GoToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/GoToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoNxtMotorStopBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoNxtMotorStopBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenTouchDownBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenTouchDownBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenTouchDownBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WaitBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WaitBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WaitBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetGravityBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetGravityBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetGravityBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetMassBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetMassBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetMassBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReadVariableFromDeviceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ReadVariableFromDeviceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GlideToBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/GlideToBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/GlideToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoEv3MotorTurnAngleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoEv3MotorTurnAngleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenBackgroundChangesBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenBackgroundChangesBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoNxtMotorTurnAngleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoNxtMotorTurnAngleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenRaspiPinChangedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenRaspiPinChangedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundByIndexBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBackgroundByIndexBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneTakeOffLandBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneTakeOffLandBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LegoNxtPlayToneBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LegoNxtPlayToneBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WaitTillIdleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WaitTillIdleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WaitTillIdleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteThisCloneBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteThisCloneBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DeleteThisCloneBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetNfcTagBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetNfcTagBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetNfcTagBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroRGBLightBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PhiroRGBLightBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PhiroRGBLightBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AddItemToUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/AddItemToUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/AddItemToUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneTurnRightBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneTurnRightBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneTurnRightBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WhenGamepadButtonBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WhenGamepadButtonBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskSpeechBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/AskSpeechBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/AskSpeechBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReplaceItemInUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ReplaceItemInUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChooseCameraBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChooseCameraBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChooseCameraBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetVelocityBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetVelocityBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetVelocityBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveForwardBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveForwardBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveForwardBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DroneMoveUpBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneMoveUpBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DroneMoveUpBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TurnRightSpeedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TurnRightSpeedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TurnRightSpeedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBounceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBounceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetBounceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShowTextBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShowTextBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ShowTextBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.VibrationBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/VibrationBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/VibrationBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteVariableOnDeviceBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WriteVariableOnDeviceBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableToFileBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteVariableToFileBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WriteVariableToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReadVariableFromFileBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ReadVariableFromFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/JumpingSumoAnimationsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/JumpingSumoAnimationsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPenColorBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetPenColorBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetPenColorBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LoopEndlessBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LoopEndlessBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LoopEndlessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlaySoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetInstrumentBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetInstrumentBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetInstrumentBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetTempoBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTempoBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetTempoBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeTempoByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeTempoByNBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeTempoByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayDrumForBeatsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlayDrumForBeatsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkBubbleBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ThinkBubbleBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ThinkBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/AskBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/AskBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LoopEndBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/LoopEndBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/LoopEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetYBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetYBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetYBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeVariableBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeVariableBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ChangeVariableBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.MoveNStepsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/MoveNStepsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/MoveNStepsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShowTextColorSizeAlignmentBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ShowTextColorSizeAlignmentBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RunningStitchBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/RunningStitchBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/RunningStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopRunningStitchBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopRunningStitchBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopRunningStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ZigZagStitchBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ZigZagStitchBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ZigZagStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TripleStitchBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TripleStitchBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TripleStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SewUpBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SewUpBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SewUpBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteEmbroideryToFileBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/WriteEmbroideryToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/UserDefinedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedReceiverBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/UserDefinedReceiverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReportBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReportBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ReportBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StoreCSVIntoUserListBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StoreCSVIntoUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertUserListsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/AssertUserListsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/AssertUserListsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ExitStageBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ExitStageBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ExitStageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParameterizedBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParameterizedBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ParameterizedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParameterizedEndBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParameterizedEndBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ParameterizedEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TapForBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TapForBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TouchAndSlideBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TouchAndSlideBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/TouchAndSlideBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartListeningBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StartListeningBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetListeningLanguageBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetListeningLanguageBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetListeningLanguageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PauseForBeatsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PauseForBeatsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PauseForBeatsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/DeleteLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ResetTimerBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ResetTimerBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ResetTimerBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PaintNewLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PaintNewLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PaintNewLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayNoteForBeatsBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/PlayNoteForBeatsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.OpenUrlBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/OpenUrlBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/OpenUrlBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CopyLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/CopyLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EditLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/EditLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/EmptyEventBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FadeParticleEffectBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FadeParticleEffectBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/FadeParticleEffectBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParticleEffectAdditivityBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ParticleEffectAdditivityBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetCameraFocusPointBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetCameraFocusPointBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetParticleColorBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetParticleColorBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SetParticleColorBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartCutBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StartCutBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopCutBrick", "https://wiki"
 				+ ".catrobat.org/bin/view/Documentation/BrickDocumentation/StopCutBrick");
 		brickToHelpUrlMapping.put(".catrobat.org/bin/view/Documentation/BrickDocumentation"
 				+ "/StartCutBrick", "http://wiki.catrobat"
 				+ ".org/bin/view/Documentation/BrickDocumentation/StartCutBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SaveLaserBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SaveLaserBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SaveLaserBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopEngraveBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopEngraveBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopEngraveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartEngraveBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation"
 						+ "/StartEngraveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SavePlotBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SavePlotBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SavePlotBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartPlotBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartPlotBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StartPlotBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopPlotBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StopPlotBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/StopPlotBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ArcBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ArcBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ArcBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GoThroughBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/GoThroughBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/GoThroughBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShareLaserBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShareLaserBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ShareLaserBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SharePlotBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SharePlotBrick");
+				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SharePlotBrick");
 
 	}
 	@Parameterized.Parameters(name = "{0}")
@@ -552,7 +553,7 @@ public class BricksHelpUrlTest {
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
-		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
+		assertEquals(brickToHelpUrlMapping.get(simpleName) + "?locale=" + Locale.getDefault().getLanguage(), brickHelpUrl);
 	}
 
 	private static Set<Class> removeAbstractClasses(Set<Class> classes) {
