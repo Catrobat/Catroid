@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
+import org.catrobat.catroid.formulaeditor.function.FaceNameFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
@@ -119,7 +120,8 @@ public class FormulaElement implements Serializable {
 				new MathFunctionProvider(),
 				new TouchFunctionProvider(),
 				textBlockFunctionProvider,
-				new ObjectDetectorFunctionProvider()
+				new ObjectDetectorFunctionProvider(),
+				new FaceNameFunctionProvider()
 		);
 
 		formulaFunctions = new EnumMap<>(Functions.class);

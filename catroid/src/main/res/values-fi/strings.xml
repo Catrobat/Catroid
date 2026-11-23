@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Puhesynteesi</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Ota puhesynteesipalikat ja -anturit käyttöön</string>
     <string formatted="false" name="preference_title_ai_face_detection">Kasvojentunnistus</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Kasvojen nimen tunnistus</string>
     <string formatted="false" name="preference_description_ai_face_detection">Ota kasvojentunnistuspalikat ja -anturit käyttöön</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Ota kasvojen nimen tunnistuksen palikat ja anturit käyttöön</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Asennontunnistus</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Ota asennontunnistuspalikat ja -anturit käyttöön</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Tekstintunnistus</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Puhesynteesimoottori\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Takakamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Kasvojentunnistus\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Kasvojen nimen tunnistus\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Esineentunnistus\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Asennontunnistus\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Tekstintunnistus\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Poista asuste</string>
     <string formatted="false" name="brick_delete_background">Poista tausta</string>
     <string formatted="false" name="brick_flash">Kytke taskulamppu</string>
+    <string formatted="false" name="brick_face_name">Lisää kasvonäytteitä ja kouluta</string>
     <string formatted="false" name="brick_flash_on">päälle</string>
     <string formatted="false" name="brick_flash_off">pois</string>
     <string formatted="false" name="brick_vibration">Värise</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Asusteen ominaisuudet</string>
     <string formatted="false" name="formula_editor_object_movement">Liikkeen ominaisuudet</string>
     <string formatted="false" name="formula_editor_device_face_detection">Kasvojentunnistus</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Kasvojen nimen tunnistus</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Asennontunnistus</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Tekstintunnistus</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Esineentunnistus</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">nykyiset alkiot</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Tee siitä lista</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">ensimmäiset kasvot näkyvissä</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">tunnistettu kasvojen nimi kynnysarvolla</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">ensimmäisten kasvojen koko</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ensimmäisten kasvojen x-sijainti</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ensimmäisten kasvojen y-sijainti</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Tämä laite vaatii pikakuvakeluvan ennen kuin pikakuvakkeen voi lisätä aloitusnäyttöön. Myönnä lupa asetuksissa.</string>
     <string formatted="false" name="miui_open_settings">Avaa asetukset</string>
     <string formatted="false" name="shortcut_already_pinned">Tämä projekti on jo kiinnitetty aloitusnäyttöösi</string>
+    <string formatted="false" name="face_train_title">Kasvojen nimet</string>
+    <string formatted="false" name="face_train_choose_name">Lisää kuvia napauttamalla nimeä</string>
+    <string formatted="false" name="face_train_retrain">Kasvojentunnistus on päivitetty. Napauta jokaista nimeä ja lisää sen kuvat uudelleen</string>
+    <string formatted="false" name="face_train_add_new_name">Lisää uusi nimi</string>
+    <string formatted="false" name="face_train_no_names">Ei vielä nimiä.</string>
+    <string formatted="false" name="face_train_name_hint">Anna nimi</string>
+    <string formatted="false" name="face_train_name_subtitle">Kirjoita nimi ja valitse sitten kuvia, joissa on vain kyseinen henkilö</string>
+    <string formatted="false" name="face_train_delete">Poista nimi</string>
+    <string formatted="false" name="face_train_delete_choose_title">Mikä nimi poistetaan?</string>
+    <string formatted="false" name="face_train_delete_title">Poistetaanko \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Koulutus</string>
+    <string formatted="false" name="face_train_progress_photo">Kuva %1$d/%2$d</string>
+    <string formatted="false" name="face_train_success">Koulutus onnistui</string>
+    <string formatted="false" name="face_train_no_face">Valituista kuvista ei löytynyt kasvoja</string>
+    <string formatted="false" name="face_train_several_people">Valitse kuvia, joissa on vain tämä henkilö</string>
+    <string formatted="false" name="face_train_success_some_skipped">Koulutus onnistui. Kuvat, joissa on useita henkilöitä, ohitettiin</string>
+    <string formatted="false" name="face_train_error">Koulutus epäonnistui: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Kuvia ei ole valittu</string>
+    <string formatted="false" name="face_train_no_photo_picker">Kuvien valintaan ei löytynyt sovellusta</string>
+    <string formatted="false" name="face_train_name_rejected">Tätä nimeä ei voi käyttää</string>
+    <string formatted="false" name="face_train_not_available">Kasvojentunnistusta ei voitu käynnistää</string>
+    <string formatted="false" name="face_train_name_missing">Nimi ei ole enää luettelossa</string>
+    <string formatted="false" name="face_train_not_saved">Nimiä ei voitu tallentaa</string>
+    <string formatted="false" name="face_train_name_line_break">Nimessä ei voi olla rivinvaihtoa</string>
 </resources>

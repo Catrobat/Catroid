@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Синтез на реч</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Включи блоковете и сензорите за синтез на реч</string>
     <string formatted="false" name="preference_title_ai_face_detection">Разпознаване на лица</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Разпознаване на имена по лице</string>
     <string formatted="false" name="preference_description_ai_face_detection">Включи блоковете и сензорите за разпознаване на лица</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Включи блоковете и сензорите за разпознаване на имена по лице</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Разпознаване на поза</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Включи блоковете и сензорите за разпознаване на поза</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Разпознаване на текст</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Програма за преобразуване на текст в реч\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Задна камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Разпознаване на лица\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Разпознаване на имена по лице\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Разпознаване на предмети\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Разпознаване на поза\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Разпознаване на текст\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Изтрий облика</string>
     <string formatted="false" name="brick_delete_background">Изтрий фона</string>
     <string formatted="false" name="brick_flash">Фенерче</string>
+    <string formatted="false" name="brick_face_name">Добавяне на примери на лица и обучение</string>
     <string formatted="false" name="brick_flash_on">включено</string>
     <string formatted="false" name="brick_flash_off">изключено</string>
     <string formatted="false" name="brick_vibration">Вибрирай за</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Свойства на облика</string>
     <string formatted="false" name="formula_editor_object_movement">Свойства на движението</string>
     <string formatted="false" name="formula_editor_device_face_detection">Разпознаване на лица</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Разпознаване на имена по лице</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Разпознаване на поза</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Разпознаване на текст</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Разпознаване на предмети</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">текущи елементи</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Направи го списък</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">първото лице се вижда</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">разпознато име по лице с праг</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">размер на първото лице</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">позиция x на първото лице</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">позиция y на първото лице</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">На това устройство трябва да разрешиш преките пътища, преди да добавиш пряк път към началния екран. Дай разрешението в настройките.</string>
     <string formatted="false" name="miui_open_settings">Отвори настройките</string>
     <string formatted="false" name="shortcut_already_pinned">Този проект вече е закачен на началния екран</string>
+    <string formatted="false" name="face_train_title">Имена на лица</string>
+    <string formatted="false" name="face_train_choose_name">Докоснете име, за да добавите снимки</string>
+    <string formatted="false" name="face_train_retrain">Разпознаването на лица е обновено. Докоснете всяко име и добавете снимките му отново</string>
+    <string formatted="false" name="face_train_add_new_name">Добавяне на ново име</string>
+    <string formatted="false" name="face_train_no_names">Все още няма имена.</string>
+    <string formatted="false" name="face_train_name_hint">Въведете име</string>
+    <string formatted="false" name="face_train_name_subtitle">Въведете името, след това изберете снимки, на които е само този човек</string>
+    <string formatted="false" name="face_train_delete">Изтриване на име</string>
+    <string formatted="false" name="face_train_delete_choose_title">Кое име да се изтрие?</string>
+    <string formatted="false" name="face_train_delete_title">Изтриване на \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Обучение</string>
+    <string formatted="false" name="face_train_progress_photo">Снимка %1$d от %2$d</string>
+    <string formatted="false" name="face_train_success">Обучението е успешно</string>
+    <string formatted="false" name="face_train_no_face">В избраните снимки не е открито лице</string>
+    <string formatted="false" name="face_train_several_people">Изберете снимки, на които е само този човек</string>
+    <string formatted="false" name="face_train_success_some_skipped">Обучението е успешно. Снимките с няколко души са пропуснати</string>
+    <string formatted="false" name="face_train_error">Обучението е неуспешно: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Няма избрани снимки</string>
+    <string formatted="false" name="face_train_no_photo_picker">Няма намерено приложение за избор на снимки</string>
+    <string formatted="false" name="face_train_name_rejected">Това име не може да се използва</string>
+    <string formatted="false" name="face_train_not_available">Разпознаването на лица не можа да стартира</string>
+    <string formatted="false" name="face_train_name_missing">Това име вече не е в списъка</string>
+    <string formatted="false" name="face_train_not_saved">Имената не можаха да бъдат запазени</string>
+    <string formatted="false" name="face_train_name_line_break">Името не може да съдържа нов ред</string>
 </resources>

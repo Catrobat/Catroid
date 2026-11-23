@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Синтез мовлення</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Увімкнути блоки та датчики синтезу мовлення</string>
     <string formatted="false" name="preference_title_ai_face_detection">Виявлення обличчя</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Виявлення імені за обличчям</string>
     <string formatted="false" name="preference_description_ai_face_detection">Увімкнути блоки та датчики виявлення обличчя</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Увімкнути блоки та датчики виявлення імені за обличчям</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Виявлення пози</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Увімкнути блоки та датчики виявлення пози</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Розпізнавання тексту</string>
@@ -811,6 +813,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Рушій синтезу мовлення\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Задня камера\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Виявлення обличчя\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Виявлення імені за обличчям\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Розпізнавання об’єктів\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Виявлення пози\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Виявлення тексту\n</string>
@@ -966,6 +969,7 @@
     <string formatted="false" name="brick_delete_look">Видалити вигляд</string>
     <string formatted="false" name="brick_delete_background">Видалити тло</string>
     <string formatted="false" name="brick_flash">Ліхтарик:</string>
+    <string formatted="false" name="brick_face_name">Додати зразки облич і навчити</string>
     <string formatted="false" name="brick_flash_on">увімкнути</string>
     <string formatted="false" name="brick_flash_off">вимкнути</string>
     <string formatted="false" name="brick_vibration">Вібрувати</string>
@@ -1830,6 +1834,7 @@
     <string formatted="false" name="formula_editor_object_look">Властивості вигляду</string>
     <string formatted="false" name="formula_editor_object_movement">Властивості руху</string>
     <string formatted="false" name="formula_editor_device_face_detection">Виявлення обличчя</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Виявлення імені за обличчям</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Виявлення пози</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Розпізнавання тексту</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Розпізнавання об’єктів</string>
@@ -1874,6 +1879,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">поточні елементи</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Зробити списком</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">видно перше обличчя</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">виявлене ім\'я за обличчям із порогом</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">розмір першого обличчя</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">позиція x першого обличчя</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">позиція y першого обличчя</string>
@@ -2093,4 +2100,28 @@
     <string formatted="false" name="shortcut_permission_required_message">На цьому пристрої перед додаванням ярлика на головний екран потрібно надати дозвіл на створення ярликів. Надайте дозвіл у налаштуваннях.</string>
     <string formatted="false" name="miui_open_settings">Відкрити налаштування</string>
     <string formatted="false" name="shortcut_already_pinned">Цей проєкт уже закріплено на головному екрані</string>
+    <string formatted="false" name="face_train_title">Імена облич</string>
+    <string formatted="false" name="face_train_choose_name">Торкніться імені, щоб додати фото</string>
+    <string formatted="false" name="face_train_retrain">Розпізнавання облич оновлено. Торкніться кожного імені та додайте його фото знову</string>
+    <string formatted="false" name="face_train_add_new_name">Додати нове ім\'я</string>
+    <string formatted="false" name="face_train_no_names">Імен ще немає.</string>
+    <string formatted="false" name="face_train_name_hint">Введіть ім\'я</string>
+    <string formatted="false" name="face_train_name_subtitle">Введіть ім\'я, а потім виберіть фото, на яких лише ця людина</string>
+    <string formatted="false" name="face_train_delete">Видалити ім\'я</string>
+    <string formatted="false" name="face_train_delete_choose_title">Яке ім\'я видалити?</string>
+    <string formatted="false" name="face_train_delete_title">Видалити \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Навчання</string>
+    <string formatted="false" name="face_train_progress_photo">Фото %1$d з %2$d</string>
+    <string formatted="false" name="face_train_success">Навчання успішно завершено</string>
+    <string formatted="false" name="face_train_no_face">На вибраних фото обличчя не знайдено</string>
+    <string formatted="false" name="face_train_several_people">Виберіть фото, на яких лише ця людина</string>
+    <string formatted="false" name="face_train_success_some_skipped">Навчання успішно завершено. Фото з кількома людьми пропущено</string>
+    <string formatted="false" name="face_train_error">Помилка навчання: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Фото не вибрано</string>
+    <string formatted="false" name="face_train_no_photo_picker">Не знайдено застосунок для вибору фото</string>
+    <string formatted="false" name="face_train_name_rejected">Це ім\'я не можна використати</string>
+    <string formatted="false" name="face_train_not_available">Не вдалося запустити розпізнавання облич</string>
+    <string formatted="false" name="face_train_name_missing">Цього імені більше немає у списку</string>
+    <string formatted="false" name="face_train_not_saved">Не вдалося зберегти імена</string>
+    <string formatted="false" name="face_train_name_line_break">Ім\'я не може містити перенесення рядка</string>
 </resources>

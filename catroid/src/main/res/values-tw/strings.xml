@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Kasa kenkan</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Ma kasa kenkan blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_face_detection">Anim hunu</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Anim din hunu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Ma anim hunu blɔk ne sɛnsa nyɛ adwuma</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Ma anim din hunu blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Nipadua gyinabea hunu</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Ma nipadua gyinabea hunu blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Nkyerɛwee hunu</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Nkyerɛwee-kɔ-kasa engine\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Akyiri kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Anim hunu\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Anim din hunu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Nneɛma hunu\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Nipadua gyinabea hunu\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Nkyerɛwee hunu\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Pepa nsɛsoɔ</string>
     <string formatted="false" name="brick_delete_background">Pepa akyiri mfonini</string>
     <string formatted="false" name="brick_flash">Ma kanea no</string>
+    <string formatted="false" name="brick_face_name">Fa anim nhwɛso ka ho na tete no</string>
     <string formatted="false" name="brick_flash_on">nsɔ</string>
     <string formatted="false" name="brick_flash_off">nnum</string>
     <string formatted="false" name="brick_vibration">Wosow</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Nsɛsoɔ su ahodoɔ</string>
     <string formatted="false" name="formula_editor_object_movement">Nkanhoɔ su ahodoɔ</string>
     <string formatted="false" name="formula_editor_device_face_detection">Anim hunu</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Anim din hunu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Nipadua gyinabea hunu</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Nkyerɛwee hunu</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Nneɛma hunu</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">nneɛma a ɛwɔ mu seesei</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Yɛ no ntoatoasoɔ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">anim a ɛdi kan da adi</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">anim din a wɔahunu a ɛwɔ anohyeto</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">anim a ɛdi kan kɛseɛ</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">anim a ɛdi kan gyinabea x</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">anim a ɛdi kan gyinabea y</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Afidie yi hia sɛ wode kwan ma ansa na wode ɛkwan tiawa bɛsi fie skrin so. Mesrɛ wo, ma kwan no wɔ nhyehyɛeɛ mu.</string>
     <string formatted="false" name="miui_open_settings">Bue nhyehyɛeɛ</string>
     <string formatted="false" name="shortcut_already_pinned">Wɔde dwumadie yi asi wo fie skrin so dada</string>
+    <string formatted="false" name="face_train_title">Anim din</string>
+    <string formatted="false" name="face_train_choose_name">Mia din so na fa mfonini ka ho</string>
+    <string formatted="false" name="face_train_retrain">Wɔayɛ anim nhunu foforɔ. Mia din biara so na fa ne mfonini ka ho bio</string>
+    <string formatted="false" name="face_train_add_new_name">Fa din foforɔ ka ho</string>
+    <string formatted="false" name="face_train_no_names">Din biara nni hɔ da.</string>
+    <string formatted="false" name="face_train_name_hint">Hyɛ din</string>
+    <string formatted="false" name="face_train_name_subtitle">Twerɛ din no, na afei yi mfonini a ɛkyerɛ saa onipa no nko ara</string>
+    <string formatted="false" name="face_train_delete">Popa din</string>
+    <string formatted="false" name="face_train_delete_choose_title">Din bɛn na wobɛpopa?</string>
+    <string formatted="false" name="face_train_delete_title">Popa \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Ɛretete</string>
+    <string formatted="false" name="face_train_progress_photo">Mfonini %1$d wɔ %2$d mu</string>
+    <string formatted="false" name="face_train_success">Wɔatete no yiye</string>
+    <string formatted="false" name="face_train_no_face">Wɔanhunu anim biara wɔ mfonini a woayi no mu</string>
+    <string formatted="false" name="face_train_several_people">Yi mfonini a ɛkyerɛ onipa yi nko ara</string>
+    <string formatted="false" name="face_train_success_some_skipped">Wɔatete no yiye. Wɔatwa mfonini a nnipa pii wom no mu</string>
+    <string formatted="false" name="face_train_error">Ntetee no anyɛ yie: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Woanyi mfonini biara</string>
+    <string formatted="false" name="face_train_no_photo_picker">Wɔanhunu app biara a wɔde yi mfonini</string>
+    <string formatted="false" name="face_train_name_rejected">Wɔrentumi mfa din yi nni dwuma</string>
+    <string formatted="false" name="face_train_not_available">Anim nhunu no antumi amfiri aseɛ</string>
+    <string formatted="false" name="face_train_name_missing">Saa din no nni nhyehyɛeɛ no mu bio</string>
+    <string formatted="false" name="face_train_not_saved">Wɔantumi ankora din no so</string>
+    <string formatted="false" name="face_train_name_line_break">Din ntumi nni nkyerɛwee mpaepaemu</string>
 </resources>

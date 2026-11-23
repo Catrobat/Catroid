@@ -184,7 +184,24 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
+		if (graphics == null) {
+			destroyWithoutGameEngine();
+			return;
+		}
 		super.onDestroy();
+	}
+
+	/**
+	 * The stage closed in onCreate before libGDX started, because the project was gone after Android
+	 * stopped the app in the background. AndroidApplication.onDestroy() first runs Activity.onDestroy()
+	 * and then closes a keyboard helper that libGDX only creates when it starts; that step is skipped.
+	 */
+	private void destroyWithoutGameEngine() {
+		try {
+			super.onDestroy();
+		} catch (NullPointerException expected) {
+			Log.d(TAG, "libGDX never started, so there is no keyboard helper to close");
+		}
 	}
 
 	AndroidGraphics getGdxGraphics() {
@@ -285,10 +302,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public static CameraManager getActiveCameraManager() {
-		if (activeStageActivity != null) {
-			return activeStageActivity.get().cameraManager;
-		}
-		return null;
+		StageActivity stageActivity = activeStageActivity != null ? activeStageActivity.get() : null;
+		return stageActivity != null ? stageActivity.cameraManager : null;
 	}
 
 	public static VibrationManager getActiveVibrationManager() {

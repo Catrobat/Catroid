@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Nitq sintezi</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Nitq sintezi bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_face_detection">Üzün aşkarlanması</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Üz adının aşkarlanması</string>
     <string formatted="false" name="preference_description_ai_face_detection">Üzün aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Üz adının aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pozanın aşkarlanması</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Pozanın aşkarlanması bloklarını və sensorlarını aktivləşdirin</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Mətnin tanınması</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Mətni nitqə çevirmə mühərriki\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Arxa kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Üzün aşkarlanması\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Üz adının aşkarlanması\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Obyektlərin tanınması\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pozanın aşkarlanması\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Mətnin aşkarlanması\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Görünüşü sil</string>
     <string formatted="false" name="brick_delete_background">Arxa fonu sil</string>
     <string formatted="false" name="brick_flash">Fənəri</string>
+    <string formatted="false" name="brick_face_name">Üz nümunələri əlavə et və öyrət</string>
     <string formatted="false" name="brick_flash_on">yandır</string>
     <string formatted="false" name="brick_flash_off">söndür</string>
     <string formatted="false" name="brick_vibration">Titrə:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Görünüş xüsusiyyətləri</string>
     <string formatted="false" name="formula_editor_object_movement">Hərəkət xüsusiyyətləri</string>
     <string formatted="false" name="formula_editor_device_face_detection">Üzün aşkarlanması</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Üz adının aşkarlanması</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pozanın aşkarlanması</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Mətnin tanınması</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Obyektlərin tanınması</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">cari elementlər</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Siyahı et</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">birinci üz görünür</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">hədd ilə aşkarlanan üz adı</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">birinci üzün ölçüsü</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">birinci üzün x mövqeyi</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">birinci üzün y mövqeyi</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Bu cihazda əsas ekrana qısayol əlavə etməzdən əvvəl qısayol icazəsi verilməlidir. Zəhmət olmasa, icazəni ayarlarda verin.</string>
     <string formatted="false" name="miui_open_settings">Ayarları aç</string>
     <string formatted="false" name="shortcut_already_pinned">Bu layihə artıq əsas ekranınıza bərkidilib</string>
+    <string formatted="false" name="face_train_title">Üz adları</string>
+    <string formatted="false" name="face_train_choose_name">Foto əlavə etmək üçün ada toxunun</string>
+    <string formatted="false" name="face_train_retrain">Üz tanıma yeniləndi. Hər ada toxunun və onun fotolarını yenidən əlavə edin</string>
+    <string formatted="false" name="face_train_add_new_name">Yeni ad əlavə et</string>
+    <string formatted="false" name="face_train_no_names">Hələ ad yoxdur.</string>
+    <string formatted="false" name="face_train_name_hint">Ad daxil edin</string>
+    <string formatted="false" name="face_train_name_subtitle">Adı yazın, sonra yalnız həmin şəxsi göstərən fotoları seçin</string>
+    <string formatted="false" name="face_train_delete">Adı sil</string>
+    <string formatted="false" name="face_train_delete_choose_title">Hansı ad silinsin?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" silinsin?</string>
+    <string formatted="false" name="face_train_progress_title">Öyrədilir</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">Uğurla öyrədildi</string>
+    <string formatted="false" name="face_train_no_face">Seçilmiş fotolarda üz tapılmadı</string>
+    <string formatted="false" name="face_train_several_people">Yalnız bu şəxsi göstərən fotoları seçin</string>
+    <string formatted="false" name="face_train_success_some_skipped">Uğurla öyrədildi. Bir neçə adam olan fotolar buraxıldı</string>
+    <string formatted="false" name="face_train_error">Öyrətmə alınmadı: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Foto seçilməyib</string>
+    <string formatted="false" name="face_train_no_photo_picker">Foto seçmək üçün tətbiq tapılmadı</string>
+    <string formatted="false" name="face_train_name_rejected">Bu addan istifadə etmək olmaz</string>
+    <string formatted="false" name="face_train_not_available">Üz tanıma başlaya bilmədi</string>
+    <string formatted="false" name="face_train_name_missing">Bu ad artıq siyahıda yoxdur</string>
+    <string formatted="false" name="face_train_not_saved">Adlar saxlanıla bilmədi</string>
+    <string formatted="false" name="face_train_name_line_break">Adda sətir keçidi ola bilməz</string>
 </resources>

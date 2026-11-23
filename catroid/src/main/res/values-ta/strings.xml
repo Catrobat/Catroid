@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">பேச்சு உருவாக்கம்</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">பேச்சு உருவாக்கத் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_ai_face_detection">முகம் கண்டறிதல்</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">முகப் பெயர் கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_face_detection">முகம் கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">முகப் பெயர் கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_ai_pose_detection">உடல்நிலை கண்டறிதல்</string>
     <string formatted="false" name="preference_description_ai_pose_detection">உடல்நிலை கண்டறிதல் தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_ai_text_recognition">உரை அறிதல்</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 உரையிலிருந்து பேச்சு இயந்திரம்\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 பின்பக்கக் கேமரா\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 முகம் கண்டறிதல்\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 முகப் பெயர் கண்டறிதல்\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 பொருள் அறிதல்\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 உடல்நிலை கண்டறிதல்\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 உரை கண்டறிதல்\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">தோற்றத்தை நீக்கு</string>
     <string formatted="false" name="brick_delete_background">பின்னணியை நீக்கு</string>
     <string formatted="false" name="brick_flash">டார்ச் விளக்கை</string>
+    <string formatted="false" name="brick_face_name">முக மாதிரிகளைச் சேர்த்துப் பயிற்சியளி</string>
     <string formatted="false" name="brick_flash_on">இயக்கு</string>
     <string formatted="false" name="brick_flash_off">அணை</string>
     <string formatted="false" name="brick_vibration">இவ்வளவு நேரம் அதிர்:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">தோற்றப் பண்புகள்</string>
     <string formatted="false" name="formula_editor_object_movement">இயக்கப் பண்புகள்</string>
     <string formatted="false" name="formula_editor_device_face_detection">முகம் கண்டறிதல்</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">முகப் பெயர் கண்டறிதல்</string>
     <string formatted="false" name="formula_editor_device_pose_detection">உடல்நிலை கண்டறிதல்</string>
     <string formatted="false" name="formula_editor_device_text_recognition">உரை அறிதல்</string>
     <string formatted="false" name="formula_editor_device_object_recognition">பொருள் அறிதல்</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">தற்போதைய உருப்படிகள்</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">இதைப் பட்டியலாக்கு</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">முதல் முகம் தெரிகிறது</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">வரம்புடன் கண்டறியப்பட்ட முகப் பெயர்</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">முதல் முகத்தின் அளவு</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">முதல் முகத்தின் x இடம்</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">முதல் முகத்தின் y இடம்</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">முகப்புத் திரையில் குறுக்குவழியைச் சேர்க்கும் முன், இந்தச் சாதனத்தில் குறுக்குவழி அனுமதி வழங்கப்பட வேண்டும். அமைப்புகளில் அனுமதியை வழங்கவும்.</string>
     <string formatted="false" name="miui_open_settings">அமைப்புகளைத் திற</string>
     <string formatted="false" name="shortcut_already_pinned">இந்தத் திட்டம் ஏற்கனவே உங்கள் முகப்புத் திரையில் பொருத்தப்பட்டுள்ளது</string>
+    <string formatted="false" name="face_train_title">முகப் பெயர்கள்</string>
+    <string formatted="false" name="face_train_choose_name">புகைப்படங்களைச் சேர்க்க ஒரு பெயரைத் தட்டவும்</string>
+    <string formatted="false" name="face_train_retrain">முக அடையாளம் புதுப்பிக்கப்பட்டது. ஒவ்வொரு பெயரையும் தட்டி அதன் புகைப்படங்களை மீண்டும் சேர்க்கவும்</string>
+    <string formatted="false" name="face_train_add_new_name">புதிய பெயரைச் சேர்</string>
+    <string formatted="false" name="face_train_no_names">இன்னும் பெயர்கள் இல்லை.</string>
+    <string formatted="false" name="face_train_name_hint">ஒரு பெயரை உள்ளிடவும்</string>
+    <string formatted="false" name="face_train_name_subtitle">பெயரைத் தட்டச்சு செய்து, அந்த நபரை மட்டும் காட்டும் புகைப்படங்களைத் தேர்ந்தெடுக்கவும்</string>
+    <string formatted="false" name="face_train_delete">ஒரு பெயரை அழி</string>
+    <string formatted="false" name="face_train_delete_choose_title">எந்தப் பெயரை அழிக்க வேண்டும்?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" அழிக்கவா?</string>
+    <string formatted="false" name="face_train_progress_title">பயிற்சி நடக்கிறது</string>
+    <string formatted="false" name="face_train_progress_photo">புகைப்படம் %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">பயிற்சி வெற்றிகரமாக முடிந்தது</string>
+    <string formatted="false" name="face_train_no_face">தேர்ந்தெடுத்த புகைப்படங்களில் முகம் கிடைக்கவில்லை</string>
+    <string formatted="false" name="face_train_several_people">இந்த நபரை மட்டும் காட்டும் புகைப்படங்களைத் தேர்ந்தெடுக்கவும்</string>
+    <string formatted="false" name="face_train_success_some_skipped">பயிற்சி வெற்றிகரமாக முடிந்தது. பலர் உள்ள புகைப்படங்கள் தவிர்க்கப்பட்டன</string>
+    <string formatted="false" name="face_train_error">பயிற்சி தோல்வியடைந்தது: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">புகைப்படங்கள் எதுவும் தேர்ந்தெடுக்கப்படவில்லை</string>
+    <string formatted="false" name="face_train_no_photo_picker">புகைப்படங்களைத் தேர்ந்தெடுக்க செயலி கிடைக்கவில்லை</string>
+    <string formatted="false" name="face_train_name_rejected">இந்தப் பெயரைப் பயன்படுத்த முடியாது</string>
+    <string formatted="false" name="face_train_not_available">முக அடையாளத்தைத் தொடங்க முடியவில்லை</string>
+    <string formatted="false" name="face_train_name_missing">அந்தப் பெயர் இனி பட்டியலில் இல்லை</string>
+    <string formatted="false" name="face_train_not_saved">பெயர்களைச் சேமிக்க முடியவில்லை</string>
+    <string formatted="false" name="face_train_name_line_break">பெயரில் வரி முறிவு இருக்கக்கூடாது</string>
 </resources>

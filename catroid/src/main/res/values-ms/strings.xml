@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Sintesis pertuturan</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Dayakan blok dan penderia sintesis pertuturan</string>
     <string formatted="false" name="preference_title_ai_face_detection">Pengesanan wajah</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Pengesanan nama wajah</string>
     <string formatted="false" name="preference_description_ai_face_detection">Dayakan blok dan penderia pengesanan wajah</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Dayakan blok dan penderia pengesanan nama wajah</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Pengesanan pose</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Dayakan blok dan penderia pengesanan pose</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Pengecaman teks</string>
@@ -697,6 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Enjin teks ke pertuturan\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Kamera belakang\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Pengesanan wajah\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Pengesanan nama wajah\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Pengecaman objek\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Pengesanan pose\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Pengesanan teks\n</string>
@@ -846,6 +849,7 @@
     <string formatted="false" name="brick_delete_look">Padam rupa</string>
     <string formatted="false" name="brick_delete_background">Padam latar belakang</string>
     <string formatted="false" name="brick_flash">Tetapkan lampu suluh</string>
+    <string formatted="false" name="brick_face_name">Tambah sampel wajah dan latih</string>
     <string formatted="false" name="brick_flash_on">hidup</string>
     <string formatted="false" name="brick_flash_off">mati</string>
     <string formatted="false" name="brick_vibration">Bergetar selama</string>
@@ -1695,6 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">Sifat rupa</string>
     <string formatted="false" name="formula_editor_object_movement">Sifat gerakan</string>
     <string formatted="false" name="formula_editor_device_face_detection">Pengesanan wajah</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Pengesanan nama wajah</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Pengesanan pose</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Pengecaman teks</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Pengecaman objek</string>
@@ -1739,6 +1744,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">item semasa</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Jadikan senarai</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">wajah pertama kelihatan</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">nama wajah dikesan dengan ambang</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">saiz wajah pertama</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">kedudukan x wajah pertama</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">kedudukan y wajah pertama</string>
@@ -1958,4 +1965,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Peranti ini memerlukan kebenaran pintasan diberikan sebelum pintasan boleh ditambah pada skrin utama. Sila berikan kebenaran itu dalam tetapan.</string>
     <string formatted="false" name="miui_open_settings">Buka tetapan</string>
     <string formatted="false" name="shortcut_already_pinned">Projek ini sudah disemat pada skrin utama anda</string>
+    <string formatted="false" name="face_train_title">Nama wajah</string>
+    <string formatted="false" name="face_train_choose_name">Ketik nama untuk menambah foto</string>
+    <string formatted="false" name="face_train_retrain">Pengecaman wajah telah dikemas kini. Ketik setiap nama dan tambah semula fotonya</string>
+    <string formatted="false" name="face_train_add_new_name">Tambah nama baharu</string>
+    <string formatted="false" name="face_train_no_names">Belum ada nama.</string>
+    <string formatted="false" name="face_train_name_hint">Masukkan nama</string>
+    <string formatted="false" name="face_train_name_subtitle">Taip nama, kemudian pilih foto yang menunjukkan orang itu sahaja</string>
+    <string formatted="false" name="face_train_delete">Padam nama</string>
+    <string formatted="false" name="face_train_delete_choose_title">Padam nama yang mana?</string>
+    <string formatted="false" name="face_train_delete_title">Padam \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Melatih</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d daripada %2$d</string>
+    <string formatted="false" name="face_train_success">Berjaya dilatih</string>
+    <string formatted="false" name="face_train_no_face">Tiada wajah ditemui dalam foto yang dipilih</string>
+    <string formatted="false" name="face_train_several_people">Pilih foto yang menunjukkan orang ini sahaja</string>
+    <string formatted="false" name="face_train_success_some_skipped">Berjaya dilatih. Foto dengan beberapa orang dilangkau</string>
+    <string formatted="false" name="face_train_error">Latihan gagal: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Tiada foto dipilih</string>
+    <string formatted="false" name="face_train_no_photo_picker">Tiada aplikasi ditemui untuk memilih foto</string>
+    <string formatted="false" name="face_train_name_rejected">Nama ini tidak boleh digunakan</string>
+    <string formatted="false" name="face_train_not_available">Pengecaman wajah tidak dapat dimulakan</string>
+    <string formatted="false" name="face_train_name_missing">Nama itu tiada lagi dalam senarai</string>
+    <string formatted="false" name="face_train_not_saved">Nama tidak dapat disimpan</string>
+    <string formatted="false" name="face_train_name_line_break">Nama tidak boleh mengandungi pemisah baris</string>
 </resources>

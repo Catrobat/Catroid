@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Spraaksintese</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Aktiveer blokke en sensors vir spraaksintese</string>
     <string formatted="false" name="preference_title_ai_face_detection">Gesigsbespeuring</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Gesignaambespeuring</string>
     <string formatted="false" name="preference_description_ai_face_detection">Aktiveer blokke en sensors vir gesigsbespeuring</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Aktiveer blokke en sensors vir gesignaambespeuring</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Houdingbespeuring</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Aktiveer blokke en sensors vir houdingbespeuring</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Teksherkenning</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Teks-na-spraak-enjin\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Agterkamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Gesigsbespeuring\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Gesignaambespeuring\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Voorwerpherkenning\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Houdingbespeuring\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Teksbespeuring\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Vee kostuum uit</string>
     <string formatted="false" name="brick_delete_background">Vee agtergrond uit</string>
     <string formatted="false" name="brick_flash">Skakel flitslig</string>
+    <string formatted="false" name="brick_face_name">Voeg gesigmonsters by en lei op</string>
     <string formatted="false" name="brick_flash_on">aan</string>
     <string formatted="false" name="brick_flash_off">af</string>
     <string formatted="false" name="brick_vibration">Vibreer vir</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Kostuumeienskappe</string>
     <string formatted="false" name="formula_editor_object_movement">Bewegingseienskappe</string>
     <string formatted="false" name="formula_editor_device_face_detection">Gesigsbespeuring</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Gesignaambespeuring</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Houdingbespeuring</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Teksherkenning</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Voorwerpherkenning</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">huidige items</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Maak dit ’n lys</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">eerste gesig is sigbaar</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">bespeurde gesignaam met drempel</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">grootte van eerste gesig</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">x-posisie van eerste gesig</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">y-posisie van eerste gesig</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Hierdie toestel vereis dat toestemming vir kortpaaie verleen word voordat ’n kortpad op die tuisskerm gevoeg kan word. Verleen asseblief die toestemming in die instellings.</string>
     <string formatted="false" name="miui_open_settings">Maak instellings oop</string>
     <string formatted="false" name="shortcut_already_pinned">Hierdie projek is reeds op jou tuisskerm vasgespeld</string>
+    <string formatted="false" name="face_train_title">Gesigname</string>
+    <string formatted="false" name="face_train_choose_name">Tik op \'n naam om foto\'s by te voeg</string>
+    <string formatted="false" name="face_train_retrain">Gesigherkenning is opgedateer. Tik op elke naam en voeg sy foto\'s weer by</string>
+    <string formatted="false" name="face_train_add_new_name">Voeg nuwe naam by</string>
+    <string formatted="false" name="face_train_no_names">Nog geen name nie.</string>
+    <string formatted="false" name="face_train_name_hint">Voer \'n naam in</string>
+    <string formatted="false" name="face_train_name_subtitle">Tik die naam en kies dan foto\'s wat net daardie persoon wys</string>
+    <string formatted="false" name="face_train_delete">Vee \'n naam uit</string>
+    <string formatted="false" name="face_train_delete_choose_title">Watter naam moet uitgevee word?</string>
+    <string formatted="false" name="face_train_delete_title">Vee \"%1$s\" uit?</string>
+    <string formatted="false" name="face_train_progress_title">Opleiding</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d van %2$d</string>
+    <string formatted="false" name="face_train_success">Suksesvol opgelei</string>
+    <string formatted="false" name="face_train_no_face">Geen gesig in die gekose foto\'s gevind nie</string>
+    <string formatted="false" name="face_train_several_people">Kies foto\'s wat net hierdie persoon wys</string>
+    <string formatted="false" name="face_train_success_some_skipped">Suksesvol opgelei. Foto\'s met verskeie mense is oorgeslaan</string>
+    <string formatted="false" name="face_train_error">Opleiding het misluk: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Geen foto\'s gekies nie</string>
+    <string formatted="false" name="face_train_no_photo_picker">Geen toep gevind om foto\'s te kies nie</string>
+    <string formatted="false" name="face_train_name_rejected">Hierdie naam kan nie gebruik word nie</string>
+    <string formatted="false" name="face_train_not_available">Gesigherkenning kon nie begin nie</string>
+    <string formatted="false" name="face_train_name_missing">Daardie naam is nie meer in die lys nie</string>
+    <string formatted="false" name="face_train_not_saved">Die name kon nie gestoor word nie</string>
+    <string formatted="false" name="face_train_name_line_break">\'n Naam kan nie \'n reëlbreuk bevat nie</string>
 </resources>

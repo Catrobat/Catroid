@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">කථන සංස්ලේෂණය</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">කථන සංස්ලේෂණ ඛණ්ඩ සහ සංවේදක සබල කරන්න</string>
     <string formatted="false" name="preference_title_ai_face_detection">මුහුණු අනාවරණය</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">මුහුණේ නම අනාවරණය</string>
     <string formatted="false" name="preference_description_ai_face_detection">මුහුණු අනාවරණ ඛණ්ඩ සහ සංවේදක සබල කරන්න</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">මුහුණේ නම අනාවරණ ඛණ්ඩ සහ සංවේදක සබල කරන්න</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ඉරියව් අනාවරණය</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ඉරියව් අනාවරණ ඛණ්ඩ සහ සංවේදක සබල කරන්න</string>
     <string formatted="false" name="preference_title_ai_text_recognition">පෙළ හඳුනාගැනීම</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 පෙළ-කථන එන්ජිම\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 පසුපස කැමරාව\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 මුහුණු අනාවරණය\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 මුහුණේ නම අනාවරණය\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 වස්තු හඳුනාගැනීම\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 ඉරියව් අනාවරණය\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 පෙළ අනාවරණය\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">පෙනුම මකන්න</string>
     <string formatted="false" name="brick_delete_background">පසුබිම මකන්න</string>
     <string formatted="false" name="brick_flash">ෆ්ලෑෂ් ලයිට් මාරු කරන්න:</string>
+    <string formatted="false" name="brick_face_name">මුහුණු සාම්පල එක් කර පුහුණු කරන්න</string>
     <string formatted="false" name="brick_flash_on">සක්‍රිය</string>
     <string formatted="false" name="brick_flash_off">අක්‍රිය</string>
     <string formatted="false" name="brick_vibration">කම්පනය කරන්න:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">පෙනුමේ ගුණාංග</string>
     <string formatted="false" name="formula_editor_object_movement">චලන ගුණාංග</string>
     <string formatted="false" name="formula_editor_device_face_detection">මුහුණු අනාවරණය</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">මුහුණේ නම අනාවරණය</string>
     <string formatted="false" name="formula_editor_device_pose_detection">ඉරියව් අනාවරණය</string>
     <string formatted="false" name="formula_editor_device_text_recognition">පෙළ හඳුනාගැනීම</string>
     <string formatted="false" name="formula_editor_device_object_recognition">වස්තු හඳුනාගැනීම</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">වත්මන් අයිතම</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">ලැයිස්තුවක් ලෙස සාදන්න</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">පළමු මුහුණ පෙනේ</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">සීමාව සමඟ අනාවරණය කළ මුහුණේ නම</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">පළමු මුහුණේ ප්‍රමාණය</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">පළමු මුහුණේ x ස්ථානය</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">පළමු මුහුණේ y ස්ථානය</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">මුල් තිරයට කෙටිමඟක් එක් කිරීමට පෙර මෙම උපාංගයට කෙටිමං අවසරය ලබා දිය යුතුය. කරුණාකර සැකසීම්වල අවසරය ලබා දෙන්න.</string>
     <string formatted="false" name="miui_open_settings">සැකසීම් විවෘත කරන්න</string>
     <string formatted="false" name="shortcut_already_pinned">මෙම ව්‍යාපෘතිය දැනටමත් ඔබේ මුල් තිරයට අමුණා ඇත</string>
+    <string formatted="false" name="face_train_title">මුහුණුවල නම්</string>
+    <string formatted="false" name="face_train_choose_name">ඡායාරූප එක් කිරීමට නමක් තට්ටු කරන්න</string>
+    <string formatted="false" name="face_train_retrain">මුහුණු හඳුනාගැනීම යාවත්කාලීන විය. එක් එක් නම තට්ටු කර එහි ඡායාරූප නැවත එක් කරන්න</string>
+    <string formatted="false" name="face_train_add_new_name">නව නමක් එක් කරන්න</string>
+    <string formatted="false" name="face_train_no_names">තවම නම් නැත.</string>
+    <string formatted="false" name="face_train_name_hint">නමක් ඇතුළත් කරන්න</string>
+    <string formatted="false" name="face_train_name_subtitle">නම ටයිප් කර, එම පුද්ගලයා පමණක් පෙන්වන ඡායාරූප තෝරන්න</string>
+    <string formatted="false" name="face_train_delete">නමක් මකන්න</string>
+    <string formatted="false" name="face_train_delete_choose_title">කුමන නම මකන්නද?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" මකන්නද?</string>
+    <string formatted="false" name="face_train_progress_title">පුහුණු කරමින්</string>
+    <string formatted="false" name="face_train_progress_photo">ඡායාරූපය %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">සාර්ථකව පුහුණු කරන ලදී</string>
+    <string formatted="false" name="face_train_no_face">තෝරාගත් ඡායාරූපවල මුහුණක් හමු නොවීය</string>
+    <string formatted="false" name="face_train_several_people">මෙම පුද්ගලයා පමණක් පෙන්වන ඡායාරූප තෝරන්න</string>
+    <string formatted="false" name="face_train_success_some_skipped">සාර්ථකව පුහුණු කරන ලදී. පුද්ගලයන් කිහිප දෙනෙකු සිටින ඡායාරූප මඟ හරින ලදී</string>
+    <string formatted="false" name="face_train_error">පුහුණුව අසාර්ථක විය: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">ඡායාරූප තෝරා නැත</string>
+    <string formatted="false" name="face_train_no_photo_picker">ඡායාරූප තේරීමට යෙදුමක් හමු නොවීය</string>
+    <string formatted="false" name="face_train_name_rejected">මෙම නම භාවිත කළ නොහැක</string>
+    <string formatted="false" name="face_train_not_available">මුහුණු හඳුනාගැනීම ආරම්භ කළ නොහැකි විය</string>
+    <string formatted="false" name="face_train_name_missing">එම නම තවදුරටත් ලැයිස්තුවේ නැත</string>
+    <string formatted="false" name="face_train_not_saved">නම් සුරැකිය නොහැකි විය</string>
+    <string formatted="false" name="face_train_name_line_break">නමක රේඛා බිඳීමක් තිබිය නොහැක</string>
 </resources>

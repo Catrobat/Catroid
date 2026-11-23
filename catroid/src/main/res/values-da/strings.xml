@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Talesyntese</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Aktivér klodser og sensorer til talesyntese</string>
     <string formatted="false" name="preference_title_ai_face_detection">Ansigtsgenkendelse</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Genkendelse af ansigtsnavne</string>
     <string formatted="false" name="preference_description_ai_face_detection">Aktivér klodser og sensorer til ansigtsgenkendelse</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Aktivér klodser og sensorer til genkendelse af ansigtsnavne</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Positurgenkendelse</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Aktivér klodser og sensorer til positurgenkendelse</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Tekstgenkendelse</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Tekst til tale-program\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Bagkamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Ansigtsgenkendelse\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Genkendelse af ansigtsnavne\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Objektgenkendelse\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Positurgenkendelse\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Tekstgenkendelse\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Slet kostume</string>
     <string formatted="false" name="brick_delete_background">Slet baggrund</string>
     <string formatted="false" name="brick_flash">Sæt lommelygte</string>
+    <string formatted="false" name="brick_face_name">Tilføj ansigtsprøver og træn</string>
     <string formatted="false" name="brick_flash_on">til</string>
     <string formatted="false" name="brick_flash_off">fra</string>
     <string formatted="false" name="brick_vibration">Vibrér i</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Kostumeegenskaber</string>
     <string formatted="false" name="formula_editor_object_movement">Bevægelsesegenskaber</string>
     <string formatted="false" name="formula_editor_device_face_detection">Ansigtsgenkendelse</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Genkendelse af ansigtsnavne</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Positurgenkendelse</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Tekstgenkendelse</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Objektgenkendelse</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktuelle elementer</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Gør det til en liste</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">første ansigt er synligt</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">genkendt ansigtsnavn med tærskel</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">første ansigts størrelse</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">første ansigts x-position</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">første ansigts y-position</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Denne enhed kræver tilladelse til genveje, før der kan føjes en genvej til startskærmen. Giv tilladelsen i indstillingerne.</string>
     <string formatted="false" name="miui_open_settings">Åbn indstillinger</string>
     <string formatted="false" name="shortcut_already_pinned">Dette projekt er allerede fastgjort til din startskærm</string>
+    <string formatted="false" name="face_train_title">Ansigtsnavne</string>
+    <string formatted="false" name="face_train_choose_name">Tryk på et navn for at tilføje billeder</string>
+    <string formatted="false" name="face_train_retrain">Ansigtsgenkendelsen er opdateret. Tryk på hvert navn, og tilføj billederne igen</string>
+    <string formatted="false" name="face_train_add_new_name">Tilføj nyt navn</string>
+    <string formatted="false" name="face_train_no_names">Ingen navne endnu.</string>
+    <string formatted="false" name="face_train_name_hint">Indtast et navn</string>
+    <string formatted="false" name="face_train_name_subtitle">Skriv navnet, og vælg derefter billeder, der kun viser den person</string>
+    <string formatted="false" name="face_train_delete">Slet et navn</string>
+    <string formatted="false" name="face_train_delete_choose_title">Hvilket navn skal slettes?</string>
+    <string formatted="false" name="face_train_delete_title">Slet \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Træning</string>
+    <string formatted="false" name="face_train_progress_photo">Billede %1$d af %2$d</string>
+    <string formatted="false" name="face_train_success">Træningen lykkedes</string>
+    <string formatted="false" name="face_train_no_face">Der blev ikke fundet noget ansigt på de valgte billeder</string>
+    <string formatted="false" name="face_train_several_people">Vælg billeder, der kun viser denne person</string>
+    <string formatted="false" name="face_train_success_some_skipped">Træningen lykkedes. Billeder med flere personer blev sprunget over</string>
+    <string formatted="false" name="face_train_error">Træningen mislykkedes: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Ingen billeder valgt</string>
+    <string formatted="false" name="face_train_no_photo_picker">Der blev ikke fundet nogen app til at vælge billeder</string>
+    <string formatted="false" name="face_train_name_rejected">Dette navn kan ikke bruges</string>
+    <string formatted="false" name="face_train_not_available">Ansigtsgenkendelsen kunne ikke starte</string>
+    <string formatted="false" name="face_train_name_missing">Det navn er ikke længere på listen</string>
+    <string formatted="false" name="face_train_not_saved">Navnene kunne ikke gemmes</string>
+    <string formatted="false" name="face_train_name_line_break">Et navn kan ikke indeholde et linjeskift</string>
 </resources>

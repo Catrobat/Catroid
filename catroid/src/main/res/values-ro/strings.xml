@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Sinteză vocală</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Activează blocurile și senzorii de sinteză vocală</string>
     <string formatted="false" name="preference_title_ai_face_detection">Detectarea fețelor</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Detectarea numelui după față</string>
     <string formatted="false" name="preference_description_ai_face_detection">Activează blocurile și senzorii de detectare a fețelor</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Activează blocurile și senzorii de detectare a numelui după față</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Detectarea posturii</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Activează blocurile și senzorii de detectare a posturii</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Recunoașterea textului</string>
@@ -773,6 +775,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Motor de sinteză vocală\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Camera din spate\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Detectarea fețelor\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Detectarea numelui după față\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Recunoașterea obiectelor\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Detectarea posturii\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Detectarea textului\n</string>
@@ -926,6 +929,7 @@
     <string formatted="false" name="brick_delete_look">Șterge costumul</string>
     <string formatted="false" name="brick_delete_background">Șterge fundalul</string>
     <string formatted="false" name="brick_flash">Comută lanterna pe</string>
+    <string formatted="false" name="brick_face_name">Adaugă mostre de fețe și antrenează</string>
     <string formatted="false" name="brick_flash_on">pornit</string>
     <string formatted="false" name="brick_flash_off">oprit</string>
     <string formatted="false" name="brick_vibration">Vibrează timp de</string>
@@ -1785,6 +1789,7 @@
     <string formatted="false" name="formula_editor_object_look">Proprietățile costumului</string>
     <string formatted="false" name="formula_editor_object_movement">Proprietățile mișcării</string>
     <string formatted="false" name="formula_editor_device_face_detection">Detectarea fețelor</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Detectarea numelui după față</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Detectarea posturii</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Recunoașterea textului</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Recunoașterea obiectelor</string>
@@ -1829,6 +1834,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">elemente curente</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Transformă în listă</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">prima față este vizibilă</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">numele feței detectat cu prag</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">dimensiunea primei fețe</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">poziția x a primei fețe</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">poziția y a primei fețe</string>
@@ -2048,4 +2055,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Pe acest dispozitiv trebuie să acorzi permisiunea pentru comenzi rapide înainte de a adăuga o comandă rapidă pe ecranul de pornire. Acordă permisiunea în setări.</string>
     <string formatted="false" name="miui_open_settings">Deschide setările</string>
     <string formatted="false" name="shortcut_already_pinned">Acest proiect este deja fixat pe ecranul de pornire</string>
+    <string formatted="false" name="face_train_title">Numele fețelor</string>
+    <string formatted="false" name="face_train_choose_name">Atinge un nume pentru a adăuga fotografii</string>
+    <string formatted="false" name="face_train_retrain">Recunoașterea facială a fost actualizată. Atinge fiecare nume și adaugă din nou fotografiile lui</string>
+    <string formatted="false" name="face_train_add_new_name">Adaugă un nume nou</string>
+    <string formatted="false" name="face_train_no_names">Încă nu există nume.</string>
+    <string formatted="false" name="face_train_name_hint">Introdu un nume</string>
+    <string formatted="false" name="face_train_name_subtitle">Scrie numele, apoi alege fotografii care arată doar acea persoană</string>
+    <string formatted="false" name="face_train_delete">Șterge un nume</string>
+    <string formatted="false" name="face_train_delete_choose_title">Ce nume ștergi?</string>
+    <string formatted="false" name="face_train_delete_title">Ștergi \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Antrenare</string>
+    <string formatted="false" name="face_train_progress_photo">Fotografia %1$d din %2$d</string>
+    <string formatted="false" name="face_train_success">Antrenat cu succes</string>
+    <string formatted="false" name="face_train_no_face">Nu s-a găsit nicio față în fotografiile selectate</string>
+    <string formatted="false" name="face_train_several_people">Alege fotografii care arată doar această persoană</string>
+    <string formatted="false" name="face_train_success_some_skipped">Antrenat cu succes. Fotografiile cu mai multe persoane au fost omise</string>
+    <string formatted="false" name="face_train_error">Antrenarea a eșuat: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Nicio fotografie selectată</string>
+    <string formatted="false" name="face_train_no_photo_picker">Nu s-a găsit nicio aplicație pentru alegerea fotografiilor</string>
+    <string formatted="false" name="face_train_name_rejected">Acest nume nu poate fi folosit</string>
+    <string formatted="false" name="face_train_not_available">Recunoașterea facială nu a putut porni</string>
+    <string formatted="false" name="face_train_name_missing">Acel nume nu mai este în listă</string>
+    <string formatted="false" name="face_train_not_saved">Numele nu au putut fi salvate</string>
+    <string formatted="false" name="face_train_name_line_break">Un nume nu poate conține un salt de linie</string>
 </resources>

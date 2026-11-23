@@ -72,6 +72,10 @@ public class InternFormulaKeyboardAdapter {
 			return buildString(name);
 		}
 
+		// Resource IDs are not constants with non-final R classes: new entries are checked before the switch.
+		if (resource == R.string.formula_editor_function_face_name_with_threshold) {
+			return buildSingleParameterFunction(Functions.FACE_NAME_WITH_THRESHOLD, NUMBER, "0.53");
+		}
 		switch (resource) {
 			case R.id.formula_editor_keyboard_0:
 				return buildNumber("0");

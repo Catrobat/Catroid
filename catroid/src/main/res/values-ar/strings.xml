@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">تركيب الكلام</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">تفعيل لبنات ومستشعرات تركيب الكلام</string>
     <string formatted="false" name="preference_title_ai_face_detection">اكتشاف الوجوه</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">اكتشاف اسم الوجه</string>
     <string formatted="false" name="preference_description_ai_face_detection">تفعيل لبنات ومستشعرات اكتشاف الوجوه</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">تفعيل لبنات ومستشعرات اكتشاف اسم الوجه</string>
     <string formatted="false" name="preference_title_ai_pose_detection">اكتشاف وضعية الجسم</string>
     <string formatted="false" name="preference_description_ai_pose_detection">تفعيل لبنات ومستشعرات اكتشاف وضعية الجسم</string>
     <string formatted="false" name="preference_title_ai_text_recognition">التعرّف على النصوص</string>
@@ -887,6 +889,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 اكتشاف الوجوه\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 اكتشاف اسم الوجه\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 التعرّف على الأشياء\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 اكتشاف وضعية الجسم\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 اكتشاف النصوص\n</string>
@@ -1046,6 +1049,7 @@
     <string formatted="false" name="brick_delete_look">احذف المظهر</string>
     <string formatted="false" name="brick_delete_background">احذف الخلفية</string>
     <string formatted="false" name="brick_flash">اضبط الفلاش على</string>
+    <string formatted="false" name="brick_face_name">إضافة عينات وجه والتدريب</string>
     <string formatted="false" name="brick_flash_on">تشغيل</string>
     <string formatted="false" name="brick_flash_off">إيقاف</string>
     <string formatted="false" name="brick_vibration">اهتز لمدة</string>
@@ -1920,6 +1924,7 @@
     <string formatted="false" name="formula_editor_object_look">خصائص المظهر</string>
     <string formatted="false" name="formula_editor_object_movement">خصائص الحركة</string>
     <string formatted="false" name="formula_editor_device_face_detection">اكتشاف الوجوه</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">اكتشاف اسم الوجه</string>
     <string formatted="false" name="formula_editor_device_pose_detection">اكتشاف وضعية الجسم</string>
     <string formatted="false" name="formula_editor_device_text_recognition">التعرّف على النصوص</string>
     <string formatted="false" name="formula_editor_device_object_recognition">التعرّف على الأشياء</string>
@@ -1964,6 +1969,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">العناصر الحالية</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">اجعله قائمة</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">الوجه الأول مرئي</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">اسم الوجه المكتشف مع حد</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">حجم الوجه الأول</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">موضع الوجه الأول س</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">موضع الوجه الأول ص</string>
@@ -2183,4 +2190,28 @@
     <string formatted="false" name="shortcut_permission_required_message">يتطلب هذا الجهاز منح إذن الاختصارات قبل إضافة اختصار إلى الشاشة الرئيسية. يُرجى منح الإذن في الإعدادات.</string>
     <string formatted="false" name="miui_open_settings">فتح الإعدادات</string>
     <string formatted="false" name="shortcut_already_pinned">هذا المشروع مثبّت بالفعل على شاشتك الرئيسية</string>
+    <string formatted="false" name="face_train_title">أسماء الوجوه</string>
+    <string formatted="false" name="face_train_choose_name">اضغط على اسم لإضافة صور</string>
+    <string formatted="false" name="face_train_retrain">تم تحديث التعرف على الوجوه. اضغط على كل اسم وأضف صوره مرة أخرى</string>
+    <string formatted="false" name="face_train_add_new_name">إضافة اسم جديد</string>
+    <string formatted="false" name="face_train_no_names">لا توجد أسماء بعد.</string>
+    <string formatted="false" name="face_train_name_hint">أدخل اسمًا</string>
+    <string formatted="false" name="face_train_name_subtitle">اكتب الاسم، ثم اختر صورًا تُظهر ذلك الشخص فقط</string>
+    <string formatted="false" name="face_train_delete">حذف اسم</string>
+    <string formatted="false" name="face_train_delete_choose_title">أي اسم تريد حذفه؟</string>
+    <string formatted="false" name="face_train_delete_title">حذف \"%1$s\"؟</string>
+    <string formatted="false" name="face_train_progress_title">جارٍ التدريب</string>
+    <string formatted="false" name="face_train_progress_photo">الصورة %1$d من %2$d</string>
+    <string formatted="false" name="face_train_success">تم التدريب بنجاح</string>
+    <string formatted="false" name="face_train_no_face">لم يتم العثور على وجه في الصور المحددة</string>
+    <string formatted="false" name="face_train_several_people">اختر صورًا تُظهر هذا الشخص فقط</string>
+    <string formatted="false" name="face_train_success_some_skipped">تم التدريب بنجاح. تم تخطي الصور التي تضم عدة أشخاص</string>
+    <string formatted="false" name="face_train_error">فشل التدريب: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">لم يتم تحديد صور</string>
+    <string formatted="false" name="face_train_no_photo_picker">لم يتم العثور على تطبيق لاختيار الصور</string>
+    <string formatted="false" name="face_train_name_rejected">لا يمكن استخدام هذا الاسم</string>
+    <string formatted="false" name="face_train_not_available">تعذر بدء التعرف على الوجوه</string>
+    <string formatted="false" name="face_train_name_missing">لم يعد هذا الاسم موجودًا في القائمة</string>
+    <string formatted="false" name="face_train_not_saved">تعذر حفظ الأسماء</string>
+    <string formatted="false" name="face_train_name_line_break">لا يمكن أن يحتوي الاسم على فاصل أسطر</string>
 </resources>

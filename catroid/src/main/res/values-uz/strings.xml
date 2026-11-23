@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Nutq sintezi</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Nutq sintezi bloklari va sensorlarini yoqish</string>
     <string formatted="false" name="preference_title_ai_face_detection">Yuzni aniqlash</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Yuz nomini aniqlash</string>
     <string formatted="false" name="preference_description_ai_face_detection">Yuzni aniqlash bloklari va sensorlarini yoqish</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Yuz nomini aniqlash bloklari va sensorlarini yoqish</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Holatni aniqlash</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Holatni aniqlash bloklari va sensorlarini yoqish</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Matnni aniqlash</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Matnni nutqqa aylantirish dvigateli\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Orqa kamera\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Yuzni aniqlash\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Yuz nomini aniqlash\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Narsalarni aniqlash\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Holatni aniqlash\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Matnni aniqlash\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Qiyofani oʻchir</string>
     <string formatted="false" name="brick_delete_background">Fonni oʻchir</string>
     <string formatted="false" name="brick_flash">Chiroqni</string>
+    <string formatted="false" name="brick_face_name">Yuz namunalarini qoʻshish va oʻrgatish</string>
     <string formatted="false" name="brick_flash_on">yoq</string>
     <string formatted="false" name="brick_flash_off">oʻchir</string>
     <string formatted="false" name="brick_vibration">Tebran:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Qiyofa xususiyatlari</string>
     <string formatted="false" name="formula_editor_object_movement">Harakat xususiyatlari</string>
     <string formatted="false" name="formula_editor_device_face_detection">Yuzni aniqlash</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Yuz nomini aniqlash</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Holatni aniqlash</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Matnni aniqlash</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Narsalarni aniqlash</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">joriy elementlar</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Roʻyxat qilish</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">birinchi yuz koʻrinmoqda</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">chegara bilan aniqlangan yuz nomi</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">birinchi yuz oʻlchami</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">birinchi yuzning x holati</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">birinchi yuzning y holati</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Bosh ekranga yorliq qoʻshish uchun bu qurilmada yorliqlar yaratishga ruxsat berilishi kerak. Ruxsatni sozlamalarda bering.</string>
     <string formatted="false" name="miui_open_settings">Sozlamalarni ochish</string>
     <string formatted="false" name="shortcut_already_pinned">Bu loyiha bosh ekraningizga allaqachon qadalgan</string>
+    <string formatted="false" name="face_train_title">Yuz nomlari</string>
+    <string formatted="false" name="face_train_choose_name">Rasm qoʻshish uchun nomga bosing</string>
+    <string formatted="false" name="face_train_retrain">Yuzni tanish yangilandi. Har bir nomga bosib, uning rasmlarini qayta qoʻshing</string>
+    <string formatted="false" name="face_train_add_new_name">Yangi nom qoʻshish</string>
+    <string formatted="false" name="face_train_no_names">Hali nomlar yoʻq.</string>
+    <string formatted="false" name="face_train_name_hint">Nom kiriting</string>
+    <string formatted="false" name="face_train_name_subtitle">Nomni yozing, soʻng faqat oʻsha odam tushgan rasmlarni tanlang</string>
+    <string formatted="false" name="face_train_delete">Nomni oʻchirish</string>
+    <string formatted="false" name="face_train_delete_choose_title">Qaysi nom oʻchirilsin?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" oʻchirilsinmi?</string>
+    <string formatted="false" name="face_train_progress_title">Oʻrgatilmoqda</string>
+    <string formatted="false" name="face_train_progress_photo">Rasm %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">Muvaffaqiyatli oʻrgatildi</string>
+    <string formatted="false" name="face_train_no_face">Tanlangan rasmlarda yuz topilmadi</string>
+    <string formatted="false" name="face_train_several_people">Faqat shu odam tushgan rasmlarni tanlang</string>
+    <string formatted="false" name="face_train_success_some_skipped">Muvaffaqiyatli oʻrgatildi. Bir necha kishi tushgan rasmlar oʻtkazib yuborildi</string>
+    <string formatted="false" name="face_train_error">Oʻrgatish amalga oshmadi: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Rasm tanlanmagan</string>
+    <string formatted="false" name="face_train_no_photo_picker">Rasm tanlash uchun ilova topilmadi</string>
+    <string formatted="false" name="face_train_name_rejected">Bu nomdan foydalanib boʻlmaydi</string>
+    <string formatted="false" name="face_train_not_available">Yuzni tanishni boshlab boʻlmadi</string>
+    <string formatted="false" name="face_train_name_missing">Bu nom endi roʻyxatda yoʻq</string>
+    <string formatted="false" name="face_train_not_saved">Nomlarni saqlab boʻlmadi</string>
+    <string formatted="false" name="face_train_name_line_break">Nomda qator uzilishi boʻlishi mumkin emas</string>
 </resources>

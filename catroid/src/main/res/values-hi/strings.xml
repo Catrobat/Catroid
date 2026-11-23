@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">वाक् संश्लेषण</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">वाक् संश्लेषण के ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_ai_face_detection">चेहरा पहचान</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">चेहरे के नाम की पहचान</string>
     <string formatted="false" name="preference_description_ai_face_detection">चेहरा पहचान के ब्लॉक और सेंसर चालू करें</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">चेहरे के नाम की पहचान के ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_ai_pose_detection">मुद्रा पहचान</string>
     <string formatted="false" name="preference_description_ai_pose_detection">मुद्रा पहचान के ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_ai_text_recognition">टेक्स्ट पहचान</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 टेक्स्ट-टू-स्पीच इंजन\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 पीछे का कैमरा\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 चेहरा पहचान\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 चेहरे के नाम की पहचान\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 वस्तु पहचान\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 मुद्रा पहचान\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 टेक्स्ट पहचान\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">रूप हटाएँ</string>
     <string formatted="false" name="brick_delete_background">पृष्ठभूमि हटाएँ</string>
     <string formatted="false" name="brick_flash">टॉर्च</string>
+    <string formatted="false" name="brick_face_name">चेहरे के नमूने जोड़ें और प्रशिक्षित करें</string>
     <string formatted="false" name="brick_flash_on">चालू करें</string>
     <string formatted="false" name="brick_flash_off">बंद करें</string>
     <string formatted="false" name="brick_vibration">इतनी देर कंपन करें:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">रूप के गुण</string>
     <string formatted="false" name="formula_editor_object_movement">गति के गुण</string>
     <string formatted="false" name="formula_editor_device_face_detection">चेहरा पहचान</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">चेहरे के नाम की पहचान</string>
     <string formatted="false" name="formula_editor_device_pose_detection">मुद्रा पहचान</string>
     <string formatted="false" name="formula_editor_device_text_recognition">टेक्स्ट पहचान</string>
     <string formatted="false" name="formula_editor_device_object_recognition">वस्तु पहचान</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">वर्तमान आइटम</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">इसे सूची बनाएँ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">पहला चेहरा दिखाई दे रहा है</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">सीमा मान के साथ पहचाना गया चेहरे का नाम</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">पहले चेहरे का आकार</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">पहले चेहरे की x स्थिति</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">पहले चेहरे की y स्थिति</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">होम स्क्रीन पर शॉर्टकट जोड़ने से पहले इस डिवाइस को शॉर्टकट की अनुमति चाहिए। कृपया सेटिंग में अनुमति दें।</string>
     <string formatted="false" name="miui_open_settings">सेटिंग खोलें</string>
     <string formatted="false" name="shortcut_already_pinned">यह प्रोजेक्ट पहले से आपकी होम स्क्रीन पर पिन है</string>
+    <string formatted="false" name="face_train_title">चेहरों के नाम</string>
+    <string formatted="false" name="face_train_choose_name">फ़ोटो जोड़ने के लिए किसी नाम पर टैप करें</string>
+    <string formatted="false" name="face_train_retrain">चेहरा पहचान अपडेट हो गई है। हर नाम पर टैप करके उसकी फ़ोटो फिर से जोड़ें</string>
+    <string formatted="false" name="face_train_add_new_name">नया नाम जोड़ें</string>
+    <string formatted="false" name="face_train_no_names">अभी कोई नाम नहीं है।</string>
+    <string formatted="false" name="face_train_name_hint">कोई नाम दर्ज करें</string>
+    <string formatted="false" name="face_train_name_subtitle">नाम लिखें, फिर ऐसी फ़ोटो चुनें जिनमें केवल वही व्यक्ति हो</string>
+    <string formatted="false" name="face_train_delete">कोई नाम मिटाएँ</string>
+    <string formatted="false" name="face_train_delete_choose_title">कौन सा नाम मिटाना है?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" मिटाएँ?</string>
+    <string formatted="false" name="face_train_progress_title">प्रशिक्षण जारी है</string>
+    <string formatted="false" name="face_train_progress_photo">फ़ोटो %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">प्रशिक्षण सफल रहा</string>
+    <string formatted="false" name="face_train_no_face">चुनी गई फ़ोटो में कोई चेहरा नहीं मिला</string>
+    <string formatted="false" name="face_train_several_people">ऐसी फ़ोटो चुनें जिनमें केवल यही व्यक्ति हो</string>
+    <string formatted="false" name="face_train_success_some_skipped">प्रशिक्षण सफल रहा। कई लोगों वाली फ़ोटो छोड़ दी गईं</string>
+    <string formatted="false" name="face_train_error">प्रशिक्षण विफल: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">कोई फ़ोटो नहीं चुनी गई</string>
+    <string formatted="false" name="face_train_no_photo_picker">फ़ोटो चुनने के लिए कोई ऐप नहीं मिला</string>
+    <string formatted="false" name="face_train_name_rejected">इस नाम का उपयोग नहीं किया जा सकता</string>
+    <string formatted="false" name="face_train_not_available">चेहरा पहचान शुरू नहीं हो सकी</string>
+    <string formatted="false" name="face_train_name_missing">वह नाम अब सूची में नहीं है</string>
+    <string formatted="false" name="face_train_not_saved">नाम सहेजे नहीं जा सके</string>
+    <string formatted="false" name="face_train_name_line_break">नाम में पंक्ति विराम नहीं हो सकता</string>
 </resources>

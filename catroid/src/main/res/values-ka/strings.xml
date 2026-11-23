@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">მეტყველების სინთეზი</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">მეტყველების სინთეზის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_face_detection">სახის აღმოჩენა</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">სახის სახელის აღმოჩენა</string>
     <string formatted="false" name="preference_description_ai_face_detection">სახის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">სახის სახელის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_pose_detection">პოზის აღმოჩენა</string>
     <string formatted="false" name="preference_description_ai_pose_detection">პოზის აღმოჩენის ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ტექსტის ამოცნობა</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 ტექსტის მეტყველებად გარდამქმნელი ძრავა\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 უკანა კამერა\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 სახის აღმოჩენა\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 სახის სახელის აღმოჩენა\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 ობიექტების ამოცნობა\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 პოზის აღმოჩენა\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 ტექსტის აღმოჩენა\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">წაშალე იერსახე</string>
     <string formatted="false" name="brick_delete_background">წაშალე ფონი</string>
     <string formatted="false" name="brick_flash">ფანარი:</string>
+    <string formatted="false" name="brick_face_name">სახის ნიმუშების დამატება და გაწვრთნა</string>
     <string formatted="false" name="brick_flash_on">ჩართე</string>
     <string formatted="false" name="brick_flash_off">გამორთე</string>
     <string formatted="false" name="brick_vibration">ივიბრირე</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">იერსახის თვისებები</string>
     <string formatted="false" name="formula_editor_object_movement">მოძრაობის თვისებები</string>
     <string formatted="false" name="formula_editor_device_face_detection">სახის აღმოჩენა</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">სახის სახელის აღმოჩენა</string>
     <string formatted="false" name="formula_editor_device_pose_detection">პოზის აღმოჩენა</string>
     <string formatted="false" name="formula_editor_device_text_recognition">ტექსტის ამოცნობა</string>
     <string formatted="false" name="formula_editor_device_object_recognition">ობიექტების ამოცნობა</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">მიმდინარე ელემენტები</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">სიად გადაქცევა</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">პირველი სახე ჩანს</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">აღმოჩენილი სახის სახელი ზღვრით</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">პირველი სახის ზომა</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">პირველი სახის x პოზიცია</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">პირველი სახის y პოზიცია</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">ამ მოწყობილობაზე მთავარ ეკრანზე მალსახმობის დასამატებლად საჭიროა მალსახმობების ნებართვა. მიეცი ნებართვა პარამეტრებში.</string>
     <string formatted="false" name="miui_open_settings">პარამეტრების გახსნა</string>
     <string formatted="false" name="shortcut_already_pinned">ეს პროექტი უკვე დამაგრებულია შენს მთავარ ეკრანზე</string>
+    <string formatted="false" name="face_train_title">სახეების სახელები</string>
+    <string formatted="false" name="face_train_choose_name">შეეხეთ სახელს ფოტოების დასამატებლად</string>
+    <string formatted="false" name="face_train_retrain">სახის ამოცნობა განახლდა. შეეხეთ თითოეულ სახელს და ხელახლა დაამატეთ მისი ფოტოები</string>
+    <string formatted="false" name="face_train_add_new_name">ახალი სახელის დამატება</string>
+    <string formatted="false" name="face_train_no_names">სახელები ჯერ არ არის.</string>
+    <string formatted="false" name="face_train_name_hint">შეიყვანეთ სახელი</string>
+    <string formatted="false" name="face_train_name_subtitle">ჩაწერეთ სახელი, შემდეგ აირჩიეთ ფოტოები, რომლებზეც მხოლოდ ეს ადამიანია</string>
+    <string formatted="false" name="face_train_delete">სახელის წაშლა</string>
+    <string formatted="false" name="face_train_delete_choose_title">რომელი სახელი წაიშალოს?</string>
+    <string formatted="false" name="face_train_delete_title">წაიშალოს \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">მიმდინარეობს გაწვრთნა</string>
+    <string formatted="false" name="face_train_progress_photo">ფოტო %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">წარმატებით გაიწვრთნა</string>
+    <string formatted="false" name="face_train_no_face">არჩეულ ფოტოებზე სახე ვერ მოიძებნა</string>
+    <string formatted="false" name="face_train_several_people">აირჩიეთ ფოტოები, რომლებზეც მხოლოდ ეს ადამიანია</string>
+    <string formatted="false" name="face_train_success_some_skipped">წარმატებით გაიწვრთნა. რამდენიმე ადამიანის ფოტოები გამოტოვებულია</string>
+    <string formatted="false" name="face_train_error">გაწვრთნა ვერ მოხერხდა: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">ფოტოები არ არის არჩეული</string>
+    <string formatted="false" name="face_train_no_photo_picker">ფოტოების ასარჩევი აპი ვერ მოიძებნა</string>
+    <string formatted="false" name="face_train_name_rejected">ამ სახელის გამოყენება შეუძლებელია</string>
+    <string formatted="false" name="face_train_not_available">სახის ამოცნობა ვერ დაიწყო</string>
+    <string formatted="false" name="face_train_name_missing">ეს სახელი სიაში აღარ არის</string>
+    <string formatted="false" name="face_train_not_saved">სახელები ვერ შეინახა</string>
+    <string formatted="false" name="face_train_name_line_break">სახელი ვერ შეიცავს ახალ ხაზს</string>
 </resources>

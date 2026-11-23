@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Ịmepụta okwu</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Gbanye blọk na sensọ ịmepụta okwu</string>
     <string formatted="false" name="preference_title_ai_face_detection">Ịchọpụta ihu</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Ịchọpụta aha ihu</string>
     <string formatted="false" name="preference_description_ai_face_detection">Gbanye blọk na sensọ ịchọpụta ihu</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Gbanye blọk na sensọ ịchọpụta aha ihu</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Gbanye blọk na sensọ ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Ịmata ederede</string>
@@ -697,6 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Engine ntụgharị ederede gaa n\'okwu\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Kamera azụ\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Ịchọpụta ihu\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Ịchọpụta aha ihu\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Ịmata ihe\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Ịchọpụta ọnọdụ ahụ\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Ịchọpụta ederede\n</string>
@@ -846,6 +849,7 @@
     <string formatted="false" name="brick_delete_look">Hichapụ ọdịdị</string>
     <string formatted="false" name="brick_delete_background">Hichapụ ndabere</string>
     <string formatted="false" name="brick_flash">Ọkụ flash:</string>
+    <string formatted="false" name="brick_face_name">Tinye ihe atụ ihu ma zụọ</string>
     <string formatted="false" name="brick_flash_on">gbanye</string>
     <string formatted="false" name="brick_flash_off">gbanyụọ</string>
     <string formatted="false" name="brick_vibration">Maa jijiji maka</string>
@@ -1695,6 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">Njirimara ọdịdị</string>
     <string formatted="false" name="formula_editor_object_movement">Njirimara mmegharị</string>
     <string formatted="false" name="formula_editor_device_face_detection">Ịchọpụta ihu</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Ịchọpụta aha ihu</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Ịchọpụta ọnọdụ ahụ</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Ịmata ederede</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Ịmata ihe</string>
@@ -1739,6 +1744,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">ihe dị ugbu a</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Mee ya ndepụta</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">a na-ahụ ihu mbụ</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">aha ihu achọpụtara nwere oke</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">nha ihu mbụ</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ọnọdụ x ihu mbụ</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ọnọdụ y ihu mbụ</string>
@@ -1958,4 +1965,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Ngwaọrụ a chọrọ ka e nye ikike ụzọ mkpirisi tupu itinye ụzọ mkpirisi na ihuenyo mbụ. Biko nye ikike ahụ na ntọala.</string>
     <string formatted="false" name="miui_open_settings">Meghee ntọala</string>
     <string formatted="false" name="shortcut_already_pinned">A pịnụlarị ọrụ a na ihuenyo mbụ gị</string>
+    <string formatted="false" name="face_train_title">Aha ihu</string>
+    <string formatted="false" name="face_train_choose_name">Pịa aha iji tinye foto</string>
+    <string formatted="false" name="face_train_retrain">Emelitela nchọpụta ihu. Pịa aha ọ bụla ma tinyeghachi foto ya</string>
+    <string formatted="false" name="face_train_add_new_name">Tinye aha ọhụrụ</string>
+    <string formatted="false" name="face_train_no_names">Enweghị aha ọ bụla ugbu a.</string>
+    <string formatted="false" name="face_train_name_hint">Tinye aha</string>
+    <string formatted="false" name="face_train_name_subtitle">Dee aha ahụ, wee họrọ foto na-egosi naanị onye ahụ</string>
+    <string formatted="false" name="face_train_delete">Hichapụ aha</string>
+    <string formatted="false" name="face_train_delete_choose_title">Kedu aha a ga-ehichapụ?</string>
+    <string formatted="false" name="face_train_delete_title">Hichapụ \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">A na-azụ</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d n\'ime %2$d</string>
+    <string formatted="false" name="face_train_success">Azụrụ nke ọma</string>
+    <string formatted="false" name="face_train_no_face">Ahụghị ihu na foto ndị a họọrọ</string>
+    <string formatted="false" name="face_train_several_people">Họrọ foto na-egosi naanị onye a</string>
+    <string formatted="false" name="face_train_success_some_skipped">Azụrụ nke ọma. Ahapụrụ foto nwere ọtụtụ mmadụ</string>
+    <string formatted="false" name="face_train_error">Ọzụzụ dara: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Ahọrọghị foto ọ bụla</string>
+    <string formatted="false" name="face_train_no_photo_picker">Ahụghị ngwa iji họrọ foto</string>
+    <string formatted="false" name="face_train_name_rejected">Enweghị ike iji aha a</string>
+    <string formatted="false" name="face_train_not_available">Nchọpụta ihu enweghị ike ịmalite</string>
+    <string formatted="false" name="face_train_name_missing">Aha ahụ adịghịzi na ndepụta</string>
+    <string formatted="false" name="face_train_not_saved">Enweghị ike ịchekwa aha ndị ahụ</string>
+    <string formatted="false" name="face_train_name_line_break">Aha enweghị ike inwe nkewa ahịrị</string>
 </resources>

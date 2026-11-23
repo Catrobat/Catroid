@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Síntesi de veu</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Activa els blocs i sensors de síntesi de veu</string>
     <string formatted="false" name="preference_title_ai_face_detection">Detecció de cares</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Detecció del nom de la cara</string>
     <string formatted="false" name="preference_description_ai_face_detection">Activa els blocs i sensors de detecció de cares</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Activa els blocs i sensors de detecció del nom de la cara</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Detecció de postures</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Activa els blocs i sensors de detecció de postures</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Reconeixement de text</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Motor de text a veu\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Càmera posterior\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Detecció de cares\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Detecció del nom de la cara\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Reconeixement d\'objectes\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Detecció de postures\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Detecció de text\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Elimina l\'aparença</string>
     <string formatted="false" name="brick_delete_background">Elimina el fons</string>
     <string formatted="false" name="brick_flash">Posa la llanterna</string>
+    <string formatted="false" name="brick_face_name">Afegeix mostres de cares i entrena</string>
     <string formatted="false" name="brick_flash_on">encesa</string>
     <string formatted="false" name="brick_flash_off">apagada</string>
     <string formatted="false" name="brick_vibration">Vibra durant</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Propietats de l\'aparença</string>
     <string formatted="false" name="formula_editor_object_movement">Propietats del moviment</string>
     <string formatted="false" name="formula_editor_device_face_detection">Detecció de cares</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Detecció del nom de la cara</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Detecció de postures</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Reconeixement de text</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Reconeixement d\'objectes</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">elements actuals</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Converteix-la en una llista</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">la primera cara és visible</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">nom de la cara detectat amb llindar</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">mida de la primera cara</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">posició x de la primera cara</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">posició y de la primera cara</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Aquest dispositiu requereix que concedeixis el permís de dreceres abans d\'afegir una drecera a la pantalla d\'inici. Concedeix el permís a la configuració.</string>
     <string formatted="false" name="miui_open_settings">Obre la configuració</string>
     <string formatted="false" name="shortcut_already_pinned">Aquest projecte ja està fixat a la pantalla d\'inici</string>
+    <string formatted="false" name="face_train_title">Noms de cares</string>
+    <string formatted="false" name="face_train_choose_name">Toca un nom per afegir-hi fotos</string>
+    <string formatted="false" name="face_train_retrain">El reconeixement facial s\'ha actualitzat. Toca cada nom i torna a afegir-hi les fotos</string>
+    <string formatted="false" name="face_train_add_new_name">Afegeix un nom nou</string>
+    <string formatted="false" name="face_train_no_names">Encara no hi ha noms.</string>
+    <string formatted="false" name="face_train_name_hint">Introdueix un nom</string>
+    <string formatted="false" name="face_train_name_subtitle">Escriu el nom i després tria fotos que mostrin només aquesta persona</string>
+    <string formatted="false" name="face_train_delete">Elimina un nom</string>
+    <string formatted="false" name="face_train_delete_choose_title">Quin nom vols eliminar?</string>
+    <string formatted="false" name="face_train_delete_title">Vols eliminar \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Entrenament</string>
+    <string formatted="false" name="face_train_progress_photo">Foto %1$d de %2$d</string>
+    <string formatted="false" name="face_train_success">Entrenament correcte</string>
+    <string formatted="false" name="face_train_no_face">No s\'ha trobat cap cara a les fotos seleccionades</string>
+    <string formatted="false" name="face_train_several_people">Tria fotos que mostrin només aquesta persona</string>
+    <string formatted="false" name="face_train_success_some_skipped">Entrenament correcte. S\'han omès les fotos amb diverses persones</string>
+    <string formatted="false" name="face_train_error">L\'entrenament ha fallat: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">No s\'ha seleccionat cap foto</string>
+    <string formatted="false" name="face_train_no_photo_picker">No s\'ha trobat cap aplicació per triar fotos</string>
+    <string formatted="false" name="face_train_name_rejected">Aquest nom no es pot utilitzar</string>
+    <string formatted="false" name="face_train_not_available">No s\'ha pogut iniciar el reconeixement facial</string>
+    <string formatted="false" name="face_train_name_missing">Aquest nom ja no és a la llista</string>
+    <string formatted="false" name="face_train_not_saved">No s\'han pogut desar els noms</string>
+    <string formatted="false" name="face_train_name_line_break">Un nom no pot contenir un salt de línia</string>
 </resources>

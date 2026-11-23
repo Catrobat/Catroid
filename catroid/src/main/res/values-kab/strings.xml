@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Asuddes n wawal</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Rmed iblugen d imaṭṭafen n usuddes n wawal</string>
     <string formatted="false" name="preference_title_ai_face_detection">Tifin n wudem</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Tifin n yisem n wudem</string>
     <string formatted="false" name="preference_description_ai_face_detection">Rmed iblugen d imaṭṭafen n tifin n wudem</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Rmed iblugen d imaṭṭafen n tifin n yisem n wudem</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Tifin n tɣessa</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Rmed iblugen d imaṭṭafen n tifin n tɣessa</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Tiɣimit n uḍris</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Amsedday n usuddes n wawal\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Takamiṛat n deffir\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Tifin n wudem\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Tifin n yisem n wudem\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Tiɣimit n tɣawsiwin\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Tifin n tɣessa\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Tifin n uḍris\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">Kkes talɣa</string>
     <string formatted="false" name="brick_delete_background">Kkes agilal</string>
     <string formatted="false" name="brick_flash">Sbadu taftilt</string>
+    <string formatted="false" name="brick_face_name">Rnu tilmatin n wudem u sselmed</string>
     <string formatted="false" name="brick_flash_on">termed</string>
     <string formatted="false" name="brick_flash_off">tensa</string>
     <string formatted="false" name="brick_vibration">Sergagi i</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">Ayla n telɣa</string>
     <string formatted="false" name="formula_editor_object_movement">Ayla n umussu</string>
     <string formatted="false" name="formula_editor_device_face_detection">Tifin n wudem</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Tifin n yisem n wudem</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Tifin n tɣessa</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Tiɣimit n uḍris</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Tiɣimit n tɣawsiwin</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">iferdisen imiranen</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Err-it d tabdart</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">udem amezwaru yettban</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">isem n wudem yettwafen s tlisa</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">tiddi n wudem amezwaru</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">adeg x n wudem amezwaru</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">adeg y n wudem amezwaru</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Ibenk-a yesra ad d-tettunefk tsiregt n yinegzumen send ad yettwarnu unegzum ɣer ugdil agejdan. Ma ulac aɣilif, efk tasiregt deg yiɣewwaṛen.</string>
     <string formatted="false" name="miui_open_settings">Ldi iɣewwaṛen</string>
     <string formatted="false" name="shortcut_already_pinned">Asenfar-a yettwarna yakan ɣer ugdil-ik·im agejdan</string>
+    <string formatted="false" name="face_train_title">Ismawen n wudmawen</string>
+    <string formatted="false" name="face_train_choose_name">Sit ɣef yisem akken ad ternuḍ tugniwin</string>
+    <string formatted="false" name="face_train_retrain">Tifin n wudem tettwaleqqem. Sit ɣef yal isem u rnu tugniwin-is tikkelt-nniḍen</string>
+    <string formatted="false" name="face_train_add_new_name">Rnu isem amaynut</string>
+    <string formatted="false" name="face_train_no_names">Ulac ismawen akka tura.</string>
+    <string formatted="false" name="face_train_name_hint">Sekcem isem</string>
+    <string formatted="false" name="face_train_name_subtitle">Aru isem, syin fren tugniwin i d-yeskanen kan amdan-nni</string>
+    <string formatted="false" name="face_train_delete">Kkes isem</string>
+    <string formatted="false" name="face_train_delete_choose_title">Anwa isem ara tekkseḍ?</string>
+    <string formatted="false" name="face_train_delete_title">Kkes \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Asmussen iteddu</string>
+    <string formatted="false" name="face_train_progress_photo">Tugna %1$d seg %2$d</string>
+    <string formatted="false" name="face_train_success">Yedda usmussen akken iwata</string>
+    <string formatted="false" name="face_train_no_face">Ulac udem yettwafen deg tugniwin yettwafernen</string>
+    <string formatted="false" name="face_train_several_people">Fren tugniwin i d-yeskanen kan amdan-a</string>
+    <string formatted="false" name="face_train_success_some_skipped">Yedda usmussen akken iwata. Tugniwin ideg llan aṭas n yimdanen ttwazeglent</string>
+    <string formatted="false" name="face_train_error">Yecceḍ usmussen: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Ulac tugniwin yettwafernen</string>
+    <string formatted="false" name="face_train_no_photo_picker">Ulac asnas i ufran n tugniwin</string>
+    <string formatted="false" name="face_train_name_rejected">Isem-a ur yezmir ara ad yettwaseqdec</string>
+    <string formatted="false" name="face_train_not_available">Tifin n wudem ur tezmir ara ad tebdu</string>
+    <string formatted="false" name="face_train_name_missing">Isem-nni ulac-it deg tebdart</string>
+    <string formatted="false" name="face_train_not_saved">Ismawen ur ttwaskelsen ara</string>
+    <string formatted="false" name="face_train_name_line_break">Isem ur yezmir ara ad yegber agemmay n yizirig</string>
 </resources>

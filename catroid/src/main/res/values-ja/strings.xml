@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">音声合成</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">音声合成のブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_ai_face_detection">顔検出</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">顔の名前の検出</string>
     <string formatted="false" name="preference_description_ai_face_detection">顔検出のブロックとセンサーを有効にする</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">顔の名前の検出のブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ポーズ検出</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ポーズ検出のブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_ai_text_recognition">文字認識</string>
@@ -697,6 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 音声合成エンジン\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 顔検出\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 顔の名前の検出\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 物体認識\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 ポーズ検出\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 文字検出\n</string>
@@ -846,6 +849,7 @@
     <string formatted="false" name="brick_delete_look">コスチュームを削除</string>
     <string formatted="false" name="brick_delete_background">背景を削除</string>
     <string formatted="false" name="brick_flash">ライトを切り替える</string>
+    <string formatted="false" name="brick_face_name">顔のサンプルを追加して学習</string>
     <string formatted="false" name="brick_flash_on">オン</string>
     <string formatted="false" name="brick_flash_off">オフ</string>
     <string formatted="false" name="brick_vibration">振動させる</string>
@@ -1695,6 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">見た目のプロパティ</string>
     <string formatted="false" name="formula_editor_object_movement">動きのプロパティ</string>
     <string formatted="false" name="formula_editor_device_face_detection">顔検出</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">顔の名前の検出</string>
     <string formatted="false" name="formula_editor_device_pose_detection">ポーズ検出</string>
     <string formatted="false" name="formula_editor_device_text_recognition">文字認識</string>
     <string formatted="false" name="formula_editor_device_object_recognition">物体認識</string>
@@ -1739,6 +1744,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">現在の項目</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">リストにする</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">1 つ目の顔が見える</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">しきい値付きの検出された顔の名前</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">1 つ目の顔の大きさ</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">1 つ目の顔の x 座標</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">1 つ目の顔の y 座標</string>
@@ -1958,4 +1965,28 @@
     <string formatted="false" name="shortcut_permission_required_message">このデバイスでは、ホーム画面にショートカットを追加する前に、ショートカットの権限を許可する必要があります。設定で権限を許可してください。</string>
     <string formatted="false" name="miui_open_settings">設定を開く</string>
     <string formatted="false" name="shortcut_already_pinned">このプロジェクトは既にホーム画面に固定されています</string>
+    <string formatted="false" name="face_train_title">顔の名前</string>
+    <string formatted="false" name="face_train_choose_name">名前をタップして写真を追加</string>
+    <string formatted="false" name="face_train_retrain">顔認識が更新されました。各名前をタップして写真を追加し直してください</string>
+    <string formatted="false" name="face_train_add_new_name">新しい名前を追加</string>
+    <string formatted="false" name="face_train_no_names">名前はまだありません。</string>
+    <string formatted="false" name="face_train_name_hint">名前を入力</string>
+    <string formatted="false" name="face_train_name_subtitle">名前を入力してから、その人だけが写っている写真を選んでください</string>
+    <string formatted="false" name="face_train_delete">名前を削除</string>
+    <string formatted="false" name="face_train_delete_choose_title">どの名前を削除しますか?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" を削除しますか?</string>
+    <string formatted="false" name="face_train_progress_title">学習中</string>
+    <string formatted="false" name="face_train_progress_photo">写真 %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">学習に成功しました</string>
+    <string formatted="false" name="face_train_no_face">選択した写真に顔が見つかりませんでした</string>
+    <string formatted="false" name="face_train_several_people">この人だけが写っている写真を選んでください</string>
+    <string formatted="false" name="face_train_success_some_skipped">学習に成功しました。複数の人が写っている写真はスキップしました</string>
+    <string formatted="false" name="face_train_error">学習に失敗しました: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">写真が選択されていません</string>
+    <string formatted="false" name="face_train_no_photo_picker">写真を選択するアプリが見つかりません</string>
+    <string formatted="false" name="face_train_name_rejected">この名前は使用できません</string>
+    <string formatted="false" name="face_train_not_available">顔認識を開始できませんでした</string>
+    <string formatted="false" name="face_train_name_missing">その名前はリストにありません</string>
+    <string formatted="false" name="face_train_not_saved">名前を保存できませんでした</string>
+    <string formatted="false" name="face_train_name_line_break">名前に改行は使用できません</string>
 </resources>

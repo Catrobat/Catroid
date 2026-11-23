@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">ಮಾತಿನ ಸಂಶ್ಲೇಷಣೆ</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">ಮಾತಿನ ಸಂಶ್ಲೇಷಣೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_ai_face_detection">ಮುಖ ಪತ್ತೆ</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆ</string>
     <string formatted="false" name="preference_description_ai_face_detection">ಮುಖ ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_ai_pose_detection">ಭಂಗಿ ಪತ್ತೆ</string>
     <string formatted="false" name="preference_description_ai_pose_detection">ಭಂಗಿ ಪತ್ತೆಯ ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_ai_text_recognition">ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆ</string>
@@ -735,6 +737,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 ಪಠ್ಯದಿಂದ ಮಾತು ಎಂಜಿನ್\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 ಹಿಂಬದಿ ಕ್ಯಾಮರಾ\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 ಮುಖ ಪತ್ತೆ\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 ಮುಖದ ಹೆಸರು ಪತ್ತೆ\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 ವಸ್ತು ಗುರುತಿಸುವಿಕೆ\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 ಭಂಗಿ ಪತ್ತೆ\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 ಪಠ್ಯ ಪತ್ತೆ\n</string>
@@ -886,6 +889,7 @@
     <string formatted="false" name="brick_delete_look">ರೂಪವನ್ನು ಅಳಿಸಿ</string>
     <string formatted="false" name="brick_delete_background">ಹಿನ್ನೆಲೆಯನ್ನು ಅಳಿಸಿ</string>
     <string formatted="false" name="brick_flash">ಫ್ಲ್ಯಾಶ್‌ಲೈಟ್ ಅನ್ನು</string>
+    <string formatted="false" name="brick_face_name">ಮುಖದ ಮಾದರಿಗಳನ್ನು ಸೇರಿಸಿ ಮತ್ತು ತರಬೇತಿ ನೀಡಿ</string>
     <string formatted="false" name="brick_flash_on">ಆನ್ ಮಾಡಿ</string>
     <string formatted="false" name="brick_flash_off">ಆಫ್ ಮಾಡಿ</string>
     <string formatted="false" name="brick_vibration">ಕಂಪಿಸಿ:</string>
@@ -1740,6 +1744,7 @@
     <string formatted="false" name="formula_editor_object_look">ರೂಪದ ಗುಣಲಕ್ಷಣಗಳು</string>
     <string formatted="false" name="formula_editor_object_movement">ಚಲನೆಯ ಗುಣಲಕ್ಷಣಗಳು</string>
     <string formatted="false" name="formula_editor_device_face_detection">ಮುಖ ಪತ್ತೆ</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">ಮುಖದ ಹೆಸರು ಪತ್ತೆ</string>
     <string formatted="false" name="formula_editor_device_pose_detection">ಭಂಗಿ ಪತ್ತೆ</string>
     <string formatted="false" name="formula_editor_device_text_recognition">ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">ವಸ್ತು ಗುರುತಿಸುವಿಕೆ</string>
@@ -1784,6 +1789,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">ಪ್ರಸ್ತುತ ಐಟಂಗಳು</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">ಇದನ್ನು ಪಟ್ಟಿಯನ್ನಾಗಿ ಮಾಡಿ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">ಮೊದಲ ಮುಖ ಕಾಣುತ್ತಿದೆ</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">ಮಿತಿಯೊಂದಿಗೆ ಪತ್ತೆಯಾದ ಮುಖದ ಹೆಸರು</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">ಮೊದಲ ಮುಖದ ಗಾತ್ರ</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ಮೊದಲ ಮುಖದ x ಸ್ಥಾನ</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ಮೊದಲ ಮುಖದ y ಸ್ಥಾನ</string>
@@ -2003,4 +2010,28 @@
     <string formatted="false" name="shortcut_permission_required_message">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸುವ ಮೊದಲು ಈ ಸಾಧನಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಅನುಮತಿ ನೀಡಬೇಕಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅನುಮತಿ ನೀಡಿ.</string>
     <string formatted="false" name="miui_open_settings">ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
     <string formatted="false" name="shortcut_already_pinned">ಈ ಪ್ರಾಜೆಕ್ಟ್ ಈಗಾಗಲೇ ನಿಮ್ಮ ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಪಿನ್ ಆಗಿದೆ</string>
+    <string formatted="false" name="face_train_title">ಮುಖಗಳ ಹೆಸರುಗಳು</string>
+    <string formatted="false" name="face_train_choose_name">ಫೋಟೋಗಳನ್ನು ಸೇರಿಸಲು ಹೆಸರನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ</string>
+    <string formatted="false" name="face_train_retrain">ಮುಖ ಗುರುತಿಸುವಿಕೆ ನವೀಕರಿಸಲಾಗಿದೆ. ಪ್ರತಿ ಹೆಸರನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಅದರ ಫೋಟೋಗಳನ್ನು ಮತ್ತೆ ಸೇರಿಸಿ</string>
+    <string formatted="false" name="face_train_add_new_name">ಹೊಸ ಹೆಸರು ಸೇರಿಸಿ</string>
+    <string formatted="false" name="face_train_no_names">ಇನ್ನೂ ಹೆಸರುಗಳಿಲ್ಲ.</string>
+    <string formatted="false" name="face_train_name_hint">ಹೆಸರನ್ನು ನಮೂದಿಸಿ</string>
+    <string formatted="false" name="face_train_name_subtitle">ಹೆಸರನ್ನು ಟೈಪ್ ಮಾಡಿ, ನಂತರ ಆ ವ್ಯಕ್ತಿಯನ್ನು ಮಾತ್ರ ತೋರಿಸುವ ಫೋಟೋಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string formatted="false" name="face_train_delete">ಹೆಸರನ್ನು ಅಳಿಸಿ</string>
+    <string formatted="false" name="face_train_delete_choose_title">ಯಾವ ಹೆಸರನ್ನು ಅಳಿಸಬೇಕು?</string>
+    <string formatted="false" name="face_train_delete_title">\"%1$s\" ಅಳಿಸಬೇಕೇ?</string>
+    <string formatted="false" name="face_train_progress_title">ತರಬೇತಿ ನಡೆಯುತ್ತಿದೆ</string>
+    <string formatted="false" name="face_train_progress_photo">ಫೋಟೋ %1$d / %2$d</string>
+    <string formatted="false" name="face_train_success">ತರಬೇತಿ ಯಶಸ್ವಿಯಾಗಿದೆ</string>
+    <string formatted="false" name="face_train_no_face">ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಟೋಗಳಲ್ಲಿ ಮುಖ ಕಂಡುಬಂದಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_several_people">ಈ ವ್ಯಕ್ತಿಯನ್ನು ಮಾತ್ರ ತೋರಿಸುವ ಫೋಟೋಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string formatted="false" name="face_train_success_some_skipped">ತರಬೇತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ಹಲವು ಜನರಿರುವ ಫೋಟೋಗಳನ್ನು ಬಿಡಲಾಗಿದೆ</string>
+    <string formatted="false" name="face_train_error">ತರಬೇತಿ ವಿಫಲವಾಗಿದೆ: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">ಯಾವುದೇ ಫೋಟೋ ಆಯ್ಕೆಯಾಗಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_no_photo_picker">ಫೋಟೋಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಆ್ಯಪ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_name_rejected">ಈ ಹೆಸರನ್ನು ಬಳಸಲಾಗುವುದಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_not_available">ಮುಖ ಗುರುತಿಸುವಿಕೆ ಪ್ರಾರಂಭವಾಗಲಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_name_missing">ಆ ಹೆಸರು ಈಗ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_not_saved">ಹೆಸರುಗಳನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ</string>
+    <string formatted="false" name="face_train_name_line_break">ಹೆಸರಿನಲ್ಲಿ ಲೈನ್ ಬ್ರೇಕ್ ಇರಬಾರದು</string>
 </resources>

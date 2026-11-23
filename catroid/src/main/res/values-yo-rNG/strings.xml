@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Ìṣẹ̀dá ọ̀rọ̀ sísọ</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìṣẹ̀dá ọ̀rọ̀ sísọ ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_ai_face_detection">Ìdámọ̀ ojú</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Ìdámọ̀ orúkọ ojú</string>
     <string formatted="false" name="preference_description_ai_face_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ ojú ṣiṣẹ́</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ orúkọ ojú ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Ìdámọ̀ ìdúró ara</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ìdámọ̀ ìdúró ara ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Ìdámọ̀ ọ̀rọ̀ kíkọ</string>
@@ -697,6 +699,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Ẹ̀rọ Ọ̀rọ̀-sí-Ohùn\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Kámẹ́rà ẹ̀yìn\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Ìdámọ̀ ojú\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Ìdámọ̀ orúkọ ojú\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Ìdámọ̀ ohun\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Ìdámọ̀ ìdúró ara\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Ìdámọ̀ ọ̀rọ̀ kíkọ\n</string>
@@ -846,6 +849,7 @@
     <string formatted="false" name="brick_delete_look">Pa ìrísí rẹ́</string>
     <string formatted="false" name="brick_delete_background">Pa àwòrán ẹ̀yìn rẹ́</string>
     <string formatted="false" name="brick_flash">Yí iná fìlàṣì sí</string>
+    <string formatted="false" name="brick_face_name">Ṣàfikún àwọn àpẹẹrẹ ojú kí o sì kọ́ ọ</string>
     <string formatted="false" name="brick_flash_on">títàn</string>
     <string formatted="false" name="brick_flash_off">pípa</string>
     <string formatted="false" name="brick_vibration">Mì tìtì fún</string>
@@ -1695,6 +1699,7 @@
     <string formatted="false" name="formula_editor_object_look">Àwọn ànímọ́ ìrísí</string>
     <string formatted="false" name="formula_editor_object_movement">Àwọn ànímọ́ ìrìn</string>
     <string formatted="false" name="formula_editor_device_face_detection">Ìdámọ̀ ojú</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Ìdámọ̀ orúkọ ojú</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Ìdámọ̀ ìdúró ara</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Ìdámọ̀ ọ̀rọ̀ kíkọ</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Ìdámọ̀ ohun</string>
@@ -1739,6 +1744,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">àwọn ohun lọ́wọ́lọ́wọ́</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Sọ ọ́ di àkójọ</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">ojú àkọ́kọ́ hàn</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">orúkọ ojú tí a dámọ̀ pẹ̀lú ààlà</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">ìwọ̀n ojú àkọ́kọ́</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">ipò x ojú àkọ́kọ́</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">ipò y ojú àkọ́kọ́</string>
@@ -1958,4 +1965,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Ẹ̀rọ yìí nílò àṣẹ ọ̀nà àbùjá kí o tó lè fi ọ̀nà àbùjá kún ìbojú ilé. Jọ̀wọ́ fún un ní àṣẹ náà nínú ètò.</string>
     <string formatted="false" name="miui_open_settings">Ṣí ètò</string>
     <string formatted="false" name="shortcut_already_pinned">A ti lẹ iṣẹ́ àkànṣe yìí mọ́ ìbojú ilé rẹ tẹ́lẹ̀</string>
+    <string formatted="false" name="face_train_title">Àwọn orúkọ ojú</string>
+    <string formatted="false" name="face_train_choose_name">Tẹ orúkọ kan láti ṣàfikún fọ́tò</string>
+    <string formatted="false" name="face_train_retrain">A ti ṣe àtúnṣe ìdámọ̀ ojú. Tẹ orúkọ kọ̀ọ̀kan kí o sì tún ṣàfikún àwọn fọ́tò rẹ̀</string>
+    <string formatted="false" name="face_train_add_new_name">Ṣàfikún orúkọ tuntun</string>
+    <string formatted="false" name="face_train_no_names">Kò sí orúkọ síbẹ̀.</string>
+    <string formatted="false" name="face_train_name_hint">Tẹ orúkọ kan sí i</string>
+    <string formatted="false" name="face_train_name_subtitle">Kọ orúkọ náà, lẹ́yìn náà yan àwọn fọ́tò tí ó fi ẹni yẹn nìkan hàn</string>
+    <string formatted="false" name="face_train_delete">Pa orúkọ kan rẹ́</string>
+    <string formatted="false" name="face_train_delete_choose_title">Orúkọ wo ni kí a pa rẹ́?</string>
+    <string formatted="false" name="face_train_delete_title">Pa \"%1$s\" rẹ́?</string>
+    <string formatted="false" name="face_train_progress_title">Ó ń kọ́ni</string>
+    <string formatted="false" name="face_train_progress_photo">Fọ́tò %1$d nínú %2$d</string>
+    <string formatted="false" name="face_train_success">A ti kọ́ ọ ní àṣeyọrí</string>
+    <string formatted="false" name="face_train_no_face">A kò rí ojú kankan nínú àwọn fọ́tò tí a yàn</string>
+    <string formatted="false" name="face_train_several_people">Yan àwọn fọ́tò tí ó fi ẹni yìí nìkan hàn</string>
+    <string formatted="false" name="face_train_success_some_skipped">A ti kọ́ ọ ní àṣeyọrí. A fo àwọn fọ́tò tí ó ní ènìyàn púpọ̀</string>
+    <string formatted="false" name="face_train_error">Ìkọ́ni kùnà: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">A kò yan fọ́tò kankan</string>
+    <string formatted="false" name="face_train_no_photo_picker">A kò rí áàpù láti yan fọ́tò</string>
+    <string formatted="false" name="face_train_name_rejected">A kò lè lo orúkọ yìí</string>
+    <string formatted="false" name="face_train_not_available">Ìdámọ̀ ojú kò lè bẹ̀rẹ̀</string>
+    <string formatted="false" name="face_train_name_missing">Orúkọ yẹn kò sí nínú àkójọ mọ́</string>
+    <string formatted="false" name="face_train_not_saved">A kò lè fi àwọn orúkọ náà pamọ́</string>
+    <string formatted="false" name="face_train_name_line_break">Orúkọ kò lè ní ìfọ́ ìlà</string>
 </resources>

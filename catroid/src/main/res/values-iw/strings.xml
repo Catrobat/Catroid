@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">סינתזת דיבור</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">הפעלת לבנים וחיישנים של סינתזת דיבור</string>
     <string formatted="false" name="preference_title_ai_face_detection">זיהוי פנים</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">זיהוי שם לפי פנים</string>
     <string formatted="false" name="preference_description_ai_face_detection">הפעלת לבנים וחיישנים של זיהוי פנים</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">הפעלת לבנים וחיישנים של זיהוי שם לפי פנים</string>
     <string formatted="false" name="preference_title_ai_pose_detection">זיהוי תנוחה</string>
     <string formatted="false" name="preference_description_ai_pose_detection">הפעלת לבנים וחיישנים של זיהוי תנוחה</string>
     <string formatted="false" name="preference_title_ai_text_recognition">זיהוי טקסט</string>
@@ -773,6 +775,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 מנוע המרת טקסט לדיבור\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 מצלמה אחורית\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 זיהוי פנים\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 זיהוי שם לפי פנים\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 זיהוי עצמים\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 זיהוי תנוחה\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 זיהוי טקסט\n</string>
@@ -926,6 +929,7 @@
     <string formatted="false" name="brick_delete_look">מחק מראה</string>
     <string formatted="false" name="brick_delete_background">מחק רקע</string>
     <string formatted="false" name="brick_flash">העבר את הפנס למצב</string>
+    <string formatted="false" name="brick_face_name">הוספת דוגמאות פנים ואימון</string>
     <string formatted="false" name="brick_flash_on">מופעל</string>
     <string formatted="false" name="brick_flash_off">כבוי</string>
     <string formatted="false" name="brick_vibration">הפעל רטט למשך</string>
@@ -1785,6 +1789,7 @@
     <string formatted="false" name="formula_editor_object_look">מאפייני מראה</string>
     <string formatted="false" name="formula_editor_object_movement">מאפייני תנועה</string>
     <string formatted="false" name="formula_editor_device_face_detection">זיהוי פנים</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">זיהוי שם לפי פנים</string>
     <string formatted="false" name="formula_editor_device_pose_detection">זיהוי תנוחה</string>
     <string formatted="false" name="formula_editor_device_text_recognition">זיהוי טקסט</string>
     <string formatted="false" name="formula_editor_device_object_recognition">זיהוי עצמים</string>
@@ -1829,6 +1834,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">הפריטים הנוכחיים</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">הפיכה לרשימה</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">הפנים הראשונות נראות</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">שם הפנים שזוהה עם סף</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">גודל הפנים הראשונות</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">מיקום x של הפנים הראשונות</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">מיקום y של הפנים הראשונות</string>
@@ -2048,4 +2055,28 @@
     <string formatted="false" name="shortcut_permission_required_message">במכשיר הזה יש לתת הרשאה לקיצורי דרך לפני שמוסיפים קיצור דרך למסך הבית. נא לתת את ההרשאה בהגדרות.</string>
     <string formatted="false" name="miui_open_settings">פתיחת ההגדרות</string>
     <string formatted="false" name="shortcut_already_pinned">המיזם הזה כבר מוצמד למסך הבית</string>
+    <string formatted="false" name="face_train_title">שמות פנים</string>
+    <string formatted="false" name="face_train_choose_name">יש להקיש על שם כדי להוסיף תמונות</string>
+    <string formatted="false" name="face_train_retrain">זיהוי הפנים עודכן. יש להקיש על כל שם ולהוסיף שוב את התמונות שלו</string>
+    <string formatted="false" name="face_train_add_new_name">הוספת שם חדש</string>
+    <string formatted="false" name="face_train_no_names">אין עדיין שמות.</string>
+    <string formatted="false" name="face_train_name_hint">יש להזין שם</string>
+    <string formatted="false" name="face_train_name_subtitle">יש להקליד את השם ואז לבחור תמונות שמופיע בהן רק אותו אדם</string>
+    <string formatted="false" name="face_train_delete">מחיקת שם</string>
+    <string formatted="false" name="face_train_delete_choose_title">איזה שם למחוק?</string>
+    <string formatted="false" name="face_train_delete_title">למחוק את \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">מתבצע אימון</string>
+    <string formatted="false" name="face_train_progress_photo">תמונה %1$d מתוך %2$d</string>
+    <string formatted="false" name="face_train_success">האימון הצליח</string>
+    <string formatted="false" name="face_train_no_face">לא נמצאו פנים בתמונות שנבחרו</string>
+    <string formatted="false" name="face_train_several_people">יש לבחור תמונות שמופיע בהן רק האדם הזה</string>
+    <string formatted="false" name="face_train_success_some_skipped">האימון הצליח. תמונות עם כמה אנשים דולגו</string>
+    <string formatted="false" name="face_train_error">האימון נכשל: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">לא נבחרו תמונות</string>
+    <string formatted="false" name="face_train_no_photo_picker">לא נמצאה אפליקציה לבחירת תמונות</string>
+    <string formatted="false" name="face_train_name_rejected">לא ניתן להשתמש בשם הזה</string>
+    <string formatted="false" name="face_train_not_available">לא ניתן היה להפעיל את זיהוי הפנים</string>
+    <string formatted="false" name="face_train_name_missing">השם הזה כבר לא ברשימה</string>
+    <string formatted="false" name="face_train_not_saved">לא ניתן היה לשמור את השמות</string>
+    <string formatted="false" name="face_train_name_line_break">שם לא יכול להכיל מעבר שורה</string>
 </resources>

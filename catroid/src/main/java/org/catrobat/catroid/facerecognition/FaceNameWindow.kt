@@ -1,0 +1,233 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2026 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.catrobat.catroid.facerecognition
+
+import android.graphics.Bitmap
+import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.get
+import kotlin.math.max
+import kotlin.math.min
+
+/**
+ * The decision behind "detected face name": a sliding window of the last
+ * [FRAMES] analysed frames that contained a usable face.
+ *
+ * A frame with a usable face enters the window, the oldest one leaving when the
+ * window is full. Each read of the sensor averages the window's scores and
+ * applies the formula's explicit threshold ([nameWithThreshold]), independent
+ * of the number of enrolled people and the previous name. A frame without a
+ * usable face changes nothing, until no usable face was seen for
+ * [NO_FACE_RESET_MS]; then the window is cleared and the name is empty ([UNKNOWN]). A
+ * usable face after that time starts a fresh decision, even if no frame came
+ * in between.
+ *
+ * The window is also the throttle: [isFrameDue] lets one frame through every
+ * [FRAME_INTERVAL_MS].
+ *
+ * It replaces FrameBurst, the fixed three-frame burst of the removed one-shot capture.
+ */
+class FaceNameWindow {
+
+    private val frames = ArrayDeque<FloatArray>(FRAMES)
+
+    /** The enrolled people the frames in the window were scored against, in score order. */
+    private var framesScoredFor: List<String> = emptyList()
+
+    private var lastFrameAt: Long? = null
+    private var lastUsableFaceAt: Long? = null
+
+    @get:Synchronized
+    val framesInWindow: Int
+        get() = frames.size
+
+    /**
+     * True when at least [FRAME_INTERVAL_MS] passed since the last frame this
+     * returned true for. A true answer counts that frame as analysed.
+     */
+    @Synchronized
+    fun isFrameDue(nowMs: Long): Boolean {
+        val last = lastFrameAt
+        if (last != null && nowMs - last < FRAME_INTERVAL_MS) {
+            return false
+        }
+        lastFrameAt = nowMs
+        return true
+    }
+
+    /**
+     * Adds one analysed frame: [scores] has one score per enrolled person, in
+     * [Recognizer.classNames] order, or is null when the frame held no usable
+     * face.
+     */
+    @Synchronized
+    fun addScores(
+        recognizer: Recognizer,
+        scores: FloatArray?,
+        nowMs: Long,
+        scoredFor: List<String>? = null
+    ) {
+        val last = lastUsableFaceAt
+        val expired = last == null || nowMs - last >= NO_FACE_RESET_MS
+        if (expired) {
+            // No usable face for too long, or the face is back after the limit: a
+            // fresh decision, without the frames of whoever was there before.
+            clearFrames()
+        }
+        if (scores == null) {
+            return
+        }
+
+        val people = recognizer.classNames
+        if (scores.size != people.size || (scoredFor != null && scoredFor != people)) {
+            // Someone was added or deleted while this frame was scored.
+            return
+        }
+        if (people != framesScoredFor) {
+            // Older frames were scored against other people; their scores do not line up.
+            clearFrames()
+            framesScoredFor = people
+        }
+        if (frames.size == FRAMES) {
+            frames.removeFirst()
+        }
+        frames.addLast(scores.copyOf())
+        lastUsableFaceAt = nowMs
+    }
+
+    /** Back to the start of a program run: no frames, [UNKNOWN], the next frame due at once. */
+    @Synchronized
+    fun clear() {
+        clearFrames()
+        lastFrameAt = null
+    }
+
+    private fun clearFrames() {
+        frames.clear()
+        framesScoredFor = emptyList()
+        lastUsableFaceAt = null
+    }
+
+    /**
+     * Re-evaluates the same cached scores per formula; never changes another
+     * formula's cutoff. With [nowMs], scores older than [NO_FACE_RESET_MS] give
+     * [UNKNOWN]: the camera may have stopped sending frames, and the person
+     * may have left.
+     */
+    @Synchronized
+    fun nameWithThreshold(recognizer: Recognizer, threshold: Float, nowMs: Long? = null): String {
+        if (frames.isEmpty() || !threshold.isFinite()) {
+            return UNKNOWN
+        }
+        val last = lastUsableFaceAt
+        if (nowMs != null && (last == null || nowMs - last >= NO_FACE_RESET_MS)) {
+            return UNKNOWN
+        }
+        val totals = FloatArray(framesScoredFor.size)
+        for (scores in frames) {
+            for (index in totals.indices) {
+                totals[index] += scores[index]
+            }
+        }
+        // Missing evidence must remain missing in the average, even at cutoff
+        // zero; mixing the sentinel with real scores could otherwise accept it.
+        for (index in totals.indices) {
+            totals[index] = if (frames.any { it[index] == FaceDatabase.NO_SCORE }) {
+                FaceDatabase.NO_SCORE
+            } else {
+                totals[index] / frames.size
+            }
+        }
+        return recognizer.nameForScores(framesScoredFor, totals, threshold) ?: UNKNOWN
+    }
+
+    companion object {
+        /**
+         * Nobody recognized. Programs compare against this value, so it must be
+         * the same in every language: a translated word would break shared projects.
+         */
+        const val UNKNOWN: String = ""
+
+        /** Usable frames whose scores are averaged. More frames, less noise. */
+        const val FRAMES = 3
+
+        /** At most one analysed frame per this many milliseconds. */
+        const val FRAME_INTERVAL_MS = 300L
+
+        /** Without a usable face for this long, the name goes back to [UNKNOWN]. */
+        const val NO_FACE_RESET_MS = 1000L
+
+        /**
+         * The scores [addScores] takes for [frame]; null when it holds no usable
+         * face: none at all, or clipped highlights.
+         */
+        fun scoreOf(recognizer: Recognizer, frame: Bitmap?, mirrorToo: Boolean): Recognizer.ScoredFrame? {
+            if (frame == null || recognizer.classNames.isEmpty() || isSeverelyOverexposed(frame)) {
+                return null
+            }
+            return recognizer.scoreFrameForNames(frame, mirrorToo)
+        }
+
+        /**
+         * Clipped white pixels contain no recoverable facial texture, so such a
+         * frame must not lower the window's average.
+         */
+        @VisibleForTesting
+        internal fun isSeverelyOverexposed(bitmap: Bitmap?): Boolean {
+            if (bitmap == null || bitmap.isRecycled) {
+                return true
+            }
+            val left = bitmap.width / 4
+            val top = bitmap.height / 4
+            val right = bitmap.width * 3 / 4
+            val bottom = bitmap.height * 3 / 4
+            var sampled = 0
+            var clipped = 0
+            var luminanceSum = 0L
+            val step = max(1, min(bitmap.width, bitmap.height) / 120)
+            var y = top
+            while (y < bottom) {
+                var x = left
+                while (x < right) {
+                    val p = bitmap[x, y]
+                    val r = (p shr 16) and 0xff
+                    val g = (p shr 8) and 0xff
+                    val b = p and 0xff
+                    val luma = (77 * r + 150 * g + 29 * b) shr 8
+                    luminanceSum += luma.toLong()
+                    if (r >= 250 && g >= 250 && b >= 250) {
+                        clipped++
+                    }
+                    sampled++
+                    x += step
+                }
+                y += step
+            }
+            if (sampled == 0) {
+                return false
+            }
+            val clippedRatio = clipped.toFloat() / sampled
+            val meanLuma = luminanceSum.toFloat() / sampled
+            return clippedRatio > 0.45f || meanLuma > 238f
+        }
+    }
+}

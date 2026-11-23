@@ -119,7 +119,9 @@
     <string formatted="false" name="preference_title_ai_speech_synthetization">Syntéza řeči</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">Zapnout bloky a senzory syntézy řeči</string>
     <string formatted="false" name="preference_title_ai_face_detection">Rozpoznávání obličejů</string>
+    <string formatted="false" name="preference_title_ai_face_name_detection">Rozpoznávání jména podle obličeje</string>
     <string formatted="false" name="preference_description_ai_face_detection">Zapnout bloky a senzory rozpoznávání obličejů</string>
+    <string formatted="false" name="preference_description_ai_face_name_detection">Zapnout bloky a senzory rozpoznávání jména podle obličeje</string>
     <string formatted="false" name="preference_title_ai_pose_detection">Rozpoznávání postoje</string>
     <string formatted="false" name="preference_description_ai_pose_detection">Zapnout bloky a senzory rozpoznávání postoje</string>
     <string formatted="false" name="preference_title_ai_text_recognition">Rozpoznávání textu</string>
@@ -811,6 +813,7 @@
     <string formatted="false" name="prestage_text_to_speech_error">\u2022 Převod textu na řeč\n</string>
     <string formatted="false" name="prestage_no_back_camera_available">\u2022 Zadní fotoaparát\n</string>
     <string formatted="false" name="prestage_no_face_detection_available">\u2022 Rozpoznávání obličejů\n</string>
+    <string formatted="false" name="prestage_no_face_name_detection_available">\u2022 Rozpoznávání jména podle obličeje\n</string>
     <string formatted="false" name="prestage_no_object_detection_available">\u2022 Rozpoznávání předmětů\n</string>
     <string formatted="false" name="prestage_no_pose_detection_available">\u2022 Rozpoznávání postoje\n</string>
     <string formatted="false" name="prestage_no_text_detection_available">\u2022 Rozpoznávání textu\n</string>
@@ -966,6 +969,7 @@
     <string formatted="false" name="brick_delete_look">Smaž vzhled</string>
     <string formatted="false" name="brick_delete_background">Smaž pozadí</string>
     <string formatted="false" name="brick_flash">Svítilnu</string>
+    <string formatted="false" name="brick_face_name">Přidat ukázky obličeje a natrénovat</string>
     <string formatted="false" name="brick_flash_on">zapni</string>
     <string formatted="false" name="brick_flash_off">vypni</string>
     <string formatted="false" name="brick_vibration">Vibruj</string>
@@ -1830,6 +1834,7 @@
     <string formatted="false" name="formula_editor_object_look">Vlastnosti vzhledu</string>
     <string formatted="false" name="formula_editor_object_movement">Vlastnosti pohybu</string>
     <string formatted="false" name="formula_editor_device_face_detection">Rozpoznávání obličejů</string>
+    <string formatted="false" name="formula_editor_device_face_name_detection">Rozpoznávání jména podle obličeje</string>
     <string formatted="false" name="formula_editor_device_pose_detection">Rozpoznávání postoje</string>
     <string formatted="false" name="formula_editor_device_text_recognition">Rozpoznávání textu</string>
     <string formatted="false" name="formula_editor_device_object_recognition">Rozpoznávání předmětů</string>
@@ -1874,6 +1879,8 @@
     <string formatted="false" name="formula_editor_fragment_data_current_items">aktuální položky</string>
     <string formatted="false" name="formula_editor_data_dialog_is_list">Vytvořit jako seznam</string>
     <string formatted="false" name="formula_editor_sensor_face_detected">první obličej je vidět</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold">rozpoznané jméno obličeje s prahem</string>
+    <string formatted="false" name="formula_editor_function_face_name_with_threshold_parameter">(0.53)</string>
     <string formatted="false" name="formula_editor_sensor_face_size">velikost prvního obličeje</string>
     <string formatted="false" name="formula_editor_sensor_face_x_position">pozice x prvního obličeje</string>
     <string formatted="false" name="formula_editor_sensor_face_y_position">pozice y prvního obličeje</string>
@@ -2093,4 +2100,28 @@
     <string formatted="false" name="shortcut_permission_required_message">Než na tomto zařízení přidáš zkratku na plochu, musíš udělit oprávnění pro zkratky. Uděl ho prosím v nastavení.</string>
     <string formatted="false" name="miui_open_settings">Otevřít nastavení</string>
     <string formatted="false" name="shortcut_already_pinned">Tento projekt už je připnutý na ploše</string>
+    <string formatted="false" name="face_train_title">Jména obličejů</string>
+    <string formatted="false" name="face_train_choose_name">Klepnutím na jméno přidáte fotky</string>
+    <string formatted="false" name="face_train_retrain">Rozpoznávání obličejů bylo aktualizováno. Klepněte na každé jméno a znovu přidejte jeho fotky</string>
+    <string formatted="false" name="face_train_add_new_name">Přidat nové jméno</string>
+    <string formatted="false" name="face_train_no_names">Zatím žádná jména.</string>
+    <string formatted="false" name="face_train_name_hint">Zadejte jméno</string>
+    <string formatted="false" name="face_train_name_subtitle">Napište jméno a pak vyberte fotky, na kterých je jen tato osoba</string>
+    <string formatted="false" name="face_train_delete">Smazat jméno</string>
+    <string formatted="false" name="face_train_delete_choose_title">Které jméno smazat?</string>
+    <string formatted="false" name="face_train_delete_title">Smazat \"%1$s\"?</string>
+    <string formatted="false" name="face_train_progress_title">Trénování</string>
+    <string formatted="false" name="face_train_progress_photo">Fotka %1$d z %2$d</string>
+    <string formatted="false" name="face_train_success">Úspěšně natrénováno</string>
+    <string formatted="false" name="face_train_no_face">Na vybraných fotkách nebyl nalezen žádný obličej</string>
+    <string formatted="false" name="face_train_several_people">Vyberte fotky, na kterých je jen tato osoba</string>
+    <string formatted="false" name="face_train_success_some_skipped">Úspěšně natrénováno. Fotky s více lidmi byly přeskočeny</string>
+    <string formatted="false" name="face_train_error">Trénování se nezdařilo: %1$s</string>
+    <string formatted="false" name="face_train_no_photos">Nejsou vybrány žádné fotky</string>
+    <string formatted="false" name="face_train_no_photo_picker">Nebyla nalezena aplikace pro výběr fotek</string>
+    <string formatted="false" name="face_train_name_rejected">Toto jméno nelze použít</string>
+    <string formatted="false" name="face_train_not_available">Rozpoznávání obličejů se nepodařilo spustit</string>
+    <string formatted="false" name="face_train_name_missing">Toto jméno už v seznamu není</string>
+    <string formatted="false" name="face_train_not_saved">Jména se nepodařilo uložit</string>
+    <string formatted="false" name="face_train_name_line_break">Jméno nemůže obsahovat zalomení řádku</string>
 </resources>
