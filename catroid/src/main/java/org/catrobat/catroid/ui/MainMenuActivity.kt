@@ -47,6 +47,7 @@ import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
+import org.catrobat.catroid.common.HelpUrls
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
 import org.catrobat.catroid.databinding.ActivityMainMenuBinding
@@ -303,7 +304,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             R.id.menu_help -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(CATROBAT_HELP_URL)
+                    Uri.parse(HelpUrls.withLocale(CATROBAT_HELP_URL, HelpUrls.getAppLocale(this)))
                 )
             )
             else -> return super.onOptionsItemSelected(item)
