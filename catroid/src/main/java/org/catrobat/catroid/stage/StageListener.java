@@ -201,6 +201,8 @@ public class StageListener implements ApplicationListener {
 		if (stage == null) {
 			createNewStage();
 			Gdx.input.setInputProcessor(stage);
+			// A scene change also calls create(), but a held button stays held across it.
+			gamepadInput.reset();
 		} else {
 			stage.getRoot().clear();
 		}
@@ -215,7 +217,6 @@ public class StageListener implements ApplicationListener {
 		sprites = new ArrayList<>(scene.getSpriteList());
 
 		resetConditionScriptTriggers();
-		gamepadInput.reset();
 
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
