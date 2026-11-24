@@ -35,9 +35,9 @@ import org.catrobat.catroid.stage.gamepad.GamepadUsage
  * is exited.
  *
  * Exits are an Android Back press, which leads to the stage menu or, in a shortcut or standalone
- * APK, leaves the stage, the brick "Finish stage", and a press of gamepad button B that the project
- * does not use. The buttons of the stage menu, restarting and the test results of "Finish tests"
- * and failing asserts are no such exits.
+ * APK, leaves the stage, and the brick "Finish stage". A press of gamepad button B that the project
+ * does not use presses Android Back. The buttons of the stage menu, restarting and the test results
+ * of "Finish tests" and failing asserts are no such exits.
  *
  * Without catch scripts (commented out ones do not count) every exit runs at once on the calling
  * thread, exactly as before. With catch scripts, the first exit becomes pending: the next stage
@@ -131,12 +131,14 @@ class StageExitController @JvmOverloads constructor(
     }
 
     /**
-     * Requests a stage exit like "Finish stage" for a released-to-pressed edge of B, if the project
-     * does not use B. Called on the GL thread for every pressed edge of a gamepad button.
+     * Presses Android Back on the UI thread for a released-to-pressed edge of B, if the project
+     * does not use B: the catch scripts run, then the stage menu opens or, in a shortcut or
+     * standalone APK, the stage closes. Called on the GL thread for every pressed edge of a gamepad
+     * button.
      */
     fun onGamepadButtonPressed(button: GamepadButton) {
         if (button == GamepadButton.B && !GamepadUsage.of(project()).isUsed(GamepadButton.B)) {
-            requestFinishStage()
+            runOnUiThread(Runnable { StageActivity.activeStageActivity?.get()?.onBackPressed() })
         }
     }
 

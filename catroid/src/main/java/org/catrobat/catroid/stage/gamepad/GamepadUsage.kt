@@ -63,9 +63,9 @@ class GamepadUsage private constructor(
     /**
      * Whether the stage consumes the input of [button] instead of passing it on to Android.
      *
-     * The stage always consumes B: an unused B leaves the stage directly, see
-     * [org.catrobat.catroid.stage.StageExitController.onGamepadButtonPressed], so it never falls
-     * through to Android's Back button. A project without gamepad elements leaves all other
+     * The stage always consumes B: an unused B presses Android Back itself, see
+     * [org.catrobat.catroid.stage.StageExitController.onGamepadButtonPressed], so it does not depend
+     * on whether the device maps B to Back. A project without gamepad elements leaves all other
      * controller input to Android, a project with gamepad elements gets every button.
      */
     fun isHandledByStage(button: GamepadButton): Boolean =
@@ -162,7 +162,7 @@ class GamepadUsage private constructor(
                 .mapNotNull { sensorName -> Sensors.getSensorByValue(sensorName) }
         }
 
-        /** What the choice "any" uses by itself, so it keeps an otherwise unused B as exit button. */
+        /** What the choice "any" uses by itself, so it keeps an otherwise unused B as Back button. */
         private val BUTTONS_OF_ANY: Set<GamepadButton> =
             (GamepadButton.entries - GamepadButton.B).toSet()
     }
