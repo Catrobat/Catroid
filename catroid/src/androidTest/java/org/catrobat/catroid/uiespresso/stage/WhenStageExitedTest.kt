@@ -40,12 +40,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.WhenStageExitedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.SceneStartBrick
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
@@ -253,6 +256,31 @@ class WhenStageExitedTest {
     }
 
     @Test
+    fun startSceneInsideCatchOfFinishStageCompletesTheExit() {
+        addSecondScene()
+        addCatchScript(setCatchState(CAUGHT), SceneStartBrick(SECOND_SCENE), WaitBrick(LONG_CATCH_MILLIS))
+        addFinishStageScript()
+        startStage()
+
+        assertUserVariableEqualsWithTimeout(catchState, CAUGHT, TIMEOUT_MILLIS)
+        waitUntilStageFinishes()
+        assertFalse(stageActivity.dialogIsShowing())
+    }
+
+    @Test
+    fun continueSceneInsideCatchOfBackOpensStageMenu() {
+        addSecondScene()
+        addCatchScript(setCatchState(CAUGHT), SceneTransitionBrick(SECOND_SCENE), WaitBrick(LONG_CATCH_MILLIS))
+        startStage()
+
+        pressBackUnconditionally()
+
+        assertUserVariableEqualsWithTimeout(catchState, CAUGHT, TIMEOUT_MILLIS)
+        waitUntilStageMenuShows()
+        assertFalse(stageActivity.isFinishing)
+    }
+
+    @Test
     fun unusedGamepadBRunsCatchThenExits() {
         addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
         startStage()
@@ -277,6 +305,11 @@ class WhenStageExitedTest {
                 addBrick(ExitStageBrick())
             }
         )
+    }
+
+    /** Adds a second scene, whose start leaves the scene with the catch scripts. */
+    private fun addSecondScene() {
+        project.addScene(Scene(SECOND_SCENE, project).apply { addSprite(Sprite("Background")) })
     }
 
     private fun setCatchState(value: Double): Brick = SetVariableBrick(Formula(value), catchState)
@@ -325,5 +358,6 @@ class WhenStageExitedTest {
         private const val TIMEOUT_MILLIS = 5000
         private const val QUIET_PERIOD_MILLIS = 500
         private const val POLL_INTERVAL_MILLIS = 50L
+        private const val SECOND_SCENE = "Second scene"
     }
 }
