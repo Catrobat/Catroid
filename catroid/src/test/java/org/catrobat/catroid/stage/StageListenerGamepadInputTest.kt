@@ -61,12 +61,15 @@ import org.mockito.ArgumentCaptor
 import org.mockito.Mockito.atLeast
 import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import java.lang.ref.WeakReference
 
 @RunWith(JUnit4::class)
 class StageListenerGamepadInputTest {
 
     private val project: Project = mock(Project::class.java)
+    private val stageActivity: StageActivity = mock(StageActivity::class.java)
     private val stageListener = StageListener()
 
     private val previousGl20: GL20? = Gdx.gl20
@@ -88,12 +91,14 @@ class StageListenerGamepadInputTest {
         stageListener.cameraPositioner = mock(CameraPositioner::class.java)
         stageListener.embroideryPatternManager = mock(EmbroideryPatternManager::class.java)
         useStageExitControllerFor(project)
+        StageActivity.activeStageActivity = WeakReference(stageActivity)
     }
 
     @After
     fun tearDown() {
         Gdx.gl20 = previousGl20
         Gdx.graphics = previousGraphics
+        StageActivity.activeStageActivity = null
     }
 
     @Test
@@ -142,23 +147,23 @@ class StageListenerGamepadInputTest {
     }
 
     @Test
-    fun `pressing an unused B requests a stage exit like finish stage`() {
+    fun `pressing an unused B presses Android Back`() {
         pressAndRelease(B)
 
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
         assertFiredEventIds(GamepadButtonPressedEventId(B))
     }
 
     @Test
-    fun `simulated press of an unused B requests a stage exit`() {
+    fun `simulated press of an unused B presses Android Back`() {
         stageListener.gamepadInput.setButtonState(B, SIMULATED, true)
         stageListener.applyPendingGamepadInput()
 
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
     }
 
     @Test
-    fun `holding or releasing an unused B requests no further stage exit`() {
+    fun `holding or releasing an unused B presses Android Back only once`() {
         stageListener.gamepadInput.setButtonState(B, KEY, true)
         stageListener.applyPendingGamepadInput()
         stageListener.gamepadInput.setButtonState(B, SIMULATED, true)
@@ -167,47 +172,47 @@ class StageListenerGamepadInputTest {
         stageListener.gamepadInput.setButtonState(B, SIMULATED, false)
         stageListener.applyPendingGamepadInput()
 
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
     }
 
     @Test
-    fun `pressing other buttons requests no stage exit`() {
+    fun `pressing other buttons presses no Android Back`() {
         GamepadButton.entries.filter { it != B }.forEach { pressAndRelease(it) }
 
-        assertEquals(0, finishStageCount)
+        assertBackPresses(0)
     }
 
     @Test
-    fun `pressing B in a project that uses B requests no stage exit`() {
+    fun `pressing B in a project that uses B presses no Android Back`() {
         useStageExitControllerFor(projectWith(WhenGamepadButtonPressedScript(B.name)))
 
         pressAndRelease(B)
 
-        assertEquals(0, finishStageCount)
+        assertBackPresses(0)
         assertFiredEventIds(GamepadButtonPressedEventId(B))
     }
 
     @Test
-    fun `pressing B in a project that only uses B in a commented out script requests a stage exit`() {
+    fun `pressing B in a project that only uses B in a commented out script presses Android Back`() {
         val commentedOutScript = WhenGamepadButtonPressedScript(B.name).apply { isCommentedOut = true }
         useStageExitControllerFor(projectWith(WhenGamepadButtonPressedScript(A.name), commentedOutScript))
 
         pressAndRelease(B)
 
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
     }
 
     @Test
-    fun `B pressed on a paused stage requests the stage exit once the stage runs again`() {
+    fun `B pressed on a paused stage presses Android Back once the stage runs again`() {
         stageListener.setPaused(true)
         stageListener.gamepadInput.setButtonState(B, KEY, true)
 
         stageListener.render()
-        assertEquals(0, finishStageCount)
+        assertBackPresses(0)
 
         stageListener.setPaused(false)
         stageListener.render()
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
     }
 
     @Test
@@ -242,13 +247,13 @@ class StageListenerGamepadInputTest {
     }
 
     @Test
-    fun `unused B exits the stage without firing the any button event`() {
+    fun `unused B presses Android Back without firing the any button event`() {
         useProjectScripts(WhenGamepadButtonPressedScript(GamepadButton.ANY_ID))
 
         pressAndRelease(B)
 
         assertFiredEventIds(GamepadButtonPressedEventId(B))
-        assertEquals(1, finishStageCount)
+        assertBackPresses(1)
     }
 
     @Test
@@ -261,7 +266,7 @@ class StageListenerGamepadInputTest {
         pressAndRelease(B)
 
         assertFiredEventIds(AnyGamepadButtonPressedEventId, GamepadButtonPressedEventId(B))
-        assertEquals(0, finishStageCount)
+        assertBackPresses(0)
     }
 
     @Test
@@ -271,6 +276,12 @@ class StageListenerGamepadInputTest {
         pressAndRelease(A)
 
         assertFiredEventIds(GamepadButtonPressedEventId(A))
+    }
+
+    /** Asserts that the stage pressed Android Back [count] times and never finished silently. */
+    private fun assertBackPresses(count: Int) {
+        verify(stageActivity, times(count)).onBackPressed()
+        assertEquals(0, finishStageCount)
     }
 
     private fun useProjectScripts(vararg scripts: Script) {

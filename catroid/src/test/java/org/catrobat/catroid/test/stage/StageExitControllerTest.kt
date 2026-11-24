@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.eventids.EventId
+import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageExitController
 import org.catrobat.catroid.stage.StageExitController.State
@@ -372,6 +373,17 @@ class StageExitControllerTest {
 
         assertEquals(State.NONE, controller.state)
         assertEquals(0, exitCount)
+    }
+
+    @Test
+    fun `unused gamepad B presses Android Back on the UI thread`() {
+        controller.onGamepadButtonPressed(GamepadButton.B)
+
+        verify(stageActivity, never()).onBackPressed()
+        runUiThread()
+        verify(stageActivity).onBackPressed()
+        assertEquals(0, finishStageCount)
+        assertEquals(State.NONE, controller.state)
     }
 
     @Test

@@ -281,9 +281,23 @@ class WhenStageExitedTest {
     }
 
     @Test
-    fun unusedGamepadBRunsCatchThenExits() {
+    fun unusedGamepadBRunsCatchThenOpensStageMenuLikeBack() {
         addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
         startStage()
+
+        pressGamepadB()
+
+        assertUserVariableEqualsWithTimeout(catchState, CAUGHT, TIMEOUT_MILLIS)
+        assertFalse(stageActivity.dialogIsShowing())
+        waitUntilStageMenuShows()
+        assertEquals(CATCH_DONE, catchState.value)
+        assertFalse(stageActivity.isFinishing)
+    }
+
+    @Test
+    fun unusedGamepadBInShortcutModeRunsCatchThenExitsLikeBack() {
+        addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
+        startStage(fromShortcut = true)
 
         pressGamepadB()
 

@@ -68,8 +68,8 @@ import org.junit.runner.RunWith
 
 /**
  * Sends key events of a physical game controller to a running stage and checks that they reach the
- * gamepad scripts and sensors of the project, that an unused B leaves the stage, and that everything
- * else keeps Android's handling.
+ * gamepad scripts and sensors of the project, that an unused B acts like Android Back, and that
+ * everything else keeps Android's handling.
  */
 @Category(Cat.AppUi::class, Level.Smoke::class)
 @RunWith(AndroidJUnit4::class)
@@ -124,7 +124,7 @@ class StageGamepadInputTest {
     }
 
     @Test
-    fun unusedBFinishesStageWithoutStageMenu() {
+    fun unusedBOpensStageMenuLikeBack() {
         val aPresses = addPressCounter(GamepadButton.A)
         startStage()
         pressKey(KeyEvent.KEYCODE_BUTTON_A)
@@ -132,8 +132,8 @@ class StageGamepadInputTest {
 
         pressKey(KeyEvent.KEYCODE_BUTTON_B)
 
-        waitUntilStageFinishes()
-        assertFalse(stageActivity.dialogIsShowing())
+        waitUntilStageMenuShows()
+        assertFalse(stageActivity.isFinishing)
     }
 
     @Test
@@ -175,7 +175,7 @@ class StageGamepadInputTest {
         assertTrue(isConsumedByStage(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B, GAMEPAD)))
         assertTrue(isConsumedByStage(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_B, GAMEPAD)))
 
-        waitUntilStageFinishes()
+        waitUntilStageMenuShows()
     }
 
     @Test
@@ -243,10 +243,10 @@ class StageGamepadInputTest {
         stageStartedGate.waitUntilEvaluated(STAGE_START_TIMEOUT_MILLIS)
     }
 
-    private fun waitUntilStageFinishes() {
+    private fun waitUntilStageMenuShows() {
         val deadline = SystemClock.uptimeMillis() + TIMEOUT_MILLIS
-        while (!stageActivity.isFinishing) {
-            assertTrue("The stage did not finish", SystemClock.uptimeMillis() < deadline)
+        while (!stageActivity.dialogIsShowing()) {
+            assertTrue("The stage menu did not open", SystemClock.uptimeMillis() < deadline)
             SystemClock.sleep(POLL_INTERVAL_MILLIS)
         }
     }
