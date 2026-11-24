@@ -31,6 +31,7 @@ import android.view.MotionEvent
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource
+import java.util.EnumSet
 import kotlin.math.max
 
 /**
@@ -42,8 +43,10 @@ import kotlin.math.max
  * is forwarded and consumed only while a [GamepadInput] is available and [isButtonHandled] accepts
  * it. Otherwise Android handles it as usual too.
  *
- * The adapter keeps no state of its own and supports a single controller. To release every button
- * when a controller is removed, [register] it as [InputManager.InputDeviceListener].
+ * The adapter only remembers which analog triggers count as pressed, so that a pressed trigger is
+ * released at a lower travel than it is pressed at, and supports a single controller. Use it on
+ * one thread only. To release every button when a controller is removed, [register] it as
+ * [InputManager.InputDeviceListener].
  *
  * @param gamepadInput returns the gamepad input of the running stage, or `null` if there is none
  * @param isButtonHandled returns whether the running project handles the given button
@@ -52,6 +55,9 @@ class AndroidGamepadInputAdapter(
     private val gamepadInput: () -> GamepadInput?,
     private val isButtonHandled: (GamepadButton) -> Boolean
 ) : InputManager.InputDeviceListener {
+
+    /** The triggers whose travel counted as pressed in the last joystick move. */
+    private val pressedTriggers: MutableSet<GamepadButton> = EnumSet.noneOf(GamepadButton::class.java)
 
     /**
      * Forwards a mapped controller key as a [GamepadInputSource.KEY] change. Repeated key downs of
@@ -96,6 +102,7 @@ class AndroidGamepadInputAdapter(
 
     /** Releases every button without firing, for example when the stage pauses or loses focus. */
     fun releaseAll() {
+        pressedTriggers.clear()
         gamepadInput()?.releaseAll()
     }
 
@@ -149,8 +156,8 @@ class AndroidGamepadInputAdapter(
             hatState(GamepadButton.RIGHT, hatX >= HAT_PRESS_THRESHOLD),
             hatState(GamepadButton.UP, hatY <= -HAT_PRESS_THRESHOLD),
             hatState(GamepadButton.DOWN, hatY >= HAT_PRESS_THRESHOLD),
-            triggerState(GamepadButton.L2, leftTriggerTravel >= TRIGGER_PRESS_THRESHOLD),
-            triggerState(GamepadButton.R2, rightTriggerTravel >= TRIGGER_PRESS_THRESHOLD)
+            triggerState(GamepadButton.L2, leftTriggerTravel),
+            triggerState(GamepadButton.R2, rightTriggerTravel)
         )
     }
 
@@ -180,8 +187,22 @@ class AndroidGamepadInputAdapter(
     private fun hatState(button: GamepadButton, pressed: Boolean) =
         AxisButtonState(button, GamepadInputSource.HAT_AXIS, pressed)
 
-    private fun triggerState(button: GamepadButton, pressed: Boolean) =
-        AxisButtonState(button, GamepadInputSource.TRIGGER_AXIS, pressed)
+    /**
+     * Returns whether the trigger [button] counts as pressed at [travel] and remembers it. A
+     * released trigger is pressed from [TRIGGER_PRESS_THRESHOLD], a pressed trigger is released
+     * below [TRIGGER_RELEASE_THRESHOLD], so that a trigger that jitters around the press threshold
+     * does not repeat its press.
+     */
+    private fun triggerState(button: GamepadButton, travel: Float): AxisButtonState {
+        val wasPressed = button in pressedTriggers
+        val pressed = travel >= if (wasPressed) TRIGGER_RELEASE_THRESHOLD else TRIGGER_PRESS_THRESHOLD
+        if (pressed) {
+            pressedTriggers.add(button)
+        } else {
+            pressedTriggers.remove(button)
+        }
+        return AxisButtonState(button, GamepadInputSource.TRIGGER_AXIS, pressed)
+    }
 
     private data class AxisButtonState(
         val button: GamepadButton,
@@ -193,8 +214,11 @@ class AndroidGamepadInputAdapter(
         /** The hat reports -1, 0 or 1 per axis. A direction counts as pressed from half way. */
         const val HAT_PRESS_THRESHOLD = 0.5f
 
-        /** A trigger counts as pressed from half of its travel. */
+        /** A released trigger counts as pressed from half of its travel. */
         const val TRIGGER_PRESS_THRESHOLD = 0.5f
+
+        /** A pressed trigger counts as released below 40% of its travel. */
+        const val TRIGGER_RELEASE_THRESHOLD = 0.4f
 
         const val NO_TRAVEL = 0f
         const val FULL_TRAVEL = 1f
