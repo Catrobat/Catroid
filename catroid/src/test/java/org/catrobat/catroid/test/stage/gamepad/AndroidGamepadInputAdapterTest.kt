@@ -453,12 +453,53 @@ class AndroidGamepadInputAdapterTest {
     fun `the further pulled of trigger and brake or gas axis decides`() {
         assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.2f, AXIS_BRAKE to 0.6f), L2)
         assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.6f, AXIS_BRAKE to 0.2f), L2)
-        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.4f, AXIS_BRAKE to 0.4f))
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.3f, AXIS_BRAKE to 0.3f))
         assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.2f, AXIS_GAS to 0.6f), R2)
         assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.6f, AXIS_GAS to 0.2f), R2)
-        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.4f, AXIS_GAS to 0.4f))
+        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.3f, AXIS_GAS to 0.3f))
 
         assertFired(L2, R2)
+    }
+
+    @Test
+    fun `pressed trigger stays pressed until its travel falls below 40 percent`() {
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.5f), L2)
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.45f), L2)
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.4f), L2)
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.39f))
+
+        assertFired(L2)
+    }
+
+    @Test
+    fun `released trigger is pressed again only from half of its travel`() {
+        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 1f), R2)
+        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.3f))
+        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.45f))
+        assertTriggerPressesExactly(arrayOf(AXIS_RTRIGGER to 0.5f), R2)
+
+        assertFired(R2, R2)
+    }
+
+    @Test
+    fun `trigger jitter around half of its travel counts as one press`() {
+        listOf(0.5f, 0.49f, 0.51f, 0.48f, 0.5f, 0.47f).forEach { travel ->
+            assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to travel), L2)
+        }
+
+        assertFired(L2)
+    }
+
+    @Test
+    fun `releasing all buttons also forgets a held trigger`() {
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.6f), L2)
+
+        adapter.releaseAll()
+        applyPendingInput()
+        assertPressedExactly()
+
+        assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.45f))
+        assertFired(L2)
     }
 
     @Test
