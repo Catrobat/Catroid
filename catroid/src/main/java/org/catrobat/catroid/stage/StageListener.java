@@ -444,6 +444,7 @@ public class StageListener implements ApplicationListener {
 			resume();
 		}
 		Gdx.input.setInputProcessor(stage);
+		stageExitController.onSceneChanged();
 	}
 
 	public void startScene(String sceneName) {
@@ -478,6 +479,7 @@ public class StageListener implements ApplicationListener {
 
 		scene.firstStart = true;
 		create();
+		stageExitController.onSceneChanged();
 	}
 
 	public void reloadProject(StageDialog stageDialog) {

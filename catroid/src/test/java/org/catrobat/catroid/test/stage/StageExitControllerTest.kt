@@ -235,6 +235,42 @@ class StageExitControllerTest {
     }
 
     @Test
+    fun `scene change runs a pending exit whose catch scripts have started`() {
+        addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
+        controller.requestExit(exitAction)
+        runFrames(FEW_FRAMES)
+        assertEquals(State.PENDING, controller.state)
+
+        controller.onSceneChanged()
+
+        assertEquals(State.EXITED, controller.state)
+        runUiThread()
+        assertEquals(1, exitCount)
+    }
+
+    @Test
+    fun `scene change before the catch scripts started keeps the exit pending`() {
+        addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
+        controller.requestExit(exitAction)
+
+        controller.onSceneChanged()
+
+        assertEquals(State.PENDING, controller.state)
+        assertTrue(uiThreadQueue.isEmpty())
+    }
+
+    @Test
+    fun `scene change without a pending exit does nothing`() {
+        addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
+
+        controller.onSceneChanged()
+
+        assertEquals(State.NONE, controller.state)
+        assertTrue(uiThreadQueue.isEmpty())
+        assertEquals(0, exitCount)
+    }
+
+    @Test
     fun `second request forces the pending exit`() {
         addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
         var secondExitCount = 0

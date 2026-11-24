@@ -44,7 +44,9 @@ import org.catrobat.catroid.stage.gamepad.GamepadUsage
  * frame fires [StageExitedEventId] once to all sprites, so the catch scripts run in parallel like
  * broadcast scripts, the stage keeps running, and once all started catch scripts have finished, the
  * pending exit runs on the UI thread. A further exit request while the exit is pending forces it,
- * so a second Back press or a "Finish stage" brick inside a catch script exits at once.
+ * so a second Back press or a "Finish stage" brick inside a catch script exits at once. Changing the
+ * scene stops the scripts of the scene that is left, so it also ends the catch scripts, and the
+ * pending exit runs.
  *
  * Exit requests may come from any thread. [onFrame] and [onGamepadButtonPressed] run on the GL
  * thread of the stage.
@@ -154,6 +156,23 @@ class StageExitController @JvmOverloads constructor(
             if (currentState == State.PENDING) takePendingExit(State.EXITED) else null
         }
         finishedExit?.let(runOnUiThread)
+    }
+
+    /**
+     * Runs a pending exit whose catch scripts have started, because the scene that the catch
+     * scripts belong to was left. An exit whose catch scripts have not started yet stays pending,
+     * so the next frame starts the catch scripts of the new scene. Called on the GL thread when a
+     * scene starts or continues.
+     */
+    fun onSceneChanged() {
+        val endedExit = synchronized(lock) {
+            if (currentState == State.PENDING && stageExitedEvent != null) {
+                takePendingExit(State.EXITED)
+            } else {
+                null
+            }
+        }
+        endedExit?.let(runOnUiThread)
     }
 
     private fun fireStageExitedEvent(): EventWrapper =
