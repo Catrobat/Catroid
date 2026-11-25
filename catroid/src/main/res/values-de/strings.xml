@@ -1289,7 +1289,6 @@
         ändere etwas und versuche es dann nochmals.</string>
     <string formatted="false" name="error_adding_brick">Beim Hinzufügen des Bausteins ist ein Fehler aufgetreten</string>
     <string formatted="false" name="error_copying_brick">Beim Kopieren des Blocks ist ein Fehler aufgetreten</string>
-    <string formatted="false" name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
     <string formatted="false" name="error_embroidery_file_export">Während dem Teilen der Stickdatei ist etwas schief gelaufen.</string>
     <string formatted="false" name="error_embroidery_file_write">Beim Schreiben der Stickdatei ist ein Fehler aufgetreten.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Stickerei fehlt.</string>

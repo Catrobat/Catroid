@@ -1411,7 +1411,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Prišlo je do napake pri dodajanju tega bloka</string>
     <string formatted="false" name="error_copying_brick">Prišlo je do napake pri kopiranju tega bloka</string>
-    <string formatted="false" name="error_rename_incompatible_project">Preimenovanje nezdružljivega projekta ni mogoče.</string>
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Med pisanjem datoteke za vezenje je šlo nekaj narobe.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Manjka vezenina.</string>

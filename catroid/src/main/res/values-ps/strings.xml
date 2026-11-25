@@ -1314,7 +1314,6 @@
         وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
     <string formatted="false" name="error_adding_brick">د دې خښتې د اضافه کولو په وخت کې یو څه غلط شو.</string>
     <string formatted="false" name="error_copying_brick">د دې خښتې د کاپي کولو پرمهال یو څه غلط شو.</string>
-    <string formatted="false" name="error_rename_incompatible_project">د نامناسب پروژې نوم بدلول ممکن ندي.</string>
     <string formatted="false" name="error_embroidery_file_export">د ګنډلو فایل شریکولو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_embroidery_file_write">د ګنډلو فایل لیکلو پرمهال یو څه غلط شو.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ګنډل ورک دي.</string>

@@ -24,8 +24,8 @@
 package org.catrobat.catroid.ui
 
 import android.content.Context
-import android.util.Log
 import android.preference.PreferenceManager
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -33,8 +33,9 @@ import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.XstreamSerializer.SaveResult
 import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.io.asynctask.saveProjectSerialWithResult
 import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.Utils
 import java.io.File
@@ -52,7 +53,7 @@ object ProjectRenameHelper {
      * Renames a project and everything that refers to it by name:
      *
      * 1. If the project is the one currently open, it is saved first, so unsaved edits move
-     *    with it.
+     *    with it. If that save fails, the rename is aborted.
      * 2. The folder is moved and `<programName>` in code.xml is rewritten. If the rewrite
      *    fails, the folder is moved back.
      * 3. If the project is open, it is reloaded from the renamed folder, so every file
@@ -108,8 +109,12 @@ object ProjectRenameHelper {
         val editedScene = projectManager.currentlyEditedScene
         val currentSprite = projectManager.currentSprite
 
-        if (openProject != null) {
-            saveProjectSerial(openProject, context)
+        // Unsaved edits would be lost by the reload below, so a failed save aborts the rename
+        if (openProject != null &&
+            saveProjectSerialWithResult(openProject, context) == SaveResult.FAILED
+        ) {
+            Log.e(TAG, "Cannot save $oldName before renaming it, rename aborted")
+            return null
         }
 
         val renamedDirectory = renameProjectOnDisk(projectDirectory, newName) ?: return null

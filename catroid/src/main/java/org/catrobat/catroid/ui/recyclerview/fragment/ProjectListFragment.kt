@@ -153,7 +153,7 @@ class ProjectListFragment(
             })
         } else {
             setShowProgressBar(false)
-            ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
+            ToastUtil.showError(requireContext(), R.string.error_rename_project)
         }
     }
 

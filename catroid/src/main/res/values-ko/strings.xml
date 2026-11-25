@@ -1243,7 +1243,6 @@
         수정후 다시 시도 하세요.</string>
     <string formatted="false" name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
     <string formatted="false" name="error_copying_brick">이 블록을 복사하는 동안 오류가 발생했습니다.</string>
-    <string formatted="false" name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
     <string formatted="false" name="error_embroidery_file_export">자수 파일을 공유하는데 문제가 생겼습니다.</string>
     <string formatted="false" name="error_embroidery_file_write">패턴 파일을 작성하는 중 문제가 생겼습니다.</string>
     <string formatted="false" name="error_embroidery_data_not_found">패턴이 없습니다.</string>

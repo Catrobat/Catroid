@@ -1319,7 +1319,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
         cambia qualcosa e riprova.</string>
     <string formatted="false" name="error_adding_brick">Si è verificato un errore durante l\'aggiunta di questo Mattoncino</string>
     <string formatted="false" name="error_copying_brick">Si è verificato un errore durante la copia di questo Mattoncino</string>
-    <string formatted="false" name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
     <string formatted="false" name="error_embroidery_file_export">Qualcosa è andato storto durante la condivisione del file.</string>
     <string formatted="false" name="error_embroidery_file_write">C\'è stato un errore durante la condivisione del file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Manca il ricamo.</string>

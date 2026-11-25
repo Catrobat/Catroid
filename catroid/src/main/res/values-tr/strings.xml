@@ -1277,7 +1277,6 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string formatted="false" name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string formatted="false" name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Uyumsuz bir projenin yeniden adlandırılması mümkün değildir.</string>
     <string formatted="false" name="error_embroidery_file_export">Nakış dosyası paylaşılırken bir sorun oluştu.</string>
     <string formatted="false" name="error_embroidery_file_write">Nakış dosyası yazılırken bir şeyler ters gitti.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Nakış eksik.</string>

@@ -1272,7 +1272,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
         ubah sesuatu dan coba lagi.</string>
     <string formatted="false" name="error_adding_brick">Terjadi kesalahan saat menambahkan bata ini</string>
     <string formatted="false" name="error_copying_brick">Terjadi kesalahan saat menyalin bata ini</string>
-    <string formatted="false" name="error_rename_incompatible_project">Mengganti nama sebuah proyek yang tidak kompatibel tidak mungkin dilakukan.</string>
     <string formatted="false" name="error_embroidery_file_export">Ada yang salah saat berbagi file bordir.</string>
     <string formatted="false" name="error_embroidery_file_write">Ada yang tidak beres saat menulis file bordir.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Sulaman hilang.</string>

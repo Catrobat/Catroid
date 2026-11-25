@@ -1493,7 +1493,6 @@
         قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
     <string formatted="false" name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
     <string formatted="false" name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
-    <string formatted="false" name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
     <string formatted="false" name="error_embroidery_file_export">حدث خطأ أثناء مشاركة ملف التطريز.</string>
     <string formatted="false" name="error_embroidery_file_write">حدث خطأ أثناء كتابة ملف التطريز.</string>
     <string formatted="false" name="error_embroidery_data_not_found">الامبراطور مفقود.</string>

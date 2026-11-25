@@ -1255,7 +1255,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         更改某些内容，然后重试。</string>
     <string formatted="false" name="error_adding_brick">Có lỗi khi thêm gạch này</string>
     <string formatted="false" name="error_copying_brick">Lỗi đã xảy ra trong khi sao chép gạch này</string>
-    <string formatted="false" name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
     <string formatted="false" name="error_embroidery_file_export">分享刺绣文件时出了错。</string>
     <string formatted="false" name="error_embroidery_file_write">写刺绣文件时出了错。</string>
     <string formatted="false" name="error_embroidery_data_not_found">不存在刺绣。</string>

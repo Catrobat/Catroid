@@ -107,7 +107,7 @@ class ShortcutTrampolineActivityTest {
     // Must: Missing directory → disable shortcut and finish
 
     @Test
-    fun `missing directory disables shortcut and finishes`() {
+    fun `missing directory without a matching shortcut disables nothing and finishes`() {
         val intent = Intent().apply {
             putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "NonExistentProject_12345")
         }
@@ -128,7 +128,38 @@ class ShortcutTrampolineActivityTest {
             "Activity should be finishing after missing directory",
             controller.get().isFinishing
         )
-        verify { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
+        verify(exactly = 0) { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
+    }
+
+    @Test
+    fun `stale launch with an old name does not disable the renamed project's shortcut`() {
+        // "StaleName_123" was pinned, then renamed to "ExistingProject_123". Its shortcut keeps
+        // the old ID but now targets the renamed project, which still exists.
+        val renamedProjectShortcut = io.mockk.mockk<androidx.core.content.pm.ShortcutInfoCompat> {
+            every { id } returns "StaleName_123"
+            every { shortLabel } returns "ExistingProject_123"
+            every { intent } returns Intent().apply {
+                putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "ExistingProject_123")
+            }
+        }
+        every { ShortcutManagerCompat.getDynamicShortcuts(any()) } returns
+            listOf(renamedProjectShortcut)
+
+        val intent = Intent().apply {
+            putExtra(ShortcutTrampolineActivity.EXTRA_PROJECT_NAME, "StaleName_123")
+        }
+        val controller = Robolectric.buildActivity(
+            ShortcutTrampolineActivity::class.java, intent
+        ).create()
+
+        repeat(5) {
+            shadowOf(android.os.Looper.getMainLooper()).idle()
+            Thread.sleep(50)
+        }
+        shadowOf(android.os.Looper.getMainLooper()).idle()
+
+        assertTrue(controller.get().isFinishing)
+        verify(exactly = 0) { ShortcutManagerCompat.disableShortcuts(any(), any(), any()) }
     }
 
     @Test

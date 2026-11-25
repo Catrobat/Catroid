@@ -1291,7 +1291,6 @@
         Бір нәрсені өзгертіп, әрекетті қайталаңыз.</string>
     <string formatted="false" name="error_adding_brick">Осы кірпішті қосу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_copying_brick">Осы кірпішті көшіру кезінде бірдеңе дұрыс болмады.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Үйлесімсіз жобаның атын өзгерту мүмкін емес.</string>
     <string formatted="false" name="error_embroidery_file_export">Кесте файлын ортақ пайдалану кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_embroidery_file_write">Тігін файлын жазу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Тігін табылмай тұр.</string>

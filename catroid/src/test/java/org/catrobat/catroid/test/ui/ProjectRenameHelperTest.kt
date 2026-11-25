@@ -30,6 +30,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.catrobat.catroid.ProjectManager
@@ -40,6 +41,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.XstreamSerializer.SaveResult
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.ProjectRenameHelper
@@ -131,6 +133,42 @@ class ProjectRenameHelperTest {
         assertTrue(saveProjectSerial(project.apply { description = "edit" }, activity))
         assertFalse(newDir.exists())
         verify(exactly = 0) { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) }
+    }
+
+    @Test
+    fun `failed save of the open project aborts the rename and keeps unsaved edits`() {
+        val project = createSavedProject("SaveFailOld")
+        val oldDir = project.directory
+        val newDir = projectDir("SaveFailNew")
+        openProject(project)
+        val sprite = project.defaultScene.spriteList[0]
+        sprite.name = "Parrot"
+        val serializer = spyk(XstreamSerializer.getInstance())
+        mockkStatic(XstreamSerializer::class)
+        every { XstreamSerializer.getInstance() } returns serializer
+        every { serializer.saveProjectWithResult(any()) } returns SaveResult.FAILED
+
+        val result =
+            ProjectRenameHelper.renameProject(activity, oldDir, "SaveFailOld", "SaveFailNew")
+
+        assertNull(result)
+        assertTrue(oldDir.exists())
+        assertFalse(newDir.exists())
+        assertSame(project, ProjectManager.getInstance().currentProject)
+        assertEquals("SaveFailOld", project.name)
+        assertEquals("Parrot", ProjectManager.getInstance().currentProject.defaultScene.spriteList[0].name)
+        verify(exactly = 0) { ShortcutHelper.updateShortcutOnRename(any(), any(), any()) }
+    }
+
+    @Test
+    fun `saveProjectWithResult tells an unchanged project apart from a saved one`() {
+        val project = createSavedProject("SaveResultProject")
+        val serializer = XstreamSerializer.getInstance()
+
+        assertEquals(SaveResult.UNCHANGED, serializer.saveProjectWithResult(project))
+        project.description = "changed"
+        assertEquals(SaveResult.SAVED, serializer.saveProjectWithResult(project))
+        assertEquals(SaveResult.FAILED, serializer.saveProjectWithResult(null))
     }
 
     @Test

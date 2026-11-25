@@ -159,10 +159,13 @@ class ShortcutTrampolineActivity : Activity() {
         return if (projectDir.exists() && projectDir.isDirectory) projectDir else null
     }
 
+    /**
+     * Disables only the shortcuts whose intent targets the missing project. Shortcut IDs keep
+     * old names across renames, so an ID derived from the name could belong to another,
+     * still existing project.
+     */
     private fun disableShortcutAndFinish(projectName: String) {
         val targetIds = ShortcutHelper.findShortcutIdsForProject(this, projectName)
-            .ifEmpty { listOf(FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)) }
-
         ShortcutHelper.disableShortcutIds(this, targetIds)
         Toast.makeText(this, R.string.shortcut_project_not_found, Toast.LENGTH_SHORT).show()
         finish()

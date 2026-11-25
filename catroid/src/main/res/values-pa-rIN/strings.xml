@@ -1317,7 +1317,6 @@
          ਕੁਝ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <string formatted="false" name="error_adding_brick">ਇਸ ਇੱਟ ਨੂੰ ਜੋੜਦੇ ਸਮੇਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
     <string formatted="false" name="error_copying_brick">ਇਸ ਇੱਟ ਦੀ ਨਕਲ ਕਰਦਿਆਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
-    <string formatted="false" name="error_rename_incompatible_project">ਅਸੰਗਤ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲਣਾ ਸੰਭਵ ਨਹੀਂ ਹੈ.</string>
     <string formatted="false" name="error_embroidery_file_export">ਕਢਾਈ ਫਾਇਲ ਸ਼ੇਅਰਿੰਗ, ਜਦਕਿ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_embroidery_file_write">ਜਦਕਿ ਕਢਾਈ ਫਾਇਲ ਲਿਖਣ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ਕਢਾਈ ਗੁੰਮ ਹੈ.</string>

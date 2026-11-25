@@ -1313,7 +1313,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         modifier quelque chose et réessayer.</string>
     <string formatted="false" name="error_adding_brick">Une erreur est apparue en ajoutant ce bloc</string>
     <string formatted="false" name="error_copying_brick">Une erreur est apparue en copiant ce bloc</string>
-    <string formatted="false" name="error_rename_incompatible_project">Renommer un projet incompatible n\'est pas possible.</string>
     <string formatted="false" name="error_embroidery_file_export">Une erreur s\'est produite lors du partage du fichier de broderie.</string>
     <string formatted="false" name="error_embroidery_file_write">Une erreur s\'est produite lors de l\'écriture du fichier de broderie.</string>
     <string formatted="false" name="error_embroidery_data_not_found">La broderie est manquante.</string>

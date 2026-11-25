@@ -1347,7 +1347,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="error_upload_default_project">Ne možete objaviti nepromijenjen primjer projekat. Molimo Vas da promijenite nešto i pokušate ponovo.</string>
     <string formatted="false" name="error_adding_brick">Došlo je do greške prilikom dodavanja ovog bloka</string>
     <string formatted="false" name="error_copying_brick">Došlo je do greške prilikom kopiranja ovog bloka</string>
-    <string formatted="false" name="error_rename_incompatible_project">Mijenjanje naziva neodgovarajućeg projekta nije moguće.</string>
     <string formatted="false" name="error_embroidery_file_export">Nešto je pošlo po zlu pri dijeljenju datoteke za vez.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>

@@ -819,16 +819,34 @@ public final class XstreamSerializer {
 		return false;
 	}
 
+	/** Outcome of {@link #saveProjectWithResult(Project)}. */
+	public enum SaveResult {
+		/** code.xml was written. */
+		SAVED,
+		/** code.xml already matched the project, nothing was written. */
+		UNCHANGED,
+		/** The project could not be written. */
+		FAILED
+	}
+
+	/**
+	 * Saves the project. Returns true only if code.xml was written. Use
+	 * {@link #saveProjectWithResult(Project)} to tell an unchanged project apart from a failure.
+	 */
 	public boolean saveProject(Project project) {
+		return saveProjectWithResult(project) == SaveResult.SAVED;
+	}
+
+	public SaveResult saveProjectWithResult(Project project) {
 		if (project == null) {
-			return false;
+			return SaveResult.FAILED;
 		}
 
 		synchronized (SAVE_LOCK) {
 			try {
 				cleanUpTmpCodeFile(project.getDirectory());
 			} catch (LoadingProjectException e) {
-				return false;
+				return SaveResult.FAILED;
 			}
 
 			loadSaveLock.lock();
@@ -849,7 +867,7 @@ public final class XstreamSerializer {
 
 						if (previousXml.equals(currentXml)) {
 							Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
-							return false;
+							return SaveResult.UNCHANGED;
 						} else {
 							String languageRegex = "<catrobatLanguageVersion>.*</catrobatLanguageVersion>";
 							Pattern languagePattern = Pattern.compile(languageRegex, Pattern.CASE_INSENSITIVE);
@@ -864,7 +882,7 @@ public final class XstreamSerializer {
 						}
 					} catch (Exception e) {
 						Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);
-						return false;
+						return SaveResult.FAILED;
 					}
 				}
 
@@ -882,12 +900,13 @@ public final class XstreamSerializer {
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Cannot rename code.xml for " + project.getName());
+					return SaveResult.FAILED;
 				}
 
-				return true;
+				return SaveResult.SAVED;
 			} catch (Exception exception) {
 				Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
-				return false;
+				return SaveResult.FAILED;
 			} finally {
 				loadSaveLock.unlock();
 			}

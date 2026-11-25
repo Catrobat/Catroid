@@ -1406,7 +1406,6 @@
          змініть щось і спробуйте ще раз.</string>
     <string formatted="false" name="error_adding_brick">Під час додавання цього блоку сталася помилка.</string>
     <string formatted="false" name="error_copying_brick">Під час копіювання цього блоку сталася помилка.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Перейменування несумісного проєкту неможливе.</string>
     <string formatted="false" name="error_embroidery_file_export">Під час надання доступу до файлу вишивки сталася помилка.</string>
     <string formatted="false" name="error_embroidery_file_write">Під час запису файлу вишивки сталася помилка.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Вишивка відсутня.</string>

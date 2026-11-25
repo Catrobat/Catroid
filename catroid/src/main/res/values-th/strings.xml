@@ -1249,7 +1249,6 @@
     <string formatted="false" name="error_upload_default_project">คุณไม่สามารถอัพโหลดโครงการตัวอย่างที่ไม่ได้แก้ไข  โปรดเปลี่ยนบางสิ่งและลองอีกครั้ง</string>
     <string formatted="false" name="error_adding_brick">เกิดข้อผิดพลาดขณะเพิ่มก้อนนี้</string>
     <string formatted="false" name="error_copying_brick">เกิดข้อผิดพลาดขณะคัดลอกก้อนนี้</string>
-    <string formatted="false" name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโครงการที่เข้ากันไม่ได้</string>
     <string formatted="false" name="error_embroidery_file_export">เกิดข้อผิดพลาดบางอย่างขณะแชร์ไฟล์การปัก</string>
     <string formatted="false" name="error_embroidery_file_write">เกิดข้อผิดพลาดขณะเขียนไฟล์ปัก</string>
     <string formatted="false" name="error_embroidery_data_not_found">เย็บปักถักร้อยขาดหายไป</string>

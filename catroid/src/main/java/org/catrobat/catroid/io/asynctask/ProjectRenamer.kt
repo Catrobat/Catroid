@@ -23,11 +23,6 @@
 package org.catrobat.catroid.io.asynctask
 
 import android.util.Log
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.XstreamSerializer
@@ -35,26 +30,7 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor
 import java.io.File
 import java.io.IOException
 
-private val TAG = ProjectRenamer::class.java.simpleName
-
-class ProjectRenamer(
-    private val projectDirectory: File,
-    private val destinationName: String
-) {
-    @JvmOverloads
-    fun renameProjectAsync(
-        onRenameProjectComplete: (Boolean) -> Unit = {},
-        scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-        dispatcherOnFinished: CoroutineDispatcher = Dispatchers.Main
-    ) {
-        scope.launch {
-            val success = renameProject(projectDirectory, destinationName) != null
-            withContext(dispatcherOnFinished) {
-                onRenameProjectComplete(success)
-            }
-        }
-    }
-}
+private const val TAG = "ProjectRenamer"
 
 /**
  * Moves a project folder and rewrites the `<programName>` in its code.xml.
@@ -87,24 +63,11 @@ fun renameProject(projectDirectory: File, destinationName: String): File? {
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     return try {
-        if (projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true) &&
-            projectDirectory.name != destinationDirectory.name
-        ) {
-            val tempDirectory = File(
-                projectDirectory.parentFile,
-                "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
-            )
-            if (projectDirectory.renameTo(tempDirectory)) {
-                if (tempDirectory.renameTo(destinationDirectory)) {
-                    return true
-                }
-                if (!tempDirectory.renameTo(projectDirectory)) {
-                    Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
-                }
-            }
-            return false
+        if (isCaseOnlyRename(projectDirectory, destinationDirectory)) {
+            renameViaTemporaryDirectory(projectDirectory, destinationDirectory)
+        } else {
+            projectDirectory.renameTo(destinationDirectory)
         }
-        projectDirectory.renameTo(destinationDirectory)
     } catch (e: IOException) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
@@ -112,6 +75,31 @@ fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
     }
+}
+
+private fun isCaseOnlyRename(projectDirectory: File, destinationDirectory: File): Boolean =
+    projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true) &&
+        projectDirectory.name != destinationDirectory.name
+
+/**
+ * On case-insensitive storage, "game" -> "Game" cannot be renamed directly, so the folder is
+ * moved through a temporary name. If the second step fails, the folder is moved back.
+ */
+private fun renameViaTemporaryDirectory(projectDirectory: File, destinationDirectory: File): Boolean {
+    val tempDirectory = File(
+        projectDirectory.parentFile,
+        "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
+    )
+    if (!projectDirectory.renameTo(tempDirectory)) {
+        return false
+    }
+    if (tempDirectory.renameTo(destinationDirectory)) {
+        return true
+    }
+    if (!tempDirectory.renameTo(projectDirectory)) {
+        Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
+    }
+    return false
 }
 
 fun tryRenameProject(codeFile: File, destinationName: String): Boolean {

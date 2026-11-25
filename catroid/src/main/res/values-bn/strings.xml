@@ -1285,7 +1285,6 @@
     <string formatted="false" name="error_upload_default_project">আপনি একটি অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করতে পারবেন না। দয়া করে কিছু পরিবর্তন করুন এবং আবার চেষ্টা করুন।</string>
     <string formatted="false" name="error_adding_brick">এই ব্রিকটি যুক্ত করার সময় কিছু ভুল হয়েছে।</string>
     <string formatted="false" name="error_copying_brick">এই ব্রিকটি অনুলিপি করার সময় কিছু ভুল হয়েছে।</string>
-    <string formatted="false" name="error_rename_incompatible_project">একটি অসঙ্গত প্রকল্পের নামকরণ সম্ভব নয়।</string>
     <string formatted="false" name="error_embroidery_file_export">সূচিকর্ম ফাইলটি শেয়ার করার সময় কিছু ভুল হয়েছে।</string>
     <string formatted="false" name="error_embroidery_file_write">এমব্রয়ডারি ফাইলটি লেখার সময় কিছু ভুল হয়েছে।</string>
     <string formatted="false" name="error_embroidery_data_not_found">এমব্রয়ডারি অনুপস্থিত।</string>

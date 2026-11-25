@@ -1407,7 +1407,6 @@
         измените что-то и повторите попытку.</string>
     <string formatted="false" name="error_adding_brick">Что-то пошло не так при добавлении этого блока.</string>
     <string formatted="false" name="error_copying_brick">Что-то пошло не так при копировании этого блока.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Переименование несовместимого проекта невозможно.</string>
     <string formatted="false" name="error_embroidery_file_export">Что-то пошло не так при передаче файла для вышивки.</string>
     <string formatted="false" name="error_embroidery_file_write">Что-то пошло не так при сохранении файла для вышивки.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Отсутствует файл для вышивки.</string>

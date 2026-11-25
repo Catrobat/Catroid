@@ -1406,7 +1406,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Došlo k chybě při přidávání bloku</string>
     <string formatted="false" name="error_copying_brick">Došlo k chybě při kopírování bloku</string>
-    <string formatted="false" name="error_rename_incompatible_project">Přejmenování nekompatibilní projektu není možné.</string>
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>

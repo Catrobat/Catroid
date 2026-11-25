@@ -1327,7 +1327,6 @@
     <string formatted="false" name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string formatted="false" name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string formatted="false" name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>

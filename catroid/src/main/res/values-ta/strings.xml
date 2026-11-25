@@ -1304,7 +1304,6 @@
     <string formatted="false" name="error_upload_default_project">மாற்றப்படாத எடுத்துக்காட்டு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
     <string formatted="false" name="error_adding_brick">இந்த செங்கலைச் சேர்க்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string formatted="false" name="error_copying_brick">இந்த செங்கலை நகலெடுக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
-    <string formatted="false" name="error_rename_incompatible_project">பொருந்தாத திட்டத்தை மறுபெயரிடுவது சாத்தியமில்லை.</string>
     <string formatted="false" name="error_embroidery_file_export">எம்பிராய்டரி கோப்பைப் பகிரும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>

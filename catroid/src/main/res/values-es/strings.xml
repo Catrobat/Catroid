@@ -1310,7 +1310,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         cambie algo e inténtelo de nuevo.</string>
     <string formatted="false" name="error_adding_brick">Error al agregar este bloque</string>
     <string formatted="false" name="error_copying_brick">Error al copiar este bloque</string>
-    <string formatted="false" name="error_rename_incompatible_project">No es posible renombrar un proyecto incompatible.</string>
     <string formatted="false" name="error_embroidery_file_export">Algo salió mal al compartir el archivo de bordado.</string>
     <string formatted="false" name="error_embroidery_file_write">Algo salió mal al escribir el archivo de bordado.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Falta la borda.</string>

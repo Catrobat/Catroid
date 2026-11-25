@@ -1292,7 +1292,6 @@
          کچھ تبدیل کریں اور دوبارہ کوشش کریں.</string>
     <string formatted="false" name="error_adding_brick">اس اینٹ کو شامل کرتے وقت کچھ غلط ہوا.</string>
     <string formatted="false" name="error_copying_brick">اس اینٹ کاپی کرتے وقت کچھ غلط ہوگیا.</string>
-    <string formatted="false" name="error_rename_incompatible_project">ناممکن منصوبے کا نام تبدیل کرنا ممکن نہیں ہے.</string>
     <string formatted="false" name="error_embroidery_file_export">ایمبرائیڈری فائل شیئر کرتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_file_write">ایمبرائیڈری فائل لکھتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_data_not_found">کڑھائی غائب ہے۔</string>

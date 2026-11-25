@@ -1270,7 +1270,6 @@
         改變一些東西然後再試一次。</string>
     <string formatted="false" name="error_adding_brick">新增這個程式塊時出錯。</string>
     <string formatted="false" name="error_copying_brick">複製這個程式塊時出錯。</string>
-    <string formatted="false" name="error_rename_incompatible_project">無法重命名不兼容的項目。</string>
     <string formatted="false" name="error_embroidery_file_export">共享繡花文件時出現問題。</string>
     <string formatted="false" name="error_embroidery_file_write">寫入繡花文件時出現問題。</string>
     <string formatted="false" name="error_embroidery_data_not_found">刺繡不見了。</string>
