@@ -42,6 +42,7 @@ import android.widget.ListAdapter;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.HelpUrls;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -784,7 +785,8 @@ public class ScriptFragment extends ListFragment implements ActionMode.Callback,
 		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 
-		String brickHelpUrl = brick.getHelpUrl(category);
+		String brickHelpUrl = HelpUrls.withLocale(brick.getHelpUrl(category),
+				HelpUrls.getAppLocale(requireContext()));
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(brickHelpUrl));
 		startActivity(intent);
 	}

@@ -38,7 +38,7 @@ public final class FlavoredConstants {
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/create@school/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrobat.org/docs/";
+	public static final String CATROBAT_HELP_URL = "https://share.catrobat.org/app/docs";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 

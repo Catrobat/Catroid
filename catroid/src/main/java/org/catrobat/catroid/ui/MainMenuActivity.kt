@@ -39,6 +39,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
@@ -47,6 +48,7 @@ import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
+import org.catrobat.catroid.common.HelpUrls
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
 import org.catrobat.catroid.databinding.ActivityMainMenuBinding
@@ -303,7 +305,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             R.id.menu_help -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(CATROBAT_HELP_URL)
+                    HelpUrls.withLocale(CATROBAT_HELP_URL, HelpUrls.getAppLocale(this)).toUri()
                 )
             )
             else -> return super.onOptionsItemSelected(item)

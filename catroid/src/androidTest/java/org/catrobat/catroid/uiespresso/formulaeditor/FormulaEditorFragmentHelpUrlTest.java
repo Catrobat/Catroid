@@ -72,15 +72,12 @@ public class FormulaEditorFragmentHelpUrlTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	static String language = getLanguage();
-	static String functionsHelpUrl = "https://wiki.catrobat"
-			+ ".org/bin/view/Documentation/FormulaEditor/Functions/" + language;
-	static String logicHelpUrl = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor"
-			+ "/Logic/" + language;
-	static String sensorsHelpUrl = "https://wiki.catrobat"
-			+ ".org/bin/view/Documentation/FormulaEditor/Sensors/" + language;
-	static String objectHelpUrl = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor"
-			+ "/Properties/" + language;
+	static String formulaHelpUrl = "https://share.catrobat.org/app/docs/reference?locale="
+			+ getLanguage() + "#formula";
+	static String functionsHelpUrl = formulaHelpUrl;
+	static String logicHelpUrl = formulaHelpUrl;
+	static String sensorsHelpUrl = formulaHelpUrl;
+	static String objectHelpUrl = formulaHelpUrl;
 
 	@Before
 	public void setUp() throws Exception {
@@ -141,7 +138,6 @@ public class FormulaEditorFragmentHelpUrlTest {
 	}
 
 	public static String getLanguage() {
-		String language = "?language=";
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
@@ -154,6 +150,6 @@ public class FormulaEditorFragmentHelpUrlTest {
 					? Locale.forLanguageTag(languageTag)
 					: Locale.forLanguageTag(defaultSystemLanguage);
 		}
-		return language + locale.getLanguage();
+		return locale.toLanguageTag();
 	}
 }
