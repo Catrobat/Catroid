@@ -39,6 +39,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
@@ -304,7 +305,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             R.id.menu_help -> startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(HelpUrls.withLocale(CATROBAT_HELP_URL, HelpUrls.getAppLocale(this)))
+                    HelpUrls.withLocale(CATROBAT_HELP_URL, HelpUrls.getAppLocale(this)).toUri()
                 )
             )
             else -> return super.onOptionsItemSelected(item)
