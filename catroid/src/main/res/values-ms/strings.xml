@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">Anda tidak boleh memuat naik projek contoh yang belum diubah. Sila ubah sesuatu dan cuba lagi.</string>
     <string formatted="false" name="error_adding_brick">Berlaku masalah semasa menambah blok ini.</string>
     <string formatted="false" name="error_copying_brick">Berlaku masalah semasa menyalin blok ini.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Projek yang tidak serasi tidak boleh dinamakan semula.</string>
     <string formatted="false" name="error_embroidery_file_export">Berlaku masalah semasa berkongsi fail sulaman.</string>
     <string formatted="false" name="error_embroidery_file_write">Berlaku masalah semasa menulis fail sulaman.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Data sulaman tiada.</string>

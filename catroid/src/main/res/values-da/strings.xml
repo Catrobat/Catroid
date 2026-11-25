@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Du kan ikke uploade et uændret eksempelprojekt. Lav en ændring, og prøv igen.</string>
     <string formatted="false" name="error_adding_brick">Der opstod en fejl under tilføjelse af denne klods.</string>
     <string formatted="false" name="error_copying_brick">Der opstod en fejl under kopiering af denne klods.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Et inkompatibelt projekt kan ikke omdøbes.</string>
     <string formatted="false" name="error_embroidery_file_export">Der opstod en fejl under deling af broderifilen.</string>
     <string formatted="false" name="error_embroidery_file_write">Der opstod en fejl under skrivning af broderifilen.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Broderiet mangler.</string>

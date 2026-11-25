@@ -1291,7 +1291,6 @@
     <string formatted="false" name="error_upload_default_project">Не можеш да отпремиш неизмењен пример пројекта. Промени нешто и покушај поново.</string>
     <string formatted="false" name="error_adding_brick">Дошло је до грешке при додавању овог блока.</string>
     <string formatted="false" name="error_copying_brick">Дошло је до грешке при копирању овог блока.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Није могуће преименовати некомпатибилан пројекат.</string>
     <string formatted="false" name="error_embroidery_file_export">Дошло је до грешке при дељењу датотеке веза.</string>
     <string formatted="false" name="error_embroidery_file_write">Дошло је до грешке при упису датотеке веза.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Вез недостаје.</string>

@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Ezin duzu aldatu gabeko adibide-proiektu bat igo. Aldatu zerbait eta saiatu berriro.</string>
     <string formatted="false" name="error_adding_brick">Zerbait gaizki joan da bloke hau gehitzean.</string>
     <string formatted="false" name="error_copying_brick">Zerbait gaizki joan da bloke hau kopiatzean.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Ezin zaio izena aldatu proiektu bateraezin bati.</string>
     <string formatted="false" name="error_embroidery_file_export">Zerbait gaizki joan da brodatu-fitxategia partekatzean.</string>
     <string formatted="false" name="error_embroidery_file_write">Zerbait gaizki joan da brodatu-fitxategia idaztean.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Brodatua falta da.</string>

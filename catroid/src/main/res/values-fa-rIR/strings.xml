@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">نمی‌توانید پروژهٔ نمونه را بدون تغییر آپلود کنید. لطفاً چیزی را در آن تغییر دهید و دوباره امتحان کنید.</string>
     <string formatted="false" name="error_adding_brick">هنگام افزودن این بلوک مشکلی پیش آمد.</string>
     <string formatted="false" name="error_copying_brick">هنگام کپی کردن این بلوک مشکلی پیش آمد.</string>
-    <string formatted="false" name="error_rename_incompatible_project">تغییر نام پروژهٔ ناسازگار ممکن نیست.</string>
     <string formatted="false" name="error_embroidery_file_export">هنگام اشتراک‌گذاری فایل گلدوزی مشکلی پیش آمد.</string>
     <string formatted="false" name="error_embroidery_file_write">هنگام نوشتن فایل گلدوزی مشکلی پیش آمد.</string>
     <string formatted="false" name="error_embroidery_data_not_found">طرح گلدوزی وجود ندارد.</string>

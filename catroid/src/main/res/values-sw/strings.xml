@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Huwezi kupakia mradi wa mfano ambao haujabadilishwa. Tafadhali badilisha kitu kisha ujaribu tena.</string>
     <string formatted="false" name="error_adding_brick">Kuna kitu kimeharibika wakati wa kuongeza kipande hiki.</string>
     <string formatted="false" name="error_copying_brick">Kuna kitu kimeharibika wakati wa kunakili kipande hiki.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Haiwezekani kubadilisha jina la mradi usiooana.</string>
     <string formatted="false" name="error_embroidery_file_export">Kuna kitu kimeharibika wakati wa kushiriki faili ya udarizi.</string>
     <string formatted="false" name="error_embroidery_file_write">Kuna kitu kimeharibika wakati wa kuandika faili ya udarizi.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Udarizi haupo.</string>

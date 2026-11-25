@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Neupravený ukážkový projekt nie je možné nahrať. Niečo v ňom zmeňte a skúste to znova.</string>
     <string formatted="false" name="error_adding_brick">Pri pridávaní tohto bloku sa niečo pokazilo.</string>
     <string formatted="false" name="error_copying_brick">Pri kopírovaní tohto bloku sa niečo pokazilo.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nekompatibilný projekt nie je možné premenovať.</string>
     <string formatted="false" name="error_embroidery_file_export">Pri zdieľaní súboru s vyšívaním sa niečo pokazilo.</string>
     <string formatted="false" name="error_embroidery_file_write">Pri zapisovaní súboru s vyšívaním sa niečo pokazilo.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Údaje vyšívania chýbajú.</string>

@@ -1291,7 +1291,6 @@
     <string formatted="false" name="error_upload_default_project">Ne možeš prenijeti nepromijenjeni primjer projekta. Promijeni nešto i pokušaj ponovno.</string>
     <string formatted="false" name="error_adding_brick">Došlo je do pogreške tijekom dodavanja ovog bloka.</string>
     <string formatted="false" name="error_copying_brick">Došlo je do pogreške tijekom kopiranja ovog bloka.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nekompatibilni projekt nije moguće preimenovati.</string>
     <string formatted="false" name="error_embroidery_file_export">Došlo je do pogreške tijekom dijeljenja datoteke za vez.</string>
     <string formatted="false" name="error_embroidery_file_write">Došlo je do pogreške tijekom zapisivanja datoteke za vez.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Nedostaje vez.</string>

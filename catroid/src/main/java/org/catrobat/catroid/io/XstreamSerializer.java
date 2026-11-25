@@ -323,6 +323,18 @@ public final class XstreamSerializer {
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Lock loadSaveLock = new ReentrantLock();
 
+	/**
+	 * Guards every write to a project directory. Saving and renaming a project both hold this
+	 * monitor, so a save can never run between moving a project folder and updating the
+	 * in-memory project, which would recreate the old folder. The monitor is re-entrant, so a
+	 * rename may save the project while holding it.
+	 */
+	private static final Object SAVE_LOCK = new Object();
+
+	public static Object getSaveLock() {
+		return SAVE_LOCK;
+	}
+
 	private XstreamSerializer() {
 		prepareXstream(Project.class, Scene.class);
 	}
@@ -807,76 +819,97 @@ public final class XstreamSerializer {
 		return false;
 	}
 
+	/** Outcome of {@link #saveProjectWithResult(Project)}. */
+	public enum SaveResult {
+		/** code.xml was written. */
+		SAVED,
+		/** code.xml already matched the project, nothing was written. */
+		UNCHANGED,
+		/** The project could not be written. */
+		FAILED
+	}
+
+	/**
+	 * Saves the project. Returns true only if code.xml was written. Use
+	 * {@link #saveProjectWithResult(Project)} to tell an unchanged project apart from a failure.
+	 */
 	public boolean saveProject(Project project) {
+		return saveProjectWithResult(project) == SaveResult.SAVED;
+	}
+
+	public SaveResult saveProjectWithResult(Project project) {
 		if (project == null) {
-			return false;
+			return SaveResult.FAILED;
 		}
 
-		try {
-			cleanUpTmpCodeFile(project.getDirectory());
-		} catch (LoadingProjectException e) {
-			return false;
-		}
+		synchronized (SAVE_LOCK) {
+			try {
+				cleanUpTmpCodeFile(project.getDirectory());
+			} catch (LoadingProjectException e) {
+				return SaveResult.FAILED;
+			}
 
-		loadSaveLock.lock();
-		if (BuildConfig.FLAVOR.equals("pocketCodeBeta")) {
-			project.getXmlHeader().setApplicationBuildType("debug");
-		} else {
-			project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
-		}
+			loadSaveLock.lock();
+			if (BuildConfig.FLAVOR.equals("pocketCodeBeta")) {
+				project.getXmlHeader().setApplicationBuildType("debug");
+			} else {
+				project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
+			}
 
-		try {
-			String currentXml = XML_HEADER.concat(xstream.toXML(project));
-			File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);
-			File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+			try {
+				String currentXml = XML_HEADER.concat(xstream.toXML(project));
+				File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);
+				File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 
-			if (currentCodeFile.exists()) {
-				try {
-					String previousXml = Files.asCharSource(currentCodeFile, Charsets.UTF_8).read();
+				if (currentCodeFile.exists()) {
+					try {
+						String previousXml = Files.asCharSource(currentCodeFile, Charsets.UTF_8).read();
 
-					if (previousXml.equals(currentXml)) {
-						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
-						return false;
-					} else {
-						String languageRegex = "<catrobatLanguageVersion>.*</catrobatLanguageVersion>";
-						Pattern languagePattern = Pattern.compile(languageRegex, Pattern.CASE_INSENSITIVE);
-						Matcher currentLanguageMatcher = languagePattern.matcher(currentXml);
-						Matcher previousLanguageMatcher = languagePattern.matcher(previousXml);
-						currentLanguageMatcher.find();
-						previousLanguageMatcher.find();
-						if (Objects.equals(currentLanguageMatcher.group(0),
-								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
-							ProjectManager.getInstance().changedProject(project.getName());
+						if (previousXml.equals(currentXml)) {
+							Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
+							return SaveResult.UNCHANGED;
+						} else {
+							String languageRegex = "<catrobatLanguageVersion>.*</catrobatLanguageVersion>";
+							Pattern languagePattern = Pattern.compile(languageRegex, Pattern.CASE_INSENSITIVE);
+							Matcher currentLanguageMatcher = languagePattern.matcher(currentXml);
+							Matcher previousLanguageMatcher = languagePattern.matcher(previousXml);
+							currentLanguageMatcher.find();
+							previousLanguageMatcher.find();
+							if (Objects.equals(currentLanguageMatcher.group(0),
+									previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
+								ProjectManager.getInstance().changedProject(project.getName());
+							}
 						}
+					} catch (Exception e) {
+						Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);
+						return SaveResult.FAILED;
 					}
-				} catch (Exception e) {
-					Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);
-					return false;
 				}
+
+				StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
+				StorageOperations.createDir(project.getDirectory());
+
+				for (Scene scene : project.getSceneList()) {
+					StorageOperations.createSceneDirectory(scene.getDirectory());
+				}
+				StorageOperations.writeToFile(tmpCodeFile, currentXml);
+
+				if (currentCodeFile.exists() && !currentCodeFile.delete()) {
+					Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
+				}
+
+				if (!tmpCodeFile.renameTo(currentCodeFile)) {
+					Log.e(TAG, "Cannot rename code.xml for " + project.getName());
+					return SaveResult.FAILED;
+				}
+
+				return SaveResult.SAVED;
+			} catch (Exception exception) {
+				Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
+				return SaveResult.FAILED;
+			} finally {
+				loadSaveLock.unlock();
 			}
-
-			StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
-			StorageOperations.createDir(project.getDirectory());
-
-			for (Scene scene : project.getSceneList()) {
-				StorageOperations.createSceneDirectory(scene.getDirectory());
-			}
-			StorageOperations.writeToFile(tmpCodeFile, currentXml);
-
-			if (currentCodeFile.exists() && !currentCodeFile.delete()) {
-				Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
-			}
-
-			if (!tmpCodeFile.renameTo(currentCodeFile)) {
-				Log.e(TAG, "Cannot rename code.xml for " + project.getName());
-			}
-
-			return true;
-		} catch (Exception exception) {
-			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
-			return false;
-		} finally {
-			loadSaveLock.unlock();
 		}
 	}
 

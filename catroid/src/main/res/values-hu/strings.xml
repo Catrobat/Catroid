@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Módosítatlan mintaprojektet nem tölthetsz fel. Változtass rajta valamit, és próbáld újra.</string>
     <string formatted="false" name="error_adding_brick">Hiba történt a blokk hozzáadása közben.</string>
     <string formatted="false" name="error_copying_brick">Hiba történt a blokk másolása közben.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nem kompatibilis projekt nem nevezhető át.</string>
     <string formatted="false" name="error_embroidery_file_export">Hiba történt a hímzésfájl megosztása közben.</string>
     <string formatted="false" name="error_embroidery_file_write">Hiba történt a hímzésfájl írása közben.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Hiányzik a hímzés.</string>

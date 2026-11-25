@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Negali įkelti nepakeisto pavyzdinio projekto. Ką nors pakeisk ir bandyk dar kartą.</string>
     <string formatted="false" name="error_adding_brick">Pridedant šį bloką kažkas nepavyko.</string>
     <string formatted="false" name="error_copying_brick">Kopijuojant šį bloką kažkas nepavyko.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nesuderinamo projekto pervadinti negalima.</string>
     <string formatted="false" name="error_embroidery_file_export">Bendrinant siuvinėjimo failą kažkas nepavyko.</string>
     <string formatted="false" name="error_embroidery_file_write">Įrašant siuvinėjimo failą kažkas nepavyko.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Trūksta siuvinėjimo.</string>

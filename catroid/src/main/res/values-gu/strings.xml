@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">તમે ફેરફાર ન કરેલો ઉદાહરણ પ્રોજેક્ટ અપલોડ કરી શકતા નથી. કૃપા કરીને કંઈક બદલો અને ફરી પ્રયાસ કરો.</string>
     <string formatted="false" name="error_adding_brick">આ બ્લોક ઉમેરતી વખતે કંઈક ખોટું થયું.</string>
     <string formatted="false" name="error_copying_brick">આ બ્લોક કૉપિ કરતી વખતે કંઈક ખોટું થયું.</string>
-    <string formatted="false" name="error_rename_incompatible_project">અસંગત પ્રોજેક્ટનું નામ બદલી શકાતું નથી.</string>
     <string formatted="false" name="error_embroidery_file_export">ભરતકામની ફાઇલ શેર કરતી વખતે કંઈક ખોટું થયું.</string>
     <string formatted="false" name="error_embroidery_file_write">ભરતકામની ફાઇલ લખતી વખતે કંઈક ખોટું થયું.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ભરતકામ ખૂટે છે.</string>

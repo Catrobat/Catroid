@@ -1291,7 +1291,6 @@
     <string formatted="false" name="error_upload_default_project">אי אפשר להעלות מיזם לדוגמה שלא שונה. נא לשנות משהו ולנסות שוב.</string>
     <string formatted="false" name="error_adding_brick">אירעה שגיאה בעת הוספת הלבנה הזו.</string>
     <string formatted="false" name="error_copying_brick">אירעה שגיאה בעת העתקת הלבנה הזו.</string>
-    <string formatted="false" name="error_rename_incompatible_project">אי אפשר לשנות שם של מיזם לא תואם.</string>
     <string formatted="false" name="error_embroidery_file_export">אירעה שגיאה בעת שיתוף קובץ הרקמה.</string>
     <string formatted="false" name="error_embroidery_file_write">אירעה שגיאה בעת כתיבת קובץ הרקמה.</string>
     <string formatted="false" name="error_embroidery_data_not_found">הרקמה חסרה.</string>

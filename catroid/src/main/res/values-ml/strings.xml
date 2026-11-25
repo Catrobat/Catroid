@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">മാറ്റം വരുത്താത്ത ഉദാഹരണ പ്രോജക്റ്റ് അപ്‌ലോഡ് ചെയ്യാനാകില്ല. എന്തെങ്കിലും മാറ്റം വരുത്തിയ ശേഷം വീണ്ടും ശ്രമിക്കുക.</string>
     <string formatted="false" name="error_adding_brick">ഈ ബ്ലോക്ക് ചേർക്കുമ്പോൾ എന്തോ പിശക് സംഭവിച്ചു.</string>
     <string formatted="false" name="error_copying_brick">ഈ ബ്ലോക്ക് പകർത്തുമ്പോൾ എന്തോ പിശക് സംഭവിച്ചു.</string>
-    <string formatted="false" name="error_rename_incompatible_project">പൊരുത്തപ്പെടാത്ത ഒരു പ്രോജക്റ്റിന്റെ പേരുമാറ്റാനാകില്ല.</string>
     <string formatted="false" name="error_embroidery_file_export">എംബ്രോയ്ഡറി ഫയൽ പങ്കിടുമ്പോൾ എന്തോ പിശക് സംഭവിച്ചു.</string>
     <string formatted="false" name="error_embroidery_file_write">എംബ്രോയ്ഡറി ഫയൽ എഴുതുമ്പോൾ എന്തോ പിശക് സംഭവിച്ചു.</string>
     <string formatted="false" name="error_embroidery_data_not_found">എംബ്രോയ്ഡറി ഡാറ്റ കാണുന്നില്ല.</string>

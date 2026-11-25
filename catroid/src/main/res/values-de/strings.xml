@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Du kannst kein unverändertes Beispielprojekt hochladen. Bitte ändere etwas und versuche es erneut.</string>
     <string formatted="false" name="error_adding_brick">Beim Hinzufügen dieses Bausteins ist etwas schiefgelaufen.</string>
     <string formatted="false" name="error_copying_brick">Beim Kopieren dieses Bausteins ist etwas schiefgelaufen.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Ein inkompatibles Projekt kann nicht umbenannt werden.</string>
     <string formatted="false" name="error_embroidery_file_export">Beim Teilen der Stickdatei ist etwas schiefgelaufen.</string>
     <string formatted="false" name="error_embroidery_file_write">Beim Schreiben der Stickdatei ist etwas schiefgelaufen.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Stickerei fehlt.</string>

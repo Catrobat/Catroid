@@ -54,11 +54,10 @@ import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExporter
 import org.catrobat.catroid.io.asynctask.ProjectSaver
-import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
+import org.catrobat.catroid.ui.ProjectRenameHelper
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
@@ -238,13 +237,14 @@ class ProjectOptionsFragment : Fragment() {
         project ?: return
 
         if (project!!.name != name) {
-            XstreamSerializer.getInstance().saveProject(project)
-            val renamedDirectory = renameProject(project!!.directory, name)
+            val renamedDirectory = ProjectRenameHelper.renameProject(
+                requireContext(), project!!.directory, project!!.name, name
+            )
             if (renamedDirectory == null) {
-                Log.e(TAG, "Creating renamed directory failed!")
+                Log.e(TAG, "Renaming project failed!")
+                ToastUtil.showError(requireContext(), R.string.error_rename_project)
                 return
             }
-            loadProject(renamedDirectory, requireContext().applicationContext)
             project = projectManager.currentProject
             projectManager.currentlyEditedScene = project!!.getSceneByName(sceneName)
         }

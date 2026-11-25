@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Δεν μπορείς να ανεβάσεις ένα παράδειγμα έργου χωρίς αλλαγές. Άλλαξε κάτι και δοκίμασε ξανά.</string>
     <string formatted="false" name="error_adding_brick">Κάτι πήγε στραβά κατά την προσθήκη αυτού του μπλοκ.</string>
     <string formatted="false" name="error_copying_brick">Κάτι πήγε στραβά κατά την αντιγραφή αυτού του μπλοκ.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Δεν είναι δυνατή η μετονομασία ενός μη συμβατού έργου.</string>
     <string formatted="false" name="error_embroidery_file_export">Κάτι πήγε στραβά κατά την κοινοποίηση του αρχείου κεντήματος.</string>
     <string formatted="false" name="error_embroidery_file_write">Κάτι πήγε στραβά κατά την εγγραφή του αρχείου κεντήματος.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Λείπει το κέντημα.</string>

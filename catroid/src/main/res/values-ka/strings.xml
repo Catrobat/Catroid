@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">შეუცვლელ სანიმუშო პროექტს ვერ ატვირთავ. შეცვალე რამე და სცადე ხელახლა.</string>
     <string formatted="false" name="error_adding_brick">ამ ბლოკის დამატებისას რაღაც შეცდომა მოხდა.</string>
     <string formatted="false" name="error_copying_brick">ამ ბლოკის კოპირებისას რაღაც შეცდომა მოხდა.</string>
-    <string formatted="false" name="error_rename_incompatible_project">შეუთავსებელი პროექტისთვის სახელის გადარქმევა შეუძლებელია.</string>
     <string formatted="false" name="error_embroidery_file_export">ქარგვის ფაილის გაზიარებისას რაღაც შეცდომა მოხდა.</string>
     <string formatted="false" name="error_embroidery_file_write">ქარგვის ფაილის ჩაწერისას რაღაც შეცდომა მოხდა.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ქარგვის მონაცემები არ არსებობს.</string>

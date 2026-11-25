@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">மாற்றப்படாத மாதிரித் திட்டத்தைப் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
     <string formatted="false" name="error_adding_brick">இந்தத் தொகுதியைச் சேர்க்கும்போது ஏதோ தவறு நடந்தது.</string>
     <string formatted="false" name="error_copying_brick">இந்தத் தொகுதியை நகலெடுக்கும்போது ஏதோ தவறு நடந்தது.</string>
-    <string formatted="false" name="error_rename_incompatible_project">பொருந்தாத திட்டத்தை மறுபெயரிடுவது சாத்தியமில்லை.</string>
     <string formatted="false" name="error_embroidery_file_export">பூத்தையல் கோப்பைப் பகிரும்போது ஏதோ தவறு நடந்தது.</string>
     <string formatted="false" name="error_embroidery_file_write">பூத்தையல் கோப்பை எழுதும்போது ஏதோ தவறு நடந்தது.</string>
     <string formatted="false" name="error_embroidery_data_not_found">பூத்தையல் தரவு இல்லை.</string>

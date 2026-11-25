@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করা যাবে না। অনুগ্রহ করে কিছু পরিবর্তন করে আবার চেষ্টা করুন।</string>
     <string formatted="false" name="error_adding_brick">এই ব্লকটি যোগ করার সময় কিছু একটা ভুল হয়েছে।</string>
     <string formatted="false" name="error_copying_brick">এই ব্লকটি কপি করার সময় কিছু একটা ভুল হয়েছে।</string>
-    <string formatted="false" name="error_rename_incompatible_project">অসামঞ্জস্যপূর্ণ প্রজেক্টের নাম পরিবর্তন করা সম্ভব নয়।</string>
     <string formatted="false" name="error_embroidery_file_export">এমব্রয়ডারি ফাইলটি শেয়ার করার সময় কিছু একটা ভুল হয়েছে।</string>
     <string formatted="false" name="error_embroidery_file_write">এমব্রয়ডারি ফাইলটি লেখার সময় কিছু একটা ভুল হয়েছে।</string>
     <string formatted="false" name="error_embroidery_data_not_found">এমব্রয়ডারি পাওয়া যায়নি।</string>

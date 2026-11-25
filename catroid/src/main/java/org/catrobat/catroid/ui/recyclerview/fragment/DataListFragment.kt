@@ -338,7 +338,7 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         setUserListIndex(localLists)
     }
 
-    private fun setUserVariableIndex(data: MutableList<UserVariable>) {
+    private fun setUserVariableIndex(data: List<UserVariable>) {
         if (data.size > 0) {
             for ((counter, localList) in data.withIndex()) {
                 if (localList.initialIndex == -1) {
@@ -348,7 +348,7 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         }
     }
 
-    private fun setUserListIndex(data: MutableList<UserList>) {
+    private fun setUserListIndex(data: List<UserList>) {
         if (data.size > 0) {
             for ((counter, localList) in data.withIndex()) {
                 if (localList.initialIndex == -1) {
@@ -552,7 +552,8 @@ class DataListFragment<T : UserData<String>> : Fragment(),
         itemList.add(item)
         val hiddenOptionsMenu = mutableListOf<Int>(
             R.id.copy, R.id.show_details, R.id.from_local, R.id.new_group,
-            R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
+            R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options,
+            R.id.pin_to_home_screen
         )
         if (item is UserVariable) {
             val popupMenu = UiUtils.createSettingsPopUpMenu(

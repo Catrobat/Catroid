@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">你無法上傳未經修改的範例專案。請修改一些內容後再試一次。</string>
     <string formatted="false" name="error_adding_brick">新增這個積木時發生錯誤。</string>
     <string formatted="false" name="error_copying_brick">複製這個積木時發生錯誤。</string>
-    <string formatted="false" name="error_rename_incompatible_project">無法重新命名不相容的專案。</string>
     <string formatted="false" name="error_embroidery_file_export">分享刺繡檔案時發生錯誤。</string>
     <string formatted="false" name="error_embroidery_file_write">寫入刺繡檔案時發生錯誤。</string>
     <string formatted="false" name="error_embroidery_data_not_found">找不到刺繡資料。</string>

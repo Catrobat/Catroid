@@ -26,6 +26,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -34,6 +35,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -68,6 +72,8 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.ui.shortcut.ShortcutDialogHelper
+import org.catrobat.catroid.ui.shortcut.ShortcutHelper
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.setVisibleOrGone
@@ -93,6 +99,8 @@ class ProjectActivity : BaseCastActivity() {
 
     private lateinit var binding: ActivityRecyclerBinding
     private val projectManager: ProjectManager by inject()
+    private var pendingShortcutProjectName: String? = null
+    private var pendingShortcutIcon: Bitmap? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +159,9 @@ class ProjectActivity : BaseCastActivity() {
         menuInflater.inflate(R.menu.menu_project_activity, menu)
         menu.findItem(R.id.from_local).isVisible = false
         menu.findItem(R.id.edit).isVisible = false
+        if (!ShortcutHelper.isShortcutSupported(this)) {
+            menu.findItem(R.id.pin_to_home_screen)?.isVisible = false
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -161,9 +172,75 @@ class ProjectActivity : BaseCastActivity() {
                 R.id.fragment_container, ProjectOptionsFragment(), ProjectOptionsFragment.TAG
             ).addToBackStack(ProjectOptionsFragment.TAG).commit()
 
+            R.id.pin_to_home_screen -> {
+                pinCurrentProjectToHomeScreen()
+                return true
+            }
+
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val projectName = pendingShortcutProjectName
+        if (projectName != null) {
+            val icon = pendingShortcutIcon
+            pendingShortcutProjectName = null
+            pendingShortcutIcon = null
+            lifecycleScope.launch {
+                val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
+                showPinShortcutDialog(projectName, icon, isGranted)
+            }
+        }
+    }
+
+    private fun pinCurrentProjectToHomeScreen() {
+        val currentProject = projectManager.currentProject ?: return
+        if (!ShortcutHelper.isShortcutSupported(this)) {
+            Snackbar.make(
+                binding.root,
+                R.string.shortcut_not_supported,
+                Snackbar.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val projectName = currentProject.name
+        lifecycleScope.launch {
+            val icon = ShortcutHelper.loadProjectIcon(projectName)
+            val isGranted = ShortcutHelper.verifyShortcutPermission(this@ProjectActivity)
+            showPinShortcutDialog(projectName, icon, isGranted)
+        }
+    }
+
+    private fun showPinShortcutDialog(projectName: String, icon: Bitmap?, isGranted: Boolean) {
+        ShortcutDialogHelper.showPinShortcutDialog(
+            this,
+            layoutInflater,
+            projectName,
+            icon,
+            lifecycleScope,
+            isGranted,
+            onSettingsClicked = {
+                pendingShortcutProjectName = projectName
+                pendingShortcutIcon = icon
+            },
+            onProjectRenamed = { _, newName -> onCurrentProjectRenamed(newName) }
+        )
+    }
+
+    /**
+     * The renamed project was reloaded from its new folder. The visible list is recreated so
+     * it shows the reloaded scenes and sprites instead of the old objects.
+     */
+    private fun onCurrentProjectRenamed(newName: String) {
+        supportActionBar?.title = newName
+        val fragment = currentFragment ?: return
+        if (supportFragmentManager.isStateSaved) return
+        supportFragmentManager.beginTransaction().detach(fragment).commitNow()
+        supportFragmentManager.beginTransaction().attach(fragment).commitNow()
     }
 
     override fun onPause() {

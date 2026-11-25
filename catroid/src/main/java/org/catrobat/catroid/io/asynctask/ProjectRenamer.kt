@@ -23,11 +23,6 @@
 package org.catrobat.catroid.io.asynctask
 
 import android.util.Log
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.XstreamSerializer
@@ -35,65 +30,83 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor
 import java.io.File
 import java.io.IOException
 
-private val TAG = ProjectRenamer::class.java.simpleName
+private const val TAG = "ProjectRenamer"
 
-class ProjectRenamer(
-    private val projectDirectory: File,
-    private val destinationName: String
-) {
-    @JvmOverloads
-    fun renameProjectAsync(
-        onRenameProjectComplete: (Boolean) -> Unit = {},
-        scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-        dispatcherOnFinished: CoroutineDispatcher = Dispatchers.Main
-    ) {
-        scope.launch {
-            val success = renameProject(projectDirectory, destinationName) != null
-            withContext(dispatcherOnFinished) {
-                onRenameProjectComplete(success)
-            }
-        }
-    }
-}
-
+/**
+ * Moves a project folder and rewrites the `<programName>` in its code.xml.
+ *
+ * If rewriting code.xml fails after the folder was moved, the folder is moved back, so the
+ * project is never left half renamed. Returns the renamed directory, or null on failure.
+ */
 fun renameProject(projectDirectory: File, destinationName: String): File? {
-    val destinationDirectory = File(
-        projectDirectory.parent,
-        FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
-    )
-    val file = File(
-        destinationDirectory,
-        Constants.CODE_XML_FILE_NAME
-    )
+    synchronized(XstreamSerializer.getSaveLock()) {
+        val destinationDirectory = File(
+            projectDirectory.parent,
+            FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName)
+        )
+        val codeFile = File(destinationDirectory, Constants.CODE_XML_FILE_NAME)
 
-    val success = tryRenameTo(projectDirectory, destinationDirectory) && tryRenameProject(
-        file,
-        destinationName
-    )
-    if (!success) {
-        return null
+        if (!tryRenameTo(projectDirectory, destinationDirectory)) {
+            return null
+        }
+        if (!tryRenameProject(codeFile, destinationName)) {
+            if (!tryRenameTo(destinationDirectory, projectDirectory)) {
+                Log.e(TAG, "Rollback of ${destinationDirectory.name} failed")
+            }
+            return null
+        }
+
+        ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
+        return destinationDirectory
     }
-
-    ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
-    return destinationDirectory
 }
 
 fun tryRenameTo(projectDirectory: File, destinationDirectory: File): Boolean {
     return try {
-        projectDirectory.renameTo(destinationDirectory)
-        true
+        if (isCaseOnlyRename(projectDirectory, destinationDirectory)) {
+            renameViaTemporaryDirectory(projectDirectory, destinationDirectory)
+        } else {
+            projectDirectory.renameTo(destinationDirectory)
+        }
     } catch (e: IOException) {
+        Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
+        false
+    } catch (e: SecurityException) {
         Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to ${destinationDirectory.name}", e)
         false
     }
 }
 
-fun tryRenameProject(projectDirectory: File, destinationName: String): Boolean {
+private fun isCaseOnlyRename(projectDirectory: File, destinationDirectory: File): Boolean =
+    projectDirectory.name.equals(destinationDirectory.name, ignoreCase = true) &&
+        projectDirectory.name != destinationDirectory.name
+
+/**
+ * On case-insensitive storage, "game" -> "Game" cannot be renamed directly, so the folder is
+ * moved through a temporary name. If the second step fails, the folder is moved back.
+ */
+private fun renameViaTemporaryDirectory(projectDirectory: File, destinationDirectory: File): Boolean {
+    val tempDirectory = File(
+        projectDirectory.parentFile,
+        "${projectDirectory.name}_tmp_${System.currentTimeMillis()}"
+    )
+    if (!projectDirectory.renameTo(tempDirectory)) {
+        return false
+    }
+    if (tempDirectory.renameTo(destinationDirectory)) {
+        return true
+    }
+    if (!tempDirectory.renameTo(projectDirectory)) {
+        Log.e(TAG, "Cannot rollback temporary directory to ${projectDirectory.absolutePath}")
+    }
+    return false
+}
+
+fun tryRenameProject(codeFile: File, destinationName: String): Boolean {
     return try {
-        XstreamSerializer.renameProject(projectDirectory, destinationName)
-        true
+        XstreamSerializer.renameProject(codeFile, destinationName)
     } catch (e: IOException) {
-        Log.e(TAG, "Cannot rename project directory ${projectDirectory.absolutePath} to $destinationName", e)
+        Log.e(TAG, "Cannot rename project in ${codeFile.absolutePath} to $destinationName", e)
         false
     }
 }

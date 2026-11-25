@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">変更していないサンプルプロジェクトはアップロードできません。何かを変更してから、もう一度お試しください。</string>
     <string formatted="false" name="error_adding_brick">このブロックの追加中に問題が発生しました。</string>
     <string formatted="false" name="error_copying_brick">このブロックのコピー中に問題が発生しました。</string>
-    <string formatted="false" name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更することはできません。</string>
     <string formatted="false" name="error_embroidery_file_export">刺繍ファイルの共有中に問題が発生しました。</string>
     <string formatted="false" name="error_embroidery_file_write">刺繍ファイルの書き込み中に問題が発生しました。</string>
     <string formatted="false" name="error_embroidery_data_not_found">刺繍がありません。</string>

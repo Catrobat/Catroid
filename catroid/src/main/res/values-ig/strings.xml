@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">Ị nweghị ike ibulite ọrụ ihe atụ a na-agbanweghị. Biko gbanwee ihe ma nwaa ọzọ.</string>
     <string formatted="false" name="error_adding_brick">Ihe adịghị mma mere mgbe a na-agbakwunye blọk a.</string>
     <string formatted="false" name="error_copying_brick">Ihe adịghị mma mere mgbe a na-edetuo blọk a.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Ọ gaghị ekwe omume ịgbanwe aha ọrụ na-adabaghị.</string>
     <string formatted="false" name="error_embroidery_file_export">Ihe adịghị mma mere mgbe a na-ekerịta faịlụ ịkpa akwa.</string>
     <string formatted="false" name="error_embroidery_file_write">Ihe adịghị mma mere mgbe a na-ede faịlụ ịkpa akwa.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Data ịkpa akwa adịghị.</string>

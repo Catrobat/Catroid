@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">No pots pujar un projecte d\'exemple sense modificar. Canvia alguna cosa i torna-ho a provar.</string>
     <string formatted="false" name="error_adding_brick">S\'ha produït un error en afegir aquest bloc.</string>
     <string formatted="false" name="error_copying_brick">S\'ha produït un error en copiar aquest bloc.</string>
-    <string formatted="false" name="error_rename_incompatible_project">No es pot canviar el nom d\'un projecte incompatible.</string>
     <string formatted="false" name="error_embroidery_file_export">S\'ha produït un error en compartir el fitxer de brodat.</string>
     <string formatted="false" name="error_embroidery_file_write">S\'ha produït un error en escriure el fitxer de brodat.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Falta el brodat.</string>

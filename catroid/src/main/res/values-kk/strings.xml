@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Өзгертілмеген үлгі жобаны жүктеп салу мүмкін емес. Бірдеңені өзгертіп, қайталап көріңіз.</string>
     <string formatted="false" name="error_adding_brick">Бұл блокты қосу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_copying_brick">Бұл блокты көшіру кезінде бірдеңе дұрыс болмады.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Үйлесімсіз жобаның атын өзгерту мүмкін емес.</string>
     <string formatted="false" name="error_embroidery_file_export">Кесте файлымен бөлісу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_embroidery_file_write">Кесте файлын жазу кезінде бірдеңе дұрыс болмады.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Кесте табылмады.</string>

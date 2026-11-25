@@ -1291,7 +1291,6 @@
     <string formatted="false" name="error_upload_default_project">Ne možeš postaviti neizmijenjeni primjer projekta. Promijeni nešto i pokušaj ponovo.</string>
     <string formatted="false" name="error_adding_brick">Nešto nije u redu pri dodavanju ovog bloka.</string>
     <string formatted="false" name="error_copying_brick">Nešto nije u redu pri kopiranju ovog bloka.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Preimenovanje nekompatibilnog projekta nije moguće.</string>
     <string formatted="false" name="error_embroidery_file_export">Nešto nije u redu pri dijeljenju datoteke za vez.</string>
     <string formatted="false" name="error_embroidery_file_write">Nešto nije u redu pri upisivanju datoteke za vez.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Nedostaje vez.</string>

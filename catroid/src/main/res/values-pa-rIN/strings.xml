@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">ਤੁਸੀਂ ਬਿਨਾਂ ਬਦਲਾਅ ਵਾਲਾ ਨਮੂਨਾ ਪ੍ਰੋਜੈਕਟ ਅੱਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ। ਕਿਰਪਾ ਕਰਕੇ ਕੁਝ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
     <string formatted="false" name="error_adding_brick">ਇਹ ਬਲਾਕ ਜੋੜਦੇ ਸਮੇਂ ਕੁਝ ਗ਼ਲਤ ਹੋ ਗਿਆ।</string>
     <string formatted="false" name="error_copying_brick">ਇਹ ਬਲਾਕ ਕਾਪੀ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਗ਼ਲਤ ਹੋ ਗਿਆ।</string>
-    <string formatted="false" name="error_rename_incompatible_project">ਅਨੁਕੂਲ ਨਾ ਹੋਣ ਵਾਲੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲਣਾ ਸੰਭਵ ਨਹੀਂ ਹੈ।</string>
     <string formatted="false" name="error_embroidery_file_export">ਕਢਾਈ ਫ਼ਾਈਲ ਸਾਂਝੀ ਕਰਦੇ ਸਮੇਂ ਕੁਝ ਗ਼ਲਤ ਹੋ ਗਿਆ।</string>
     <string formatted="false" name="error_embroidery_file_write">ਕਢਾਈ ਫ਼ਾਈਲ ਲਿਖਦੇ ਸਮੇਂ ਕੁਝ ਗ਼ਲਤ ਹੋ ਗਿਆ।</string>
     <string formatted="false" name="error_embroidery_data_not_found">ਕਢਾਈ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।</string>

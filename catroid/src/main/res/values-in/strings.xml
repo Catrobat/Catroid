@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">Anda tidak dapat mengunggah proyek contoh yang belum diubah. Silakan ubah sesuatu dan coba lagi.</string>
     <string formatted="false" name="error_adding_brick">Terjadi kesalahan saat menambahkan blok ini.</string>
     <string formatted="false" name="error_copying_brick">Terjadi kesalahan saat menyalin blok ini.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Proyek yang tidak kompatibel tidak dapat diganti namanya.</string>
     <string formatted="false" name="error_embroidery_file_export">Terjadi kesalahan saat membagikan file bordir.</string>
     <string formatted="false" name="error_embroidery_file_write">Terjadi kesalahan saat menulis file bordir.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Data bordir tidak ada.</string>

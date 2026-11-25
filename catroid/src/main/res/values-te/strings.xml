@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">మార్పులు చేయని ఉదాహరణ ప్రాజెక్ట్‌ను మీరు అప్‌లోడ్ చేయలేరు. దయచేసి ఏదైనా మార్చి, మళ్లీ ప్రయత్నించండి.</string>
     <string formatted="false" name="error_adding_brick">ఈ బ్లాక్‌ను జోడిస్తున్నప్పుడు ఏదో తప్పు జరిగింది.</string>
     <string formatted="false" name="error_copying_brick">ఈ బ్లాక్‌ను నకలు చేస్తున్నప్పుడు ఏదో తప్పు జరిగింది.</string>
-    <string formatted="false" name="error_rename_incompatible_project">అనుకూలంగా లేని ప్రాజెక్ట్ పేరు మార్చడం సాధ్యం కాదు.</string>
     <string formatted="false" name="error_embroidery_file_export">ఎంబ్రాయిడరీ ఫైల్‌ను షేర్ చేస్తున్నప్పుడు ఏదో తప్పు జరిగింది.</string>
     <string formatted="false" name="error_embroidery_file_write">ఎంబ్రాయిడరీ ఫైల్‌ను రాస్తున్నప్పుడు ఏదో తప్పు జరిగింది.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ఎంబ్రాయిడరీ లేదు.</string>

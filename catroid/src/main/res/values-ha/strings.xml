@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Ba za ku iya ɗora shirin misali da ba a canza ba. Da fatan ku canza wani abu sannan ku sake gwadawa.</string>
     <string formatted="false" name="error_adding_brick">Wani abu ya faru ba daidai ba yayin ƙara wannan tubalin.</string>
     <string formatted="false" name="error_copying_brick">Wani abu ya faru ba daidai ba yayin kwafar wannan tubalin.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Ba zai yiwu a sake sunan shirin da bai dace ba.</string>
     <string formatted="false" name="error_embroidery_file_export">Wani abu ya faru ba daidai ba yayin raba fayil ɗin ɗinkin ado.</string>
     <string formatted="false" name="error_embroidery_file_write">Wani abu ya faru ba daidai ba yayin rubuta fayil ɗin ɗinkin ado.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Babu ɗinkin ado.</string>

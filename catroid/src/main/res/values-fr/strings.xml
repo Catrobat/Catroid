@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Tu ne peux pas mettre en ligne un projet d\'exemple non modifié. Modifie quelque chose et réessaie.</string>
     <string formatted="false" name="error_adding_brick">Une erreur s\'est produite lors de l\'ajout de cette brique.</string>
     <string formatted="false" name="error_copying_brick">Une erreur s\'est produite lors de la copie de cette brique.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Impossible de renommer un projet incompatible.</string>
     <string formatted="false" name="error_embroidery_file_export">Une erreur s\'est produite lors du partage du fichier de broderie.</string>
     <string formatted="false" name="error_embroidery_file_write">Une erreur s\'est produite lors de l\'écriture du fichier de broderie.</string>
     <string formatted="false" name="error_embroidery_data_not_found">La broderie est manquante.</string>

@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">O kò lè gbé iṣẹ́ àkànṣe àpẹẹrẹ tí o kò yí padà sókè. Jọ̀wọ́ yí nǹkan kan padà kí o sì gbìyànjú lẹ́ẹ̀kan sí i.</string>
     <string formatted="false" name="error_adding_brick">Nǹkan kan ṣẹlẹ̀ nígbà tí a ń fi búlọ́ọ̀kù yìí kún un.</string>
     <string formatted="false" name="error_copying_brick">Nǹkan kan ṣẹlẹ̀ nígbà tí a ń ṣe ẹ̀dà búlọ́ọ̀kù yìí.</string>
-    <string formatted="false" name="error_rename_incompatible_project">O kò lè yí orúkọ iṣẹ́ àkànṣe tí kò bá áàpù mu padà.</string>
     <string formatted="false" name="error_embroidery_file_export">Nǹkan kan ṣẹlẹ̀ nígbà tí a ń pín fáìlì iṣẹ́ ọnà abẹ́rẹ́.</string>
     <string formatted="false" name="error_embroidery_file_write">Nǹkan kan ṣẹlẹ̀ nígbà tí a ń kọ fáìlì iṣẹ́ ọnà abẹ́rẹ́.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Iṣẹ́ ọnà abẹ́rẹ́ kò sí.</string>

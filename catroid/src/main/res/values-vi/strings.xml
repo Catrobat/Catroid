@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">Bạn không thể tải lên dự án mẫu chưa được chỉnh sửa. Hãy thay đổi gì đó rồi thử lại.</string>
     <string formatted="false" name="error_adding_brick">Đã xảy ra lỗi khi thêm khối lệnh này.</string>
     <string formatted="false" name="error_copying_brick">Đã xảy ra lỗi khi sao chép khối lệnh này.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Không thể đổi tên dự án không tương thích.</string>
     <string formatted="false" name="error_embroidery_file_export">Đã xảy ra lỗi khi chia sẻ tệp thêu.</string>
     <string formatted="false" name="error_embroidery_file_write">Đã xảy ra lỗi khi ghi tệp thêu.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Thiếu dữ liệu thêu.</string>

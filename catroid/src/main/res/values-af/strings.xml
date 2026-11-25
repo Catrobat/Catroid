@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Jy kan nie ’n onveranderde voorbeeldprojek oplaai nie. Verander asseblief iets en probeer weer.</string>
     <string formatted="false" name="error_adding_brick">Iets het verkeerd geloop tydens die byvoeg van hierdie blok.</string>
     <string formatted="false" name="error_copying_brick">Iets het verkeerd geloop tydens die kopieer van hierdie blok.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Dit is nie moontlik om ’n onversoenbare projek te hernoem nie.</string>
     <string formatted="false" name="error_embroidery_file_export">Iets het verkeerd geloop tydens die deel van die borduurlêer.</string>
     <string formatted="false" name="error_embroidery_file_write">Iets het verkeerd geloop tydens die skryf van die borduurlêer.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Borduurwerk ontbreek.</string>

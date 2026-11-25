@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Hindi ka puwedeng mag-upload ng halimbawang proyekto na hindi binago. Baguhin ang isang bagay at subukan ulit.</string>
     <string formatted="false" name="error_adding_brick">Nagkaproblema habang idinadagdag ang block na ito.</string>
     <string formatted="false" name="error_copying_brick">Nagkaproblema habang kinokopya ang block na ito.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Hindi puwedeng palitan ang pangalan ng hindi compatible na proyekto.</string>
     <string formatted="false" name="error_embroidery_file_export">Nagkaproblema habang ibinabahagi ang file ng pagbuburda.</string>
     <string formatted="false" name="error_embroidery_file_write">Nagkaproblema habang isinusulat ang file ng pagbuburda.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Walang data ng pagbuburda.</string>

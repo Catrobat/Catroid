@@ -54,11 +54,18 @@ class ProjectSaver(private val project: Project, context: Context) {
     }
 }
 
-fun saveProjectSerial(project: Project?, context: Context): Boolean {
-    project ?: return false
+fun saveProjectSerial(project: Project?, context: Context): Boolean =
+    saveProjectSerialWithResult(project, context) == XstreamSerializer.SaveResult.SAVED
+
+/**
+ * Like [saveProjectSerial], but tells an unchanged project
+ * ([XstreamSerializer.SaveResult.UNCHANGED]) apart from a failed save.
+ */
+fun saveProjectSerialWithResult(project: Project?, context: Context): XstreamSerializer.SaveResult {
+    project ?: return XstreamSerializer.SaveResult.FAILED
     saveLegoNXTSettingsToProject(project, context)
     saveLegoEV3SettingsToProject(project, context)
-    return XstreamSerializer.getInstance().saveProject(project)
+    return XstreamSerializer.getInstance().saveProjectWithResult(project)
 }
 
 private fun saveLegoNXTSettingsToProject(project: Project, context: Context) {

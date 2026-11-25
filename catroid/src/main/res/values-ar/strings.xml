@@ -1426,7 +1426,6 @@
     <string formatted="false" name="error_upload_default_project">لا يمكنك رفع مشروع نموذجي دون تعديله. يُرجى تغيير شيء ما ثم المحاولة مرة أخرى.</string>
     <string formatted="false" name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبنة.</string>
     <string formatted="false" name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبنة.</string>
-    <string formatted="false" name="error_rename_incompatible_project">لا يمكن إعادة تسمية مشروع غير متوافق.</string>
     <string formatted="false" name="error_embroidery_file_export">حدث خطأ أثناء مشاركة ملف التطريز.</string>
     <string formatted="false" name="error_embroidery_file_write">حدث خطأ أثناء كتابة ملف التطريز.</string>
     <string formatted="false" name="error_embroidery_data_not_found">بيانات التطريز مفقودة.</string>

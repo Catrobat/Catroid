@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Du kan inte ladda upp ett oförändrat exempelprojekt. Ändra något och försök igen.</string>
     <string formatted="false" name="error_adding_brick">Något gick fel när blocket skulle läggas till.</string>
     <string formatted="false" name="error_copying_brick">Något gick fel när blocket skulle kopieras.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Det går inte att byta namn på ett inkompatibelt projekt.</string>
     <string formatted="false" name="error_embroidery_file_export">Något gick fel när broderifilen skulle delas.</string>
     <string formatted="false" name="error_embroidery_file_write">Något gick fel när broderifilen skulle skrivas.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Broderiet saknas.</string>

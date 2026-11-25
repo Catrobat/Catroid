@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">اوهان بنا تبديليءَ وارو مثالي پروجيڪٽ اپلوڊ نٿا ڪري سگهو. مهرباني ڪري ان ۾ ڪجهه بدلايو ۽ ٻيهر ڪوشش ڪريو.</string>
     <string formatted="false" name="error_adding_brick">هي بلاڪ شامل ڪندي ڪجهه غلط ٿي ويو.</string>
     <string formatted="false" name="error_copying_brick">هي بلاڪ ڪاپي ڪندي ڪجهه غلط ٿي ويو.</string>
-    <string formatted="false" name="error_rename_incompatible_project">غير مطابقت رکندڙ پروجيڪٽ جو نالو بدلائڻ ممڪن ناهي.</string>
     <string formatted="false" name="error_embroidery_file_export">ڪڙهائي جي فائل شيئر ڪندي ڪجهه غلط ٿي ويو.</string>
     <string formatted="false" name="error_embroidery_file_write">ڪڙهائي جي فائل لکندي ڪجهه غلط ٿي ويو.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ڪڙهائي موجود ناهي.</string>

@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Non puoi caricare un progetto di esempio non modificato. Cambia qualcosa e riprova.</string>
     <string formatted="false" name="error_adding_brick">Si è verificato un problema durante l\'aggiunta di questo blocco.</string>
     <string formatted="false" name="error_copying_brick">Si è verificato un problema durante la copia di questo blocco.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
     <string formatted="false" name="error_embroidery_file_export">Si è verificato un problema durante la condivisione del file del ricamo.</string>
     <string formatted="false" name="error_embroidery_file_write">Si è verificato un problema durante la scrittura del file del ricamo.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Manca il ricamo.</string>

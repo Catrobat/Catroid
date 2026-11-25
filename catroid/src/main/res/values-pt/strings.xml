@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Não pode carregar um projeto de exemplo sem alterações. Altere alguma coisa e tente novamente.</string>
     <string formatted="false" name="error_adding_brick">Ocorreu um erro ao adicionar este bloco.</string>
     <string formatted="false" name="error_copying_brick">Ocorreu um erro ao copiar este bloco.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Não é possível mudar o nome de um projeto incompatível.</string>
     <string formatted="false" name="error_embroidery_file_export">Ocorreu um erro ao partilhar o ficheiro de bordado.</string>
     <string formatted="false" name="error_embroidery_file_write">Ocorreu um erro ao escrever o ficheiro de bordado.</string>
     <string formatted="false" name="error_embroidery_data_not_found">O bordado não foi encontrado.</string>

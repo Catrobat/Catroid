@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Не можеш да качиш непроменен примерен проект. Промени нещо и опитай отново.</string>
     <string formatted="false" name="error_adding_brick">Нещо се обърка при добавянето на този блок.</string>
     <string formatted="false" name="error_copying_brick">Нещо се обърка при копирането на този блок.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Не можеш да преименуваш несъвместим проект.</string>
     <string formatted="false" name="error_embroidery_file_export">Нещо се обърка при споделянето на файла с бродерията.</string>
     <string formatted="false" name="error_embroidery_file_write">Нещо се обърка при записването на файла с бродерията.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Бродерията липсва.</string>

@@ -1291,7 +1291,6 @@
     <string formatted="false" name="error_upload_default_project">Nu poți încărca un proiect exemplu nemodificat. Modifică ceva și încearcă din nou.</string>
     <string formatted="false" name="error_adding_brick">Ceva nu a mers bine la adăugarea acestui bloc.</string>
     <string formatted="false" name="error_copying_brick">Ceva nu a mers bine la copierea acestui bloc.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Un proiect incompatibil nu poate fi redenumit.</string>
     <string formatted="false" name="error_embroidery_file_export">Ceva nu a mers bine la partajarea fișierului de broderie.</string>
     <string formatted="false" name="error_embroidery_file_write">Ceva nu a mers bine la scrierea fișierului de broderie.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Broderia lipsește.</string>

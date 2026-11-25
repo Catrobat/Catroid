@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">ಬದಲಾಯಿಸದ ಮಾದರಿ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಏನನ್ನಾದರೂ ಬದಲಾಯಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
     <string formatted="false" name="error_adding_brick">ಈ ಬ್ಲಾಕ್ ಅನ್ನು ಸೇರಿಸುವಾಗ ಏನೋ ತಪ್ಪಾಗಿದೆ.</string>
     <string formatted="false" name="error_copying_brick">ಈ ಬ್ಲಾಕ್ ಅನ್ನು ನಕಲಿಸುವಾಗ ಏನೋ ತಪ್ಪಾಗಿದೆ.</string>
-    <string formatted="false" name="error_rename_incompatible_project">ಹೊಂದಿಕೆಯಾಗದ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು ಮರುಹೆಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
     <string formatted="false" name="error_embroidery_file_export">ಕಸೂತಿ ಫೈಲ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳುವಾಗ ಏನೋ ತಪ್ಪಾಗಿದೆ.</string>
     <string formatted="false" name="error_embroidery_file_write">ಕಸೂತಿ ಫೈಲ್ ಅನ್ನು ಬರೆಯುವಾಗ ಏನೋ ತಪ್ಪಾಗಿದೆ.</string>
     <string formatted="false" name="error_embroidery_data_not_found">ಕಸೂತಿ ಕಾಣೆಯಾಗಿದೆ.</string>

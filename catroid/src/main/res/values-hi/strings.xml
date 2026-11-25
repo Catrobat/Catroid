@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">आप बिना बदलाव वाला उदाहरण प्रोजेक्ट अपलोड नहीं कर सकते। कृपया कुछ बदलें और फिर से कोशिश करें।</string>
     <string formatted="false" name="error_adding_brick">यह ब्लॉक जोड़ते समय कुछ गड़बड़ हो गई।</string>
     <string formatted="false" name="error_copying_brick">यह ब्लॉक कॉपी करते समय कुछ गड़बड़ हो गई।</string>
-    <string formatted="false" name="error_rename_incompatible_project">ऐसे प्रोजेक्ट का नाम नहीं बदला जा सकता जो इस ऐप के साथ काम नहीं करता।</string>
     <string formatted="false" name="error_embroidery_file_export">कढ़ाई फ़ाइल साझा करते समय कुछ गड़बड़ हो गई।</string>
     <string formatted="false" name="error_embroidery_file_write">कढ़ाई फ़ाइल लिखते समय कुछ गड़बड़ हो गई।</string>
     <string formatted="false" name="error_embroidery_data_not_found">कढ़ाई मौजूद नहीं है।</string>

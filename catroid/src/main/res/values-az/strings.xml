@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Dəyişdirilməmiş nümunə layihəni yükləyə bilməzsiniz. Zəhmət olmasa, nəyisə dəyişin və yenidən cəhd edin.</string>
     <string formatted="false" name="error_adding_brick">Bu blok əlavə edilərkən xəta baş verdi.</string>
     <string formatted="false" name="error_copying_brick">Bu blokun surəti çıxarılarkən xəta baş verdi.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Uyğun olmayan layihənin adını dəyişmək mümkün deyil.</string>
     <string formatted="false" name="error_embroidery_file_export">Tikmə faylı paylaşılarkən xəta baş verdi.</string>
     <string formatted="false" name="error_embroidery_file_write">Tikmə faylı yazılarkən xəta baş verdi.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Tikmə tapılmadı.</string>

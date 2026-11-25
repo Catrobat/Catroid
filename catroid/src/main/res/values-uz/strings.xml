@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Oʻzgartirilmagan namuna loyihani yuklab boʻlmaydi. Biror narsani oʻzgartirib, qayta urinib koʻring.</string>
     <string formatted="false" name="error_adding_brick">Bu blokni qoʻshishda xatolik yuz berdi.</string>
     <string formatted="false" name="error_copying_brick">Bu blokni nusxalashda xatolik yuz berdi.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Mos kelmaydigan loyiha nomini oʻzgartirib boʻlmaydi.</string>
     <string formatted="false" name="error_embroidery_file_export">Kashta faylini ulashishda xatolik yuz berdi.</string>
     <string formatted="false" name="error_embroidery_file_write">Kashta faylini yozishda xatolik yuz berdi.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Kashta topilmadi.</string>

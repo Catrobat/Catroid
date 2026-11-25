@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Je kunt geen ongewijzigd voorbeeldproject uploaden. Verander iets en probeer het opnieuw.</string>
     <string formatted="false" name="error_adding_brick">Er ging iets mis bij het toevoegen van dit blok.</string>
     <string formatted="false" name="error_copying_brick">Er ging iets mis bij het kopiëren van dit blok.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Een incompatibel project kan niet worden hernoemd.</string>
     <string formatted="false" name="error_embroidery_file_export">Er ging iets mis bij het delen van het borduurbestand.</string>
     <string formatted="false" name="error_embroidery_file_write">Er ging iets mis bij het schrijven van het borduurbestand.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Borduurwerk ontbreekt.</string>

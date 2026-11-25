@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">تاسو بې بدلونه بېلګه پروژه نه شئ اپلوډ کولی. مهرباني وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
     <string formatted="false" name="error_adding_brick">د دې بلاک د ورزیاتولو پر مهال یوه ستونزه پېښه شوه.</string>
     <string formatted="false" name="error_copying_brick">د دې بلاک د کاپي کولو پر مهال یوه ستونزه پېښه شوه.</string>
-    <string formatted="false" name="error_rename_incompatible_project">د نامتوافقې پروژې نوم نه شي بدلېدای.</string>
     <string formatted="false" name="error_embroidery_file_export">د ګنډلو د فایل د شریکولو پر مهال یوه ستونزه پېښه شوه.</string>
     <string formatted="false" name="error_embroidery_file_write">د ګنډلو د فایل د لیکلو پر مهال یوه ستونزه پېښه شوه.</string>
     <string formatted="false" name="error_embroidery_data_not_found">د ګنډلو معلومات نشته.</string>

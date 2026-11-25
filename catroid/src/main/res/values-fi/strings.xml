@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Et voi lähettää muuttamatonta esimerkkiprojektia. Muuta jotain ja yritä uudelleen.</string>
     <string formatted="false" name="error_adding_brick">Tämän palikan lisäämisessä tapahtui virhe.</string>
     <string formatted="false" name="error_copying_brick">Tämän palikan kopioinnissa tapahtui virhe.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Yhteensopimatonta projektia ei voi nimetä uudelleen.</string>
     <string formatted="false" name="error_embroidery_file_export">Brodeeraustiedoston jakamisessa tapahtui virhe.</string>
     <string formatted="false" name="error_embroidery_file_write">Brodeeraustiedoston kirjoittamisessa tapahtui virhe.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Brodeeraus puuttuu.</string>

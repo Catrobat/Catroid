@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Ur tezmireḍ ara ad tsaliḍ asenfar n umedya ur nettwabeddel ara. Ma ulac aɣilif, beddel kra syin ɛreḍ tikkelt-nniḍen.</string>
     <string formatted="false" name="error_adding_brick">Yella wayen ur neddi ara deg tmerna n yiblug-a.</string>
     <string formatted="false" name="error_copying_brick">Yella wayen ur neddi ara deg unɣal n yiblug-a.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Ur yezmir ara ad yettwasnifel yisem n usenfar ur nemṣada ara.</string>
     <string formatted="false" name="error_embroidery_file_export">Yella wayen ur neddi ara deg beṭṭu n ufaylu n ṭṭerz.</string>
     <string formatted="false" name="error_embroidery_file_write">Yella wayen ur neddi ara deg tira n ufaylu n ṭṭerz.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Ṭṭerz ulac-it.</string>

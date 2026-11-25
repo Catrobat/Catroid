@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Не можна вивантажити незмінений приклад проєкту. Змініть щось і спробуйте ще раз.</string>
     <string formatted="false" name="error_adding_brick">Під час додавання цього блоку сталася помилка.</string>
     <string formatted="false" name="error_copying_brick">Під час копіювання цього блоку сталася помилка.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Перейменування несумісного проєкту неможливе.</string>
     <string formatted="false" name="error_embroidery_file_export">Під час поширення файлу вишивки сталася помилка.</string>
     <string formatted="false" name="error_embroidery_file_write">Під час запису файлу вишивки сталася помилка.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Вишивки немає.</string>

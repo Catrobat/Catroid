@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Wontumi mfa dwumadie nhwɛsoɔ a wonsesaa hwee nto intanɛt so. Mesrɛ wo, sesa biribi na san bɔ mmɔden.</string>
     <string formatted="false" name="error_adding_brick">Biribi anyɛ yie berɛ a na yɛde blɔk yi reka ho.</string>
     <string formatted="false" name="error_copying_brick">Biribi anyɛ yie berɛ a na yɛrekɔpi blɔk yi.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Wontumi nsesa dwumadie a ɛne app yi nhyia no din.</string>
     <string formatted="false" name="error_embroidery_file_export">Biribi anyɛ yie berɛ a na yɛrekyɛ adepam fael no.</string>
     <string formatted="false" name="error_embroidery_file_write">Biribi anyɛ yie berɛ a na yɛrekyerɛw adepam fael no.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Adepam no nni hɔ.</string>

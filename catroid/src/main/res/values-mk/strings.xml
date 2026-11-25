@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Не можеш да прикачиш непроменет примерен проект. Промени нешто и обиди се повторно.</string>
     <string formatted="false" name="error_adding_brick">Нешто тргна наопаку при додавањето на овој блок.</string>
     <string formatted="false" name="error_copying_brick">Нешто тргна наопаку при копирањето на овој блок.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Не е можно да се преименува некомпатибилен проект.</string>
     <string formatted="false" name="error_embroidery_file_export">Нешто тргна наопаку при споделувањето на датотеката за везење.</string>
     <string formatted="false" name="error_embroidery_file_write">Нешто тргна наопаку при запишувањето на датотеката за везење.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Везот недостасува.</string>

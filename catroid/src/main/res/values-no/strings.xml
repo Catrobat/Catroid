@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Du kan ikke laste opp et uendret eksempelprosjekt. Endre noe, og prøv igjen.</string>
     <string formatted="false" name="error_adding_brick">Noe gikk galt da denne klossen skulle legges til.</string>
     <string formatted="false" name="error_copying_brick">Noe gikk galt under kopieringen av denne klossen.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Det er ikke mulig å gi et inkompatibelt prosjekt nytt navn.</string>
     <string formatted="false" name="error_embroidery_file_export">Noe gikk galt under delingen av broderifilen.</string>
     <string formatted="false" name="error_embroidery_file_write">Noe gikk galt under skrivingen av broderifilen.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Broderiet mangler.</string>

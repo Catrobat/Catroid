@@ -1475,7 +1475,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Something went wrong while adding this brick.</string>
     <string formatted="false" name="error_copying_brick">Something went wrong while copying this brick.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>
@@ -2354,5 +2353,11 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="shortcut_project_not_found">Project not found, shortcut disabled</string>
     <string formatted="false" name="shortcut_permission_required_message">This device requires shortcut permission to be granted before adding a shortcut to the home screen. Please grant the permission in settings.</string>
     <string formatted="false" name="miui_open_settings">Open Settings</string>
-    <string formatted="false" name="shortcut_already_pinned">This project is already pinned to your home screen</string>
+    <string formatted="false" name="create_shortcut">Create Shortcut</string>
+    <string formatted="false" name="pin">Pin</string>
+    <string formatted="false" name="shortcut_name_label">Name</string>
+    <string formatted="false" name="shortcut_also_rename_project">Also rename project</string>
+    <string formatted="false" name="shortcut_already_pinned">Already on your home screen. Shortcut updated.</string>
+    <string formatted="false" name="shortcut_pin_failed">Could not add the shortcut.</string>
+    <string formatted="false" name="error_rename_project">Could not rename the project.</string>
 </resources>

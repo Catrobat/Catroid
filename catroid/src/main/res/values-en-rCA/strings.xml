@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">You cannot upload an unmodified example project. Please change something and try again.</string>
     <string formatted="false" name="error_adding_brick">Something went wrong while adding this brick.</string>
     <string formatted="false" name="error_copying_brick">Something went wrong while copying this brick.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string formatted="false" name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Embroidery is missing.</string>

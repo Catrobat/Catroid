@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Nespremenjenega vzorčnega projekta ne morete naložiti. Nekaj spremenite in poskusite znova.</string>
     <string formatted="false" name="error_adding_brick">Pri dodajanju te kocke je prišlo do napake.</string>
     <string formatted="false" name="error_copying_brick">Pri kopiranju te kocke je prišlo do napake.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nezdružljivega projekta ni mogoče preimenovati.</string>
     <string formatted="false" name="error_embroidery_file_export">Pri deljenju datoteke vezenja je prišlo do napake.</string>
     <string formatted="false" name="error_embroidery_file_write">Pri pisanju datoteke vezenja je prišlo do napake.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Vezenje manjka.</string>

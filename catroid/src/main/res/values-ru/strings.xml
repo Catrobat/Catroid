@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Вы не можете выложить неизмененный пример проекта. Пожалуйста, измените что-то и повторите попытку.</string>
     <string formatted="false" name="error_adding_brick">Что-то пошло не так при добавлении этого блока.</string>
     <string formatted="false" name="error_copying_brick">Что-то пошло не так при копировании этого блока.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Переименование несовместимого проекта невозможно.</string>
     <string formatted="false" name="error_embroidery_file_export">Что-то пошло не так при отправке файла вышивки.</string>
     <string formatted="false" name="error_embroidery_file_write">Что-то пошло не так при записи файла вышивки.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Данные вышивки отсутствуют.</string>

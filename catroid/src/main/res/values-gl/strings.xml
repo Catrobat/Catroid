@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Non podes subir un proxecto de exemplo sen modificar. Cambia algo e téntao de novo.</string>
     <string formatted="false" name="error_adding_brick">Algo foi mal ao engadir este bloque.</string>
     <string formatted="false" name="error_copying_brick">Algo foi mal ao copiar este bloque.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Non se pode renomear un proxecto incompatible.</string>
     <string formatted="false" name="error_embroidery_file_export">Algo foi mal ao compartir o ficheiro de bordado.</string>
     <string formatted="false" name="error_embroidery_file_write">Algo foi mal ao escribir o ficheiro de bordado.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Falta o bordado.</string>

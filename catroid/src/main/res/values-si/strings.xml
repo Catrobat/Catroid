@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">ඔබට වෙනස් නොකළ උදාහරණ ව්‍යාපෘතියක් උඩුගත කළ නොහැක. කරුණාකර යමක් වෙනස් කර නැවත උත්සාහ කරන්න.</string>
     <string formatted="false" name="error_adding_brick">මෙම ඛණ්ඩය එක් කිරීමේදී යමක් වැරදී ගියේය.</string>
     <string formatted="false" name="error_copying_brick">මෙම ඛණ්ඩය පිටපත් කිරීමේදී යමක් වැරදී ගියේය.</string>
-    <string formatted="false" name="error_rename_incompatible_project">නොගැළපෙන ව්‍යාපෘතියක් නැවත නම් කළ නොහැක.</string>
     <string formatted="false" name="error_embroidery_file_export">එම්බ්‍රොයිඩරි ගොනුව බෙදාගැනීමේදී යමක් වැරදී ගියේය.</string>
     <string formatted="false" name="error_embroidery_file_write">එම්බ්‍රොයිඩරි ගොනුව ලිවීමේදී යමක් වැරදී ගියේය.</string>
     <string formatted="false" name="error_embroidery_data_not_found">එම්බ්‍රොයිඩරිය නොමැත.</string>

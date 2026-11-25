@@ -1336,7 +1336,6 @@
     <string formatted="false" name="error_upload_default_project">Nie możesz przesłać niezmodyfikowanego przykładowego projektu. Zmień coś i spróbuj ponownie.</string>
     <string formatted="false" name="error_adding_brick">Coś poszło nie tak podczas dodawania tego bloku.</string>
     <string formatted="false" name="error_copying_brick">Coś poszło nie tak podczas kopiowania tego bloku.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Nie można zmienić nazwy niezgodnego projektu.</string>
     <string formatted="false" name="error_embroidery_file_export">Coś poszło nie tak podczas udostępniania pliku haftu.</string>
     <string formatted="false" name="error_embroidery_file_write">Coś poszło nie tak podczas zapisywania pliku haftu.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Brak danych haftu.</string>

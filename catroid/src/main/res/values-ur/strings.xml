@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">آپ بغیر تبدیلی کے مثالی پروجیکٹ اپ لوڈ نہیں کر سکتے۔ براہ کرم کچھ تبدیل کریں اور دوبارہ کوشش کریں۔</string>
     <string formatted="false" name="error_adding_brick">یہ بلاک شامل کرتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_copying_brick">یہ بلاک کاپی کرتے وقت کچھ غلط ہو گیا۔</string>
-    <string formatted="false" name="error_rename_incompatible_project">غیر مطابقت رکھنے والے پروجیکٹ کا نام بدلنا ممکن نہیں ہے۔</string>
     <string formatted="false" name="error_embroidery_file_export">کڑھائی کی فائل شیئر کرتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_file_write">کڑھائی کی فائل لکھتے وقت کچھ غلط ہو گیا۔</string>
     <string formatted="false" name="error_embroidery_data_not_found">کڑھائی موجود نہیں ہے۔</string>

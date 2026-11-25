@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">您不能上传未经修改的示例项目。请修改一些内容后再试。</string>
     <string formatted="false" name="error_adding_brick">添加此积木时出错。</string>
     <string formatted="false" name="error_copying_brick">复制此积木时出错。</string>
-    <string formatted="false" name="error_rename_incompatible_project">无法重命名不兼容的项目。</string>
     <string formatted="false" name="error_embroidery_file_export">分享刺绣文件时出错。</string>
     <string formatted="false" name="error_embroidery_file_write">写入刺绣文件时出错。</string>
     <string formatted="false" name="error_embroidery_data_not_found">没有刺绣数据。</string>

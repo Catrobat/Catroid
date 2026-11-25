@@ -1246,7 +1246,6 @@
     <string formatted="false" name="error_upload_default_project">Nuk mund të ngarkosh një projekt shembull të pandryshuar. Ndrysho diçka dhe provo përsëri.</string>
     <string formatted="false" name="error_adding_brick">Diçka shkoi keq gjatë shtimit të këtij blloku.</string>
     <string formatted="false" name="error_copying_brick">Diçka shkoi keq gjatë kopjimit të këtij blloku.</string>
-    <string formatted="false" name="error_rename_incompatible_project">Një projekt i papërputhshëm nuk mund të riemërtohet.</string>
     <string formatted="false" name="error_embroidery_file_export">Diçka shkoi keq gjatë ndarjes së skedarit të qëndisjes.</string>
     <string formatted="false" name="error_embroidery_file_write">Diçka shkoi keq gjatë shkrimit të skedarit të qëndisjes.</string>
     <string formatted="false" name="error_embroidery_data_not_found">Qëndisja mungon.</string>

@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">คุณไม่สามารถอัปโหลดโปรเจกต์ตัวอย่างที่ยังไม่ได้แก้ไขได้ โปรดเปลี่ยนแปลงบางอย่างแล้วลองอีกครั้ง</string>
     <string formatted="false" name="error_adding_brick">เกิดข้อผิดพลาดขณะเพิ่มบล็อกนี้</string>
     <string formatted="false" name="error_copying_brick">เกิดข้อผิดพลาดขณะคัดลอกบล็อกนี้</string>
-    <string formatted="false" name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโปรเจกต์ที่ใช้งานร่วมกันไม่ได้</string>
     <string formatted="false" name="error_embroidery_file_export">เกิดข้อผิดพลาดขณะแชร์ไฟล์งานปัก</string>
     <string formatted="false" name="error_embroidery_file_write">เกิดข้อผิดพลาดขณะเขียนไฟล์งานปัก</string>
     <string formatted="false" name="error_embroidery_data_not_found">ไม่พบข้อมูลงานปัก</string>

@@ -1201,7 +1201,6 @@
     <string formatted="false" name="error_upload_default_project">수정하지 않은 예제 프로젝트는 업로드할 수 없습니다. 무언가를 바꾼 후 다시 시도하세요.</string>
     <string formatted="false" name="error_adding_brick">이 블록을 추가하는 동안 문제가 발생했습니다.</string>
     <string formatted="false" name="error_copying_brick">이 블록을 복사하는 동안 문제가 발생했습니다.</string>
-    <string formatted="false" name="error_rename_incompatible_project">호환되지 않는 프로젝트의 이름은 바꿀 수 없습니다.</string>
     <string formatted="false" name="error_embroidery_file_export">자수 파일을 공유하는 동안 문제가 발생했습니다.</string>
     <string formatted="false" name="error_embroidery_file_write">자수 파일을 쓰는 동안 문제가 발생했습니다.</string>
     <string formatted="false" name="error_embroidery_data_not_found">자수 데이터가 없습니다.</string>
