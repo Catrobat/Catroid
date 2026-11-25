@@ -73,7 +73,7 @@ class LookRequestActionTest {
     private lateinit var responseStream: InputStream
 
     companion object {
-        private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
+        private const val TEST_URL = "https://catroid-test.catrobat.org/pocketcode/"
     }
 
     @Before

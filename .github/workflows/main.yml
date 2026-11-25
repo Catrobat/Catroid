@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       WEB_TEST_URL:
-        description: "When set, all the archived APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at"
+        description: "When set, all the archived APKs will point to this Catrobat web server, useful for testing web changes. E.g https://share.catrobat.org"
         required: false
         type: string
         default: ""

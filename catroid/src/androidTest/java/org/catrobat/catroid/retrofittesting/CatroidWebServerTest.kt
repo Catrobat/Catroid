@@ -163,7 +163,7 @@ class CatroidWebServerTest : KoinTest {
     fun testFeaturedProjectsCallWithDefaultValues() {
         val expectedRawResponse =
             "Response{protocol=h2, code=200, message=," +
-                " url=https://share.catrob.at/api/projects/featured?" +
+                " url=https://share.catrobat.org/api/projects/featured?" +
                 "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
                 "&flavor=${FlavoredConstants.FLAVOR_NAME}&platform=android&limit=20&offset=0}"
         val rawResponse = webServer.getFeaturedProjects().execute().raw().toString()
@@ -181,7 +181,7 @@ class CatroidWebServerTest : KoinTest {
     fun testProjectCategoriesCallWithDefaultValues() {
         val expectedRawResponse =
             "Response{protocol=h2, code=200, message=," +
-                " url=https://share.catrob.at/api/projects/categories?" +
+                " url=https://share.catrobat.org/api/projects/categories?" +
                 "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
                 "&flavor=${FlavoredConstants.FLAVOR_NAME}}"
         val rawResponse = webServer.getProjectCategories().execute().raw().toString()

@@ -293,7 +293,11 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 AboutDialogFragment.TAG
             )
             R.id.menu_scratch_converter -> if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
-                startActivity(Intent(this, ScratchConverterActivity::class.java))
+                // Share converts Scratch projects now; the old converter server is gone.
+                startActivity(
+                    Intent(this, WebViewActivity::class.java)
+                        .putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.BASE_APP_URL_HTTPS + "search/")
+                )
             }
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
             R.id.menu_help -> startActivity(

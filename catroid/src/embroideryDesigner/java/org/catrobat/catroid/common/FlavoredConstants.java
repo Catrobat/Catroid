@@ -34,7 +34,7 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = "https://catrobat.org/docs/";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/embroidery/";
 
 	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/embroidery/";
 
@@ -45,6 +45,7 @@ public final class FlavoredConstants {
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "EmbroideryDesigner";
 
 	public static final String FLAVOR_NAME = "embroidery";
+	public static final String STITCH_EDU_URL = Constants.STITCH_EDU_URL;
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 

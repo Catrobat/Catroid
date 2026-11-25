@@ -86,7 +86,7 @@ import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class ServerCalls implements ScratchDataFetcher {
-	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
+	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrobat.org/pocketcode/";
 	public static final String TAG = ServerCalls.class.getSimpleName();
 	public static boolean useTestUrl = false;
 	private final OkHttpClient okHttpClient;

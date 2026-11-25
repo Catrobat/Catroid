@@ -73,7 +73,7 @@ class WebRequestActionTest {
     private lateinit var response: Response
 
     companion object {
-        private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
+        private const val TEST_URL = "https://catroid-test.catrobat.org/pocketcode/"
         private const val TEST_USER_VARIABLE = "testUserVariable"
         private const val TEST_INPUT_VARIABLE = "testInputVariable"
         private const val RESPONSE_STRING = "Response"

@@ -70,6 +70,16 @@
                 android:checkedButton="@+id/portrait_radio_button" >
 
                 <RadioButton
+                    android:id="@+id/stitchedu_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_dialog_stitchedu"
+                    android:text="@string/new_project_dialog_stitchedu"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <RadioButton
                     android:id="@+id/portrait_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -97,6 +107,18 @@
                     android:gravity="center"
                     android:visibility="gone" />
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/stitchedu_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/material_design_spacing_large"
+                android:paddingBottom="@dimen/material_design_spacing_large"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                android:text="@string/new_project_dialog_stitchedu_description"
+                android:textSize="?attr/medium"
+                android:visibility="gone" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/example_project_switch"

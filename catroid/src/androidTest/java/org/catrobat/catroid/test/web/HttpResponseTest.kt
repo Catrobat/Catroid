@@ -52,27 +52,27 @@ class HttpResponseTest : WebConnection.WebRequestListener {
 
     @Test
     fun testHttp() {
-        WebConnection(okHttpClient, this, "http://catrob.at/bot").sendWebRequest()
+        WebConnection(okHttpClient, this, "http://share.catrobat.org/").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
-        assertTrue(response.get().endsWith(HTML_RESPONSE_END))
+        assertTrue(response.get().trimEnd().endsWith(HTML_RESPONSE_END))
     }
 
     @Test
     fun testHttps() {
-        WebConnection(okHttpClient, this, "https://catrob.at/bot").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://share.catrobat.org/").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
-        assertTrue(response.get().endsWith(HTML_RESPONSE_END))
+        assertTrue(response.get().trimEnd().endsWith(HTML_RESPONSE_END))
     }
 
     @Test
     fun testLook() {
-        WebConnection(okHttpClient, this, "https://catrob.at/penguin").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://share.catrobat.org/brick-defaults/penguin.png").sendWebRequest()
         assertTrue(response.get().contains("PNG"))
     }
 
     @Test
     fun testBackground() {
-        WebConnection(okHttpClient, this, "https://catrob.at/HalloweenPortrait").sendWebRequest()
+        WebConnection(okHttpClient, this, "https://share.catrobat.org/brick-defaults/halloween-portrait.png").sendWebRequest()
         assertTrue(response.get().contains("PNG"))
     }
 
