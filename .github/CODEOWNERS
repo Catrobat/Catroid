@@ -1,0 +1,16 @@
+# Catrobat test projects and the runner that discovers them.
+/catroid/src/androidTest/assets/catrobatTests/ @wslany
+/catroid/src/androidTest/java/org/catrobat/catroid/catrobattestrunner/ @wslany
+
+# Web and Retrofit packages and their tests.
+/catroid/src/main/java/org/catrobat/catroid/web/ @dmetzner
+/catroid/src/main/java/org/catrobat/catroid/retrofit/ @dmetzner
+/catroid/src/test/java/org/catrobat/catroid/test/web/ @dmetzner
+/catroid/src/androidTest/java/org/catrobat/catroid/test/web/ @dmetzner
+
+# MQTT package and tests.
+/catroid/src/main/java/org/catrobat/catroid/devices/mqtt/ @harshsomankar123-tech
+/catroid/src/test/java/org/catrobat/catroid/test/mqtt/ @harshsomankar123-tech
+
+# Ownership changes are reviewed by a repository maintainer.
+/.github/CODEOWNERS @wslany @dmetzner
