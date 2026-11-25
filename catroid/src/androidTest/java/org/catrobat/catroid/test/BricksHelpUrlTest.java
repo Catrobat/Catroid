@@ -497,7 +497,6 @@ public class BricksHelpUrlTest {
 				"https://share.catrobat.org/app/docs/reference/bricks/by-class/ShareLaserBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SharePlotBrick",
 				"https://share.catrobat.org/app/docs/reference/bricks/by-class/SharePlotBrick");
-
 	}
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
