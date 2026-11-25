@@ -135,7 +135,7 @@ public class RegularExpressionAssistantDialogTest {
 
 			intended(allOf(
 					hasAction(Intent.ACTION_VIEW),
-					hasData(Uri.parse("https://catrobat.org/docs/"))));
+					hasData(Uri.parse("https://share.catrobat.org/app/docs/reference/formula/REGEX"))));
 		} finally {
 			Intents.release();
 		}

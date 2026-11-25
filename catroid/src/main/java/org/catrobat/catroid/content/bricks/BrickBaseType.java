@@ -30,12 +30,14 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import androidx.annotation.CallSuper;
@@ -189,7 +191,8 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	public String getHelpUrl(String category) {
-		return "https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/" + this.getClass().getSimpleName();
+		return Constants.CATROBAT_BRICK_HELP_URL + this.getClass().getSimpleName()
+				+ "?locale=" + Locale.getDefault().getLanguage();
 	}
 
 	protected String getPositionInformation() {
