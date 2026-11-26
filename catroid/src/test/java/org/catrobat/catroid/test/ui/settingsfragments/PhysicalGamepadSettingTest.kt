@@ -103,29 +103,53 @@ class PhysicalGamepadSettingTest {
     }
 
     @Test
-    fun `preferences offer the setting as a checkbox that is off by default`() {
-        val preference = topLevelPreferences()
+    fun `preferences offer the gamepad extension as a submenu instead of its checkboxes`() {
+        val preferences = topLevelPreferences()
+        val submenu = preferences.singleOrNull { it.key == GAMEPAD_SCREEN_KEY }
+
+        assertNotNull(submenu)
+        assertEquals("PreferenceScreen", submenu?.tag)
+        assertEquals(R.string.preference_title_enable_physical_gamepad_bricks, submenu?.titleResId)
+        assertEquals(R.string.preference_description_physical_gamepad_bricks, submenu?.summaryResId)
+        assertTrue(
+            preferences.none { preference ->
+                preference.key == SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS ||
+                    preference.key == SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS
+            }
+        )
+    }
+
+    @Test
+    fun `preferences place the gamepad submenu directly before the Chromecast setting`() {
+        val keys = topLevelPreferences().map { it.key }
+
+        val gamepadIndex = keys.indexOf(GAMEPAD_SCREEN_KEY)
+
+        assertTrue(gamepadIndex >= 0)
+        assertEquals(gamepadIndex + 1, keys.indexOf(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED))
+    }
+
+    @Test
+    fun `gamepad submenu offers the extension checkbox followed by the swap checkbox`() {
+        assertEquals(
+            listOf(
+                SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS,
+                SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS
+            ),
+            gamepadPreferences().map { it.key }
+        )
+    }
+
+    @Test
+    fun `gamepad submenu offers the extension as a checkbox that is off by default`() {
+        val preference = gamepadPreferences()
             .singleOrNull { it.key == SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS }
 
         assertNotNull(preference)
         assertEquals("CheckBoxPreference", preference?.tag)
         assertEquals("false", preference?.defaultValue)
         assertEquals(R.string.preference_title_enable_physical_gamepad_bricks, preference?.titleResId)
-        assertEquals(
-            R.string.preference_description_physical_gamepad_bricks,
-            preference?.summaryResId
-        )
-    }
-
-    @Test
-    fun `preferences place the swap setting between the gamepad and the Chromecast setting`() {
-        val keys = topLevelPreferences().map { it.key }
-
-        val gamepadIndex = keys.indexOf(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS)
-
-        assertTrue(gamepadIndex >= 0)
-        assertEquals(gamepadIndex + 1, keys.indexOf(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS))
-        assertEquals(gamepadIndex + 2, keys.indexOf(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED))
+        assertEquals("Enable bricks and sensors", preference?.summaryResId?.let(context::getString))
     }
 
     @Test
@@ -144,8 +168,8 @@ class PhysicalGamepadSettingTest {
     }
 
     @Test
-    fun `preferences offer the swap setting as a checkbox that depends on the gamepad extension`() {
-        val preference = topLevelPreferences()
+    fun `gamepad submenu offers the swap setting as a checkbox that depends on the gamepad extension`() {
+        val preference = gamepadPreferences()
             .singleOrNull { it.key == SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS }
 
         assertNotNull(preference)
@@ -175,8 +199,17 @@ class PhysicalGamepadSettingTest {
     }
 
     /** Reads the direct children of the root preference screen in R.xml.preferences. */
-    private fun topLevelPreferences(): List<PreferenceEntry> {
-        val parser = context.resources.getXml(R.xml.preferences)
+    private fun topLevelPreferences(): List<PreferenceEntry> = topLevelPreferencesOf(R.xml.preferences)
+
+    /** Reads the direct children of the root preference screen of the gamepad submenu. */
+    private fun gamepadPreferences(): List<PreferenceEntry> {
+        val xmlResId = context.resources.getIdentifier("gamepad_preferences", "xml", context.packageName)
+        assertTrue("The gamepad submenu has no preference file", xmlResId != 0)
+        return topLevelPreferencesOf(xmlResId)
+    }
+
+    private fun topLevelPreferencesOf(xmlResId: Int): List<PreferenceEntry> {
+        val parser = context.resources.getXml(xmlResId)
         val preferences = mutableListOf<PreferenceEntry>()
         var eventType = parser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -212,5 +245,6 @@ class PhysicalGamepadSettingTest {
     private companion object {
         const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
         const val TOP_LEVEL_DEPTH = 2
+        const val GAMEPAD_SCREEN_KEY = "setting_gamepad_screen"
     }
 }

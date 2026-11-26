@@ -133,7 +133,7 @@ public class SettingsFragmentTest {
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
 			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
 			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, SETTINGS_SHOW_MQTT_BRICKS,
-			SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS));
+			SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
@@ -204,7 +204,16 @@ public class SettingsFragmentTest {
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
 		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 		checkPreference(R.string.preference_title_multiplayer_variables_enabled, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void gamepadSettingsTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_physical_gamepad_bricks))
+				.perform(click());
+
 		checkPreference(R.string.preference_title_enable_physical_gamepad_bricks, SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS);
+		checkPreference(R.string.preference_title_gamepad_swap_face_buttons, SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -215,6 +224,8 @@ public class SettingsFragmentTest {
 				.commit();
 		baseActivityTestRule.finishActivity();
 		baseActivityTestRule.launchActivity(null);
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_physical_gamepad_bricks))
+				.perform(click());
 
 		onData(PreferenceMatchers.withKey(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS))
 				.onChildView(withId(android.R.id.checkbox))
@@ -231,11 +242,11 @@ public class SettingsFragmentTest {
 				.getFragmentManager().findFragmentById(R.id.content_frame);
 		List<String> keys = getPreferenceKeys(settingsFragment.getPreferenceScreen());
 
-		int physicalGamepadIndex = keys.indexOf(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS);
+		int physicalGamepadIndex = keys.indexOf("setting_gamepad_screen");
 		assertTrue(physicalGamepadIndex >= 0);
-		assertEquals(physicalGamepadIndex + 1, keys.indexOf(SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS));
+		assertFalse(keys.contains(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS));
 		if (BuildConfig.FEATURE_CAST_ENABLED) {
-			assertEquals(physicalGamepadIndex + 2, keys.indexOf(SETTINGS_CAST_GLOBALLY_ENABLED));
+			assertEquals(physicalGamepadIndex + 1, keys.indexOf(SETTINGS_CAST_GLOBALLY_ENABLED));
 		}
 	}
 
