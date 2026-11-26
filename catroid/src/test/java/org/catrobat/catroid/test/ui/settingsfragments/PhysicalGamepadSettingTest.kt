@@ -93,11 +93,11 @@ class PhysicalGamepadSettingTest {
     @Test
     fun `setting has its title and summary`() {
         assertEquals(
-            "Physical gamepad brick and sensor",
+            "Gamepad extension",
             context.getString(R.string.preference_title_enable_physical_gamepad_bricks)
         )
         assertEquals(
-            "Show the physical gamepad brick and sensor in the editor.",
+            "Allow the use of a physical gamepad",
             context.getString(R.string.preference_description_physical_gamepad_bricks)
         )
     }
