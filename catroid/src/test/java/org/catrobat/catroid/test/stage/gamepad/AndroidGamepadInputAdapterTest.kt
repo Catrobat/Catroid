@@ -870,6 +870,27 @@ class AndroidGamepadInputAdapterTest {
     }
 
     @Test
+    fun `D-pad presses its button in a project that also reads a stick`() {
+        useStageGamepadInput()
+        val project = projectUsingSensor(Sensors.GAMEPAD_LEFT_STICK_X).apply {
+            defaultScene.spriteList.first().addScript(WhenGamepadButtonPressedScript(LEFT.name))
+        }
+        val stageAdapter = StageGamepadInputAdapterFactory.create(project)
+
+        assertTrue(moveAxes(AXIS_HAT_X to -1f, AXIS_X to 0.6f, target = stageAdapter))
+        input.applyPendingInput { button -> firedButtons.add(button) }
+        assertPressedExactly(LEFT)
+
+        assertTrue(moveAxes(AXIS_HAT_X to 0f, target = stageAdapter))
+        assertTrue(stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_LEFT)))
+        input.applyPendingInput { button -> firedButtons.add(button) }
+
+        assertPressedExactly(LEFT)
+        assertFired(LEFT, LEFT)
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.LEFT))
+    }
+
+    @Test
     fun `stage adapter does not forward a stick that the project does not use`() {
         useStageGamepadInput()
         val stageAdapter = StageGamepadInputAdapterFactory.create(projectUsingSensor(Sensors.GAMEPAD_BUTTON_A_PRESSED))
