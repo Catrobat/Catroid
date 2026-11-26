@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">断言</string>
     <string formatted="false" name="brick_parameterized_equals">等于以下列表中的期望项：</string>
     <string formatted="false" name="brick_simulate_gamepad_button">模拟游戏手柄按钮</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">模拟游戏手柄摇杆</string>
+    <string formatted="false" name="gamepad_stick_left">左</string>
+    <string formatted="false" name="gamepad_stick_right">右</string>
     <string formatted="false" name="gamepad_button_state_pressed">按下</string>
     <string formatted="false" name="gamepad_button_state_released">松开</string>
     <string formatted="false" name="gamepad_button_up">上</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">游戏手柄 R1▾按钮被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">游戏手柄 R2▾按钮被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">游戏手柄任意▾按钮被按下</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">游戏手柄左摇杆 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">游戏手柄左摇杆 y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">游戏手柄右摇杆 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">游戏手柄右摇杆 y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">游戏手柄扩展</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">允许使用实体游戏手柄</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">交换 A/B 和 X/Y</string>

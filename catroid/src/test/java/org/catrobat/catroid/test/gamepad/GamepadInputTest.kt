@@ -35,6 +35,8 @@ import org.catrobat.catroid.gamepad.GamepadInputSource.HAT_AXIS
 import org.catrobat.catroid.gamepad.GamepadInputSource.KEY
 import org.catrobat.catroid.gamepad.GamepadInputSource.SIMULATED
 import org.catrobat.catroid.gamepad.GamepadInputSource.TRIGGER_AXIS
+import org.catrobat.catroid.gamepad.GamepadStick
+import org.catrobat.catroid.gamepad.GamepadStickPosition
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -478,6 +480,46 @@ class GamepadInputTest {
         val pressedOnOtherThread = readPressedButtonsOnOtherThread()
 
         assertEquals(setOf(A, L2), pressedOnOtherThread)
+    }
+
+    @Test
+    fun `stick position takes effect at once and the latest position wins`() {
+        val input = GamepadInput()
+
+        input.setStickPosition(GamepadStick.LEFT, 30.0, -40.0)
+        input.setStickPosition(GamepadStick.LEFT, 20.0, 10.0)
+
+        assertEquals(GamepadStickPosition(20.0, 10.0), input.stickPosition(GamepadStick.LEFT))
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.RIGHT))
+    }
+
+    @Test
+    fun `stick position is limited to 100 and a missing number counts as 0`() {
+        val input = GamepadInput()
+
+        input.setStickPosition(GamepadStick.RIGHT, Double.NaN, Double.NEGATIVE_INFINITY)
+
+        assertEquals(GamepadStickPosition(0.0, -100.0), input.stickPosition(GamepadStick.RIGHT))
+    }
+
+    @Test
+    fun `releasing all buttons centers the sticks at once`() {
+        val input = GamepadInput()
+        input.setStickPosition(GamepadStick.LEFT, 30.0, -40.0)
+
+        input.releaseAll()
+
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.LEFT))
+    }
+
+    @Test
+    fun `reset centers the sticks`() {
+        val input = GamepadInput()
+        input.setStickPosition(GamepadStick.RIGHT, -100.0, 100.0)
+
+        input.reset()
+
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.RIGHT))
     }
 
     @Test

@@ -1115,6 +1115,9 @@
     <string formatted="false" name="brick_parameterized_assert">patikrinti, ar</string>
     <string formatted="false" name="brick_parameterized_equals">lygu tikėtinam elementui iš</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Imituoti žaidimų pulto mygtuką</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Imituoti žaidimų pulto svirtelę</string>
+    <string formatted="false" name="gamepad_stick_left">Kairioji</string>
+    <string formatted="false" name="gamepad_stick_right">Dešinioji</string>
     <string formatted="false" name="gamepad_button_state_pressed">paspaustas</string>
     <string formatted="false" name="gamepad_button_state_released">atleistas</string>
     <string formatted="false" name="gamepad_button_up">Aukštyn</string>
@@ -1815,6 +1818,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">žaidimų pulto mygtukas R1▾ paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">žaidimų pulto mygtukas R2▾ paspaustas</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">žaidimų pulto mygtukas „bet kuris“▾ paspaustas</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">žaidimų pulto kairioji svirtelė x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">žaidimų pulto kairioji svirtelė y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">žaidimų pulto dešinioji svirtelė x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">žaidimų pulto dešinioji svirtelė y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Žaidimų pulto plėtinys</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Leisti naudoti fizinį žaidimų pultą</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sukeisti A/B ir X/Y</string>

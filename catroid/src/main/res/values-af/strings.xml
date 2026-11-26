@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">verseker</string>
     <string formatted="false" name="brick_parameterized_equals">is gelyk aan verwagte item van</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuleer spelbeheerderknoppie</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuleer spelbeheerderstok</string>
+    <string formatted="false" name="gamepad_stick_left">Links</string>
+    <string formatted="false" name="gamepad_stick_right">Regs</string>
     <string formatted="false" name="gamepad_button_state_pressed">gedruk</string>
     <string formatted="false" name="gamepad_button_state_released">losgelaat</string>
     <string formatted="false" name="gamepad_button_up">Op</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelbeheerderknoppie R1▾ gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelbeheerderknoppie R2▾ gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelbeheerderknoppie enige▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">spelbeheerder linkerstok x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">spelbeheerder linkerstok y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">spelbeheerder regterstok x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">spelbeheerder regterstok y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Uitbreiding spelbeheerder</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Laat die gebruik van \'n fisiese spelbeheerder toe</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ruil A/B en X/Y om</string>

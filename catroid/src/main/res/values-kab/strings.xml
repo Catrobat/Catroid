@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">ssentem</string>
     <string formatted="false" name="brick_parameterized_equals">yegda aferdis yettwarǧan n</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Sserwes taqeffalt n umsenqed n wurar</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Sserwes ajeǧǧiḍ n umsenqed n wurar</string>
+    <string formatted="false" name="gamepad_stick_left">Azelmaḍ</string>
+    <string formatted="false" name="gamepad_stick_right">Ayeffus</string>
     <string formatted="false" name="gamepad_button_state_pressed">tettwasit</string>
     <string formatted="false" name="gamepad_button_state_released">tettwaserreḥ</string>
     <string formatted="false" name="gamepad_button_up">Asawen</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">taqeffalt R1▾ n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">taqeffalt R2▾ n umsenqed n wurar tettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">taqeffalt yal yiwet▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ajeǧǧiḍ azelmaḍ n umsenqed n wurar x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ajeǧǧiḍ azelmaḍ n umsenqed n wurar y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ajeǧǧiḍ ayeffus n umsenqed n wurar x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ajeǧǧiḍ ayeffus n umsenqed n wurar y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Asiɣzef n umsenqed n wurar</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Sireg aseqdec n umsenqed n wurar n tidet</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Beddel A/B d X/Y</string>

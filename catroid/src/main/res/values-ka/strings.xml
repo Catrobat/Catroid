@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">შეამოწმე</string>
     <string formatted="false" name="brick_parameterized_equals">ტოლია მოსალოდნელი ელემენტისა სიიდან:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">გეიმპადის ღილაკის სიმულაცია</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">გეიმპადის ჯოისტიკის სიმულაცია</string>
+    <string formatted="false" name="gamepad_stick_left">მარცხენა</string>
+    <string formatted="false" name="gamepad_stick_right">მარჯვენა</string>
     <string formatted="false" name="gamepad_button_state_pressed">დაჭერილი</string>
     <string formatted="false" name="gamepad_button_state_released">აშვებული</string>
     <string formatted="false" name="gamepad_button_up">ზემოთ</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">გეიმპადის ღილაკი R1▾ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">გეიმპადის ღილაკი R2▾ დაჭერილია</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">გეიმპადის ღილაკი „ნებისმიერი“▾ დაჭერილია</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">გეიმპადის მარცხენა ჯოისტიკი x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">გეიმპადის მარცხენა ჯოისტიკი y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">გეიმპადის მარჯვენა ჯოისტიკი x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">გეიმპადის მარჯვენა ჯოისტიკი y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">გეიმპადის გაფართოება</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ფიზიკური გეიმპადის გამოყენების დაშვება</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B და X/Y-ის გაცვლა</string>

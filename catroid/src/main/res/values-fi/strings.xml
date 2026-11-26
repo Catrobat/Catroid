@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">varmista, että</string>
     <string formatted="false" name="brick_parameterized_equals">vastaa odotettua alkiota listasta</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuloi peliohjaimen painiketta</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuloi peliohjaimen sauvaa</string>
+    <string formatted="false" name="gamepad_stick_left">Vasen</string>
+    <string formatted="false" name="gamepad_stick_right">Oikea</string>
     <string formatted="false" name="gamepad_button_state_pressed">painettu</string>
     <string formatted="false" name="gamepad_button_state_released">vapautettu</string>
     <string formatted="false" name="gamepad_button_up">Ylös</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1▾ painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2▾ painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">peliohjaimen painike mikä tahansa▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">peliohjaimen vasen sauva x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">peliohjaimen vasen sauva y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">peliohjaimen oikea sauva x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">peliohjaimen oikea sauva y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Peliohjainlaajennus</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Salli fyysisen peliohjaimen käyttö</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Vaihda A/B ja X/Y</string>

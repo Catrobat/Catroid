@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">khẳng định</string>
     <string formatted="false" name="brick_parameterized_equals">bằng phần tử mong đợi của</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Mô phỏng nút tay cầm</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Mô phỏng cần điều khiển tay cầm</string>
+    <string formatted="false" name="gamepad_stick_left">Trái</string>
+    <string formatted="false" name="gamepad_stick_right">Phải</string>
     <string formatted="false" name="gamepad_button_state_pressed">được nhấn</string>
     <string formatted="false" name="gamepad_button_state_released">được thả</string>
     <string formatted="false" name="gamepad_button_up">Lên</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">nút tay cầm R1▾ được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">nút tay cầm R2▾ được nhấn</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">nút tay cầm bất kỳ▾ được nhấn</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">cần trái tay cầm x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">cần trái tay cầm y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">cần phải tay cầm x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">cần phải tay cầm y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Tiện ích mở rộng tay cầm</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Cho phép sử dụng tay cầm vật lý</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Hoán đổi A/B và X/Y</string>

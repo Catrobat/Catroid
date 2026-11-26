@@ -1074,6 +1074,9 @@
     <string formatted="false" name="brick_parameterized_assert">provjeri</string>
     <string formatted="false" name="brick_parameterized_equals">jednako je očekivanoj stavci iz</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuliraj tipku igraće ploče</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuliraj palicu igraće ploče</string>
+    <string formatted="false" name="gamepad_stick_left">Lijeva</string>
+    <string formatted="false" name="gamepad_stick_right">Desna</string>
     <string formatted="false" name="gamepad_button_state_pressed">pritisnuta</string>
     <string formatted="false" name="gamepad_button_state_released">otpuštena</string>
     <string formatted="false" name="gamepad_button_up">Gore</string>
@@ -1770,6 +1773,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tipka R1▾ fizičke igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tipka R2▾ fizičke igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tipka bilo koja▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">lijeva palica igraće ploče x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">lijeva palica igraće ploče y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">desna palica igraće ploče x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica igraće ploče y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje igraće ploče</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dopusti korištenje fizičke igraće ploče</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamijeni A/B i X/Y</string>

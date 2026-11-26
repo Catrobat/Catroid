@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">hwɛ sɛ</string>
     <string formatted="false" name="brick_parameterized_equals">ne deɛ yɛhwɛ kwan a ɛwɔ yi mu yɛ pɛ:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Suasua gamepad bɔtom</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Suasua gamepad dua</string>
+    <string formatted="false" name="gamepad_stick_left">Benkum</string>
+    <string formatted="false" name="gamepad_stick_right">Nifa</string>
     <string formatted="false" name="gamepad_button_state_pressed">wɔamia</string>
     <string formatted="false" name="gamepad_button_state_released">wɔagyae</string>
     <string formatted="false" name="gamepad_button_up">Soro</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">wɔamia gamepad bɔtom R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">wɔamia gamepad bɔtom R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">wɔamia gamepad bɔtom biara▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">gamepad dua benkum x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">gamepad dua benkum y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">gamepad dua nifa x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">gamepad dua nifa y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad ntrɛmu</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Ma kwan ma wɔmfa gamepad ankasa nni dwuma</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sesa A/B ne X/Y</string>

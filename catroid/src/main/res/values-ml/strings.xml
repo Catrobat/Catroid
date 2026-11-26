@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">ഉറപ്പാക്കുക:</string>
     <string formatted="false" name="brick_parameterized_equals">ഇതിലെ പ്രതീക്ഷിച്ച ഇനത്തിന് തുല്യം:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">ഗെയിംപാഡ് ബട്ടൺ സിമുലേറ്റ് ചെയ്യുക</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ഗെയിംപാഡ് സ്റ്റിക്ക് സിമുലേറ്റ് ചെയ്യുക</string>
+    <string formatted="false" name="gamepad_stick_left">ഇടത്</string>
+    <string formatted="false" name="gamepad_stick_right">വലത്</string>
     <string formatted="false" name="gamepad_button_state_pressed">അമർത്തി</string>
     <string formatted="false" name="gamepad_button_state_released">വിട്ടു</string>
     <string formatted="false" name="gamepad_button_up">മുകളിൽ</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ഗെയിംപാഡ് ബട്ടൺ R1▾ അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ഗെയിംപാഡ് ബട്ടൺ R2▾ അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ഗെയിംപാഡ് ഏതെങ്കിലും▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ഗെയിംപാഡ് ഇടത് സ്റ്റിക്ക് x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ഗെയിംപാഡ് ഇടത് സ്റ്റിക്ക് y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ഗെയിംപാഡ് വലത് സ്റ്റിക്ക് x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ഗെയിംപാഡ് വലത് സ്റ്റിക്ക് y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ഗെയിംപാഡ് എക്സ്റ്റൻഷൻ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ഫിസിക്കൽ ഗെയിംപാഡ് ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B, X/Y പരസ്പരം മാറ്റുക</string>

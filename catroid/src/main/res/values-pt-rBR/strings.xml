@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">verificar se</string>
     <string formatted="false" name="brick_parameterized_equals">é igual ao item esperado de</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simular botão do gamepad</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simular alavanca do gamepad</string>
+    <string formatted="false" name="gamepad_stick_left">Esquerda</string>
+    <string formatted="false" name="gamepad_stick_right">Direita</string>
     <string formatted="false" name="gamepad_button_state_pressed">pressionado</string>
     <string formatted="false" name="gamepad_button_state_released">solto</string>
     <string formatted="false" name="gamepad_button_up">Cima</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botão R1▾ do gamepad físico pressionado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botão R2▾ do gamepad físico pressionado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botão qualquer▾ do gamepad físico pressionado</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">alavanca esquerda do gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">alavanca esquerda do gamepad y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">alavanca direita do gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">alavanca direita do gamepad y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensão gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir o uso de um gamepad físico</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trocar A/B e X/Y</string>

@@ -1074,6 +1074,9 @@
     <string formatted="false" name="brick_parameterized_assert">proveri</string>
     <string formatted="false" name="brick_parameterized_equals">jednako očekivanoj stavci iz</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuliraj dugme kontrolera</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuliraj palicu kontrolera</string>
+    <string formatted="false" name="gamepad_stick_left">Leva</string>
+    <string formatted="false" name="gamepad_stick_right">Desna</string>
     <string formatted="false" name="gamepad_button_state_pressed">pritisnuto</string>
     <string formatted="false" name="gamepad_button_state_released">otpušteno</string>
     <string formatted="false" name="gamepad_button_up">Gore</string>
@@ -1770,6 +1773,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">dugme kontrolera R1▾ pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">dugme kontrolera R2▾ pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">dugme kontrolera bilo koje▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">leva palica kontrolera x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">leva palica kontrolera y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">desna palica kontrolera x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica kontrolera y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje kontroler</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dozvoli korišćenje fizičkog kontrolera</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zameni A/B i X/Y</string>

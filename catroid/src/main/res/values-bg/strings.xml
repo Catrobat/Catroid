@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">провери, че</string>
     <string formatted="false" name="brick_parameterized_equals">е равно на очаквания елемент от</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Симулирай бутон на геймпада</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Симулирай стик на геймпада</string>
+    <string formatted="false" name="gamepad_stick_left">Ляв</string>
+    <string formatted="false" name="gamepad_stick_right">Десен</string>
     <string formatted="false" name="gamepad_button_state_pressed">натиснат</string>
     <string formatted="false" name="gamepad_button_state_released">отпуснат</string>
     <string formatted="false" name="gamepad_button_up">Нагоре</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">бутон R1▾ на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">бутон R2▾ на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">бутон който и да е▾ на физическия геймпад е натиснат</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ляв стик на геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ляв стик на геймпада y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">десен стик на геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">десен стик на геймпада y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Разширение за геймпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Позволи използването на физически геймпад</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Размени A/B и X/Y</string>

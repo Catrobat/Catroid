@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">உறுதிசெய்:</string>
     <string formatted="false" name="brick_parameterized_equals">இதன் எதிர்பார்த்த உருப்படிக்குச் சமம்:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">கேம்பேட் பொத்தானை உருவகப்படுத்து</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">கேம்பேட் குச்சியை உருவகப்படுத்து</string>
+    <string formatted="false" name="gamepad_stick_left">இடது</string>
+    <string formatted="false" name="gamepad_stick_right">வலது</string>
     <string formatted="false" name="gamepad_button_state_pressed">அழுத்தப்பட்டது</string>
     <string formatted="false" name="gamepad_button_state_released">விடுவிக்கப்பட்டது</string>
     <string formatted="false" name="gamepad_button_up">மேல்</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾ அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾ அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">கேம்பேட் இடது குச்சி x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">கேம்பேட் இடது குச்சி y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">கேம்பேட் வலது குச்சி x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">கேம்பேட் வலது குச்சி y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">கேம்பேட் நீட்சி</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">வன்பொருள் கேம்பேடைப் பயன்படுத்த அனுமதி</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B மற்றும் X/Y ஐ இடமாற்று</string>

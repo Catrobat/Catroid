@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">جانچیں:</string>
     <string formatted="false" name="brick_parameterized_equals">اس کے متوقع آئٹم کے برابر ہے:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">گیم پیڈ کا بٹن سمولیٹ کریں</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">گیم پیڈ اسٹک سمولیٹ کریں</string>
+    <string formatted="false" name="gamepad_stick_left">بائیں</string>
+    <string formatted="false" name="gamepad_stick_right">دائیں</string>
     <string formatted="false" name="gamepad_button_state_pressed">دبایا گیا</string>
     <string formatted="false" name="gamepad_button_state_released">چھوڑا گیا</string>
     <string formatted="false" name="gamepad_button_up">اوپر</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گیم پیڈ بٹن R1▾ دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گیم پیڈ بٹن R2▾ دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گیم پیڈ بٹن کوئی بھی▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">گیم پیڈ بائیں اسٹک x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">گیم پیڈ بائیں اسٹک y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">گیم پیڈ دائیں اسٹک x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">گیم پیڈ دائیں اسٹک y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گیم پیڈ ایکسٹینشن</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">فزیکل گیم پیڈ کے استعمال کی اجازت دیں</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B اور X/Y کو بدلیں</string>

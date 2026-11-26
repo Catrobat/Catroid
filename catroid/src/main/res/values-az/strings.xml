@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">yoxla:</string>
     <string formatted="false" name="brick_parameterized_equals">bunun gözlənilən elementinə bərabərdir:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Oyun pultunun düyməsini simulyasiya et</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Oyun pultunun çubuğunu simulyasiya et</string>
+    <string formatted="false" name="gamepad_stick_left">Sol</string>
+    <string formatted="false" name="gamepad_stick_right">Sağ</string>
     <string formatted="false" name="gamepad_button_state_pressed">basılı</string>
     <string formatted="false" name="gamepad_button_state_released">buraxılmış</string>
     <string formatted="false" name="gamepad_button_up">Yuxarı</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1▾ basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2▾ basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">oyun pultunun sol çubuğu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">oyun pultunun sol çubuğu y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">oyun pultunun sağ çubuğu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">oyun pultunun sağ çubuğu y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun pultu genişlənməsi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziki oyun pultundan istifadəyə icazə verin</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B və X/Y-ni dəyiş</string>

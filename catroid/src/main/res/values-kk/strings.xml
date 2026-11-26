@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">тексеру:</string>
     <string formatted="false" name="brick_parameterized_equals">мына тізімнің күтілген элементіне тең:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Геймпад түймесін симуляциялау</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Геймпад таяқшасын симуляциялау</string>
+    <string formatted="false" name="gamepad_stick_left">Сол</string>
+    <string formatted="false" name="gamepad_stick_right">Оң</string>
     <string formatted="false" name="gamepad_button_state_pressed">басулы</string>
     <string formatted="false" name="gamepad_button_state_released">жіберілген</string>
     <string formatted="false" name="gamepad_button_up">Жоғары</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">геймпад түймесі R1▾ басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">геймпад түймесі R2▾ басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">геймпад түймесі кез келген▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">геймпадтың сол таяқшасы x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">геймпадтың сол таяқшасы y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">геймпадтың оң таяқшасы x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">геймпадтың оң таяқшасы y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Геймпад кеңейтімі</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Физикалық геймпадты пайдалануға рұқсат ету</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B және X/Y ауыстыру</string>

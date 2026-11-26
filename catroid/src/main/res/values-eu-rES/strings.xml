@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">egiaztatu</string>
     <string formatted="false" name="brick_parameterized_equals">eta zerrenda honetan espero den elementua berdinak direla:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simulatu joko-kontrolagailuaren botoia</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulatu joko-kontrolagailuaren palanka</string>
+    <string formatted="false" name="gamepad_stick_left">Ezkerra</string>
+    <string formatted="false" name="gamepad_stick_right">Eskuina</string>
     <string formatted="false" name="gamepad_button_state_pressed">sakatuta</string>
     <string formatted="false" name="gamepad_button_state_released">askatuta</string>
     <string formatted="false" name="gamepad_button_up">Gora</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1▾ botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2▾ botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">joko-kontrolagailuaren ezkerreko palanka x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">joko-kontrolagailuaren ezkerreko palanka y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">joko-kontrolagailuaren eskuineko palanka x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joko-kontrolagailuaren eskuineko palanka y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu hedapena</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Baimendu joko-kontrolagailu fisiko bat erabiltzea</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trukatu A/B eta X/Y</string>

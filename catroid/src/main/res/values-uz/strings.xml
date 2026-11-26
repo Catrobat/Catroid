@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">tekshir:</string>
     <string formatted="false" name="brick_parameterized_equals">quyidagining kutilgan elementiga teng:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Geympad tugmasini simulyatsiya qil</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Geympad richagini simulyatsiya qil</string>
+    <string formatted="false" name="gamepad_stick_left">Chap</string>
+    <string formatted="false" name="gamepad_stick_right">Oʻng</string>
     <string formatted="false" name="gamepad_button_state_pressed">bosilgan</string>
     <string formatted="false" name="gamepad_button_state_released">qoʻyib yuborilgan</string>
     <string formatted="false" name="gamepad_button_up">Yuqori</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">geympad tugmasi R1▾ bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">geympad tugmasi R2▾ bosilgan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">geympad tugmasi istalgan▾ bosilgan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">geympad chap richagi x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">geympad chap richagi y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">geympad oʻng richagi x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">geympad oʻng richagi y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Geympad kengaytmasi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Jismoniy geympaddan foydalanishga ruxsat berish</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B va X/Y ni almashtirish</string>

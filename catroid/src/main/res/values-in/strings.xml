@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">pastikan</string>
     <string formatted="false" name="brick_parameterized_equals">sama dengan item yang diharapkan dari</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simulasikan tombol gamepad</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulasikan stik gamepad</string>
+    <string formatted="false" name="gamepad_stick_left">Kiri</string>
+    <string formatted="false" name="gamepad_stick_right">Kanan</string>
     <string formatted="false" name="gamepad_button_state_pressed">ditekan</string>
     <string formatted="false" name="gamepad_button_state_released">dilepas</string>
     <string formatted="false" name="gamepad_button_up">Atas</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1▾ ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2▾ ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tombol gamepad apa saja▾ ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">stik kiri gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">stik kiri gamepad y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">stik kanan gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">stik kanan gamepad y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ekstensi gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Izinkan penggunaan gamepad fisik</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>

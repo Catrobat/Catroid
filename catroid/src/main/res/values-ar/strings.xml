@@ -1197,6 +1197,9 @@
     <string formatted="false" name="brick_parameterized_assert">تحقّق من أن</string>
     <string formatted="false" name="brick_parameterized_equals">يساوي العنصر المتوقع من</string>
     <string formatted="false" name="brick_simulate_gamepad_button">حاكِ زر لوحة الألعاب</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">حاكِ عصا لوحة الألعاب</string>
+    <string formatted="false" name="gamepad_stick_left">اليسرى</string>
+    <string formatted="false" name="gamepad_stick_right">اليمنى</string>
     <string formatted="false" name="gamepad_button_state_pressed">مضغوط</string>
     <string formatted="false" name="gamepad_button_state_released">محرَّر</string>
     <string formatted="false" name="gamepad_button_up">أعلى</string>
@@ -1905,6 +1908,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">زر لوحة الألعاب R1▾ مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">زر لوحة الألعاب R2▾ مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">زر لوحة الألعاب أي▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">عصا لوحة الألعاب اليسرى x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">عصا لوحة الألعاب اليسرى y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">عصا لوحة الألعاب اليمنى x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">عصا لوحة الألعاب اليمنى y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">إضافة لوحة الألعاب</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">السماح باستخدام لوحة ألعاب فعلية</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">تبديل A/B و X/Y</string>

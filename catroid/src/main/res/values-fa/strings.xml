@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">بررسی کن که</string>
     <string formatted="false" name="brick_parameterized_equals">برابر است با مورد مورد انتظار از</string>
     <string formatted="false" name="brick_simulate_gamepad_button">شبیه‌سازی دکمهٔ دسته‌بازی</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">شبیه‌سازی اهرم دسته‌بازی</string>
+    <string formatted="false" name="gamepad_stick_left">چپ</string>
+    <string formatted="false" name="gamepad_stick_right">راست</string>
     <string formatted="false" name="gamepad_button_state_pressed">فشرده</string>
     <string formatted="false" name="gamepad_button_state_released">رها شده</string>
     <string formatted="false" name="gamepad_button_up">بالا</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">دکمهٔ دسته‌بازی R1▾ فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">دکمهٔ دسته‌بازی R2▾ فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">اهرم چپ دسته‌بازی x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">اهرم چپ دسته‌بازی y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">اهرم راست دسته‌بازی x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">اهرم راست دسته‌بازی y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">افزونهٔ دسته‌بازی</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">اجازهٔ استفاده از دسته‌بازی فیزیکی</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">جابه‌جایی A/B و X/Y</string>

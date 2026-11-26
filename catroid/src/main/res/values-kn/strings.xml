@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">ದೃಢಪಡಿಸಿ:</string>
     <string formatted="false" name="brick_parameterized_equals">ಇದರ ನಿರೀಕ್ಷಿತ ಐಟಂಗೆ ಸಮ:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಅನುಕರಿಸಿ</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ಗೇಮ್‌ಪ್ಯಾಡ್ ಸ್ಟಿಕ್ ಅನುಕರಿಸಿ</string>
+    <string formatted="false" name="gamepad_stick_left">ಎಡ</string>
+    <string formatted="false" name="gamepad_stick_right">ಬಲ</string>
     <string formatted="false" name="gamepad_button_state_pressed">ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="gamepad_button_state_released">ಬಿಡಲಾಗಿದೆ</string>
     <string formatted="false" name="gamepad_button_up">ಮೇಲೆ</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R1▾ ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ R2▾ ಒತ್ತಲಾಗಿದೆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಟನ್ ಯಾವುದೇ▾ ಒತ್ತಲಾಗಿದೆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ಗೇಮ್‌ಪ್ಯಾಡ್ ಎಡ ಸ್ಟಿಕ್ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ಗೇಮ್‌ಪ್ಯಾಡ್ ಎಡ ಸ್ಟಿಕ್ y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಲ ಸ್ಟಿಕ್ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಲ ಸ್ಟಿಕ್ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ಗೇಮ್‌ಪ್ಯಾಡ್ ವಿಸ್ತರಣೆ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ಭೌತಿಕ ಗೇಮ್‌ಪ್ಯಾಡ್ ಬಳಸಲು ಅನುಮತಿಸಿ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ಮತ್ತು X/Y ಅದಲುಬದಲು ಮಾಡಿ</string>

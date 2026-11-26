@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">verificar se</string>
     <string formatted="false" name="brick_parameterized_equals">é igual ao item esperado de</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simular botão do comando</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simular manípulo do comando</string>
+    <string formatted="false" name="gamepad_stick_left">Esquerdo</string>
+    <string formatted="false" name="gamepad_stick_right">Direito</string>
     <string formatted="false" name="gamepad_button_state_pressed">premido</string>
     <string formatted="false" name="gamepad_button_state_released">solto</string>
     <string formatted="false" name="gamepad_button_up">Cima</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botão R1▾ do comando físico premido</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botão R2▾ do comando físico premido</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botão qualquer▾ do comando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">manípulo esquerdo do comando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">manípulo esquerdo do comando y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">manípulo direito do comando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">manípulo direito do comando y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensão comando</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir a utilização de um comando físico</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trocar A/B e X/Y</string>

@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">ډاډ ترلاسه کړئ</string>
     <string formatted="false" name="brick_parameterized_equals">له دې د تمه شوي توکي سره برابر دی</string>
     <string formatted="false" name="brick_simulate_gamepad_button">د ګیم‌پیډ تڼۍ شبیه‌سازي کړئ</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">د ګیم‌پیډ لښته شبیه‌سازي کړئ</string>
+    <string formatted="false" name="gamepad_stick_left">کیڼه</string>
+    <string formatted="false" name="gamepad_stick_right">ښۍ</string>
     <string formatted="false" name="gamepad_button_state_pressed">کېکاږل شوې</string>
     <string formatted="false" name="gamepad_button_state_released">خوشې شوې</string>
     <string formatted="false" name="gamepad_button_up">پورته</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1▾ کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2▾ کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">د ګیم‌پیډ تڼۍ هره▾ کېکاږل شوې</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">د ګیم‌پیډ کیڼه لښته x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">د ګیم‌پیډ کیڼه لښته y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">د ګیم‌پیډ ښۍ لښته x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">د ګیم‌پیډ ښۍ لښته y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د ګیم‌پیډ توسیع</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">د فزیکي ګیم‌پیډ کارولو ته اجازه ورکړئ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B او X/Y بدل کړئ</string>

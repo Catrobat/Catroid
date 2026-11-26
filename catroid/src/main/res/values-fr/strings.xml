@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">vérifier que</string>
     <string formatted="false" name="brick_parameterized_equals">est égal à l\'élément attendu de</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuler le bouton de la manette</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuler le joystick de la manette</string>
+    <string formatted="false" name="gamepad_stick_left">Gauche</string>
+    <string formatted="false" name="gamepad_stick_right">Droit</string>
     <string formatted="false" name="gamepad_button_state_pressed">appuyé</string>
     <string formatted="false" name="gamepad_button_state_released">relâché</string>
     <string formatted="false" name="gamepad_button_up">Haut</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾ de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾ de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">joystick gauche de la manette x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">joystick gauche de la manette y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">joystick droit de la manette x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joystick droit de la manette y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inverser A/B et X/Y</string>

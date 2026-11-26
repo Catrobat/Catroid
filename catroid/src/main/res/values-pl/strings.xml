@@ -1115,6 +1115,9 @@
     <string formatted="false" name="brick_parameterized_assert">sprawdź</string>
     <string formatted="false" name="brick_parameterized_equals">równa się oczekiwanemu elementowi z</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Symuluj przycisk gamepada</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Symuluj gałkę gamepada</string>
+    <string formatted="false" name="gamepad_stick_left">Lewa</string>
+    <string formatted="false" name="gamepad_stick_right">Prawa</string>
     <string formatted="false" name="gamepad_button_state_pressed">naciśnięty</string>
     <string formatted="false" name="gamepad_button_state_released">zwolniony</string>
     <string formatted="false" name="gamepad_button_up">W górę</string>
@@ -1815,6 +1818,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">przycisk gamepada R1▾ naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">przycisk gamepada R2▾ naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">przycisk gamepada dowolny▾ naciśnięty</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">lewa gałka gamepada x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">lewa gałka gamepada y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">prawa gałka gamepada x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">prawa gałka gamepada y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozszerzenie gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Pozwala na używanie fizycznego gamepada</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamień A/B i X/Y</string>

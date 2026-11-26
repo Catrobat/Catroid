@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">tegaskan</string>
     <string formatted="false" name="brick_parameterized_equals">sama dengan item dijangka daripada</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simulasikan butang pad permainan</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulasikan batang pad permainan</string>
+    <string formatted="false" name="gamepad_stick_left">Kiri</string>
+    <string formatted="false" name="gamepad_stick_right">Kanan</string>
     <string formatted="false" name="gamepad_button_state_pressed">ditekan</string>
     <string formatted="false" name="gamepad_button_state_released">dilepaskan</string>
     <string formatted="false" name="gamepad_button_up">Atas</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butang pad permainan R1▾ ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butang pad permainan R2▾ ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butang pad permainan mana-mana▾ ditekan</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">batang kiri pad permainan x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">batang kiri pad permainan y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">batang kanan pad permainan x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">batang kanan pad permainan y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Sambungan pad permainan</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Benarkan penggunaan pad permainan fizikal</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>

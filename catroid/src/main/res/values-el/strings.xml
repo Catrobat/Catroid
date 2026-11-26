@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">επιβεβαίωσε ότι</string>
     <string formatted="false" name="brick_parameterized_equals">ισούται με το αναμενόμενο στοιχείο από</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Προσομοίωσε κουμπί χειριστηρίου</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Προσομοίωσε μοχλό χειριστηρίου</string>
+    <string formatted="false" name="gamepad_stick_left">Αριστερός</string>
+    <string formatted="false" name="gamepad_stick_right">Δεξιός</string>
     <string formatted="false" name="gamepad_button_state_pressed">πατημένο</string>
     <string formatted="false" name="gamepad_button_state_released">αφημένο</string>
     <string formatted="false" name="gamepad_button_up">Πάνω</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1▾ φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2▾ φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">κουμπί οποιοδήποτε▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">αριστερός μοχλός χειριστηρίου x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">αριστερός μοχλός χειριστηρίου y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">δεξιός μοχλός χειριστηρίου x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">δεξιός μοχλός χειριστηρίου y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Επέκταση χειριστηρίου</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Επιτρέπει τη χρήση φυσικού χειριστηρίου</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Εναλλαγή A/B και X/Y</string>

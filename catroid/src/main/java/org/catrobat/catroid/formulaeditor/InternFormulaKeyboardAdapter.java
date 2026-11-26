@@ -76,6 +76,10 @@ public class InternFormulaKeyboardAdapter {
 		if (gamepadButtonSensor != null) {
 			return buildSensor(gamepadButtonSensor);
 		}
+		Sensors gamepadStickSensor = GamepadStickSensors.findGamepadStickSensor(resource);
+		if (gamepadStickSensor != null) {
+			return buildSensor(gamepadStickSensor);
+		}
 
 		switch (resource) {
 			case R.id.formula_editor_keyboard_0:

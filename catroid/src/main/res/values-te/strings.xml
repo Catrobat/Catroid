@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">నిర్ధారించు:</string>
     <string formatted="false" name="brick_parameterized_equals">దీనిలోని అంచనా అంశానికి సమానం:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">గేమ్‌ప్యాడ్ బటన్‌ను అనుకరించు</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">గేమ్‌ప్యాడ్ స్టిక్‌ను అనుకరించు</string>
+    <string formatted="false" name="gamepad_stick_left">ఎడమ</string>
+    <string formatted="false" name="gamepad_stick_right">కుడి</string>
     <string formatted="false" name="gamepad_button_state_pressed">నొక్కబడింది</string>
     <string formatted="false" name="gamepad_button_state_released">వదిలివేయబడింది</string>
     <string formatted="false" name="gamepad_button_up">పైకి</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">గేమ్‌ప్యాడ్ బటన్ R1▾ నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">గేమ్‌ప్యాడ్ బటన్ R2▾ నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">గేమ్‌ప్యాడ్ బటన్ ఏదైనా▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">గేమ్‌ప్యాడ్ ఎడమ స్టిక్ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">గేమ్‌ప్యాడ్ ఎడమ స్టిక్ y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">గేమ్‌ప్యాడ్ కుడి స్టిక్ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">గేమ్‌ప్యాడ్ కుడి స్టిక్ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">గేమ్‌ప్యాడ్ ఎక్స్‌టెన్షన్</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ వాడకాన్ని అనుమతించండి</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B మరియు X/Y మార్చు</string>

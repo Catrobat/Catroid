@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">جانچيو:</string>
     <string formatted="false" name="brick_parameterized_equals">هن جي توقع ڪيل آئٽم جي برابر آهي:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">گيم پيڊ جو بٽڻ سميوليٽ ڪريو</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">گيم پيڊ جي لٺ سميوليٽ ڪريو</string>
+    <string formatted="false" name="gamepad_stick_left">کاٻي</string>
+    <string formatted="false" name="gamepad_stick_right">ساڄي</string>
     <string formatted="false" name="gamepad_button_state_pressed">دٻايل</string>
     <string formatted="false" name="gamepad_button_state_released">ڇڏيل</string>
     <string formatted="false" name="gamepad_button_up">مٿي</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گيم پيڊ بٽڻ R1▾ دٻايو ويو</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گيم پيڊ بٽڻ R2▾ دٻايو ويو</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گيم پيڊ بٽڻ ڪوبه▾ دٻايو ويو</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">گيم پيڊ کاٻي لٺ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">گيم پيڊ کاٻي لٺ y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">گيم پيڊ ساڄي لٺ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">گيم پيڊ ساڄي لٺ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گيم پيڊ ايڪسٽينشن</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">فزيڪل گيم پيڊ استعمال ڪرڻ جي اجازت ڏيو</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ۽ X/Y مٽايو</string>

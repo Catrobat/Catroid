@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">verifiko</string>
     <string formatted="false" name="brick_parameterized_equals">është e barabartë me elementin e pritur të</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simulo butonin e tastierës së lojës</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulo levën e tastierës së lojës</string>
+    <string formatted="false" name="gamepad_stick_left">Majtas</string>
+    <string formatted="false" name="gamepad_stick_right">Djathtas</string>
     <string formatted="false" name="gamepad_button_state_pressed">i shtypur</string>
     <string formatted="false" name="gamepad_button_state_released">i lëshuar</string>
     <string formatted="false" name="gamepad_button_up">Lart</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1▾ i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2▾ i tastierës fizike të lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butoni cilido▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">leva e majtë e tastierës së lojës x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">leva e majtë e tastierës së lojës y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">leva e djathtë e tastierës së lojës x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">leva e djathtë e tastierës së lojës y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Shtesa tastierë loje</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Lejo përdorimin e një tastiere fizike loje</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ndërro A/B dhe X/Y</string>

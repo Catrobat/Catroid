@@ -239,6 +239,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.SimulateGamepadStickBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -616,6 +617,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", TapForBrick.class);
 		xstream.alias("brick", TouchAndSlideBrick.class);
 		xstream.alias("brick", SimulateGamepadButtonBrick.class);
+		xstream.alias("brick", SimulateGamepadStickBrick.class);
 		xstream.alias("script", WhenStageExitedScript.class);
 		xstream.alias("brick", WhenStageExitedBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);

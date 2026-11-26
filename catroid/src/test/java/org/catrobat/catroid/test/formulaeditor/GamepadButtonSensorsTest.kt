@@ -87,9 +87,10 @@ class GamepadButtonSensorsTest {
 
     @Test
     fun `gamepad button sensors are appended after all existing sensors`() {
-        val sensors = Sensors.values().toList().dropLast(1)
+        val sensors = Sensors.values().toList().dropLast(STICK_SENSORS.size + 1)
 
-        assertEquals(Sensors.GAMEPAD_BUTTON_ANY_PRESSED, Sensors.values().last())
+        assertEquals(STICK_SENSORS, Sensors.values().toList().takeLast(STICK_SENSORS.size))
+        assertEquals(Sensors.GAMEPAD_BUTTON_ANY_PRESSED, Sensors.values().dropLast(STICK_SENSORS.size).last())
         assertEquals(EXPECTED_SENSORS, sensors.takeLast(EXPECTED_SENSORS.size))
         assertEquals(
             Sensors.STAGE_HEIGHT,
@@ -236,6 +237,13 @@ class GamepadButtonSensorsTest {
         FormulaElement(FormulaElement.ElementType.SENSOR, sensor.name, null)
 
     private companion object {
+        val STICK_SENSORS = listOf(
+            Sensors.GAMEPAD_LEFT_STICK_X,
+            Sensors.GAMEPAD_LEFT_STICK_Y,
+            Sensors.GAMEPAD_RIGHT_STICK_X,
+            Sensors.GAMEPAD_RIGHT_STICK_Y
+        )
+
         val xstream = XstreamSerializer.getInstance().xstream
 
         val EXPECTED_SENSORS = listOf(

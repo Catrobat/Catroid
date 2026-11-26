@@ -1115,6 +1115,9 @@
     <string formatted="false" name="brick_parameterized_assert">перевірити, що</string>
     <string formatted="false" name="brick_parameterized_equals">дорівнює очікуваному елементу з</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Імітувати кнопку геймпада</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Імітувати стік геймпада</string>
+    <string formatted="false" name="gamepad_stick_left">Лівий</string>
+    <string formatted="false" name="gamepad_stick_right">Правий</string>
     <string formatted="false" name="gamepad_button_state_pressed">натиснуто</string>
     <string formatted="false" name="gamepad_button_state_released">відпущено</string>
     <string formatted="false" name="gamepad_button_up">Вгору</string>
@@ -1815,6 +1818,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">на геймпаді натиснуто кнопку R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">на геймпаді натиснуто кнопку R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">на геймпаді натиснуто кнопку «будь-яку»▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">лівий стік геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">лівий стік геймпада y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">правий стік геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">правий стік геймпада y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Розширення геймпада</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволити використання фізичного геймпада</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Поміняти місцями A/B і X/Y</string>

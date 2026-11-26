@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">prüfe</string>
     <string formatted="false" name="brick_parameterized_equals">gleich erwartetem Element von</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuliere Gamepad-Taste</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuliere Gamepad-Stick</string>
+    <string formatted="false" name="gamepad_stick_left">Links</string>
+    <string formatted="false" name="gamepad_stick_right">Rechts</string>
     <string formatted="false" name="gamepad_button_state_pressed">gedrückt</string>
     <string formatted="false" name="gamepad_button_state_released">losgelassen</string>
     <string formatted="false" name="gamepad_button_up">Oben</string>
@@ -1723,6 +1726,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">Gamepad-Taste R1▾ gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">Gamepad-Taste R2▾ gedrückt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">Gamepad-Taste beliebig▾ gedrückt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">linker Gamepad-Stick x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">linker Gamepad-Stick y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">rechter Gamepad-Stick x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">rechter Gamepad-Stick y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Erweiterung Gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Erlaubt die Verwendung eines physischen Gamepads</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B und X/Y tauschen</string>

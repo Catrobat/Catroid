@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">තහවුරු කරන්න:</string>
     <string formatted="false" name="brick_parameterized_equals">මෙහි අපේක්ෂිත අයිතමයට සමානයි:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">ගේම්පෑඩ් බොත්තම අනුකරණය කරන්න</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ගේම්පෑඩ් යෂ්ටිය අනුකරණය කරන්න</string>
+    <string formatted="false" name="gamepad_stick_left">වම</string>
+    <string formatted="false" name="gamepad_stick_right">දකුණ</string>
     <string formatted="false" name="gamepad_button_state_pressed">ඔබා ඇත</string>
     <string formatted="false" name="gamepad_button_state_released">මුදා හැර ඇත</string>
     <string formatted="false" name="gamepad_button_up">ඉහළ</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ගේම්පෑඩ් බොත්තම R1▾ ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ගේම්පෑඩ් බොත්තම R2▾ ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ගේම්පෑඩ් බොත්තම ඕනෑම▾ ඔබා ඇත</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ගේම්පෑඩ් වම් යෂ්ටිය x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ගේම්පෑඩ් වම් යෂ්ටිය y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ගේම්පෑඩ් දකුණු යෂ්ටිය x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ගේම්පෑඩ් දකුණු යෂ්ටිය y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ගේම්පෑඩ් දිගුව</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">භෞතික ගේම්පෑඩයක් භාවිතයට ඉඩ දෙන්න</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B සහ X/Y මාරු කරන්න</string>

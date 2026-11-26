@@ -193,6 +193,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick;
+import org.catrobat.catroid.content.bricks.SimulateGamepadStickBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -563,6 +564,7 @@ public class BrickCategoryTest {
 						TapForBrick.class,
 						TouchAndSlideBrick.class,
 						SimulateGamepadButtonBrick.class,
+						SimulateGamepadStickBrick.class,
 						FinishStageBrick.class,
 						WhenStageExitedBrick.class,
 						StoreCSVIntoUserListBrick.class,

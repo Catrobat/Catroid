@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">jẹ́rìísí</string>
     <string formatted="false" name="brick_parameterized_equals">dọ́gba pẹ̀lú ohun tí a retí nínú</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Ṣe àfarawé bọ́tìnnì gamepad</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Ṣe àfarawé ọ̀pá gamepad</string>
+    <string formatted="false" name="gamepad_stick_left">Òsì</string>
+    <string formatted="false" name="gamepad_stick_right">Ọ̀tún</string>
     <string formatted="false" name="gamepad_button_state_pressed">títẹ̀</string>
     <string formatted="false" name="gamepad_button_state_released">títúsílẹ̀</string>
     <string formatted="false" name="gamepad_button_up">Òkè</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a tẹ bọ́tìnnì gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a tẹ bọ́tìnnì gamepad R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">a tẹ bọ́tìnnì gamepad èyíkéyìí▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ọ̀pá òsì gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ọ̀pá òsì gamepad y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ọ̀pá ọ̀tún gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ọ̀pá ọ̀tún gamepad y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Àfikún gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Gba láàyè láti lo gamepad gidi</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Pààrọ̀ A/B àti X/Y</string>

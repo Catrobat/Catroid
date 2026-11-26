@@ -279,6 +279,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (gamepadButtonValue != null) {
 			return gamepadButtonValue;
 		}
+		Double gamepadStickValue = GamepadStickSensors.gamepadStickSensorValue(sensor);
+		if (gamepadStickValue != null) {
+			return gamepadStickValue;
+		}
 		if (instance.sensorManager == null) {
 			return 0d;
 		}

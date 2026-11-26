@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">アサート</string>
     <string formatted="false" name="brick_parameterized_equals">が次のリストの期待値と等しい</string>
     <string formatted="false" name="brick_simulate_gamepad_button">ゲームパッドのボタンをシミュレートする</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ゲームパッドのスティックをシミュレートする</string>
+    <string formatted="false" name="gamepad_stick_left">左</string>
+    <string formatted="false" name="gamepad_stick_right">右</string>
     <string formatted="false" name="gamepad_button_state_pressed">押された</string>
     <string formatted="false" name="gamepad_button_state_released">離された</string>
     <string formatted="false" name="gamepad_button_up">上</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ゲームパッドのボタン R1▾が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ゲームパッドのボタン R2▾が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ゲームパッドの任意▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ゲームパッドの左スティック x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ゲームパッドの左スティック y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ゲームパッドの右スティック x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ゲームパッドの右スティック y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ゲームパッド拡張機能</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">物理ゲームパッドを使用できるようにする</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B と X/Y を入れ替える</string>

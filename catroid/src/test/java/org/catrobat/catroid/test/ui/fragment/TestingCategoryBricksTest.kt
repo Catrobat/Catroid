@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.SimulateGamepadStickBrick
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick
 import org.catrobat.catroid.content.bricks.TapAtBrick
 import org.catrobat.catroid.content.bricks.TapForBrick
@@ -116,6 +117,7 @@ class TestingCategoryBricksTest {
             TapForBrick::class.java,
             TouchAndSlideBrick::class.java,
             SimulateGamepadButtonBrick::class.java.takeIf { withSimulateGamepadButton },
+            SimulateGamepadStickBrick::class.java.takeIf { withSimulateGamepadButton },
             FinishStageBrick::class.java,
             WhenStageExitedBrick::class.java,
             StoreCSVIntoUserListBrick::class.java,

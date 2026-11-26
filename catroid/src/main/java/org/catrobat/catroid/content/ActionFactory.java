@@ -154,6 +154,7 @@ import org.catrobat.catroid.content.actions.SharePlotAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SimulateGamepadButtonAction;
+import org.catrobat.catroid.content.actions.SimulateGamepadStickAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
@@ -1612,6 +1613,16 @@ public class ActionFactory extends Actions {
 		SimulateGamepadButtonAction action = action(SimulateGamepadButtonAction.class);
 		action.setButton(button);
 		action.setPressed(pressed);
+		return action;
+	}
+
+	public Action createSimulateGamepadStickAction(Sprite sprite, SequenceAction sequence, String stick,
+			Formula x, Formula y) {
+		SimulateGamepadStickAction action = action(SimulateGamepadStickAction.class);
+		action.setScope(new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence));
+		action.setStick(stick);
+		action.setX(x);
+		action.setY(y);
 		return action;
 	}
 

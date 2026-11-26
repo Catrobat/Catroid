@@ -27,6 +27,8 @@ import android.app.Activity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.gamepadStickSensorNameResId
+import org.catrobat.catroid.formulaeditor.gamepadStickSensors
 import org.catrobat.catroid.formulaeditor.sensorNameResId
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter
@@ -591,7 +593,8 @@ class CategoryListItems {
             R.string.formula_editor_sensor_altitude
         )
         private val SENSOR_USER_LANGUAGE = listOf(R.string.formula_editor_sensor_user_language)
-        private val SENSOR_PHYSICAL_GAMEPAD = listOf(GamepadButton.A.sensorNameResId)
+        private val SENSOR_PHYSICAL_GAMEPAD = listOf(GamepadButton.A.sensorNameResId) +
+            gamepadStickSensors.mapNotNull { sensor -> gamepadStickSensorNameResId(sensor) }
         private val SENSORS_TOUCH = listOf(
             R.string.formula_editor_function_finger_x,
             R.string.formula_editor_function_finger_y,

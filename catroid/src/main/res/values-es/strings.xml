@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">comprobar que</string>
     <string formatted="false" name="brick_parameterized_equals">es igual al elemento esperado de</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simular botón del mando</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simular palanca del mando</string>
+    <string formatted="false" name="gamepad_stick_left">Izquierda</string>
+    <string formatted="false" name="gamepad_stick_right">Derecha</string>
     <string formatted="false" name="gamepad_button_state_pressed">pulsado</string>
     <string formatted="false" name="gamepad_button_state_released">soltado</string>
     <string formatted="false" name="gamepad_button_up">Arriba</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botón R1▾ del mando físico pulsado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botón R2▾ del mando físico pulsado</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botón cualquiera▾ del mando físico pulsado</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">palanca izquierda del mando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">palanca izquierda del mando y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">palanca derecha del mando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">palanca derecha del mando y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensión mando</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir el uso de un mando físico</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercambiar A/B y X/Y</string>

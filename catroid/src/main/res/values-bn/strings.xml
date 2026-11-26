@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">যাচাই করুন:</string>
     <string formatted="false" name="brick_parameterized_equals">সমান হবে এই তালিকার প্রত্যাশিত আইটেমের:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">গেমপ্যাড বোতাম অনুকরণ করুন</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">গেমপ্যাড স্টিক অনুকরণ করুন</string>
+    <string formatted="false" name="gamepad_stick_left">বাঁ</string>
+    <string formatted="false" name="gamepad_stick_right">ডান</string>
     <string formatted="false" name="gamepad_button_state_pressed">চাপা</string>
     <string formatted="false" name="gamepad_button_state_released">ছেড়ে দেওয়া</string>
     <string formatted="false" name="gamepad_button_up">ওপর</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">গেমপ্যাডের R1▾ বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">গেমপ্যাডের R2▾ বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">গেমপ্যাডের যেকোনো▾ বোতাম চাপা হয়েছে</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">গেমপ্যাডের বাঁ স্টিক x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">গেমপ্যাডের বাঁ স্টিক y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">গেমপ্যাডের ডান স্টিক x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">গেমপ্যাডের ডান স্টিক y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">গেমপ্যাড এক্সটেনশন</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">একটি ফিজিক্যাল গেমপ্যাড ব্যবহারের অনুমতি দিন</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B এবং X/Y অদলবদল করুন</string>

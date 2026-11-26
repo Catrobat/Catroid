@@ -198,6 +198,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.SimulateGamepadStickBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
@@ -1129,6 +1130,7 @@ open class CategoryBricksFactory {
         )
         if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
             assertionsBrickList.add(SimulateGamepadButtonBrick())
+            assertionsBrickList.add(SimulateGamepadStickBrick())
         }
         assertionsBrickList.add(FinishStageBrick())
         assertionsBrickList.add(WhenStageExitedBrick())

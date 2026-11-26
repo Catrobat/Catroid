@@ -1115,6 +1115,9 @@
     <string formatted="false" name="brick_parameterized_assert">preveri, ali</string>
     <string formatted="false" name="brick_parameterized_equals">je enako pričakovanemu elementu seznama</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuliraj gumb igralnega ploščka</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuliraj palico igralnega ploščka</string>
+    <string formatted="false" name="gamepad_stick_left">Leva</string>
+    <string formatted="false" name="gamepad_stick_right">Desna</string>
     <string formatted="false" name="gamepad_button_state_pressed">pritisnjen</string>
     <string formatted="false" name="gamepad_button_state_released">spuščen</string>
     <string formatted="false" name="gamepad_button_up">Gor</string>
@@ -1815,6 +1818,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gumb R1▾ fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gumb R2▾ fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gumb katerikoli▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">leva palica igralnega ploščka x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">leva palica igralnega ploščka y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">desna palica igralnega ploščka x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica igralnega ploščka y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Razširitev igralni plošček</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dovoli uporabo fizičnega igralnega ploščka</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamenjaj A/B in X/Y</string>

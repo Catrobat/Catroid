@@ -40,6 +40,9 @@ import java.util.concurrent.atomic.AtomicLong
  * A button is pressed while any [GamepadInputSource] holds it. Holding a button, repeated presses
  * from the same source, presses from further sources, and releases report nothing. A press and a
  * release within the same frame still report the press once.
+ *
+ * The analog sticks are no events, so their positions take effect at once: [setStickPosition] is
+ * visible to [stickPosition] right away, and the latest position wins.
  */
 class GamepadInput {
 
@@ -60,6 +63,10 @@ class GamepadInput {
     @Volatile
     private var pressedButtons: Set<GamepadButton> = emptySet()
 
+    /** Replaced as a whole on every change; a stick without an entry is centered. */
+    @Volatile
+    private var stickPositions: Map<GamepadStick, GamepadStickPosition> = emptyMap()
+
     /** Only used by the thread that calls [applyPendingInput] and [reset]. */
     private val heldSources: Map<GamepadButton, MutableSet<GamepadInputSource>> =
         GamepadButton.entries.associateWith { EnumSet.noneOf(GamepadInputSource::class.java) }
@@ -79,7 +86,24 @@ class GamepadInput {
      *
      * @return the sequence number of the queued change, see [isApplied]
      */
-    fun releaseAll(): Long = enqueue { sequence -> ReleaseAll(sequence) }
+    fun releaseAll(): Long {
+        centerSticks()
+        return enqueue { sequence -> ReleaseAll(sequence) }
+    }
+
+    /**
+     * Sets the position of [stick] at once, each axis limited to the range of
+     * [GamepadStickPosition]. Thread-safe.
+     */
+    fun setStickPosition(stick: GamepadStick, x: Double, y: Double) {
+        synchronized(issueLock) {
+            stickPositions = stickPositions + (stick to GamepadStickPosition.limited(x, y))
+        }
+    }
+
+    /** Returns the latest position of [stick], centered if none was set. Thread-safe. */
+    fun stickPosition(stick: GamepadStick): GamepadStickPosition =
+        stickPositions[stick] ?: GamepadStickPosition.CENTER
 
     /**
      * Applies the changes that were queued before this call, in order, and reports each button that
@@ -118,6 +142,13 @@ class GamepadInput {
             heldSources.values.forEach { it.clear() }
             pressedButtons = emptySet()
             lastAppliedSequence = lastIssuedSequence.get()
+        }
+        centerSticks()
+    }
+
+    private fun centerSticks() {
+        synchronized(issueLock) {
+            stickPositions = emptyMap()
         }
     }
 

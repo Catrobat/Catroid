@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">kontrollera att</string>
     <string formatted="false" name="brick_parameterized_equals">är lika med förväntat element i</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simulera spelkontrollknapp</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulera spelkontrollspak</string>
+    <string formatted="false" name="gamepad_stick_left">Vänster</string>
+    <string formatted="false" name="gamepad_stick_right">Höger</string>
     <string formatted="false" name="gamepad_button_state_pressed">nedtryckt</string>
     <string formatted="false" name="gamepad_button_state_released">släppt</string>
     <string formatted="false" name="gamepad_button_up">Upp</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelkontrollknapp R1▾ nedtryckt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelkontrollknapp R2▾ nedtryckt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelkontrollknapp valfri▾ nedtryckt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">vänster spelkontrollspak x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">vänster spelkontrollspak y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">höger spelkontrollspak x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">höger spelkontrollspak y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Spelkontrolltillägg</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillåt användning av en fysisk spelkontroll</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Byt plats på A/B och X/Y</string>

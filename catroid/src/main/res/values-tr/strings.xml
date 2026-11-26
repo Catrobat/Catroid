@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">doğrula:</string>
     <string formatted="false" name="brick_parameterized_equals">şu listenin beklenen öğesine eşit:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Oyun kumandası düğmesini simüle et</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Oyun kumandası çubuğunu simüle et</string>
+    <string formatted="false" name="gamepad_stick_left">Sol</string>
+    <string formatted="false" name="gamepad_stick_right">Sağ</string>
     <string formatted="false" name="gamepad_button_state_pressed">basılı</string>
     <string formatted="false" name="gamepad_button_state_released">bırakılmış</string>
     <string formatted="false" name="gamepad_button_up">Yukarı</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun kumandası R1▾ düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun kumandası R2▾ düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun kumandası herhangi bir▾ düğmesi basılı</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">oyun kumandası sol çubuk x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">oyun kumandası sol çubuk y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">oyun kumandası sağ çubuk x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">oyun kumandası sağ çubuk y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun kumandası uzantısı</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziksel oyun kumandası kullanımına izin verir</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ve X/Y\'yi değiştir</string>

@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">확인하기:</string>
     <string formatted="false" name="brick_parameterized_equals">이(가) 다음 리스트의 기대 항목과 같음:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">게임패드 버튼 시뮬레이션하기</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">게임패드 스틱 시뮬레이션하기</string>
+    <string formatted="false" name="gamepad_stick_left">왼쪽</string>
+    <string formatted="false" name="gamepad_stick_right">오른쪽</string>
     <string formatted="false" name="gamepad_button_state_pressed">눌림</string>
     <string formatted="false" name="gamepad_button_state_released">떼어짐</string>
     <string formatted="false" name="gamepad_button_up">위</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">게임패드 버튼 R1▾ 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">게임패드 버튼 R2▾ 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">게임패드 아무▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">게임패드 왼쪽 스틱 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">게임패드 왼쪽 스틱 y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">게임패드 오른쪽 스틱 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">게임패드 오른쪽 스틱 y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">게임패드 확장 기능</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">물리 게임패드 사용 허용</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B 및 X/Y 바꾸기</string>

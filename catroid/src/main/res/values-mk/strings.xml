@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">провери дали</string>
     <string formatted="false" name="brick_parameterized_equals">е еднакво на очекуваната ставка од</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Симулирај копче на геимпад</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Симулирај палка на геимпад</string>
+    <string formatted="false" name="gamepad_stick_left">Лева</string>
+    <string formatted="false" name="gamepad_stick_right">Десна</string>
     <string formatted="false" name="gamepad_button_state_pressed">притиснато</string>
     <string formatted="false" name="gamepad_button_state_released">отпуштено</string>
     <string formatted="false" name="gamepad_button_up">Горе</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">копчето R1▾ на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">копчето R2▾ на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">копчето кое било▾ на физичкиот геимпад е притиснато</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">лева палка на геимпадот x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">лева палка на геимпадот y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">десна палка на геимпадот x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">десна палка на геимпадот y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Проширување за геимпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволи користење на физички геимпад</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Замени A/B и X/Y</string>

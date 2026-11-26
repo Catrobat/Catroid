@@ -59,10 +59,13 @@ class GamepadButtonSensorListItemTest {
     }
 
     @Test
-    fun `device sensors end with the gamepad button sensor when the setting is on`() {
+    fun `device sensors end with the gamepad button sensor and the stick sensors when the setting is on`() {
         setPhysicalGamepadSetting(true)
 
-        val gamepadItem = deviceSensorItems().last()
+        val items = deviceSensorItems()
+        val gamepadItem = items[items.size - STICK_SENSOR_NAME_RES_IDS.size - 1]
+
+        assertEquals(STICK_SENSOR_NAME_RES_IDS, items.takeLast(STICK_SENSOR_NAME_RES_IDS.size).map { it.nameResId })
 
         assertEquals(R.string.formula_editor_sensor_gamepad_button_a_pressed, gamepadItem.nameResId)
         assertEquals("gamepad button A▾ pressed", gamepadItem.text)
@@ -81,7 +84,7 @@ class GamepadButtonSensorListItemTest {
                 R.string.formula_editor_sensor_user_language,
                 R.string.formula_editor_sensor_gamepad_button_a_pressed
             ),
-            resIds.takeLast(2)
+            resIds.dropLast(STICK_SENSOR_NAME_RES_IDS.size).takeLast(2)
         )
     }
 
@@ -129,6 +132,13 @@ class GamepadButtonSensorListItemTest {
     }
 
     private companion object {
+        val STICK_SENSOR_NAME_RES_IDS = listOf(
+            R.string.formula_editor_sensor_gamepad_left_stick_x,
+            R.string.formula_editor_sensor_gamepad_left_stick_y,
+            R.string.formula_editor_sensor_gamepad_right_stick_x,
+            R.string.formula_editor_sensor_gamepad_right_stick_y
+        )
+
         val GAMEPAD_BUTTON_SENSOR_NAME_RES_IDS = setOf(
             R.string.formula_editor_sensor_gamepad_button_a_pressed,
             R.string.formula_editor_sensor_gamepad_button_b_pressed,

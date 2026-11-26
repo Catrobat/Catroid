@@ -992,6 +992,9 @@
     <string formatted="false" name="brick_parameterized_assert">ตรวจสอบว่า</string>
     <string formatted="false" name="brick_parameterized_equals">เท่ากับรายการที่คาดไว้ของ</string>
     <string formatted="false" name="brick_simulate_gamepad_button">จำลองปุ่มเกมแพด</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">จำลองก้านเกมแพด</string>
+    <string formatted="false" name="gamepad_stick_left">ซ้าย</string>
+    <string formatted="false" name="gamepad_stick_right">ขวา</string>
     <string formatted="false" name="gamepad_button_state_pressed">กด</string>
     <string formatted="false" name="gamepad_button_state_released">ปล่อย</string>
     <string formatted="false" name="gamepad_button_up">ขึ้น</string>
@@ -1680,6 +1683,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ปุ่มเกมแพด R1▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ปุ่มเกมแพด R2▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ปุ่มเกมแพดใดก็ได้▾ถูกกด</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ก้านซ้ายของเกมแพด x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ก้านซ้ายของเกมแพด y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ก้านขวาของเกมแพด x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ก้านขวาของเกมแพด y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ส่วนขยายเกมแพด</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">อนุญาตให้ใช้เกมแพดจริง</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">สลับ A/B และ X/Y</string>

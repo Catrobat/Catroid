@@ -1033,6 +1033,9 @@
     <string formatted="false" name="brick_parameterized_assert">ਜਾਂਚੋ:</string>
     <string formatted="false" name="brick_parameterized_equals">ਇਸ ਦੀ ਉਮੀਦ ਕੀਤੀ ਆਈਟਮ ਦੇ ਬਰਾਬਰ ਹੈ:</string>
     <string formatted="false" name="brick_simulate_gamepad_button">ਗੇਮਪੈਡ ਬਟਨ ਸਿਮੂਲੇਟ ਕਰੋ</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ਗੇਮਪੈਡ ਸਟਿੱਕ ਸਿਮੂਲੇਟ ਕਰੋ</string>
+    <string formatted="false" name="gamepad_stick_left">ਖੱਬੀ</string>
+    <string formatted="false" name="gamepad_stick_right">ਸੱਜੀ</string>
     <string formatted="false" name="gamepad_button_state_pressed">ਦਬਾਇਆ</string>
     <string formatted="false" name="gamepad_button_state_released">ਛੱਡਿਆ</string>
     <string formatted="false" name="gamepad_button_up">ਉੱਪਰ</string>
@@ -1725,6 +1728,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ਗੇਮਪੈਡ ਬਟਨ R1▾ ਦਬਾਇਆ ਗਿਆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ਗੇਮਪੈਡ ਬਟਨ R2▾ ਦਬਾਇਆ ਗਿਆ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ਗੇਮਪੈਡ ਬਟਨ ਕੋਈ ਵੀ▾ ਦਬਾਇਆ ਗਿਆ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ਗੇਮਪੈਡ ਖੱਬੀ ਸਟਿੱਕ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ਗੇਮਪੈਡ ਖੱਬੀ ਸਟਿੱਕ y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ਗੇਮਪੈਡ ਸੱਜੀ ਸਟਿੱਕ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ਗੇਮਪੈਡ ਸੱਜੀ ਸਟਿੱਕ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ਗੇਮਪੈਡ ਐਕਸਟੈਂਸ਼ਨ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ਫਿਜ਼ੀਕਲ ਗੇਮਪੈਡ ਵਰਤਣ ਦਿਓ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ਅਤੇ X/Y ਅਦਲਾ-ਬਦਲੀ ਕਰੋ</string>

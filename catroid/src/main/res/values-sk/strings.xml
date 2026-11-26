@@ -1115,6 +1115,9 @@
     <string formatted="false" name="brick_parameterized_assert">over, že</string>
     <string formatted="false" name="brick_parameterized_equals">sa rovná očakávanej položke zo zoznamu</string>
     <string formatted="false" name="brick_simulate_gamepad_button">Simuluj tlačidlo gamepadu</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuluj páčku gamepadu</string>
+    <string formatted="false" name="gamepad_stick_left">Ľavá</string>
+    <string formatted="false" name="gamepad_stick_right">Pravá</string>
     <string formatted="false" name="gamepad_button_state_pressed">stlačené</string>
     <string formatted="false" name="gamepad_button_state_released">uvoľnené</string>
     <string formatted="false" name="gamepad_button_up">Hore</string>
@@ -1815,6 +1818,10 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačidlo gamepadu R1▾ stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačidlo gamepadu R2▾ stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tlačidlo gamepadu ľubovoľné▾ stlačené</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ľavá páčka gamepadu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ľavá páčka gamepadu y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">pravá páčka gamepadu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">pravá páčka gamepadu y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozšírenie gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Umožniť používanie fyzického gamepadu</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Vymeniť A/B a X/Y</string>
