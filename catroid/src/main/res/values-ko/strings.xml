@@ -1689,6 +1689,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">게임패드 오른쪽 스틱 y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">게임패드 확장 기능</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">물리 게임패드 사용 허용</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">블록 및 센서 활성화</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B 및 X/Y 바꾸기</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A와 B, X와 Y를 반대로 보고하는 게임패드용</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">무대 너비</string>

@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">leva e djathtë e tastierës së lojës y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Shtesa tastierë loje</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Lejo përdorimin e një tastiere fizike loje</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktivizo blloqet dhe sensorët</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ndërro A/B dhe X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Për tastierat e lojës që i raportojnë A dhe B, si dhe X dhe Y, së prapthi</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>

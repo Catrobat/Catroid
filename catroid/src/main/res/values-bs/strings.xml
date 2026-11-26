@@ -1779,6 +1779,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica gamepada y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dozvoli korištenje fizičkog gamepada</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Omogući blokove i senzore</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamijeni A/B i X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Za gamepade koji A i B te X i Y prijavljuju obrnuto</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>

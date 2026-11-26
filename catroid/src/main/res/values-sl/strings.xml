@@ -1824,6 +1824,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica igralnega ploščka y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Razširitev igralni plošček</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dovoli uporabo fizičnega igralnega ploščka</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Omogoči kocke in senzorje</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamenjaj A/B in X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Za igralne ploščke, ki A in B ter X in Y sporočajo obratno</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina odra</string>

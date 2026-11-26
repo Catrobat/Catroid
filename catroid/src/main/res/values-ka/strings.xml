@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">გეიმპადის მარჯვენა ჯოისტიკი y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">გეიმპადის გაფართოება</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ფიზიკური გეიმპადის გამოყენების დაშვება</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ბლოკებისა და სენსორების ჩართვა</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B და X/Y-ის გაცვლა</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">გეიმპადებისთვის, რომლებიც A-სა და B-ს, X-სა და Y-ს პირიქით აწვდიან</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">სცენის სიგანე</string>

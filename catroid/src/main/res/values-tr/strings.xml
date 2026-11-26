@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">oyun kumandası sağ çubuk y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun kumandası uzantısı</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziksel oyun kumandası kullanımına izin verir</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Blokları ve sensörleri etkinleştir</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ve X/Y\'yi değiştir</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A ile B\'yi ve X ile Y\'yi ters bildiren oyun kumandaları için</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahne genişliği</string>

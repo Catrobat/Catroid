@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">kanang stick ng gamepad y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension para sa gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Payagan ang paggamit ng pisikal na gamepad</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">I-enable ang mga block at sensor</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Pagpalitin ang A/B at X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para sa mga gamepad na baligtad mag-ulat ng A at B, at ng X at Y</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lapad ng entablado</string>

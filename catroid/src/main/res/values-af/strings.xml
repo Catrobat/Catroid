@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">spelbeheerder regterstok y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Uitbreiding spelbeheerder</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Laat die gebruik van \'n fisiese spelbeheerder toe</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktiveer blokke en sensors</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ruil A/B en X/Y om</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Vir beheerders wat A en B, en X en Y, andersom rapporteer</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">verhoogwydte</string>

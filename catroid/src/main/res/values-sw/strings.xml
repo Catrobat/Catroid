@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">kijiti cha kulia cha gamepad y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kiendelezi cha gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Ruhusu matumizi ya gamepad halisi</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Washa vipande na vihisi</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Badilisha A/B na X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Kwa gamepad zinazoripoti A na B, na X na Y, kinyume</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">upana wa jukwaa</string>

@@ -1689,6 +1689,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ゲームパッドの右スティック y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ゲームパッド拡張機能</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">物理ゲームパッドを使用できるようにする</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B と X/Y を入れ替える</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A と B、X と Y を逆に報告するゲームパッド用</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ステージの幅</string>

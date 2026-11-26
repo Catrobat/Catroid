@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">गेमपैड दाईं स्टिक y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">गेमपैड एक्सटेंशन</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">फ़िज़िकल गेमपैड के उपयोग की अनुमति दें</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B और X/Y की अदला-बदली करें</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">उन गेमपैड के लिए जो A और B, तथा X और Y उल्टा बताते हैं</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">मंच की चौड़ाई</string>

@@ -1689,6 +1689,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">batang kanan pad permainan y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Sambungan pad permainan</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Benarkan penggunaan pad permainan fizikal</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Dayakan blok dan penderia</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Untuk pad permainan yang melaporkan A dan B, serta X dan Y, secara terbalik</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar pentas</string>

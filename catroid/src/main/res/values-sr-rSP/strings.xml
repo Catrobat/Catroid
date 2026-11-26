@@ -1779,6 +1779,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">десна палица контролера y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Проширење контролер</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволи коришћење физичког контролера</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Укључи блокове и сензоре</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Замени A/B и X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">За контролере који A и B, као и X и Y, пријављују обрнуто</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина позорнице</string>

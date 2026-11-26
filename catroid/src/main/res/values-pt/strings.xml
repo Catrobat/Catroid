@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">manípulo direito do comando y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensão comando</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir a utilização de um comando físico</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Ativar blocos e sensores</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trocar A/B e X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para comandos que indicam A e B, e X e Y, ao contrário</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largura do palco</string>

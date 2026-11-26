@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ajeǧǧiḍ ayeffus n umsenqed n wurar y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Asiɣzef n umsenqed n wurar</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Sireg aseqdec n umsenqed n wurar n tidet</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Rmed iblugen d imaṭṭafen</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Beddel A/B d X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">I yimsenqaden n wurar i d-yettazznen A d B, akked X d Y, s umgal</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">tehri n usayes</string>

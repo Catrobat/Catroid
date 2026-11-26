@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">د ګیم‌پیډ ښۍ لښته y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د ګیم‌پیډ توسیع</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">د فزیکي ګیم‌پیډ کارولو ته اجازه ورکړئ</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">بلاکونه او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B او X/Y بدل کړئ</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">د هغو ګیم‌پیډونو لپاره چې A او B، او X او Y برعکس راپوروي</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>

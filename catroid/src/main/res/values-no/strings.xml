@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">høyre spillkontrollspak y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Utvidelse for spillkontroll</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillat bruk av en fysisk spillkontroll</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktiver klosser og sensorer</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Bytt A/B og X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">For spillkontroller som melder A og B, og X og Y, omvendt</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spilleflatens bredde</string>

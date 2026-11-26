@@ -1689,6 +1689,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">游戏手柄右摇杆 y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">游戏手柄扩展</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">允许使用实体游戏手柄</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">启用积木和传感器</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">交换 A/B 和 X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">用于 A 与 B、X 与 Y 反向报告的游戏手柄</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">舞台宽度</string>

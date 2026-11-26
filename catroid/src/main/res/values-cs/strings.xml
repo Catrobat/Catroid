@@ -1824,6 +1824,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">pravá páčka gamepadu y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozšíření gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Povolit používání fyzického gamepadu</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Zapnout bloky a senzory</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Prohodit A/B a X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pro gamepady, které hlásí A a B i X a Y obráceně</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šířka jeviště</string>

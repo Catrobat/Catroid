@@ -1824,6 +1824,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">правый стик геймпада y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Расширение геймпада</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Разрешить использование физического геймпада</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Включить блоки и датчики</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Поменять местами A/B и X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Для геймпадов, которые передают A и B, а также X и Y наоборот</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина сцены</string>

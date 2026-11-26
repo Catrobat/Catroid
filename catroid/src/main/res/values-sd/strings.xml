@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">گيم پيڊ ساڄي لٺ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گيم پيڊ ايڪسٽينشن</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">فزيڪل گيم پيڊ استعمال ڪرڻ جي اجازت ڏيو</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">بلاڪ ۽ سينسر فعال ڪريو</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ۽ X/Y مٽايو</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">انهن گيم پيڊن لاءِ جيڪي A ۽ B، ۽ X ۽ Y ابتو ٻڌائين ٿا</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٽيج جي ويڪر</string>

@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ഗെയിംപാഡ് വലത് സ്റ്റിക്ക് y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ഗെയിംപാഡ് എക്സ്റ്റൻഷൻ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ഫിസിക്കൽ ഗെയിംപാഡ് ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B, X/Y പരസ്പരം മാറ്റുക</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A, B എന്നിവയും X, Y എന്നിവയും തിരിച്ച് അറിയിക്കുന്ന ഗെയിംപാഡുകൾക്കായി</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">വേദിയുടെ വീതി</string>

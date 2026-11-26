@@ -1779,6 +1779,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ידית ימנית בשלט y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">הרחבת שלט</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">מאפשר שימוש בשלט פיזי</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">הפעלת לבנים וחיישנים</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">החלפת A/B ו-X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">לשלטים שמדווחים על A ו-B, ועל X ו-Y, בסדר הפוך</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>

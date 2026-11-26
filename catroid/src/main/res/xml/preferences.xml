@@ -120,18 +120,10 @@
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_physical_gamepad_bricks"
+    <PreferenceScreen
+        android:key="setting_gamepad_screen"
         android:summary="@string/preference_description_physical_gamepad_bricks"
         android:title="@string/preference_title_enable_physical_gamepad_bricks" />
-
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:dependency="setting_physical_gamepad_bricks"
-        android:key="setting_gamepad_swap_face_buttons"
-        android:summary="@string/preference_description_gamepad_swap_face_buttons"
-        android:title="@string/preference_title_gamepad_swap_face_buttons" />
 
     <CheckBoxPreference
         android:defaultValue="false"

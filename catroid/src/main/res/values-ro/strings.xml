@@ -1779,6 +1779,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joystickul drept al gamepadului y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensia gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permite utilizarea unui gamepad fizic</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activează blocurile și senzorii</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inversează A/B și X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pentru gamepaduri care raportează A și B, precum și X și Y, invers</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lățimea zonei de joc</string>

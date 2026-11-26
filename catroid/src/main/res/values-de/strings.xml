@@ -1732,6 +1732,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">rechter Gamepad-Stick y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Erweiterung Gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Erlaubt die Verwendung eines physischen Gamepads</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Bausteine und Sensoren aktivieren</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B und X/Y tauschen</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Für Gamepads, die A und B sowie X und Y vertauscht melden</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">Bühnenbreite</string>

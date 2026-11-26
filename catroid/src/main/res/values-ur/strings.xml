@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">گیم پیڈ دائیں اسٹک y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گیم پیڈ ایکسٹینشن</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">فزیکل گیم پیڈ کے استعمال کی اجازت دیں</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">بلاکس اور سینسرز فعال کریں</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B اور X/Y کو بدلیں</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">ان گیم پیڈز کے لیے جو A اور B، اور X اور Y الٹا بتاتے ہیں</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٹیج کی چوڑائی</string>

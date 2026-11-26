@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">gamepad dua nifa y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad ntrɛmu</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Ma kwan ma wɔmfa gamepad ankasa nni dwuma</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Ma blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sesa A/B ne X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Ma gamepad a ɛka A ne B, ne X ne Y, nnan</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agoprama tɛtrɛtɛ</string>

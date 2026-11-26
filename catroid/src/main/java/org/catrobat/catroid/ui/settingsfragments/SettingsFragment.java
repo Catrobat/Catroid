@@ -134,6 +134,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	public static final String MQTT_SCREEN_KEY = "settings_mqtt_screen";
+	public static final String GAMEPAD_SCREEN_KEY = "setting_gamepad_screen";
 	public static final String SETTINGS_SHOW_MQTT_BRICKS = "setting_mqtt_bricks";
 	public static final String MQTT_CONNECTION_SETTINGS_CATEGORY = "setting_mqtt_category";
 	public static final String MQTT_HOST = "setting_mqtt_host";
@@ -285,6 +286,12 @@ public class SettingsFragment extends PreferenceFragment {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new MqttSettingsFragment(), MqttSettingsFragment.TAG)
 						.addToBackStack(MqttSettingsFragment.TAG)
+						.commit();
+				break;
+			case GAMEPAD_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new GamepadSettingsFragment(), GamepadSettingsFragment.TAG)
+						.addToBackStack(GamepadSettingsFragment.TAG)
 						.commit();
 				break;
 		}

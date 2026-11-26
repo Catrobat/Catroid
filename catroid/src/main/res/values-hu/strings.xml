@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">játékvezérlő jobb kar y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Játékvezérlő bővítmény</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Engedélyezi egy fizikai játékvezérlő használatát</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Blokkok és érzékelők engedélyezése</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B és X/Y felcserélése</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Olyan játékvezérlőkhöz, amelyek az A és B, valamint az X és Y gombot fordítva jelzik</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>

@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joystick droit de la manette y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activer les briques et les capteurs</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inverser A/B et X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pour les manettes qui signalent A et B, ainsi que X et Y, à l\'inverse</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>

@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">gamepad højre pind y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad-udvidelse</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillad brug af en fysisk gamepad</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktivér klodser og sensorer</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Byt om på A/B og X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Til gamepads, der melder A og B samt X og Y omvendt</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spillefladens bredde</string>

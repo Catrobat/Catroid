@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ਗੇਮਪੈਡ ਸੱਜੀ ਸਟਿੱਕ y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ਗੇਮਪੈਡ ਐਕਸਟੈਂਸ਼ਨ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ਫਿਜ਼ੀਕਲ ਗੇਮਪੈਡ ਵਰਤਣ ਦਿਓ</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਚਾਲੂ ਕਰੋ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ਅਤੇ X/Y ਅਦਲਾ-ਬਦਲੀ ਕਰੋ</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">ਉਹਨਾਂ ਗੇਮਪੈਡਾਂ ਲਈ ਜੋ A ਅਤੇ B, ਅਤੇ X ਅਤੇ Y ਉਲਟ ਦੱਸਦੇ ਹਨ</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ਸਟੇਜ ਦੀ ਚੌੜਾਈ</string>

@@ -1689,6 +1689,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ก้านขวาของเกมแพด y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ส่วนขยายเกมแพด</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">อนุญาตให้ใช้เกมแพดจริง</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">เปิดใช้งานบล็อกและเซ็นเซอร์</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">สลับ A/B และ X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">สำหรับเกมแพดที่รายงาน A กับ B และ X กับ Y สลับกัน</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>

@@ -1734,6 +1734,7 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">десен стик на геймпада y</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Разширение за геймпад</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Позволи използването на физически геймпад</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Включи блоковете и сензорите</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Размени A/B и X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">За геймпади, които съобщават A и B, както и X и Y, наобратно</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на сцената</string>
