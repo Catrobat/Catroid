@@ -1817,6 +1817,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">przycisk gamepada dowolny▾ naciśnięty</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozszerzenie gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Pozwala na używanie fizycznego gamepada</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamień A/B i X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Dla gamepadów, które zgłaszają A i B oraz X i Y odwrotnie</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">szerokość sceny</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">wysokość sceny</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro przedni lewy czujnik</string>

@@ -1817,6 +1817,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">žaidimų pulto mygtukas „bet kuris“▾ paspaustas</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Žaidimų pulto plėtinys</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Leisti naudoti fizinį žaidimų pultą</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sukeisti A/B ir X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Žaidimų pultams, kurie A ir B bei X ir Y praneša atvirkščiai</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">scenos plotis</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">scenos aukštis</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro priekinis kairysis jutiklis</string>

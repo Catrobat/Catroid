@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾ basılıb</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun pultu genişlənməsi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziki oyun pultundan istifadəyə icazə verin</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B və X/Y-ni dəyiş</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A və B, X və Y düymələrini tərsinə bildirən pultlar üçün</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">səhnənin hündürlüyü</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ön sol sensor</string>

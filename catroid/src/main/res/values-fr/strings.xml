@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾ de la manette physique appuyé</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inverser A/B et X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pour les manettes qui signalent A et B, ainsi que X et Y, à l\'inverse</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hauteur du plateau</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">capteur avant gauche phiro</string>

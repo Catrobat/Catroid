@@ -77,6 +77,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionAdaptingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -138,7 +139,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		isFromShortcut = getIntent().getBooleanExtra(EXTRA_IS_FROM_SHORTCUT, false);
-		gamepadInputAdapter = StageGamepadInputAdapterFactory.create(ProjectManager.getInstance().getCurrentProject());
+		gamepadInputAdapter = StageGamepadInputAdapterFactory.create(ProjectManager.getInstance().getCurrentProject(),
+				SettingsFragment.isGamepadFaceButtonSwapEnabled(this));
 		StageLifeCycleController.stageCreate(this);
 		activeStageActivity = new WeakReference<>(this);
 	}

@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾ அழுத்தப்பட்டது</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">கேம்பேட் நீட்சி</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">வன்பொருள் கேம்பேடைப் பயன்படுத்த அனுமதி</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B மற்றும் X/Y ஐ இடமாற்று</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A, B மற்றும் X, Y ஐத் தலைகீழாகத் தெரிவிக்கும் கேம்பேட்களுக்கு</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">மேடையின் உயரம்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro முன் இடது உணரி</string>

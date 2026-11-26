@@ -1682,6 +1682,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">游戏手柄任意▾按钮被按下</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">游戏手柄扩展</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">允许使用实体游戏手柄</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">交换 A/B 和 X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">用于 A 与 B、X 与 Y 反向报告的游戏手柄</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">舞台宽度</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">舞台高度</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前传感器</string>

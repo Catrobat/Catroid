@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">геймпад түймесі кез келген▾ басулы</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Геймпад кеңейтімі</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Физикалық геймпадты пайдалануға рұқсат ету</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B және X/Y ауыстыру</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A мен B, X пен Y түймелерін керісінше хабарлайтын геймпадтар үшін</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">сахна ені</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">сахна биіктігі</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro алдыңғы сол сенсоры</string>

@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾ del comandament físic premut</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensió comandament</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permet l\'ús d\'un comandament físic</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercanvia A/B i X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Per a comandaments que indiquen A i B, i X i Y, al revés</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">alçada de l\'escenari</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor frontal esquerre del phiro</string>

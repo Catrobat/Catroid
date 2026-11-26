@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">an danna maɓallin gamepad kowane▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ƙarin gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Bari a yi amfani da gamepad na zahiri</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Musanya A/B da X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Don gamepad da ke bayar da A da B, da X da Y, a juye</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">faɗin fage</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tsayin fage</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensar gaba ta hagu ta phiro</string>

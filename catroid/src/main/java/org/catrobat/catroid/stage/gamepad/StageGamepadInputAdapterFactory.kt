@@ -33,14 +33,17 @@ object StageGamepadInputAdapterFactory {
      * Creates an adapter that forwards controller input to the gamepad input of the running stage,
      * if there is one, and consumes only the buttons that [project] handles, see
      * [GamepadUsage.isHandledByStage]. For a project without gamepad elements it consumes only B,
-     * which acts like Android Back, so Android keeps handling all other controller input.
+     * which acts like Android Back, so Android keeps handling all other controller input. With
+     * [swapsFaceButtons], A and B, and X and Y, change places.
      */
     @JvmStatic
-    fun create(project: Project?): AndroidGamepadInputAdapter {
+    @JvmOverloads
+    fun create(project: Project?, swapsFaceButtons: Boolean = false): AndroidGamepadInputAdapter {
         val usage = GamepadUsage.of(project)
         return AndroidGamepadInputAdapter(
             gamepadInput = { StageActivity.stageListener?.gamepadInput },
-            isButtonHandled = usage::isHandledByStage
+            isButtonHandled = usage::isHandledByStage,
+            swapsFaceButtons = swapsFaceButtons
         )
     }
 }

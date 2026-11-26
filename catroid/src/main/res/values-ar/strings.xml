@@ -1907,6 +1907,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">زر لوحة الألعاب أي▾ مضغوط</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">إضافة لوحة الألعاب</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">السماح باستخدام لوحة ألعاب فعلية</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">تبديل A/B و X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">للوحات الألعاب التي تُبلغ عن A وB، وX وY، بشكل معكوس</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">عرض المسرح</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع المسرح</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">المستشعر الأمامي الأيسر في Phiro</string>

@@ -1682,6 +1682,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">nút tay cầm bất kỳ▾ được nhấn</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Tiện ích mở rộng tay cầm</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Cho phép sử dụng tay cầm vật lý</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Hoán đổi A/B và X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Dành cho tay cầm báo A và B, X và Y ngược nhau</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">chiều rộng sân khấu</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">chiều cao sân khấu</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">cảm biến trước bên trái phiro</string>

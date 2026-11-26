@@ -2024,6 +2024,8 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad button any▾ pressed</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad extension</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Allow the use of a physical gamepad</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Swap A/B and X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">For controllers that report A and B, and X and Y, the other way round</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>

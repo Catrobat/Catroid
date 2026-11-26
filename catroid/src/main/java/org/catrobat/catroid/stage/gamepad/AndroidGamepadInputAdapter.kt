@@ -48,12 +48,21 @@ import kotlin.math.max
  * one thread only. To release every button when a controller is removed, [register] it as
  * [InputManager.InputDeviceListener].
  *
+ * With [swapsFaceButtons], the reported A and B, and X and Y, change places, for controllers that
+ * report them the other way round. Android still sees the reported key, so a reported B that the
+ * project does not handle is consumed instead of acting as Back, and a reported A that counts as an
+ * unhandled B calls [pressBack] when it is released.
+ *
  * @param gamepadInput returns the gamepad input of the running stage, or `null` if there is none
  * @param isButtonHandled returns whether the running project handles the given button
+ * @param swapsFaceButtons whether A and B, and X and Y, change places
+ * @param pressBack presses Android Back for an unhandled B when [swapsFaceButtons] is set
  */
-class AndroidGamepadInputAdapter(
+class AndroidGamepadInputAdapter @JvmOverloads constructor(
     private val gamepadInput: () -> GamepadInput?,
-    private val isButtonHandled: (GamepadButton) -> Boolean
+    private val isButtonHandled: (GamepadButton) -> Boolean,
+    private val swapsFaceButtons: Boolean = false,
+    private val pressBack: () -> Unit = {}
 ) : InputManager.InputDeviceListener {
 
     /** The triggers whose travel counted as pressed in the last joystick move. */
@@ -66,11 +75,15 @@ class AndroidGamepadInputAdapter(
      * @return true if the event is consumed, false if Android should handle it
      */
     fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        val button = KEY_CODE_BUTTONS[event.keyCode] ?: return false
+        val reportedButton = KEY_CODE_BUTTONS[event.keyCode] ?: return false
         if (!isFromGameController(event)) {
             return false
         }
-        val input = inputForHandledButton(button) ?: return false
+        val input = gamepadInput() ?: return false
+        val button = if (swapsFaceButtons) swappedFaceButton(reportedButton) else reportedButton
+        if (!isButtonHandled(button)) {
+            return consumesUnhandledSwappedButton(event, reportedButton, button)
+        }
         if (event.repeatCount == 0) {
             when (event.action) {
                 KeyEvent.ACTION_DOWN -> input.setButtonState(button, GamepadInputSource.KEY, true)
@@ -140,8 +153,38 @@ class AndroidGamepadInputAdapter(
         return GAME_CONTROLLER_SOURCES.any(device::supportsSource)
     }
 
-    private fun inputForHandledButton(button: GamepadButton): GamepadInput? =
-        gamepadInput()?.takeIf { isButtonHandled(button) }
+    /**
+     * Keeps Android from seeing the Back of a reported B that counts as A, and presses Back for a
+     * reported A that counts as B, because Android only knows the reported key.
+     */
+    private fun consumesUnhandledSwappedButton(
+        event: KeyEvent,
+        reportedButton: GamepadButton,
+        button: GamepadButton
+    ): Boolean {
+        if (!swapsFaceButtons || reportedButton == button) {
+            return false
+        }
+        return when {
+            reportedButton == GamepadButton.B -> true
+            button == GamepadButton.B -> {
+                if (event.action == KeyEvent.ACTION_UP && event.repeatCount == 0) {
+                    pressBack()
+                }
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun swappedFaceButton(button: GamepadButton): GamepadButton =
+        when (button) {
+            GamepadButton.A -> GamepadButton.B
+            GamepadButton.B -> GamepadButton.A
+            GamepadButton.X -> GamepadButton.Y
+            GamepadButton.Y -> GamepadButton.X
+            else -> button
+        }
 
     private fun axisButtonStates(event: MotionEvent): List<AxisButtonState> {
         val hatX = event.getAxisValue(MotionEvent.AXIS_HAT_X)

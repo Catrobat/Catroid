@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">κουμπί οποιοδήποτε▾ φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Επέκταση χειριστηρίου</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Επιτρέπει τη χρήση φυσικού χειριστηρίου</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Εναλλαγή A/B και X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Για χειριστήρια που αναφέρουν ανάποδα τα A και B, καθώς και τα X και Y</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ύψος σκηνής</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">μπροστινός αριστερός αισθητήρας phiro</string>

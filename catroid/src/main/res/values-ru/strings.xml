@@ -1817,6 +1817,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">на геймпаде нажата кнопка \"любая\"▾</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Расширение геймпада</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Разрешить использование физического геймпада</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Поменять местами A/B и X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Для геймпадов, которые передают A и B, а также X и Y наоборот</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина сцены</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">высота сцены</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">передний левый датчик phiro</string>

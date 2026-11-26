@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">గేమ్‌ప్యాడ్ బటన్ ఏదైనా▾ నొక్కబడింది</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">గేమ్‌ప్యాడ్ ఎక్స్‌టెన్షన్</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ వాడకాన్ని అనుమతించండి</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B మరియు X/Y మార్చు</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A మరియు B, X మరియు Y లను తారుమారుగా తెలిపే గేమ్‌ప్యాడ్‌ల కోసం</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">వేదిక వెడల్పు</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">వేదిక ఎత్తు</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro ముందు ఎడమ సెన్సార్</string>

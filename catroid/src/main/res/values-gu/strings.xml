@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ગેમપૅડ બટન કોઈપણ▾ દબાવ્યું</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ગેમપૅડ એક્સ્ટેન્શન</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ભૌતિક ગેમપૅડનો ઉપયોગ કરવાની મંજૂરી આપો</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B અને X/Y અદલાબદલી કરો</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">જે ગેમપૅડ A અને B, તથા X અને Y ઊલટા જણાવે છે તેમના માટે</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">મંચની પહોળાઈ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">મંચની ઊંચાઈ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro આગળનું ડાબું સેન્સર</string>

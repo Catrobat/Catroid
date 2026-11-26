@@ -46,6 +46,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
 import org.catrobat.catroid.stage.gamepad.GamepadUsage
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.NumberFormats
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 
@@ -108,7 +109,11 @@ open class FormulaEditorComputeDialog(
         val usedGamepadButtons =
             GamepadUsage.buttonsForCompute(formula, ProjectManager.getInstance().currentProject)
         gamepadInput = usedGamepadButtons.takeIf { it.isNotEmpty() }?.let { buttons ->
-            FormulaEditorGamepadInput(buttons) { showFormulaResult(scope, AndroidStringProvider(context)) }
+            FormulaEditorGamepadInput(
+                usedButtons = buttons,
+                swapsFaceButtons = SettingsFragment.isGamepadFaceButtonSwapEnabled(context),
+                pressBack = ::cancel
+            ) { showFormulaResult(scope, AndroidStringProvider(context)) }
         }
     }
 

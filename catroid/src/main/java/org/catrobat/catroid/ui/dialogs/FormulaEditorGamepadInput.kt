@@ -43,13 +43,17 @@ import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter
  */
 class FormulaEditorGamepadInput(
     usedButtons: Set<GamepadButton>,
+    swapsFaceButtons: Boolean = false,
+    pressBack: () -> Unit = {},
     private val onChanged: () -> Unit
 ) : InputManager.InputDeviceListener {
 
     private val input = GamepadInput()
     private val adapter = AndroidGamepadInputAdapter(
         gamepadInput = { input },
-        isButtonHandled = { button -> button in usedButtons }
+        isButtonHandled = { button -> button in usedButtons },
+        swapsFaceButtons = swapsFaceButtons,
+        pressBack = pressBack
     )
     private var inputManager: InputManager? = null
 

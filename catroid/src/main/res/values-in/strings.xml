@@ -1682,6 +1682,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tombol gamepad apa saja▾ ditekan</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ekstensi gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Izinkan penggunaan gamepad fisik</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Untuk gamepad yang melaporkan A dan B, serta X dan Y, secara terbalik</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi panggung</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor depan kiri phiro</string>

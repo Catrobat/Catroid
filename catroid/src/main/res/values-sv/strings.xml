@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelkontrollknapp valfri▾ nedtryckt</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Spelkontrolltillägg</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillåt användning av en fysisk spelkontroll</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Byt plats på A/B och X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">För spelkontroller som rapporterar A och B samt X och Y omvänt</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spelplanens bredd</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spelplanens höjd</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro främre vänstra sensor</string>

@@ -1772,6 +1772,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">כפתור השלט כלשהו▾ נלחץ</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">הרחבת שלט</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">מאפשר שימוש בשלט פיזי</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">החלפת A/B ו-X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">לשלטים שמדווחים על A ו-B, ועל X ו-Y, בסדר הפוך</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">גובה הבמה</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">חיישן קדמי שמאלי של Phiro</string>

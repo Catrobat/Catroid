@@ -1725,6 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">Gamepad-Taste beliebig▾ gedrückt</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Erweiterung Gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Erlaubt die Verwendung eines physischen Gamepads</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B und X/Y tauschen</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Für Gamepads, die A und B sowie X und Y vertauscht melden</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">Bühnenbreite</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">Bühnenhöhe</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro Sensor vorne links</string>

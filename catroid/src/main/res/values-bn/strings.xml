@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">গেমপ্যাডের যেকোনো▾ বোতাম চাপা হয়েছে</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">গেমপ্যাড এক্সটেনশন</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">একটি ফিজিক্যাল গেমপ্যাড ব্যবহারের অনুমতি দিন</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B এবং X/Y অদলবদল করুন</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">যেসব গেমপ্যাড A ও B, এবং X ও Y উল্টো করে জানায় তাদের জন্য</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">মঞ্চের প্রস্থ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">মঞ্চের উচ্চতা</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro সামনের বাঁ সেন্সর</string>

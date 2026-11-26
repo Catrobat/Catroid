@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾ فشرده شده</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">افزونهٔ دسته‌بازی</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">اجازهٔ استفاده از دسته‌بازی فیزیکی</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">جابه‌جایی A/B و X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">برای دسته‌بازی‌هایی که A و B، و X و Y را برعکس گزارش می‌کنند</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">پهنای صحنه</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع صحنه</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">حسگر جلو چپ Phiro</string>

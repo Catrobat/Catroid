@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾ botoia sakatuta</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu hedapena</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Baimendu joko-kontrolagailu fisiko bat erabiltzea</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trukatu A/B eta X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A eta B, eta X eta Y, alderantziz ematen dituzten kontrolagailuetarako</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agertokiaren altuera</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro aurreko ezkerreko sentsorea</string>

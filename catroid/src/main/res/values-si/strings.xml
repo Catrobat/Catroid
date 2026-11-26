@@ -1727,6 +1727,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ගේම්පෑඩ් බොත්තම ඕනෑම▾ ඔබා ඇත</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ගේම්පෑඩ් දිගුව</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">භෞතික ගේම්පෑඩයක් භාවිතයට ඉඩ දෙන්න</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B සහ X/Y මාරු කරන්න</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A සහ B, X සහ Y ප්‍රතිවිරුද්ධව වාර්තා කරන ගේම්පෑඩ් සඳහා</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">වේදිකාවේ පළල</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">වේදිකාවේ උස</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ඉදිරි වම් සංවේදකය</string>

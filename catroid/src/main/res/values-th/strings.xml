@@ -1682,6 +1682,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ปุ่มเกมแพดใดก็ได้▾ถูกกด</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ส่วนขยายเกมแพด</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">อนุญาตให้ใช้เกมแพดจริง</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">สลับ A/B และ X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">สำหรับเกมแพดที่รายงาน A กับ B และ X กับ Y สลับกัน</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ความสูงของเวที</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">เซ็นเซอร์ด้านหน้าซ้ายของ phiro</string>
