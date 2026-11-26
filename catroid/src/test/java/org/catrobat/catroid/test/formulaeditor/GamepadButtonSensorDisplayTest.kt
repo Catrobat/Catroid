@@ -69,7 +69,7 @@ class GamepadButtonSensorDisplayTest {
         )
 
         assertEquals(
-            "gamepad button X▾pressed and gamepad button select▾pressed",
+            "gamepad button X▾ pressed and gamepad button select▾ pressed",
             externFormulaString(tokens).trim()
         )
     }
@@ -77,7 +77,7 @@ class GamepadButtonSensorDisplayTest {
     @Test
     fun `formula editor shows the sensor for any button`() {
         assertEquals(
-            "gamepad button any▾pressed",
+            "gamepad button any▾ pressed",
             externSensorString(Sensors.GAMEPAD_BUTTON_ANY_PRESSED).trim()
         )
     }
@@ -99,20 +99,20 @@ class GamepadButtonSensorDisplayTest {
 
     private companion object {
         val EXPECTED_SENSOR_NAMES = listOf(
-            "gamepad button A▾pressed",
-            "gamepad button B▾pressed",
-            "gamepad button X▾pressed",
-            "gamepad button Y▾pressed",
-            "gamepad button up▾pressed",
-            "gamepad button down▾pressed",
-            "gamepad button left▾pressed",
-            "gamepad button right▾pressed",
-            "gamepad button start▾pressed",
-            "gamepad button select▾pressed",
-            "gamepad button L1▾pressed",
-            "gamepad button L2▾pressed",
-            "gamepad button R1▾pressed",
-            "gamepad button R2▾pressed"
+            "gamepad button A▾ pressed",
+            "gamepad button B▾ pressed",
+            "gamepad button X▾ pressed",
+            "gamepad button Y▾ pressed",
+            "gamepad button up▾ pressed",
+            "gamepad button down▾ pressed",
+            "gamepad button left▾ pressed",
+            "gamepad button right▾ pressed",
+            "gamepad button start▾ pressed",
+            "gamepad button select▾ pressed",
+            "gamepad button L1▾ pressed",
+            "gamepad button L2▾ pressed",
+            "gamepad button R1▾ pressed",
+            "gamepad button R2▾ pressed"
         )
     }
 }

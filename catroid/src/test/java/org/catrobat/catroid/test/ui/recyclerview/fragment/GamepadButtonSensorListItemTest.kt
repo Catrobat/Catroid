@@ -65,7 +65,7 @@ class GamepadButtonSensorListItemTest {
         val gamepadItem = deviceSensorItems().last()
 
         assertEquals(R.string.formula_editor_sensor_gamepad_button_a_pressed, gamepadItem.nameResId)
-        assertEquals("gamepad button A▾pressed", gamepadItem.text)
+        assertEquals("gamepad button A▾ pressed", gamepadItem.text)
         assertEquals(CategoryListRVAdapter.DEFAULT, gamepadItem.type)
         assertNull(gamepadItem.header)
     }

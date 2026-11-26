@@ -90,6 +90,38 @@ class GamepadButtonSensorNameTest {
         }
     }
 
+    @Test
+    fun `a space follows the dropdown arrow in languages that put spaces between words`() {
+        languageTags.filter { !hasNoSpacesBetweenWords(it) }.forEach { tag ->
+            val localizedContext = contextFor(tag)
+            gamepadSensorNameResIds().forEach { resId ->
+                val name = localizedContext.getString(resId)
+                val textAfterArrow = name.substringAfter(DROPDOWN_ARROW)
+
+                assertTrue("$tag: $name", textAfterArrow.isEmpty() || textAfterArrow.startsWith(' '))
+            }
+        }
+    }
+
+    @Test
+    fun `no space follows the dropdown arrow in languages without spaces between words`() {
+        languageTags.filter(::hasNoSpacesBetweenWords).forEach { tag ->
+            val localizedContext = contextFor(tag)
+            gamepadSensorNameResIds().forEach { resId ->
+                val name = localizedContext.getString(resId)
+
+                assertFalse("$tag: $name", name.substringAfter(DROPDOWN_ARROW).startsWith(' '))
+            }
+        }
+    }
+
+    private fun hasNoSpacesBetweenWords(languageTag: String): Boolean =
+        Locale.forLanguageTag(languageTag).language in LANGUAGES_WITHOUT_SPACES_BETWEEN_WORDS
+
+    private fun gamepadSensorNameResIds(): List<Int> =
+        GamepadButton.entries.map { it.sensorNameResId } +
+            R.string.formula_editor_sensor_gamepad_button_any_pressed
+
     private fun contextFor(languageTag: String): Context {
         val configuration = Configuration(context.resources.configuration)
         configuration.setLocale(Locale.forLanguageTag(languageTag))
@@ -99,6 +131,7 @@ class GamepadButtonSensorNameTest {
     private companion object {
         const val DROPDOWN_ARROW = '▾'
         const val MINIMUM_LANGUAGES = 70
+        val LANGUAGES_WITHOUT_SPACES_BETWEEN_WORDS = setOf("ja", "th", "zh")
         val BUTTON_CODES = listOf(
             GamepadButton.A, GamepadButton.B, GamepadButton.X, GamepadButton.Y,
             GamepadButton.L1, GamepadButton.L2, GamepadButton.R1, GamepadButton.R2
