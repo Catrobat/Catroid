@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butang pad permainan R1▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butang pad permainan R2▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butang pad permainan mana-mana▾ditekan</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan penderia pad permainan fizikal</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Tunjukkan blok dan penderia pad permainan fizikal dalam editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Sambungan pad permainan</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Benarkan penggunaan pad permainan fizikal</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar pentas</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi pentas</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">penderia depan kiri phiro</string>

@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">游戏手柄 R1▾按钮被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">游戏手柄 R2▾按钮被按下</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">游戏手柄任意▾按钮被按下</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">实体游戏手柄积木和传感器</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">在编辑器中显示实体游戏手柄积木和传感器。</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">游戏手柄扩展</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">允许使用实体游戏手柄</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">舞台宽度</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">舞台高度</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前传感器</string>

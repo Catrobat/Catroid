@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">pulsante R1▾del gamepad premuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">pulsante R2▾del gamepad premuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">pulsante qualsiasi▾del gamepad premuto</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blocco e sensore del gamepad fisico</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Mostra il blocco e il sensore del gamepad fisico nell\'editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Estensione gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Consenti l\'uso di un gamepad fisico</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">larghezza dello Stage</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">altezza dello Stage</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensore anteriore sinistro phiro</string>

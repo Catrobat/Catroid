@@ -1815,8 +1815,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">przycisk gamepada R1▾naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">przycisk gamepada R2▾naciśnięty</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">przycisk gamepada dowolny▾naciśnięty</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok i czujnik fizycznego gamepada</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Pokaż blok i czujnik fizycznego gamepada w edytorze.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozszerzenie gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Pozwala na używanie fizycznego gamepada</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">szerokość sceny</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">wysokość sceny</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro przedni lewy czujnik</string>

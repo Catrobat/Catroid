@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">an danna maɓallin gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">an danna maɓallin gamepad R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">an danna maɓallin gamepad kowane▾</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Tubali da sensar gamepad na zahiri</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Nuna tubali da sensar gamepad na zahiri a cikin edita.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ƙarin gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Bari a yi amfani da gamepad na zahiri</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">faɗin fage</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tsayin fage</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensar gaba ta hagu ta phiro</string>

@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">бутон R1▾на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">бутон R2▾на физическия геймпад е натиснат</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">бутон който и да е▾на физическия геймпад е натиснат</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физически геймпад</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Показвай блока и сензора за физически геймпад в редактора.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Разширение за геймпад</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Позволи използването на физически геймпад</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на сцената</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">височина на сцената</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">преден ляв сензор на phiro</string>

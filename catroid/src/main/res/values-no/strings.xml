@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spillkontrollknapp R1▾trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spillkontrollknapp R2▾trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spillkontrollknapp hvilken som helst▾trykket</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kloss og sensor for fysisk spillkontroll</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Vis klossen og sensoren for fysisk spillkontroll i redigeringsverktøyet.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Utvidelse for spillkontroll</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillat bruk av en fysisk spillkontroll</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spilleflatens bredde</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spilleflatens høyde</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor foran venstre</string>

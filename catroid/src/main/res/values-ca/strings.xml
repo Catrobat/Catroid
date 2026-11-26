@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botó R1▾del comandament físic premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botó R2▾del comandament físic premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾del comandament físic premut</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Bloc i sensor del comandament físic</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Mostra el bloc i el sensor del comandament físic a l\'editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensió comandament</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Permet l\'ús d\'un comandament físic</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">alçada de l\'escenari</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor frontal esquerre del phiro</string>

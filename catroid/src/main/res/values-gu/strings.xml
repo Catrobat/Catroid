@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ગેમપૅડ બટન R1▾દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ગેમપૅડ બટન R2▾દબાવ્યું</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ગેમપૅડ બટન કોઈપણ▾દબાવ્યું</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">સંપાદકમાં ભૌતિક ગેમપૅડ બ્લોક અને સેન્સર બતાવો.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ગેમપૅડ એક્સ્ટેન્શન</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">ભૌતિક ગેમપૅડનો ઉપયોગ કરવાની મંજૂરી આપો</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">મંચની પહોળાઈ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">મંચની ઊંચાઈ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro આગળનું ડાબું સેન્સર</string>

@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a tẹ bọ́tìnnì gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a tẹ bọ́tìnnì gamepad R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">a tẹ bọ́tìnnì gamepad èyíkéyìí▾</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Fi búlọ́ọ̀kù àti sẹ́ńsọ̀ gamepad gidi hàn nínú olóòtú.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Àfikún gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Gba láàyè láti lo gamepad gidi</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ìbú ìtàgé</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">gíga ìtàgé</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sẹ́ńsọ̀ iwájú òsì phiro</string>

@@ -1815,8 +1815,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gumb R1▾fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gumb R2▾fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gumb katerikoli▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kocka in senzor fizičnega igralnega ploščka</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Prikaži kocko in senzor fizičnega igralnega ploščka v urejevalniku.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Razširitev igralni plošček</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Dovoli uporabo fizičnega igralnega ploščka</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina odra</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">višina odra</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sprednji levi senzor</string>

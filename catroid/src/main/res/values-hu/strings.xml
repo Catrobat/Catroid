@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">játékvezérlő R1▾gomb lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">játékvezérlő R2▾gomb lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">játékvezérlő bármelyik▾gomb lenyomva</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fizikai játékvezérlő blokk és érzékelő</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">A fizikai játékvezérlő blokk és érzékelő megjelenítése a szerkesztőben.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Játékvezérlő bővítmény</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Engedélyezi egy fizikai játékvezérlő használatát</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">színpad magassága</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro bal első érzékelő</string>

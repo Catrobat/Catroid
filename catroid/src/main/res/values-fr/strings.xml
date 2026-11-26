@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾de la manette physique appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾de la manette physique appuyé</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Brique et capteur de manette physique</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Afficher la brique et le capteur de manette physique dans l\'éditeur.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hauteur du plateau</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">capteur avant gauche phiro</string>

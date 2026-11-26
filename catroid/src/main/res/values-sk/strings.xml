@@ -1815,8 +1815,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačidlo gamepadu R1▾stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačidlo gamepadu R2▾stlačené</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tlačidlo gamepadu ľubovoľné▾stlačené</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok a senzor fyzického gamepadu</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Zobraziť blok a senzor fyzického gamepadu v editore.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozšírenie gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Umožniť používanie fyzického gamepadu</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šírka javiska</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">výška javiska</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro predný ľavý senzor</string>

@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">копчето R1▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">копчето R2▾на физичкиот геимпад е притиснато</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">копчето кое било▾на физичкиот геимпад е притиснато</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор за физички геимпад</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Прикажи го блокот и сензорот за физички геимпад во уредувачот.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Проширување за геимпад</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволи користење на физички геимпад</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на бината</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висина на бината</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro преден лев сензор</string>

@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1▾botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2▾botoia sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾botoia sakatuta</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu fisikoaren blokea eta sentsorea</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Erakutsi joko-kontrolagailu fisikoaren blokea eta sentsorea editorean.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu hedapena</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Baimendu joko-kontrolagailu fisiko bat erabiltzea</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agertokiaren altuera</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro aurreko ezkerreko sentsorea</string>

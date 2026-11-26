@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">دکمهٔ دسته‌بازی R1▾فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">دکمهٔ دسته‌بازی R2▾فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾فشرده شده</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">بلوک و حسگر دسته‌بازی فیزیکی</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">نمایش بلوک و حسگر دسته‌بازی فیزیکی در ویرایشگر.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">افزونهٔ دسته‌بازی</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">اجازهٔ استفاده از دسته‌بازی فیزیکی</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">پهنای صحنه</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع صحنه</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">حسگر جلو چپ Phiro</string>

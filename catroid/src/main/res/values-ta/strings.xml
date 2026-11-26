@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">வன்பொருள் கேம்பேட் தொகுதி மற்றும் உணரி</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">திருத்தியில் வன்பொருள் கேம்பேட் தொகுதியையும் உணரியையும் காட்டு.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">கேம்பேட் நீட்சி</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">வன்பொருள் கேம்பேடைப் பயன்படுத்த அனுமதி</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">மேடையின் உயரம்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro முன் இடது உணரி</string>

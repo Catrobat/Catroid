@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tombol gamepad R1▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tombol gamepad R2▾ditekan</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tombol gamepad apa saja▾ditekan</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok dan sensor gamepad fisik</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Tampilkan blok dan sensor gamepad fisik di editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Ekstensi gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Izinkan penggunaan gamepad fisik</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi panggung</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor depan kiri phiro</string>

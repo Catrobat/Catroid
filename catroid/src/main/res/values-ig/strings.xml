@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">a pịrị bọtịnụ gamepad R1▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">a pịrị bọtịnụ gamepad R2▾</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">a pịrị bọtịnụ gamepad ọ bụla▾</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blọk na sensọ gamepad ngwaike</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Gosi blọk na sensọ gamepad ngwaike n\'ebe ndezi.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Mgbatị gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Kwe ka e jiri gamepad ngwaike</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">obosara ogbo</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ogologo ogbo</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensọ ihu aka ekpe phiro</string>

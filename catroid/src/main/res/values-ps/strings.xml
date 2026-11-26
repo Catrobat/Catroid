@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">د ګیم‌پیډ تڼۍ R1▾کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">د ګیم‌پیډ تڼۍ R2▾کېکاږل شوې</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">د ګیم‌پیډ تڼۍ هره▾کېکاږل شوې</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د فزیکي ګیم‌پیډ بلاک او سینسر</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">په ایډیټر کې د فزیکي ګیم‌پیډ بلاک او سینسر ښکاره کړئ.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">د ګیم‌پیډ توسیع</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">د فزیکي ګیم‌پیډ کارولو ته اجازه ورکړئ</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">د سټېج لوړوالی</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">د Phiro مخکینی کیڼ سینسر</string>

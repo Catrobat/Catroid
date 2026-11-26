@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelbeheerderknoppie R1▾gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelbeheerderknoppie R2▾gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelbeheerderknoppie enige▾gedruk</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fisiese spelbeheerderblok en -sensor</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Wys die fisiese spelbeheerderblok en -sensor in die redigeerder.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Uitbreiding spelbeheerder</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Laat die gebruik van \'n fisiese spelbeheerder toe</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">verhoogwydte</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">verhooghoogte</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro voorste linkersensor</string>

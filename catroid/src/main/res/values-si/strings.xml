@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ගේම්පෑඩ් බොත්තම R1▾ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ගේම්පෑඩ් බොත්තම R2▾ඔබා ඇත</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ගේම්පෑඩ් බොත්තම ඕනෑම▾ඔබා ඇත</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">සංස්කාරකයේ භෞතික ගේම්පෑඩ් ඛණ්ඩය සහ සංවේදකය පෙන්වන්න.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ගේම්පෑඩ් දිගුව</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">භෞතික ගේම්පෑඩයක් භාවිතයට ඉඩ දෙන්න</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">වේදිකාවේ පළල</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">වේදිකාවේ උස</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ඉදිරි වම් සංවේදකය</string>

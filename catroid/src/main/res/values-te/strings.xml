@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">గేమ్‌ప్యాడ్ బటన్ R1▾నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">గేమ్‌ప్యాడ్ బటన్ R2▾నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">గేమ్‌ప్యాడ్ బటన్ ఏదైనా▾నొక్కబడింది</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ బ్లాక్ మరియు సెన్సార్</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">ఎడిటర్‌లో భౌతిక గేమ్‌ప్యాడ్ బ్లాక్ మరియు సెన్సార్‌ను చూపించు.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">గేమ్‌ప్యాడ్ ఎక్స్‌టెన్షన్</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ వాడకాన్ని అనుమతించండి</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">వేదిక వెడల్పు</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">వేదిక ఎత్తు</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro ముందు ఎడమ సెన్సార్</string>

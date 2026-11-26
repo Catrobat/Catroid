@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1▾basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2▾basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾basılıb</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziki oyun pultu bloku və sensoru</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Redaktorda fiziki oyun pultu blokunu və sensorunu göstər.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun pultu genişlənməsi</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziki oyun pultundan istifadəyə icazə verin</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">səhnənin hündürlüyü</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ön sol sensor</string>

@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun kumandası R1▾düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun kumandası R2▾düğmesi basılı</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun kumandası herhangi bir▾düğmesi basılı</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fiziksel oyun kumandası bloğu ve sensörü</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Düzenleyicide fiziksel oyun kumandası bloğunu ve sensörünü gösterir.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun kumandası uzantısı</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziksel oyun kumandası kullanımına izin verir</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahne genişliği</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">sahne yüksekliği</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sol ön sensör</string>

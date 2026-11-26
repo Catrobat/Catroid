@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2▾φυσικού χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">κουμπί οποιοδήποτε▾φυσικού χειριστηρίου πατημένο</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Μπλοκ και αισθητήρας φυσικού χειριστηρίου</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Εμφάνιση του μπλοκ και του αισθητήρα φυσικού χειριστηρίου στον επεξεργαστή.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Επέκταση χειριστηρίου</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Επιτρέπει τη χρήση φυσικού χειριστηρίου</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ύψος σκηνής</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">μπροστινός αριστερός αισθητήρας phiro</string>

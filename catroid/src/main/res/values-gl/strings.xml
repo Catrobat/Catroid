@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botón R1▾do mando físico premido</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botón R2▾do mando físico premido</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botón calquera▾do mando físico premido</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Bloque e sensor do mando físico</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Mostrar o bloque e o sensor do mando físico no editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensión mando</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir o uso dun mando físico</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largura do escenario</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">altura do escenario</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor dianteiro esquerdo do phiro</string>

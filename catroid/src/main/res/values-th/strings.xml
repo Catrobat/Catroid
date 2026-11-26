@@ -1680,8 +1680,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ปุ่มเกมแพด R1▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ปุ่มเกมแพด R2▾ถูกกด</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ปุ่มเกมแพดใดก็ได้▾ถูกกด</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">บล็อกและเซ็นเซอร์เกมแพดจริง</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">แสดงบล็อกและเซ็นเซอร์เกมแพดจริงในตัวแก้ไข</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ส่วนขยายเกมแพด</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">อนุญาตให้ใช้เกมแพดจริง</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ความสูงของเวที</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">เซ็นเซอร์ด้านหน้าซ้ายของ phiro</string>

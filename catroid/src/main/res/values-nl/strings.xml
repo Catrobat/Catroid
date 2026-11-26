@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepadknop R1▾ingedrukt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepadknop R2▾ingedrukt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepadknop willekeurig▾ingedrukt</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Blok en sensor voor fysieke gamepad</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Toon het blok en de sensor voor de fysieke gamepad in de editor.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensie gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Sta het gebruik van een fysieke gamepad toe</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">breedte speelveld</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hoogte speelveld</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor voor links</string>

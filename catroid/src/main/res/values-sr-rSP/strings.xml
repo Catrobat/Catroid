@@ -1770,8 +1770,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">дугме контролера R1▾притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">дугме контролера R2▾притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">дугме контролера било које▾притиснуто</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Блок и сензор физичког контролера</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Прикажи блок и сензор физичког контролера у уређивачу.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Проширење контролер</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволи коришћење физичког контролера</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина позорнице</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висина позорнице</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro предњи леви сензор</string>

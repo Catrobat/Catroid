@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گیم پیڈ بٹن R1▾دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گیم پیڈ بٹن R2▾دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گیم پیڈ بٹن کوئی بھی▾دبایا گیا</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">فزیکل گیم پیڈ بلاک اور سینسر</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">ایڈیٹر میں فزیکل گیم پیڈ بلاک اور سینسر دکھائیں۔</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گیم پیڈ ایکسٹینشن</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">فزیکل گیم پیڈ کے استعمال کی اجازت دیں</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٹیج کی چوڑائی</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">اسٹیج کی اونچائی</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro سامنے کا بایاں سینسر</string>

@@ -1725,8 +1725,8 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1▾painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2▾painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">peliohjaimen painike mikä tahansa▾painettu</string>
-    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Fyysisen peliohjaimen palikka ja anturi</string>
-    <string formatted="false" name="preference_description_physical_gamepad_bricks">Näytä fyysisen peliohjaimen palikka ja anturi editorissa.</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Peliohjainlaajennus</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Salli fyysisen peliohjaimen käyttö</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">esiintymislavan leveys</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">esiintymislavan korkeus</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiron vasen etuanturi</string>
