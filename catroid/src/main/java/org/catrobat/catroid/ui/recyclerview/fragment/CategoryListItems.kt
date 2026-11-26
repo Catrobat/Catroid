@@ -96,6 +96,7 @@ class CategoryListItems {
         addAll(getTextSensorItems(activity))
         addAll(getObjectDetectionSensorItems(activity))
         addAll(getDeviceSensorItems(activity))
+        addAll(getPhysicalGamepadSensorItems(activity))
         addAll(getTouchDetectionSensorItems(activity))
         addAll(getDateTimeSensorItems(activity))
     }
@@ -277,7 +278,6 @@ class CategoryListItems {
         )
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSORS_GPS))
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSOR_USER_LANGUAGE))
-        deviceSensorItems.addAll(getPhysicalGamepadSensorItems(activity))
         return addHeader(
             deviceSensorItems, activity.getString(R.string.formula_editor_device_sensors)
         )
@@ -285,7 +285,10 @@ class CategoryListItems {
 
     private fun getPhysicalGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(activity.applicationContext)) {
-            toCategoryListItems(activity, SENSOR_PHYSICAL_GAMEPAD)
+            addHeader(
+                toCategoryListItems(activity, SENSOR_PHYSICAL_GAMEPAD),
+                activity.getString(R.string.formula_editor_device_gamepad)
+            )
         } else {
             emptyList()
         }

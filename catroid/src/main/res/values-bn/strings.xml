@@ -1792,6 +1792,7 @@
     <string formatted="false" name="formula_editor_device_drone">ড্রোন</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">গেমপ্যাড</string>
     <string formatted="false" name="formula_editor_string">কখগ</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

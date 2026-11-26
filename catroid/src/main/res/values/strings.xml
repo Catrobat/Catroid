@@ -2089,6 +2089,7 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_device_drone">Drone</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">&#x2260;</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>
