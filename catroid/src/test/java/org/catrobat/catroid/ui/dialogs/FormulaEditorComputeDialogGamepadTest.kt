@@ -27,6 +27,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.hardware.input.InputManager
 import android.os.Build
+import android.preference.PreferenceManager
 import android.view.InputDevice.SOURCE_GAMEPAD
 import android.view.InputDevice.SOURCE_JOYSTICK
 import android.view.KeyEvent
@@ -57,6 +58,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoInteractions
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -90,6 +92,9 @@ class FormulaEditorComputeDialogGamepadTest {
 
     @After
     fun tearDown() {
+        PreferenceManager.getDefaultSharedPreferences(activity).edit()
+            .remove(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS)
+            .commit()
         dialog?.dismiss()
         ShadowLooper.shadowMainLooper().idle()
         ProjectManager.getInstance().resetProjectManager()
@@ -147,6 +152,27 @@ class FormulaEditorComputeDialogGamepadTest {
     }
 
     @Test
+    fun `swapped face buttons show the controller A as B`() {
+        swapFaceButtons()
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_B_PRESSED)
+
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)))
+        assertEquals(trueString(), dialog.result())
+    }
+
+    @Test
+    fun `swapped controller A closes the dialog like Back when the formula does not use B`() {
+        swapFaceButtons()
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_A_PRESSED)
+
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)))
+        assertTrue(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_A)))
+        ShadowLooper.shadowMainLooper().idle()
+
+        assertFalse(dialog.isShowing)
+    }
+
+    @Test
     fun `leaves buttons that the formula does not use to Android`() {
         val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_A_PRESSED)
 
@@ -194,6 +220,12 @@ class FormulaEditorComputeDialogGamepadTest {
 
         assertFalse(dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)))
         verifyNoInteractions(inputManager)
+    }
+
+    private fun swapFaceButtons() {
+        PreferenceManager.getDefaultSharedPreferences(activity).edit()
+            .putBoolean(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS, true)
+            .commit()
     }
 
     private fun showDialogFor(sensor: Sensors): FormulaEditorComputeDialog {

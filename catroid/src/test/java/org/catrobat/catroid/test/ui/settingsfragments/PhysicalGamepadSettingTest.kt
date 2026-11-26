@@ -118,13 +118,54 @@ class PhysicalGamepadSettingTest {
     }
 
     @Test
-    fun `preferences place the setting directly before the Chromecast setting`() {
+    fun `preferences place the swap setting between the gamepad and the Chromecast setting`() {
         val keys = topLevelPreferences().map { it.key }
 
         val gamepadIndex = keys.indexOf(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS)
 
         assertTrue(gamepadIndex >= 0)
-        assertEquals(gamepadIndex + 1, keys.indexOf(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED))
+        assertEquals(gamepadIndex + 1, keys.indexOf(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS))
+        assertEquals(gamepadIndex + 2, keys.indexOf(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED))
+    }
+
+    @Test
+    fun `swap setting has a stable key and is off by default`() {
+        assertEquals("setting_gamepad_swap_face_buttons", SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS)
+        assertFalse(SettingsFragment.isGamepadFaceButtonSwapEnabled(context))
+    }
+
+    @Test
+    fun `swap setting is on when enabled`() {
+        sharedPreferences.edit()
+            .putBoolean(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS, true)
+            .commit()
+
+        assertTrue(SettingsFragment.isGamepadFaceButtonSwapEnabled(context))
+    }
+
+    @Test
+    fun `preferences offer the swap setting as a checkbox that depends on the gamepad extension`() {
+        val preference = topLevelPreferences()
+            .singleOrNull { it.key == SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS }
+
+        assertNotNull(preference)
+        assertEquals("CheckBoxPreference", preference?.tag)
+        assertEquals("false", preference?.defaultValue)
+        assertEquals(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, preference?.dependency)
+        assertEquals(R.string.preference_title_gamepad_swap_face_buttons, preference?.titleResId)
+        assertEquals(R.string.preference_description_gamepad_swap_face_buttons, preference?.summaryResId)
+    }
+
+    @Test
+    fun `swap setting has its title and summary`() {
+        assertEquals(
+            "Swap A/B and X/Y",
+            context.getString(R.string.preference_title_gamepad_swap_face_buttons)
+        )
+        assertEquals(
+            "For controllers that report A and B, and X and Y, the other way round",
+            context.getString(R.string.preference_description_gamepad_swap_face_buttons)
+        )
     }
 
     private fun setPhysicalGamepadSetting(enabled: Boolean) {
@@ -152,6 +193,7 @@ class PhysicalGamepadSettingTest {
         val tag: String,
         val key: String?,
         val defaultValue: String?,
+        val dependency: String?,
         val titleResId: Int,
         val summaryResId: Int
     ) {
@@ -160,6 +202,7 @@ class PhysicalGamepadSettingTest {
                 tag = parser.name,
                 key = parser.getAttributeValue(ANDROID_NAMESPACE, "key"),
                 defaultValue = parser.getAttributeValue(ANDROID_NAMESPACE, "defaultValue"),
+                dependency = parser.getAttributeValue(ANDROID_NAMESPACE, "dependency"),
                 titleResId = parser.getAttributeResourceValue(ANDROID_NAMESPACE, "title", 0),
                 summaryResId = parser.getAttributeResourceValue(ANDROID_NAMESPACE, "summary", 0)
             )

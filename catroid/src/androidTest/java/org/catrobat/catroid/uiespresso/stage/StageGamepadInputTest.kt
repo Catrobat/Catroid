@@ -24,9 +24,11 @@
 package org.catrobat.catroid.uiespresso.stage
 
 import android.os.SystemClock
+import android.preference.PreferenceManager
 import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewInteraction
@@ -53,6 +55,7 @@ import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout
@@ -137,6 +140,23 @@ class StageGamepadInputTest {
     }
 
     @Test
+    fun swappedFaceButtonsLetControllerAFireTheBScript() {
+        val bPresses = addPressCounter(GamepadButton.B)
+        setFaceButtonSwap(true)
+        try {
+            startStage()
+
+            pressKey(KeyEvent.KEYCODE_BUTTON_A)
+
+            assertUserVariableEqualsWithTimeout(bPresses, 1.0, TIMEOUT_MILLIS)
+            onView(withId(R.id.stage_dialog_button_continue)).check(doesNotExist())
+            assertFalse(stageActivity.isFinishing)
+        } finally {
+            setFaceButtonSwap(false)
+        }
+    }
+
+    @Test
     fun usedBIsConsumedAndFiresItsScript() {
         val bPresses = addPressCounter(GamepadButton.B)
         startStage()
@@ -205,6 +225,12 @@ class StageGamepadInputTest {
 
         assertUserVariableEqualsWithTimeout(pressed, "false", TIMEOUT_MILLIS)
         sendKey(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_A)
+    }
+
+    private fun setFaceButtonSwap(enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+            .putBoolean(SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS, enabled)
+            .commit()
     }
 
     /** Adds a script that counts how often [button] gets pressed. */

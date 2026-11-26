@@ -107,6 +107,13 @@ class AndroidGamepadInputAdapterTest {
         gamepadInput = { availableInput },
         isButtonHandled = { button -> button !in unhandledButtons }
     )
+    private var backPresses = 0
+    private val swappingAdapter = AndroidGamepadInputAdapter(
+        gamepadInput = { availableInput },
+        isButtonHandled = { button -> button !in unhandledButtons },
+        swapsFaceButtons = true,
+        pressBack = { backPresses++ }
+    )
 
     @Before
     fun setUp() {
@@ -743,6 +750,83 @@ class AndroidGamepadInputAdapterTest {
         val stageAdapter = StageGamepadInputAdapterFactory.create(Project())
 
         assertFalse(stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+    }
+
+    @Test
+    fun `swapped face buttons turn A into B and X into Y and the other way round`() {
+        listOf(
+            KeyEvent.KEYCODE_BUTTON_A to B,
+            KeyEvent.KEYCODE_BUTTON_B to A,
+            KeyEvent.KEYCODE_BUTTON_X to Y,
+            KeyEvent.KEYCODE_BUTTON_Y to X
+        ).forEach { (keyCode, button) ->
+            assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, keyCode)))
+            applyPendingInput()
+            assertPressedExactly(button)
+
+            assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_UP, keyCode)))
+            applyPendingInput()
+            assertPressedExactly()
+        }
+
+        assertFired(B, A, Y, X)
+    }
+
+    @Test
+    fun `swapped face buttons leave the other buttons unchanged`() {
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_L1)))
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_UP)))
+        applyPendingInput()
+
+        assertPressedExactly(L1, UP)
+    }
+
+    @Test
+    fun `reported B of an unhandled swapped A is consumed so that Android does not treat it as Back`() {
+        unhandledButtons += A
+
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_B)))
+        applyPendingInput()
+
+        assertPressedExactly()
+        assertFired()
+        assertEquals(0, backPresses)
+    }
+
+    @Test
+    fun `reported A of an unhandled swapped B presses Back once on release`() {
+        unhandledButtons += B
+
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)))
+        assertEquals(0, backPresses)
+        assertTrue(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_A)))
+        applyPendingInput()
+
+        assertPressedExactly()
+        assertEquals(1, backPresses)
+    }
+
+    @Test
+    fun `swapped face buttons are left to Android without a running stage`() {
+        availableInput = null
+
+        assertFalse(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+        assertFalse(swappingAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BUTTON_A)))
+        assertEquals(0, backPresses)
+    }
+
+    @Test
+    fun `stage adapter with swapped face buttons takes a controller A as B`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(Project(), swapsFaceButtons = true)
+
+        assertTrue(stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)))
+        assertTrue(stageAdapter.dispatchKeyEvent(keyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_B)))
+        input.applyPendingInput { button -> firedButtons.add(button) }
+
+        assertPressedExactly(B)
+        assertFired(B)
     }
 
     /** Lets the adapters of [StageGamepadInputAdapterFactory] feed [input] as gamepad input of the stage. */
