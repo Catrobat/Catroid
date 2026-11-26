@@ -756,7 +756,11 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_location_accuracy), "", ""),
             listOf(str(R.string.formula_editor_sensor_altitude), "", ""),
             listOf(str(R.string.formula_editor_sensor_user_language), "", ""),
-            listOf(str(R.string.formula_editor_sensor_gamepad_button_a_pressed), "", "")
+            listOf(str(R.string.formula_editor_sensor_gamepad_button_a_pressed), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_left_stick_x), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_left_stick_y), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_right_stick_x), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_right_stick_y), "", "")
         )
 
         private val listOfTouch = listOf(

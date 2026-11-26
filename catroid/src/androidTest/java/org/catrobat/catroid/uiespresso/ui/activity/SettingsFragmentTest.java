@@ -88,6 +88,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PLOT_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
@@ -232,8 +233,9 @@ public class SettingsFragmentTest {
 
 		int physicalGamepadIndex = keys.indexOf(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS);
 		assertTrue(physicalGamepadIndex >= 0);
+		assertEquals(physicalGamepadIndex + 1, keys.indexOf(SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS));
 		if (BuildConfig.FEATURE_CAST_ENABLED) {
-			assertEquals(physicalGamepadIndex + 1, keys.indexOf(SETTINGS_CAST_GLOBALLY_ENABLED));
+			assertEquals(physicalGamepadIndex + 2, keys.indexOf(SETTINGS_CAST_GLOBALLY_ENABLED));
 		}
 	}
 
