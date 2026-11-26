@@ -33,7 +33,7 @@ import org.catrobat.catroid.gamepad.GamepadStickPosition
 import org.catrobat.catroid.stage.StageActivity
 
 /** An axis of an analog stick that a sensor reports. */
-private class StickAxis(val stick: GamepadStick, val isHorizontal: Boolean, @StringRes val nameResId: Int)
+private data class StickAxis(val stick: GamepadStick, val isHorizontal: Boolean, @StringRes val nameResId: Int)
 
 private val stickAxesBySensor: Map<Sensors, StickAxis> = linkedMapOf(
     Sensors.GAMEPAD_LEFT_STICK_X to
