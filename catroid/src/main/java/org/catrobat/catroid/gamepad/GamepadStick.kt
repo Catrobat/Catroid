@@ -55,6 +55,6 @@ data class GamepadStickPosition(val x: Double, val y: Double) {
             GamepadStickPosition(limit(x), limit(y))
 
         private fun limit(value: Double): Double =
-            if (value.isNaN()) 0.0 else value.coerceIn(-MAX_DEFLECTION, MAX_DEFLECTION)
+            if (value.isNaN()) 0.0 else value.coerceIn(-MAX_DEFLECTION, MAX_DEFLECTION) + 0.0
     }
 }

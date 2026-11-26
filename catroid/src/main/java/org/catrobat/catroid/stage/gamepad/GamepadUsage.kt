@@ -33,7 +33,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.toGamepadButton
+import org.catrobat.catroid.formulaeditor.toGamepadStick
 import org.catrobat.catroid.gamepad.GamepadButton
+import org.catrobat.catroid.gamepad.GamepadStick
 
 /**
  * The physical gamepad buttons that a project reacts to, and the resulting policy which controller
@@ -49,13 +51,17 @@ import org.catrobat.catroid.gamepad.GamepadButton
  */
 class GamepadUsage private constructor(
     val usedButtons: Set<GamepadButton>,
+    val usedSticks: Set<GamepadStick>,
     private val hasAnyButtonScript: Boolean
 ) {
 
-    /** Whether the project reacts to any physical gamepad button. */
+    /** Whether the project reacts to any physical gamepad button or analog stick. */
     @get:JvmName("usesGamepad")
     val usesGamepad: Boolean
-        get() = usedButtons.isNotEmpty()
+        get() = usedButtons.isNotEmpty() || usedSticks.isNotEmpty()
+
+    /** Whether the stage takes the analog [stick] from Android, because the project reads it. */
+    fun isStickHandledByStage(stick: GamepadStick): Boolean = stick in usedSticks
 
     /** Whether the project reacts to [button]. */
     fun isUsed(button: GamepadButton): Boolean = button in usedButtons
@@ -88,6 +94,7 @@ class GamepadUsage private constructor(
         fun of(project: Project?): GamepadUsage =
             GamepadUsage(
                 project?.let(::usedButtonsOf).orEmpty(),
+                project?.let(::usedSticksOf).orEmpty(),
                 project?.let(::hasAnyButtonScript) ?: false
             )
 
@@ -106,6 +113,20 @@ class GamepadUsage private constructor(
         private fun usedButtonsOf(project: Project): Set<GamepadButton> = buildSet {
             activeScriptsOf(project).forEach { script -> addButtonsUsedBy(script) }
         }
+
+        private fun usedSticksOf(project: Project): Set<GamepadStick> = buildSet {
+            activeScriptsOf(project).forEach { script ->
+                activeBricksOf(script)
+                    .filterIsInstance<FormulaBrick>()
+                    .flatMap { brick -> brick.formulas }
+                    .forEach { formula -> addAll(sticksUsedBy(formula)) }
+            }
+        }
+
+        /** The analog sticks whose sensors [formula] reads. */
+        @JvmStatic
+        fun sticksUsedBy(formula: Formula): Set<GamepadStick> =
+            sensorsOf(formula).mapNotNullTo(mutableSetOf()) { sensor -> sensor.toGamepadStick() }
 
         private fun hasAnyButtonScript(project: Project): Boolean =
             activeScriptsOf(project).any { script ->

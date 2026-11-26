@@ -43,7 +43,8 @@ object StageGamepadInputAdapterFactory {
         return AndroidGamepadInputAdapter(
             gamepadInput = { StageActivity.stageListener?.gamepadInput },
             isButtonHandled = usage::isHandledByStage,
-            swapsFaceButtons = swapsFaceButtons
+            swapsFaceButtons = swapsFaceButtons,
+            isStickHandled = usage::isStickHandledByStage
         )
     }
 }

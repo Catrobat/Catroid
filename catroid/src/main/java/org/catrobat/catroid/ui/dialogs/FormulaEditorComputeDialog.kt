@@ -108,9 +108,13 @@ open class FormulaEditorComputeDialog(
 
         val usedGamepadButtons =
             GamepadUsage.buttonsForCompute(formula, ProjectManager.getInstance().currentProject)
-        gamepadInput = usedGamepadButtons.takeIf { it.isNotEmpty() }?.let { buttons ->
+        val usedGamepadSticks = GamepadUsage.sticksUsedBy(formula)
+        gamepadInput = if (usedGamepadButtons.isEmpty() && usedGamepadSticks.isEmpty()) {
+            null
+        } else {
             FormulaEditorGamepadInput(
-                usedButtons = buttons,
+                usedButtons = usedGamepadButtons,
+                usedSticks = usedGamepadSticks,
                 swapsFaceButtons = SettingsFragment.isGamepadFaceButtonSwapEnabled(context),
                 pressBack = ::cancel
             ) { showFormulaResult(scope, AndroidStringProvider(context)) }

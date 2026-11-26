@@ -29,6 +29,7 @@ import android.view.MotionEvent
 import org.catrobat.catroid.formulaeditor.formulaEditorGamepadInput
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadInput
+import org.catrobat.catroid.gamepad.GamepadStick
 import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter
 
 /**
@@ -43,6 +44,7 @@ import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter
  */
 class FormulaEditorGamepadInput(
     usedButtons: Set<GamepadButton>,
+    usedSticks: Set<GamepadStick> = emptySet(),
     swapsFaceButtons: Boolean = false,
     pressBack: () -> Unit = {},
     private val onChanged: () -> Unit
@@ -53,7 +55,8 @@ class FormulaEditorGamepadInput(
         gamepadInput = { input },
         isButtonHandled = { button -> button in usedButtons },
         swapsFaceButtons = swapsFaceButtons,
-        pressBack = pressBack
+        pressBack = pressBack,
+        isStickHandled = { stick -> stick in usedSticks }
     )
     private var inputManager: InputManager? = null
 

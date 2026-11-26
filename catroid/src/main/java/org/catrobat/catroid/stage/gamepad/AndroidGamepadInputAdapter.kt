@@ -28,10 +28,14 @@ import android.os.Handler
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
+import kotlin.math.roundToInt
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource
+import org.catrobat.catroid.gamepad.GamepadStick
+import org.catrobat.catroid.gamepad.GamepadStickPosition
 import java.util.EnumSet
+import kotlin.math.abs
 import kotlin.math.max
 
 /**
@@ -55,14 +59,19 @@ import kotlin.math.max
  *
  * @param gamepadInput returns the gamepad input of the running stage, or `null` if there is none
  * @param isButtonHandled returns whether the running project handles the given button
+ * The analog sticks are forwarded only while [isStickHandled] accepts them: the left stick from the
+ * X and Y axes, the right stick from the Z and RZ axes, or from RX and RY on a device without Z.
+ *
  * @param swapsFaceButtons whether A and B, and X and Y, change places
  * @param pressBack presses Android Back for an unhandled B when [swapsFaceButtons] is set
+ * @param isStickHandled returns whether the running project reads the given analog stick
  */
 class AndroidGamepadInputAdapter @JvmOverloads constructor(
     private val gamepadInput: () -> GamepadInput?,
     private val isButtonHandled: (GamepadButton) -> Boolean,
     private val swapsFaceButtons: Boolean = false,
-    private val pressBack: () -> Unit = {}
+    private val pressBack: () -> Unit = {},
+    private val isStickHandled: (GamepadStick) -> Boolean = { false }
 ) : InputManager.InputDeviceListener {
 
     /** The triggers whose travel counted as pressed in the last joystick move. */
@@ -94,12 +103,13 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
     }
 
     /**
-     * Forwards the hat (D-pad) and the analog triggers of a joystick move. Each event reports the
-     * current state of all these buttons, and [GamepadInput] ignores states that did not change.
-     * Consuming the event also keeps Android from turning the hat into D-pad keys.
+     * Forwards the hat (D-pad), the analog triggers and the handled analog sticks of a joystick
+     * move. Each event reports the current state of all these buttons and sticks, and [GamepadInput]
+     * ignores button states that did not change. Consuming the event also keeps Android from turning
+     * the hat or a stick into D-pad keys.
      *
      * @return true if the event is consumed because the project handles at least one of its
-     * buttons, false if Android should handle it
+     * buttons or sticks, false if Android should handle it
      */
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         if (!event.isFromSource(InputDevice.SOURCE_JOYSTICK) ||
@@ -110,7 +120,12 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
         val input = gamepadInput() ?: return false
         val handledStates = axisButtonStates(event).filter { isButtonHandled(it.button) }
         handledStates.forEach { input.setButtonState(it.button, it.source, it.pressed) }
-        return handledStates.isNotEmpty()
+        val handledSticks = GamepadStick.entries.filter(isStickHandled)
+        handledSticks.forEach { stick ->
+            val position = stickPosition(event, stick)
+            input.setStickPosition(stick, position.x, position.y)
+        }
+        return handledStates.isNotEmpty() || handledSticks.isNotEmpty()
     }
 
     /** Releases every button without firing, for example when the stage pauses or loses focus. */
@@ -227,6 +242,47 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
         return travel.coerceIn(NO_TRAVEL, FULL_TRAVEL)
     }
 
+    /** Returns the position of [stick], with right and up positive like the stage. */
+    private fun stickPosition(event: MotionEvent, stick: GamepadStick): GamepadStickPosition {
+        val device = event.device
+        val (xAxis, yAxis) = when (stick) {
+            GamepadStick.LEFT -> MotionEvent.AXIS_X to MotionEvent.AXIS_Y
+            GamepadStick.RIGHT -> if (usesRxRyForRightStick(device, event.source)) {
+                MotionEvent.AXIS_RX to MotionEvent.AXIS_RY
+            } else {
+                MotionEvent.AXIS_Z to MotionEvent.AXIS_RZ
+            }
+        }
+        return GamepadStickPosition.limited(
+            stickDeflection(event, device, xAxis),
+            -stickDeflection(event, device, yAxis)
+        )
+    }
+
+    private fun usesRxRyForRightStick(device: InputDevice?, source: Int): Boolean =
+        device?.getMotionRange(MotionEvent.AXIS_Z, source) == null &&
+            device?.getMotionRange(MotionEvent.AXIS_RX, source) != null
+
+    /**
+     * Returns how far [axis] is pushed from the center, from -100 to 100 in whole steps, relative to
+     * its motion range on the [device]. Deflections within [STICK_DEAD_ZONE] count as 0, so a resting
+     * stick reads as centered.
+     */
+    private fun stickDeflection(event: MotionEvent, device: InputDevice?, axis: Int): Double {
+        val value = event.getAxisValue(axis)
+        val range = device?.getMotionRange(axis, event.source)
+        val deflection = if (range != null && range.max > range.min) {
+            2f * (value - range.min) / (range.max - range.min) - 1f
+        } else {
+            value
+        }.coerceIn(-1f, 1f)
+        return if (abs(deflection) < STICK_DEAD_ZONE) {
+            0.0
+        } else {
+            (deflection * GamepadStickPosition.MAX_DEFLECTION).roundToInt().toDouble()
+        }
+    }
+
     private fun hatState(button: GamepadButton, pressed: Boolean) =
         AxisButtonState(button, GamepadInputSource.HAT_AXIS, pressed)
 
@@ -262,6 +318,9 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
 
         /** A pressed trigger counts as released below 40% of its travel. */
         const val TRIGGER_RELEASE_THRESHOLD = 0.4f
+
+        /** A stick deflection below 10% of the way to the edge counts as centered. */
+        const val STICK_DEAD_ZONE = 0.1f
 
         const val NO_TRAVEL = 0f
         const val FULL_TRAVEL = 1f
