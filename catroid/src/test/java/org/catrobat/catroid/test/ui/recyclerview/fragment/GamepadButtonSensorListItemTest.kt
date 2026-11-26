@@ -34,7 +34,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.Catego
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListItems
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -59,33 +58,29 @@ class GamepadButtonSensorListItemTest {
     }
 
     @Test
-    fun `device sensors end with the gamepad button sensor and the stick sensors when the setting is on`() {
+    fun `device sensors end with the user language when the setting is on`() {
         setPhysicalGamepadSetting(true)
 
-        val items = deviceSensorItems()
-        val gamepadItem = items[items.size - STICK_SENSOR_NAME_RES_IDS.size - 1]
-
-        assertEquals(STICK_SENSOR_NAME_RES_IDS, items.takeLast(STICK_SENSOR_NAME_RES_IDS.size).map { it.nameResId })
-
-        assertEquals(R.string.formula_editor_sensor_gamepad_button_a_pressed, gamepadItem.nameResId)
-        assertEquals("gamepad button A▾ pressed", gamepadItem.text)
-        assertEquals(CategoryListRVAdapter.DEFAULT, gamepadItem.type)
-        assertNull(gamepadItem.header)
+        assertEquals(R.string.formula_editor_sensor_user_language, deviceSensorItems().last().nameResId)
     }
 
     @Test
-    fun `gamepad button sensor follows user language when the setting is on`() {
+    fun `gamepad section follows the device sensors with the button and the stick sensors`() {
         setPhysicalGamepadSetting(true)
+        val items = sensorItems()
+        val deviceSection = deviceSensorItems()
+        val sectionStart = items.indexOf(deviceSection.first()) + deviceSection.size
 
-        val resIds = deviceSensorItems().map { it.nameResId }
+        val gamepadSection = items.drop(sectionStart).take(1 + STICK_SENSOR_NAME_RES_IDS.size)
 
+        assertEquals(GAMEPAD_HEADER, gamepadSection.first().header)
         assertEquals(
-            listOf(
-                R.string.formula_editor_sensor_user_language,
-                R.string.formula_editor_sensor_gamepad_button_a_pressed
-            ),
-            resIds.dropLast(STICK_SENSOR_NAME_RES_IDS.size).takeLast(2)
+            listOf(R.string.formula_editor_sensor_gamepad_button_a_pressed) + STICK_SENSOR_NAME_RES_IDS,
+            gamepadSection.map { it.nameResId }
         )
+        assertEquals("gamepad button A▾ pressed", gamepadSection.first().text)
+        assertEquals(CategoryListRVAdapter.DEFAULT, gamepadSection.first().type)
+        assertTrue(gamepadSection.drop(1).all { it.header == null })
     }
 
     @Test
@@ -106,6 +101,7 @@ class GamepadButtonSensorListItemTest {
 
         assertTrue(sensorItems().none { it.nameResId in GAMEPAD_BUTTON_SENSOR_NAME_RES_IDS })
         assertEquals(R.string.formula_editor_sensor_user_language, deviceSensorItems().last().nameResId)
+        assertTrue(sensorItems().none { it.header == GAMEPAD_HEADER })
     }
 
     @Test
@@ -132,6 +128,7 @@ class GamepadButtonSensorListItemTest {
     }
 
     private companion object {
+        const val GAMEPAD_HEADER = "Gamepad"
         val STICK_SENSOR_NAME_RES_IDS = listOf(
             R.string.formula_editor_sensor_gamepad_left_stick_x,
             R.string.formula_editor_sensor_gamepad_left_stick_y,
