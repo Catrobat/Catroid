@@ -1755,21 +1755,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad jos apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad stânga apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad dreapta apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butonul de gamepad A▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butonul de gamepad B▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butonul de gamepad X▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butonul de gamepad Y▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butonul de gamepad sus▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butonul de gamepad jos▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butonul de gamepad stânga▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butonul de gamepad dreapta▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butonul de gamepad start▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butonul de gamepad select▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butonul de gamepad L1▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butonul de gamepad L2▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butonul de gamepad R1▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butonul de gamepad R2▾apăsat</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butonul de gamepad oricare▾apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butonul de gamepad A▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butonul de gamepad B▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butonul de gamepad X▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butonul de gamepad Y▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butonul de gamepad sus▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butonul de gamepad jos▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butonul de gamepad stânga▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butonul de gamepad dreapta▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butonul de gamepad start▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butonul de gamepad select▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butonul de gamepad L1▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butonul de gamepad L2▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butonul de gamepad R1▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butonul de gamepad R2▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butonul de gamepad oricare▾ apăsat</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensia gamepad</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permite utilizarea unui gamepad fizic</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lățimea zonei de joc</string>

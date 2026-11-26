@@ -1800,21 +1800,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gumb dol igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gumb levo igralnega ploščka pritisnjen</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gumb desno igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gumb A▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gumb B▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gumb X▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gumb Y▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gumb gor▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gumb dol▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gumb levo▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gumb desno▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gumb Start▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gumb Select▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gumb L1▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gumb L2▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gumb R1▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gumb R2▾fizičnega igralnega ploščka pritisnjen</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gumb katerikoli▾fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gumb A▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gumb B▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gumb X▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gumb Y▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gumb gor▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gumb dol▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gumb levo▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gumb desno▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gumb Start▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gumb Select▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gumb L1▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gumb L2▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gumb R1▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gumb R2▾ fizičnega igralnega ploščka pritisnjen</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gumb katerikoli▾ fizičnega igralnega ploščka pritisnjen</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Razširitev igralni plošček</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dovoli uporabo fizičnega igralnega ploščka</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina odra</string>

@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepad button A▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepad button B▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepad button X▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepad button Y▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepad button up▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepad button down▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepad button left▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepad button right▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepad button start▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepad button select▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepad button L1▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad button L2▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad button R1▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad button R2▾pressed</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad button any▾pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepad button A▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepad button B▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepad button X▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepad button Y▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepad button up▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepad button down▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepad button left▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepad button right▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepad button start▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepad button select▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepad button L1▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad button L2▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad button R1▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad button R2▾ pressed</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad button any▾ pressed</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad extension</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Allow the use of a physical gamepad</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>

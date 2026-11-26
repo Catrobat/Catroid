@@ -1755,21 +1755,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">tipka dolje igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">tipka lijevo igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">tipka desno igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tipka A▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tipka B▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tipka X▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tipka Y▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tipka gore▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tipka dolje▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tipka lijevo▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tipka desno▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tipka start▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tipka select▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tipka L1▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tipka L2▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tipka R1▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tipka R2▾fizičke igraće ploče pritisnuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tipka bilo koja▾fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tipka A▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tipka B▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tipka X▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tipka Y▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tipka gore▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tipka dolje▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tipka lijevo▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tipka desno▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tipka start▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tipka select▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tipka L1▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tipka L2▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tipka R1▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tipka R2▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tipka bilo koja▾ fizičke igraće ploče pritisnuta</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje igraće ploče</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dopusti korištenje fizičke igraće ploče</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>

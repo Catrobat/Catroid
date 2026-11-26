@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">گیم پیڈ نیچے دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">گیم پیڈ بائیں دبایا گیا</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">گیم پیڈ دائیں دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">گیم پیڈ بٹن A▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">گیم پیڈ بٹن B▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">گیم پیڈ بٹن X▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">گیم پیڈ بٹن Y▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">گیم پیڈ بٹن اوپر▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">گیم پیڈ بٹن نیچے▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">گیم پیڈ بٹن بائیں▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">گیم پیڈ بٹن دائیں▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">گیم پیڈ بٹن اسٹارٹ▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">گیم پیڈ بٹن سلیکٹ▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">گیم پیڈ بٹن L1▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">گیم پیڈ بٹن L2▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گیم پیڈ بٹن R1▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گیم پیڈ بٹن R2▾دبایا گیا</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گیم پیڈ بٹن کوئی بھی▾دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">گیم پیڈ بٹن A▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">گیم پیڈ بٹن B▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">گیم پیڈ بٹن X▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">گیم پیڈ بٹن Y▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">گیم پیڈ بٹن اوپر▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">گیم پیڈ بٹن نیچے▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">گیم پیڈ بٹن بائیں▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">گیم پیڈ بٹن دائیں▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">گیم پیڈ بٹن اسٹارٹ▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">گیم پیڈ بٹن سلیکٹ▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">گیم پیڈ بٹن L1▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">گیم پیڈ بٹن L2▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">گیم پیڈ بٹن R1▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">گیم پیڈ بٹن R2▾ دبایا گیا</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">گیم پیڈ بٹن کوئی بھی▾ دبایا گیا</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">گیم پیڈ ایکسٹینشن</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">فزیکل گیم پیڈ کے استعمال کی اجازت دیں</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٹیج کی چوڑائی</string>

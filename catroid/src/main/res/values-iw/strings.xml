@@ -1755,21 +1755,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">כפתור למטה בשלט נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">כפתור שמאלה בשלט נלחץ</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">כפתור ימינה בשלט נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">כפתור השלט A▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">כפתור השלט B▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">כפתור השלט X▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">כפתור השלט Y▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">כפתור השלט למעלה▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">כפתור השלט למטה▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">כפתור השלט שמאלה▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">כפתור השלט ימינה▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">כפתור השלט Start▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">כפתור השלט Select▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">כפתור השלט L1▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">כפתור השלט L2▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">כפתור השלט R1▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">כפתור השלט R2▾נלחץ</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">כפתור השלט כלשהו▾נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">כפתור השלט A▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">כפתור השלט B▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">כפתור השלט X▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">כפתור השלט Y▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">כפתור השלט למעלה▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">כפתור השלט למטה▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">כפתור השלט שמאלה▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">כפתור השלט ימינה▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">כפתור השלט Start▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">כפתור השלט Select▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">כפתור השלט L1▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">כפתור השלט L2▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">כפתור השלט R1▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">כפתור השלט R2▾ נלחץ</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">כפתור השלט כלשהו▾ נלחץ</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">הרחבת שלט</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">מאפשר שימוש בשלט פיזי</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>

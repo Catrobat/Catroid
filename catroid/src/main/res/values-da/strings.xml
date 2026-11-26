@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad ned trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad venstre trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad højre trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepad-knap A▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepad-knap B▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepad-knap X▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepad-knap Y▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepad-knap op▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepad-knap ned▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepad-knap venstre▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepad-knap højre▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepad-knap start▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepad-knap select▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepad-knap L1▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad-knap L2▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad-knap R1▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad-knap R2▾trykket</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad-knap vilkårlig▾trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepad-knap A▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepad-knap B▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepad-knap X▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepad-knap Y▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepad-knap op▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepad-knap ned▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepad-knap venstre▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepad-knap højre▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepad-knap start▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepad-knap select▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepad-knap L1▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad-knap L2▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad-knap R1▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad-knap R2▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad-knap vilkårlig▾ trykket</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad-udvidelse</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillad brug af en fysisk gamepad</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spillefladens bredde</string>

@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">botó avall del comandament premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">botó esquerra del comandament premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">botó dreta del comandament premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">botó A▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">botó B▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">botó X▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">botó Y▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">botó amunt▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">botó avall▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">botó esquerra▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">botó dreta▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">botó start▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">botó select▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">botó L1▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">botó L2▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botó R1▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botó R2▾del comandament físic premut</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">botó A▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">botó B▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">botó X▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">botó Y▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">botó amunt▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">botó avall▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">botó esquerra▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">botó dreta▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">botó start▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">botó select▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">botó L1▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">botó L2▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botó R1▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botó R2▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾ del comandament físic premut</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensió comandament</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Permet l\'ús d\'un comandament físic</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>

@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">joko-kontrolagailuaren behera sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">joko-kontrolagailuaren ezkerrera sakatuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">joko-kontrolagailuaren eskuinera sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">joko-kontrolagailuaren A▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">joko-kontrolagailuaren B▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">joko-kontrolagailuaren X▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">joko-kontrolagailuaren Y▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">joko-kontrolagailuaren gora▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">joko-kontrolagailuaren behera▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">joko-kontrolagailuaren ezkerrera▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">joko-kontrolagailuaren eskuinera▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">joko-kontrolagailuaren start▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">joko-kontrolagailuaren select▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">joko-kontrolagailuaren L1▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">joko-kontrolagailuaren L2▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2▾botoia sakatuta</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">joko-kontrolagailuaren A▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">joko-kontrolagailuaren B▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">joko-kontrolagailuaren X▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">joko-kontrolagailuaren Y▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">joko-kontrolagailuaren gora▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">joko-kontrolagailuaren behera▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">joko-kontrolagailuaren ezkerrera▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">joko-kontrolagailuaren eskuinera▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">joko-kontrolagailuaren start▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">joko-kontrolagailuaren select▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">joko-kontrolagailuaren L1▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">joko-kontrolagailuaren L2▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">joko-kontrolagailuaren R1▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">joko-kontrolagailuaren R2▾ botoia sakatuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">joko-kontrolagailuaren edozein▾ botoia sakatuta</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Joko-kontrolagailu hedapena</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Baimendu joko-kontrolagailu fisiko bat erabiltzea</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>

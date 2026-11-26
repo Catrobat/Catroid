@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">oyun pultunda aşağı basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">oyun pultunda sol basılıb</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">oyun pultunda sağ basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">oyun pultunun düyməsi A▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">oyun pultunun düyməsi B▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">oyun pultunun düyməsi X▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">oyun pultunun düyməsi Y▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">oyun pultunun düyməsi yuxarı▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">oyun pultunun düyməsi aşağı▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">oyun pultunun düyməsi sol▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">oyun pultunun düyməsi sağ▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">oyun pultunun düyməsi start▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">oyun pultunun düyməsi select▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">oyun pultunun düyməsi L1▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun pultunun düyməsi L2▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2▾basılıb</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">oyun pultunun düyməsi A▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">oyun pultunun düyməsi B▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">oyun pultunun düyməsi X▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">oyun pultunun düyməsi Y▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">oyun pultunun düyməsi yuxarı▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">oyun pultunun düyməsi aşağı▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">oyun pultunun düyməsi sol▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">oyun pultunun düyməsi sağ▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">oyun pultunun düyməsi start▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">oyun pultunun düyməsi select▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">oyun pultunun düyməsi L1▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">oyun pultunun düyməsi L2▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">oyun pultunun düyməsi R1▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">oyun pultunun düyməsi R2▾ basılıb</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">oyun pultunun düyməsi istənilən▾ basılıb</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Oyun pultu genişlənməsi</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Fiziki oyun pultundan istifadəyə icazə verin</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>

@@ -1755,21 +1755,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">kontroler dole pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">kontroler levo pritisnuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">kontroler desno pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">dugme kontrolera A▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">dugme kontrolera B▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">dugme kontrolera X▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">dugme kontrolera Y▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">dugme kontrolera gore▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">dugme kontrolera dole▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">dugme kontrolera levo▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">dugme kontrolera desno▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">dugme kontrolera start▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">dugme kontrolera select▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">dugme kontrolera L1▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">dugme kontrolera L2▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">dugme kontrolera R1▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">dugme kontrolera R2▾pritisnuto</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">dugme kontrolera bilo koje▾pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">dugme kontrolera A▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">dugme kontrolera B▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">dugme kontrolera X▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">dugme kontrolera Y▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">dugme kontrolera gore▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">dugme kontrolera dole▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">dugme kontrolera levo▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">dugme kontrolera desno▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">dugme kontrolera start▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">dugme kontrolera select▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">dugme kontrolera L1▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">dugme kontrolera L2▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">dugme kontrolera R1▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">dugme kontrolera R2▾ pritisnuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">dugme kontrolera bilo koje▾ pritisnuto</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje kontroler</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Dozvoli korišćenje fizičkog kontrolera</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>

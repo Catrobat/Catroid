@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">கேம்பேட் கீழ் அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">கேம்பேட் இடது அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">கேம்பேட் வலது அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">கேம்பேட் பொத்தான் A▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">கேம்பேட் பொத்தான் B▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">கேம்பேட் பொத்தான் X▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">கேம்பேட் பொத்தான் Y▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">கேம்பேட் பொத்தான் மேல்▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">கேம்பேட் பொத்தான் கீழ்▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">கேம்பேட் பொத்தான் இடது▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">கேம்பேட் பொத்தான் வலது▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">கேம்பேட் பொத்தான் ஸ்டார்ட்▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">கேம்பேட் பொத்தான் செலக்ட்▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">கேம்பேட் பொத்தான் L1▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">கேம்பேட் பொத்தான் L2▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾அழுத்தப்பட்டது</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">கேம்பேட் பொத்தான் A▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">கேம்பேட் பொத்தான் B▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">கேம்பேட் பொத்தான் X▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">கேம்பேட் பொத்தான் Y▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">கேம்பேட் பொத்தான் மேல்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">கேம்பேட் பொத்தான் கீழ்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">கேம்பேட் பொத்தான் இடது▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">கேம்பேட் பொத்தான் வலது▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">கேம்பேட் பொத்தான் ஸ்டார்ட்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">கேம்பேட் பொத்தான் செலக்ட்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">கேம்பேட் பொத்தான் L1▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">கேம்பேட் பொத்தான் L2▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾ அழுத்தப்பட்டது</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">கேம்பேட் நீட்சி</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">வன்பொருள் கேம்பேடைப் பயன்படுத்த அனுமதி</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>

@@ -1890,21 +1890,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">زر الأسفل في لوحة الألعاب مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">زر اليسار في لوحة الألعاب مضغوط</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">زر اليمين في لوحة الألعاب مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">زر لوحة الألعاب A▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">زر لوحة الألعاب B▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">زر لوحة الألعاب X▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">زر لوحة الألعاب Y▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">زر لوحة الألعاب الأعلى▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">زر لوحة الألعاب الأسفل▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">زر لوحة الألعاب اليسار▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">زر لوحة الألعاب اليمين▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">زر لوحة الألعاب Start▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">زر لوحة الألعاب Select▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">زر لوحة الألعاب L1▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">زر لوحة الألعاب L2▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">زر لوحة الألعاب R1▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">زر لوحة الألعاب R2▾مضغوط</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">زر لوحة الألعاب أي▾مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">زر لوحة الألعاب A▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">زر لوحة الألعاب B▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">زر لوحة الألعاب X▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">زر لوحة الألعاب Y▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">زر لوحة الألعاب الأعلى▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">زر لوحة الألعاب الأسفل▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">زر لوحة الألعاب اليسار▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">زر لوحة الألعاب اليمين▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">زر لوحة الألعاب Start▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">زر لوحة الألعاب Select▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">زر لوحة الألعاب L1▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">زر لوحة الألعاب L2▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">زر لوحة الألعاب R1▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">زر لوحة الألعاب R2▾ مضغوط</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">زر لوحة الألعاب أي▾ مضغوط</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">إضافة لوحة الألعاب</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">السماح باستخدام لوحة ألعاب فعلية</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">عرض المسرح</string>

@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">bas de la manette appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gauche de la manette appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">droite de la manette appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">bouton A▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">bouton B▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">bouton X▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">bouton Y▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">bouton haut▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">bouton bas▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">bouton gauche▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">bouton droite▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">bouton start▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">bouton select▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">bouton L1▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">bouton L2▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾de la manette physique appuyé</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">bouton A▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">bouton B▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">bouton X▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">bouton Y▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">bouton haut▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">bouton bas▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">bouton gauche▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">bouton droite▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">bouton start▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">bouton select▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">bouton L1▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">bouton L2▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾ de la manette physique appuyé</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>

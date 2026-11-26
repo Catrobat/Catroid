@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ഗെയിംപാഡ് താഴേക്ക് അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ഗെയിംപാഡ് ഇടത്തേക്ക് അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ഗെയിംപാഡ് വലത്തേക്ക് അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ഗെയിംപാഡ് ബട്ടൺ A▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ഗെയിംപാഡ് ബട്ടൺ B▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ഗെയിംപാഡ് ബട്ടൺ X▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ഗെയിംപാഡ് ബട്ടൺ Y▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ഗെയിംപാഡ് മുകളിലേക്കുള്ള▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ഗെയിംപാഡ് താഴേക്കുള്ള▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ഗെയിംപാഡ് ഇടത്തേക്കുള്ള▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ഗെയിംപാഡ് വലത്തേക്കുള്ള▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ഗെയിംപാഡ് സ്റ്റാർട്ട്▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ഗെയിംപാഡ് സെലക്റ്റ്▾ബട്ടൺ അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ഗെയിംപാഡ് ബട്ടൺ L1▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ഗെയിംപാഡ് ബട്ടൺ L2▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ഗെയിംപാഡ് ബട്ടൺ R1▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ഗെയിംപാഡ് ബട്ടൺ R2▾അമർത്തി</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ഗെയിംപാഡ് ഏതെങ്കിലും▾ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ഗെയിംപാഡ് ബട്ടൺ A▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ഗെയിംപാഡ് ബട്ടൺ B▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ഗെയിംപാഡ് ബട്ടൺ X▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ഗെയിംപാഡ് ബട്ടൺ Y▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ഗെയിംപാഡ് മുകളിലേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ഗെയിംപാഡ് താഴേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ഗെയിംപാഡ് ഇടത്തേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ഗെയിംപാഡ് വലത്തേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ഗെയിംപാഡ് സ്റ്റാർട്ട്▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ഗെയിംപാഡ് സെലക്റ്റ്▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ഗെയിംപാഡ് ബട്ടൺ L1▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ഗെയിംപാഡ് ബട്ടൺ L2▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ഗെയിംപാഡ് ബട്ടൺ R1▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ഗെയിംപാഡ് ബട്ടൺ R2▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ഗെയിംപാഡ് ഏതെങ്കിലും▾ ബട്ടൺ അമർത്തി</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ഗെയിംപാഡ് എക്സ്റ്റൻഷൻ</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">ഫിസിക്കൽ ഗെയിംപാഡ് ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">വേദിയുടെ വീതി</string>

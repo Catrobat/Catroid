@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">دکمهٔ پایین دسته‌بازی فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">دکمهٔ چپ دسته‌بازی فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">دکمهٔ راست دسته‌بازی فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">دکمهٔ دسته‌بازی A▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">دکمهٔ دسته‌بازی B▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">دکمهٔ دسته‌بازی X▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">دکمهٔ دسته‌بازی Y▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">دکمهٔ دسته‌بازی بالا▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">دکمهٔ دسته‌بازی پایین▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">دکمهٔ دسته‌بازی چپ▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">دکمهٔ دسته‌بازی راست▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">دکمهٔ دسته‌بازی Start▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">دکمهٔ دسته‌بازی Select▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">دکمهٔ دسته‌بازی L1▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">دکمهٔ دسته‌بازی L2▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">دکمهٔ دسته‌بازی R1▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">دکمهٔ دسته‌بازی R2▾فشرده شده</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">دکمهٔ دسته‌بازی A▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">دکمهٔ دسته‌بازی B▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">دکمهٔ دسته‌بازی X▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">دکمهٔ دسته‌بازی Y▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">دکمهٔ دسته‌بازی بالا▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">دکمهٔ دسته‌بازی پایین▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">دکمهٔ دسته‌بازی چپ▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">دکمهٔ دسته‌بازی راست▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">دکمهٔ دسته‌بازی Start▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">دکمهٔ دسته‌بازی Select▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">دکمهٔ دسته‌بازی L1▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">دکمهٔ دسته‌بازی L2▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">دکمهٔ دسته‌بازی R1▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">دکمهٔ دسته‌بازی R2▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾ فشرده شده</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">افزونهٔ دسته‌بازی</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">اجازهٔ استفاده از دسته‌بازی فیزیکی</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">پهنای صحنه</string>

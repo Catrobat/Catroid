@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">játékvezérlő le lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">játékvezérlő balra lenyomva</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">játékvezérlő jobbra lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">játékvezérlő A▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">játékvezérlő B▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">játékvezérlő X▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">játékvezérlő Y▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">játékvezérlő fel▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">játékvezérlő le▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">játékvezérlő balra▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">játékvezérlő jobbra▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">játékvezérlő start▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">játékvezérlő select▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">játékvezérlő L1▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">játékvezérlő L2▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">játékvezérlő R1▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">játékvezérlő R2▾gomb lenyomva</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">játékvezérlő bármelyik▾gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">játékvezérlő A▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">játékvezérlő B▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">játékvezérlő X▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">játékvezérlő Y▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">játékvezérlő fel▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">játékvezérlő le▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">játékvezérlő balra▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">játékvezérlő jobbra▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">játékvezérlő start▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">játékvezérlő select▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">játékvezérlő L1▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">játékvezérlő L2▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">játékvezérlő R1▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">játékvezérlő R2▾ gomb lenyomva</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">játékvezérlő bármelyik▾ gomb lenyomva</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Játékvezérlő bővítmény</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Engedélyezi egy fizikai játékvezérlő használatát</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>

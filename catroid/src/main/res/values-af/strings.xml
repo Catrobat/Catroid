@@ -1710,21 +1710,21 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">spelbeheerder af gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">spelbeheerder links gedruk</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">spelbeheerder regs gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">spelbeheerderknoppie A▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">spelbeheerderknoppie B▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">spelbeheerderknoppie X▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">spelbeheerderknoppie Y▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">spelbeheerderknoppie op▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">spelbeheerderknoppie af▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">spelbeheerderknoppie links▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">spelbeheerderknoppie regs▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">spelbeheerderknoppie start▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">spelbeheerderknoppie select▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">spelbeheerderknoppie L1▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">spelbeheerderknoppie L2▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelbeheerderknoppie R1▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelbeheerderknoppie R2▾gedruk</string>
-    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelbeheerderknoppie enige▾gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">spelbeheerderknoppie A▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">spelbeheerderknoppie B▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">spelbeheerderknoppie X▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">spelbeheerderknoppie Y▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">spelbeheerderknoppie op▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">spelbeheerderknoppie af▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">spelbeheerderknoppie links▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">spelbeheerderknoppie regs▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">spelbeheerderknoppie start▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">spelbeheerderknoppie select▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">spelbeheerderknoppie L1▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">spelbeheerderknoppie L2▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">spelbeheerderknoppie R1▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">spelbeheerderknoppie R2▾ gedruk</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">spelbeheerderknoppie enige▾ gedruk</string>
     <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Uitbreiding spelbeheerder</string>
     <string formatted="false" name="preference_description_physical_gamepad_bricks">Laat die gebruik van \'n fisiese spelbeheerder toe</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">verhoogwydte</string>
