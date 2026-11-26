@@ -28,6 +28,7 @@ import android.preference.PreferenceManager
 import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType
+import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.formulaeditor.sensor
 import org.catrobat.catroid.gamepad.GamepadButton
@@ -157,6 +159,30 @@ class StageGamepadInputTest {
     }
 
     @Test
+    fun joystickHatFiresDpadScriptThroughTheSystem() {
+        val leftPresses = addPressCounter(GamepadButton.LEFT)
+        startStage()
+
+        injectHatX(HAT_LEFT)
+        injectHatX(HAT_CENTER)
+
+        assertUserVariableEqualsWithTimeout(leftPresses, 1.0, TIMEOUT_MILLIS)
+    }
+
+    @Test
+    fun joystickHatFiresDpadScriptInAProjectThatReadsAStick() {
+        val leftPresses = addPressCounter(GamepadButton.LEFT)
+        val stickX = addSensorMirror(Sensors.GAMEPAD_LEFT_STICK_X)
+        startStage()
+
+        injectHatX(HAT_LEFT, stickX = HALF_DEFLECTION)
+        assertUserVariableEqualsWithTimeout(stickX, STICK_VALUE_AT_HALF_DEFLECTION, TIMEOUT_MILLIS)
+        injectHatX(HAT_CENTER)
+
+        assertUserVariableEqualsWithTimeout(leftPresses, 1.0, TIMEOUT_MILLIS)
+    }
+
+    @Test
     fun usedBIsConsumedAndFiresItsScript() {
         val bPresses = addPressCounter(GamepadButton.B)
         startStage()
@@ -246,10 +272,13 @@ class StageGamepadInputTest {
     }
 
     /** Adds a script that keeps copying the "gamepad button pressed" sensor of [button]. */
-    private fun addSensorMirror(button: GamepadButton): UserVariable {
-        val pressed = UserVariable("${button.name} pressed")
+    private fun addSensorMirror(button: GamepadButton): UserVariable = addSensorMirror(button.sensor)
+
+    /** Adds a script that keeps copying [sensor] into a variable. */
+    private fun addSensorMirror(sensor: Sensors): UserVariable {
+        val pressed = UserVariable("${sensor.name} value")
         project.addUserVariable(pressed)
-        val sensorFormula = Formula(FormulaElement(ElementType.SENSOR, button.sensor.name, null))
+        val sensorFormula = Formula(FormulaElement(ElementType.SENSOR, sensor.name, null))
         val foreverBrick = ForeverBrick().apply {
             addBrick(SetVariableBrick(sensorFormula, pressed))
         }
@@ -287,6 +316,28 @@ class StageGamepadInputTest {
         InstrumentationRegistry.getInstrumentation()
             .sendKeySync(keyEvent(action, keyCode, source, repeatCount))
 
+    /** Injects a joystick move through the system, like a real controller, and waits for it. */
+    private fun injectHatX(hatX: Float, stickX: Float = 0f) {
+        val properties = MotionEvent.PointerProperties().apply {
+            id = 0
+            toolType = MotionEvent.TOOL_TYPE_UNKNOWN
+        }
+        val coordinates = MotionEvent.PointerCoords().apply {
+            setAxisValue(MotionEvent.AXIS_HAT_X, hatX)
+            setAxisValue(MotionEvent.AXIS_X, stickX)
+        }
+        val now = SystemClock.uptimeMillis()
+        val event = MotionEvent.obtain(
+            now, now, MotionEvent.ACTION_MOVE, 1, arrayOf(properties), arrayOf(coordinates),
+            NO_META_STATE, 0, 1f, 1f, 0, 0, InputDevice.SOURCE_JOYSTICK, 0
+        )
+        try {
+            assertTrue(InstrumentationRegistry.getInstrumentation().uiAutomation.injectInputEvent(event, true))
+        } finally {
+            event.recycle()
+        }
+    }
+
     /** Dispatches the key event directly to the stage and returns whether the stage consumed it. */
     private fun isConsumedByStage(event: KeyEvent): Boolean {
         var consumed = false
@@ -314,5 +365,9 @@ class StageGamepadInputTest {
         private const val TIMEOUT_MILLIS = 3000
         private const val QUIET_PERIOD_MILLIS = 500
         private const val POLL_INTERVAL_MILLIS = 50L
+        private const val HAT_LEFT = -1f
+        private const val HAT_CENTER = 0f
+        private const val HALF_DEFLECTION = 0.5f
+        private const val STICK_VALUE_AT_HALF_DEFLECTION = 50.0
     }
 }
