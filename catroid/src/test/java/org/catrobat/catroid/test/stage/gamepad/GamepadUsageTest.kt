@@ -203,6 +203,25 @@ class GamepadUsageTest {
     }
 
     @Test
+    fun `stick sensor in a formula uses the gamepad but no button`() {
+        val project = projectWith(StartScript().withBricks(SetXBrick(formulaOf(sensorElement(Sensors.GAMEPAD_RIGHT_STICK_X)))))
+
+        val usage = GamepadUsage.of(project)
+
+        assertEquals(emptySet<GamepadButton>(), usage.usedButtons)
+        assertTrue(usage.usesGamepad)
+        assertTrue(usage.isHandledByStage(X))
+    }
+
+    @Test
+    fun `stick sensor in a commented out script is ignored`() {
+        val script = StartScript().withBricks(SetXBrick(formulaOf(sensorElement(Sensors.GAMEPAD_LEFT_STICK_Y))))
+        script.isCommentedOut = true
+
+        assertUsesNoGamepad(GamepadUsage.of(projectWith(script)))
+    }
+
+    @Test
     fun `sensor in a brick nested in an if brick uses its button`() {
         val ifBrick = IfLogicBeginBrick(Formula(NUMBER_VALUE)).apply {
             addBrickToIfBranch(SetXBrick(sensorFormula(UP)))

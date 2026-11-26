@@ -42,14 +42,20 @@ import android.view.MotionEvent.AXIS_HAT_X
 import android.view.MotionEvent.AXIS_HAT_Y
 import android.view.MotionEvent.AXIS_LTRIGGER
 import android.view.MotionEvent.AXIS_RTRIGGER
+import android.view.MotionEvent.AXIS_RZ
 import android.view.MotionEvent.AXIS_X
 import android.view.MotionEvent.AXIS_Y
+import android.view.MotionEvent.AXIS_Z
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.WhenGamepadButtonPressedScript
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.gamepad.GamepadButton.A
 import org.catrobat.catroid.gamepad.GamepadButton.B
@@ -67,6 +73,8 @@ import org.catrobat.catroid.gamepad.GamepadButton.X
 import org.catrobat.catroid.gamepad.GamepadButton.Y
 import org.catrobat.catroid.gamepad.GamepadInput
 import org.catrobat.catroid.gamepad.GamepadInputSource
+import org.catrobat.catroid.gamepad.GamepadStick
+import org.catrobat.catroid.gamepad.GamepadStickPosition
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter
@@ -829,6 +837,49 @@ class AndroidGamepadInputAdapterTest {
         assertFired(B)
     }
 
+    @Test
+    fun `stage adapter forwards the left stick of a project that uses a left stick sensor`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(projectUsingSensor(Sensors.GAMEPAD_LEFT_STICK_X))
+
+        assertTrue(moveAxes(AXIS_X to 0.5f, AXIS_Y to -0.25f, target = stageAdapter))
+
+        assertEquals(GamepadStickPosition(50.0, 25.0), input.stickPosition(GamepadStick.LEFT))
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.RIGHT))
+    }
+
+    @Test
+    fun `stage adapter reads the right stick from the Z and RZ axes`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(projectUsingSensor(Sensors.GAMEPAD_RIGHT_STICK_Y))
+
+        assertTrue(moveAxes(AXIS_Z to 1f, AXIS_RZ to 1f, AXIS_X to 1f, target = stageAdapter))
+
+        assertEquals(GamepadStickPosition(100.0, -100.0), input.stickPosition(GamepadStick.RIGHT))
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.LEFT))
+    }
+
+    @Test
+    fun `stick deflection in the dead zone around the center reads as centered`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(projectUsingSensor(Sensors.GAMEPAD_LEFT_STICK_Y))
+
+        assertTrue(moveAxes(AXIS_X to 0.05f, AXIS_Y to -0.09f, target = stageAdapter))
+
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.LEFT))
+    }
+
+    @Test
+    fun `stage adapter does not forward a stick that the project does not use`() {
+        useStageGamepadInput()
+        val stageAdapter = StageGamepadInputAdapterFactory.create(projectUsingSensor(Sensors.GAMEPAD_BUTTON_A_PRESSED))
+
+        moveAxes(AXIS_X to 1f, AXIS_Z to 1f, target = stageAdapter)
+
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.LEFT))
+        assertEquals(GamepadStickPosition.CENTER, input.stickPosition(GamepadStick.RIGHT))
+    }
+
     /** Lets the adapters of [StageGamepadInputAdapterFactory] feed [input] as gamepad input of the stage. */
     private fun useStageGamepadInput() {
         val stageListener = mock(StageListener::class.java)
@@ -909,11 +960,19 @@ class AndroidGamepadInputAdapterTest {
         return event
     }
 
+    private fun projectUsingSensor(sensor: Sensors): Project =
+        projectWith(
+            StartScript().apply {
+                addBrick(ChangeXByNBrick(Formula(FormulaElement(FormulaElement.ElementType.SENSOR, sensor.name, null))))
+            }
+        )
+
     private fun moveAxes(
         vararg axisValues: Pair<Int, Float>,
         source: Int = SOURCE_JOYSTICK,
         deviceId: Int = GAMEPAD_DEVICE_ID,
-        action: Int = MotionEvent.ACTION_MOVE
+        action: Int = MotionEvent.ACTION_MOVE,
+        target: AndroidGamepadInputAdapter = adapter
     ): Boolean {
         val properties = MotionEvent.PointerProperties().apply {
             id = 0
@@ -928,7 +987,7 @@ class AndroidGamepadInputAdapterTest {
         )
         shadowOf(event).setDevice(devices[deviceId])
         return try {
-            adapter.dispatchGenericMotionEvent(event)
+            target.dispatchGenericMotionEvent(event)
         } finally {
             event.recycle()
         }

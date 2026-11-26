@@ -173,6 +173,17 @@ class FormulaEditorComputeDialogGamepadTest {
     }
 
     @Test
+    fun `shows the left stick of the formula live`() {
+        val dialog = showDialogFor(Sensors.GAMEPAD_LEFT_STICK_X)
+
+        assertTrue(dialog.dispatchGenericMotionEvent(stickMotion(leftX = 0.5f)))
+        assertEquals(50.0, dialog.result().toDouble(), 0.0)
+
+        assertTrue(dialog.dispatchGenericMotionEvent(stickMotion(leftX = 0f)))
+        assertEquals(0.0, dialog.result().toDouble(), 0.0)
+    }
+
+    @Test
     fun `leaves buttons that the formula does not use to Android`() {
         val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_A_PRESSED)
 
@@ -254,6 +265,20 @@ class FormulaEditorComputeDialogGamepadTest {
 
     private fun gamepadKey(action: Int, keyCode: Int) =
         KeyEvent(0L, 0L, action, keyCode, 0, 0, GAMEPAD_DEVICE_ID, 0, 0, SOURCE_GAMEPAD)
+
+    private fun stickMotion(leftX: Float): MotionEvent {
+        val properties = MotionEvent.PointerProperties().apply {
+            id = 0
+            toolType = MotionEvent.TOOL_TYPE_UNKNOWN
+        }
+        val coordinates = MotionEvent.PointerCoords().apply {
+            setAxisValue(MotionEvent.AXIS_X, leftX)
+        }
+        return MotionEvent.obtain(
+            0L, 0L, MotionEvent.ACTION_MOVE, 1, arrayOf(properties), arrayOf(coordinates),
+            0, 0, 1f, 1f, GAMEPAD_DEVICE_ID, 0, SOURCE_JOYSTICK, 0
+        )
+    }
 
     private fun hatMotion(hatY: Float): MotionEvent {
         val properties = MotionEvent.PointerProperties().apply {
