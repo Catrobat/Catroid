@@ -212,18 +212,38 @@ open class AndroidGamepadInputAdapterTestBase {
         deviceId: Int = GAMEPAD_DEVICE_ID,
         action: Int = MotionEvent.ACTION_MOVE,
         target: AndroidGamepadInputAdapter = adapter
+    ): Boolean = dispatchMotion(listOf(axisValues.toMap()), source, deviceId, action, target)
+
+    /**
+     * Moves the axes in one joystick move that carries several [samples], as Android batches them:
+     * all but the last sample are historical, the last one is the current sample.
+     */
+    protected fun moveAxesInSamples(vararg samples: Map<Int, Float>): Boolean =
+        dispatchMotion(samples.toList(), SOURCE_JOYSTICK, GAMEPAD_DEVICE_ID, MotionEvent.ACTION_MOVE, adapter)
+
+    private fun dispatchMotion(
+        samples: List<Map<Int, Float>>,
+        source: Int,
+        deviceId: Int,
+        action: Int,
+        target: AndroidGamepadInputAdapter
     ): Boolean {
         val properties = MotionEvent.PointerProperties().apply {
             id = 0
             toolType = MotionEvent.TOOL_TYPE_UNKNOWN
         }
-        val coordinates = MotionEvent.PointerCoords().apply {
-            axisValues.forEach { (axis, value) -> setAxisValue(axis, value) }
+        val coordinates = samples.map { sample ->
+            MotionEvent.PointerCoords().apply {
+                sample.forEach { (axis, value) -> setAxisValue(axis, value) }
+            }
         }
         val event = MotionEvent.obtain(
-            0L, 0L, action, 1, arrayOf(properties), arrayOf(coordinates),
+            0L, 0L, action, 1, arrayOf(properties), arrayOf(coordinates.first()),
             0, 0, 1f, 1f, deviceId, 0, source, 0
         )
+        coordinates.drop(1).forEachIndexed { index, sample ->
+            event.addBatch(index + 1L, arrayOf(sample), 0)
+        }
         shadowOf(event).setDevice(devices[deviceId])
         return try {
             target.dispatchGenericMotionEvent(event)

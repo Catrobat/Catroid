@@ -236,6 +236,39 @@ class AndroidGamepadInputAdapterMotionTest : AndroidGamepadInputAdapterTestBase(
     }
 
     @Test
+    fun `hat press and release batched into one joystick move press the button once`() {
+        assertTrue(moveAxesInSamples(mapOf(AXIS_HAT_X to -1f), mapOf(AXIS_HAT_X to 0f)))
+        applyPendingInput()
+
+        assertFired(LEFT)
+        assertPressedExactly()
+    }
+
+    @Test
+    fun `trigger press and release batched into one joystick move press the trigger once`() {
+        assertTrue(
+            moveAxesInSamples(
+                mapOf(AXIS_RTRIGGER to 0.6f),
+                mapOf(AXIS_RTRIGGER to 0.45f),
+                mapOf(AXIS_RTRIGGER to 0f)
+            )
+        )
+        applyPendingInput()
+
+        assertFired(R2)
+        assertPressedExactly()
+    }
+
+    @Test
+    fun `batched trigger samples keep a pressed trigger pressed above 40 percent`() {
+        assertTrue(moveAxesInSamples(mapOf(AXIS_LTRIGGER to 0.6f), mapOf(AXIS_LTRIGGER to 0.45f)))
+        applyPendingInput()
+
+        assertFired(L2)
+        assertPressedExactly(L2)
+    }
+
+    @Test
     fun `releasing all buttons also forgets a held trigger`() {
         assertTriggerPressesExactly(arrayOf(AXIS_LTRIGGER to 0.6f), L2)
 
