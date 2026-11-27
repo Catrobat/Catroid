@@ -885,7 +885,8 @@ public class StageListener implements ApplicationListener {
 
 	@VisibleForTesting
 	void applyPendingGamepadInput() {
-		gamepadInput.applyPendingInput(button -> {
+		// Every press that starts the scripts for any button needs its own frame to start them.
+		gamepadInput.applyPendingInput(button -> getGamepadUsage().startsAnyButtonScripts(button), button -> {
 			// The script of the pressed button starts last, so that within an object its result
 			// stays visible when it changes the same thing as a script for any button.
 			if (getGamepadUsage().startsAnyButtonScripts(button)) {

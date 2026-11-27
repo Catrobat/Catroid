@@ -111,13 +111,32 @@ class GamepadInput {
      * already returns true for the reported button. Changes queued during this call, for example by
      * [onPressed], are applied by the next call.
      *
+     * Scripts started twice in one frame start only once. So a press for which [startsSharedScripts]
+     * returns true waits for the next call if an earlier press of this call already started these
+     * shared scripts, and the changes after it wait too, so the order stays the same.
+     *
      * Call it only from a single thread: on the stage once per frame from the GL thread, in the
      * formula editor's Compute dialog from the main thread.
      */
-    fun applyPendingInput(onPressed: ButtonPressedListener) {
+    @JvmOverloads
+    fun applyPendingInput(
+        startsSharedScripts: (GamepadButton) -> Boolean = { false },
+        onPressed: ButtonPressedListener
+    ) {
         val frameBoundary = lastIssuedSequence.get()
-        generateSequence { pollChangeUpTo(frameBoundary) }
-            .forEach { change -> applyChange(change)?.let(onPressed::onButtonPressed) }
+        var sharedScriptsStarted = false
+        while (true) {
+            val change = peekChangeUpTo(frameBoundary) ?: return
+            val pressedButton = buttonPressedBy(change)
+            val startsShared = pressedButton?.let(startsSharedScripts) == true
+            if (startsShared && sharedScriptsStarted) {
+                return
+            }
+            pendingChanges.poll()
+            applyChange(change)
+            pressedButton?.let(onPressed::onButtonPressed)
+            sharedScriptsStarted = sharedScriptsStarted || startsShared
+        }
     }
 
     /** Returns whether [button] was pressed after the last applied change. Thread-safe. */
@@ -159,34 +178,31 @@ class GamepadInput {
             sequence
         }
 
-    private fun pollChangeUpTo(frameBoundary: Long): InputChange? {
-        val nextChange = pendingChanges.peek() ?: return null
-        return if (nextChange.sequence <= frameBoundary) pendingChanges.poll() else null
-    }
+    private fun peekChangeUpTo(frameBoundary: Long): InputChange? =
+        pendingChanges.peek()?.takeIf { it.sequence <= frameBoundary }
 
-    /** Applies [change] and returns its button if the change pressed a released button. */
-    private fun applyChange(change: InputChange): GamepadButton? {
-        val newlyPressedButton = when (change) {
+    /** Returns the button of [change] if applying it would press a released button. */
+    private fun buttonPressedBy(change: InputChange): GamepadButton? =
+        (change as? ButtonStateChange)
+            ?.takeIf { it.pressed && heldSources.getValue(it.button).isEmpty() }
+            ?.button
+
+    private fun applyChange(change: InputChange) {
+        when (change) {
             is ButtonStateChange -> applyButtonStateChange(change)
-            is ReleaseAll -> {
-                releaseAllSources()
-                null
-            }
+            is ReleaseAll -> releaseAllSources()
         }
         publishPressedButtons()
         lastAppliedSequence = change.sequence
-        return newlyPressedButton
     }
 
-    private fun applyButtonStateChange(change: ButtonStateChange): GamepadButton? {
+    private fun applyButtonStateChange(change: ButtonStateChange) {
         val sources = heldSources.getValue(change.button)
-        val wasPressed = sources.isNotEmpty()
         if (change.pressed) {
             sources.add(change.source)
         } else {
             sources.remove(change.source)
         }
-        return change.button.takeIf { !wasPressed && sources.isNotEmpty() }
     }
 
     private fun releaseAllSources() {
