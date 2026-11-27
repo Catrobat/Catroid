@@ -32,14 +32,15 @@ import java.util.concurrent.atomic.AtomicLong
  *
  * Producers on any thread report changes with [setButtonState] and [releaseAll]. These calls only
  * queue the change and return its sequence number. Nothing becomes visible until the next frame
- * boundary, when the stage calls [applyPendingInput] on the GL thread. That call applies the queued
- * changes in order. For each change it updates the sources that hold each button, publishes an
- * immutable snapshot for [isPressed], marks the change as applied for [isApplied], and reports a
+ * boundary, when the stage calls [applyPendingFrameInput] on the GL thread. That call applies the
+ * queued changes in order. For each change it updates the sources that hold each button, publishes
+ * an immutable snapshot for [isPressed], marks the change as applied for [isApplied], and reports a
  * button that changed from released to pressed to the [ButtonPressedListener].
  *
  * A button is pressed while any [GamepadInputSource] holds it. Holding a button, repeated presses
- * from the same source, presses from further sources, and releases report nothing. A press and a
- * release within the same frame still report the press once.
+ * from the same source, presses from further sources, and releases report nothing. On the stage,
+ * each button changes at most once per frame, so every press is reported and stays visible for at
+ * least one frame, even if it was released before the frame.
  *
  * The analog sticks are no events, so their positions take effect at once: [setStickPosition] is
  * visible to [stickPosition] right away, and the latest position wins.
@@ -106,37 +107,37 @@ class GamepadInput {
         stickPositions[stick] ?: GamepadStickPosition.CENTER
 
     /**
-     * Applies the changes that were queued before this call, in order, and reports each button that
+     * Applies all changes that were queued before this call, in order, and reports each button that
      * changes from released to pressed to [onPressed]. When [onPressed] is called, [isPressed]
      * already returns true for the reported button. Changes queued during this call, for example by
      * [onPressed], are applied by the next call.
      *
-     * Scripts started twice in one frame start only once. So a press for which [startsSharedScripts]
-     * returns true waits for the next call if an earlier press of this call already started these
-     * shared scripts, and the changes after it wait too, so the order stays the same.
-     *
-     * Call it only from a single thread: on the stage once per frame from the GL thread, in the
-     * formula editor's Compute dialog from the main thread.
+     * Call it only from a single thread, for example in the formula editor's Compute dialog from the
+     * main thread. The stage uses [applyPendingFrameInput] instead.
      */
-    @JvmOverloads
-    fun applyPendingInput(
-        startsSharedScripts: (GamepadButton) -> Boolean = { false },
+    fun applyPendingInput(onPressed: ButtonPressedListener) =
+        applyPendingChanges(onPressed) { true }
+
+    /**
+     * Applies the queued changes like [applyPendingInput] for one frame of the stage, where the
+     * scripts must see every change:
+     * - Each button changes at most once per frame. So each press starts the scripts of its button,
+     *   and the sensors and the scripts see each press for at least one frame.
+     * - Scripts started twice in one frame start only once. So only one press per frame starts the
+     *   scripts for any button, which are the presses for which [startsAnyButtonScripts] returns
+     *   true.
+     *
+     * A change that would break these rules waits for the next frame, and the changes after it wait
+     * too, so the order stays the same.
+     *
+     * Call it only from the GL thread of the stage, once per frame.
+     */
+    fun applyPendingFrameInput(
+        startsAnyButtonScripts: (GamepadButton) -> Boolean,
         onPressed: ButtonPressedListener
     ) {
-        val frameBoundary = lastIssuedSequence.get()
-        var sharedScriptsStarted = false
-        while (true) {
-            val change = peekChangeUpTo(frameBoundary) ?: return
-            val pressedButton = buttonPressedBy(change)
-            val startsShared = pressedButton?.let(startsSharedScripts) == true
-            if (startsShared && sharedScriptsStarted) {
-                return
-            }
-            pendingChanges.poll()
-            applyChange(change)
-            pressedButton?.let(onPressed::onButtonPressed)
-            sharedScriptsStarted = sharedScriptsStarted || startsShared
-        }
+        val frame = FrameChanges(startsAnyButtonScripts)
+        applyPendingChanges(onPressed, frame::admit)
     }
 
     /** Returns whether [button] was pressed after the last applied change. Thread-safe. */
@@ -178,6 +179,27 @@ class GamepadInput {
             sequence
         }
 
+    /**
+     * Applies the changes queued before this call in order, as long as [mayApplyNow] accepts the
+     * next one.
+     */
+    private fun applyPendingChanges(
+        onPressed: ButtonPressedListener,
+        mayApplyNow: (InputChange) -> Boolean
+    ) {
+        val frameBoundary = lastIssuedSequence.get()
+        while (true) {
+            val change = peekChangeUpTo(frameBoundary) ?: return
+            if (!mayApplyNow(change)) {
+                return
+            }
+            val pressedButton = buttonPressedBy(change)
+            pendingChanges.poll()
+            applyChange(change)
+            pressedButton?.let(onPressed::onButtonPressed)
+        }
+    }
+
     private fun peekChangeUpTo(frameBoundary: Long): InputChange? =
         pendingChanges.peek()?.takeIf { it.sequence <= frameBoundary }
 
@@ -186,6 +208,22 @@ class GamepadInput {
         (change as? ButtonStateChange)
             ?.takeIf { it.pressed && heldSources.getValue(it.button).isEmpty() }
             ?.button
+
+    /** Returns the buttons that applying [change] would press or release. */
+    private fun buttonsChangedBy(change: InputChange): Set<GamepadButton> =
+        when (change) {
+            is ButtonStateChange -> setOfNotNull(change.button.takeIf { changesPressedState(change) })
+            is ReleaseAll -> pressedButtons
+        }
+
+    private fun changesPressedState(change: ButtonStateChange): Boolean {
+        val sources = heldSources.getValue(change.button)
+        return if (change.pressed) {
+            sources.isEmpty()
+        } else {
+            sources.size == 1 && change.source in sources
+        }
+    }
 
     private fun applyChange(change: InputChange) {
         when (change) {
@@ -211,6 +249,26 @@ class GamepadInput {
 
     private fun publishPressedButtons() {
         pressedButtons = heldSources.filterValues { it.isNotEmpty() }.keys.toSet()
+    }
+
+    /** The changes that one stage frame has applied so far, see [applyPendingFrameInput]. */
+    private inner class FrameChanges(
+        private val startsAnyButtonScripts: (GamepadButton) -> Boolean
+    ) {
+        private val changedButtons = EnumSet.noneOf(GamepadButton::class.java)
+        private var anyButtonScriptsStarted = false
+
+        /** Returns whether this frame may still apply [change], and if so, counts it as applied. */
+        fun admit(change: InputChange): Boolean {
+            val buttons = buttonsChangedBy(change)
+            val startsAnyScripts = buttonPressedBy(change)?.let(startsAnyButtonScripts) == true
+            if (buttons.any { it in changedButtons } || startsAnyScripts && anyButtonScriptsStarted) {
+                return false
+            }
+            changedButtons.addAll(buttons)
+            anyButtonScriptsStarted = anyButtonScriptsStarted || startsAnyScripts
+            return true
+        }
     }
 
     private sealed interface InputChange {
