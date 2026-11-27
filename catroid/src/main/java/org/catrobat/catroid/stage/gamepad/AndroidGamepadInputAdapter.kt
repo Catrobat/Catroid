@@ -105,8 +105,10 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
     /**
      * Forwards the hat (D-pad), the analog triggers and the handled analog sticks of a joystick
      * move. Each event reports the current state of all these buttons and sticks, and [GamepadInput]
-     * ignores button states that did not change. Consuming the event also keeps Android from turning
-     * the hat or a stick into D-pad keys.
+     * ignores button states that did not change. Android may batch older samples into the event, so
+     * the buttons are forwarded for each sample in order, and a short press within the batch still
+     * counts. The sticks only take their latest position. Consuming the event also keeps Android from
+     * turning the hat or a stick into D-pad keys.
      *
      * @return true if the event is consumed because the project handles at least one of its
      * buttons or sticks, false if Android should handle it
@@ -118,7 +120,9 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
             return false
         }
         val input = gamepadInput() ?: return false
-        val handledStates = axisButtonStates(event).filter { isButtonHandled(it.button) }
+        val handledStates = (0..event.historySize)
+            .flatMap { sample -> axisButtonStates(event, sample) }
+            .filter { isButtonHandled(it.button) }
         handledStates.forEach { input.setButtonState(it.button, it.source, it.pressed) }
         val handledSticks = GamepadStick.entries.filter(isStickHandled)
         handledSticks.forEach { stick ->
@@ -201,14 +205,23 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
             else -> button
         }
 
-    private fun axisButtonStates(event: MotionEvent): List<AxisButtonState> {
-        val hatX = event.getAxisValue(MotionEvent.AXIS_HAT_X)
-        val hatY = event.getAxisValue(MotionEvent.AXIS_HAT_Y)
-        val device = event.device
-        val leftTriggerTravel =
-            triggerTravel(event, device, MotionEvent.AXIS_LTRIGGER, MotionEvent.AXIS_BRAKE)
-        val rightTriggerTravel =
-            triggerTravel(event, device, MotionEvent.AXIS_RTRIGGER, MotionEvent.AXIS_GAS)
+    /**
+     * Returns the states of the hat and trigger buttons in [sample] of [event], where the samples
+     * before [MotionEvent.getHistorySize] are historical and the last one is the current sample.
+     */
+    private fun axisButtonStates(event: MotionEvent, sample: Int): List<AxisButtonState> {
+        val axisValue = { axis: Int ->
+            if (sample < event.historySize) {
+                event.getHistoricalAxisValue(axis, sample)
+            } else {
+                event.getAxisValue(axis)
+            }
+        }
+        val travel = { axis: Int -> axisTravel(axisValue(axis), event, axis) }
+        val hatX = axisValue(MotionEvent.AXIS_HAT_X)
+        val hatY = axisValue(MotionEvent.AXIS_HAT_Y)
+        val leftTriggerTravel = max(travel(MotionEvent.AXIS_LTRIGGER), travel(MotionEvent.AXIS_BRAKE))
+        val rightTriggerTravel = max(travel(MotionEvent.AXIS_RTRIGGER), travel(MotionEvent.AXIS_GAS))
         return listOf(
             hatState(GamepadButton.LEFT, hatX <= -HAT_PRESS_THRESHOLD),
             hatState(GamepadButton.RIGHT, hatX >= HAT_PRESS_THRESHOLD),
@@ -219,21 +232,13 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
         )
     }
 
-    /** Returns the travel of the further pulled of the two axes that a trigger may report. */
-    private fun triggerTravel(
-        event: MotionEvent,
-        device: InputDevice?,
-        triggerAxis: Int,
-        alternativeAxis: Int
-    ): Float = max(axisTravel(event, device, triggerAxis), axisTravel(event, device, alternativeAxis))
-
     /**
-     * Returns how far [axis] is pulled, from [NO_TRAVEL] to [FULL_TRAVEL], relative to its motion
-     * range on the [device]. Without a known range the raw value is taken as travel.
+     * Returns how far [axis] at [value] is pulled, from [NO_TRAVEL] to [FULL_TRAVEL], relative to
+     * its motion range on the device of [event]. Without a known range the raw value is taken as
+     * travel. A trigger takes the further pulled of the two axes it may report.
      */
-    private fun axisTravel(event: MotionEvent, device: InputDevice?, axis: Int): Float {
-        val value = event.getAxisValue(axis)
-        val range = device?.getMotionRange(axis, event.source)
+    private fun axisTravel(value: Float, event: MotionEvent, axis: Int): Float {
+        val range = event.device?.getMotionRange(axis, event.source)
         val travel = if (range != null && range.max > range.min) {
             (value - range.min) / (range.max - range.min)
         } else {
