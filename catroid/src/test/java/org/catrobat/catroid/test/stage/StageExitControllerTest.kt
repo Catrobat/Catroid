@@ -74,6 +74,7 @@ class StageExitControllerTest {
     private val uiThreadQueue = mutableListOf<Runnable>()
     private var finishStageCount = 0
     private var exitCount = 0
+    private var catchScriptStops = 0
     private val exitAction = Runnable { exitCount++ }
     private val startedSprites = mutableSetOf<Sprite>()
 
@@ -236,37 +237,40 @@ class StageExitControllerTest {
     }
 
     @Test
-    fun `scene change runs a pending exit whose catch scripts have started`() {
+    fun `leaving the scene stops the started catch scripts and runs the pending exit`() {
         addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
         controller.requestExit(exitAction)
         runFrames(FEW_FRAMES)
         assertEquals(State.PENDING, controller.state)
 
-        controller.onSceneChanged()
+        controller.onSceneLeaving { catchScriptStops++ }
 
         assertEquals(State.EXITED, controller.state)
+        assertEquals(1, catchScriptStops)
         runUiThread()
         assertEquals(1, exitCount)
     }
 
     @Test
-    fun `scene change before the catch scripts started keeps the exit pending`() {
+    fun `leaving the scene before the catch scripts started keeps the exit pending`() {
         addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
         controller.requestExit(exitAction)
 
-        controller.onSceneChanged()
+        controller.onSceneLeaving { catchScriptStops++ }
 
         assertEquals(State.PENDING, controller.state)
+        assertEquals(0, catchScriptStops)
         assertTrue(uiThreadQueue.isEmpty())
     }
 
     @Test
-    fun `scene change without a pending exit does nothing`() {
+    fun `leaving the scene without a pending exit does nothing`() {
         addCatchScript(WaitBrick(LONG_WAIT_MILLIS))
 
-        controller.onSceneChanged()
+        controller.onSceneLeaving { catchScriptStops++ }
 
         assertEquals(State.NONE, controller.state)
+        assertEquals(0, catchScriptStops)
         assertTrue(uiThreadQueue.isEmpty())
         assertEquals(0, exitCount)
     }

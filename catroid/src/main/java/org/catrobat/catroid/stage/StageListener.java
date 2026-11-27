@@ -60,8 +60,10 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SoundBackup;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenStageExitedScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.AnyGamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.EventId;
@@ -428,6 +430,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
+		stageExitController.onSceneLeaving(this::stopCatchScripts);
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 
@@ -444,7 +447,6 @@ public class StageListener implements ApplicationListener {
 			resume();
 		}
 		Gdx.input.setInputProcessor(stage);
-		stageExitController.onSceneChanged();
 	}
 
 	public void startScene(String sceneName) {
@@ -454,6 +456,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
+		stageExitController.onSceneLeaving(this::stopCatchScripts);
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 
@@ -479,7 +482,20 @@ public class StageListener implements ApplicationListener {
 
 		scene.firstStart = true;
 		create();
-		stageExitController.onSceneChanged();
+	}
+
+	/**
+	 * Stops the "When stage is exited" scripts of the running scene for good, in the background,
+	 * objects and clones, so they do not resume when the project continues the scene later.
+	 */
+	private void stopCatchScripts() {
+		for (Sprite sprite : sprites) {
+			for (Script script : sprite.getScriptList()) {
+				if (script instanceof WhenStageExitedScript) {
+					sprite.look.removeThreadsWithScript(script);
+				}
+			}
+		}
 	}
 
 	public void reloadProject(StageDialog stageDialog) {

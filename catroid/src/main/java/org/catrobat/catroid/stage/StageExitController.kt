@@ -45,8 +45,7 @@ import org.catrobat.catroid.stage.gamepad.GamepadUsage
  * broadcast scripts, the stage keeps running, and once all started catch scripts have finished, the
  * pending exit runs on the UI thread. A further exit request while the exit is pending forces it,
  * so a second Back press or a "Finish stage" brick inside a catch script exits at once. Changing the
- * scene stops the scripts of the scene that is left, so it also ends the catch scripts, and the
- * pending exit runs.
+ * scene while the catch scripts run ends them, and the pending exit runs.
  *
  * Exit requests may come from any thread. [onFrame] and [onGamepadButtonPressed] run on the GL
  * thread of the stage.
@@ -161,12 +160,13 @@ class StageExitController @JvmOverloads constructor(
     }
 
     /**
-     * Runs a pending exit whose catch scripts have started, because the scene that the catch
-     * scripts belong to was left. An exit whose catch scripts have not started yet stays pending,
-     * so the next frame starts the catch scripts of the new scene. Called on the GL thread when a
-     * scene starts or continues.
+     * Ends the catch scripts of a pending exit whose catch scripts have started, because the scene
+     * that they belong to is left: [stopCatchScripts] stops them for good, so they do not resume
+     * when the project continues that scene later, and the pending exit runs. An exit whose catch
+     * scripts have not started yet stays pending, so the next frame starts the catch scripts of the
+     * new scene. Called on the GL thread before a scene starts or continues.
      */
-    fun onSceneChanged() {
+    fun onSceneLeaving(stopCatchScripts: Runnable) {
         val endedExit = synchronized(lock) {
             if (currentState == State.PENDING && stageExitedEvent != null) {
                 takePendingExit(State.EXITED)
@@ -174,7 +174,10 @@ class StageExitController @JvmOverloads constructor(
                 null
             }
         }
-        endedExit?.let(runOnUiThread)
+        endedExit?.let {
+            stopCatchScripts.run()
+            runOnUiThread(it)
+        }
     }
 
     private fun fireStageExitedEvent(): EventWrapper =

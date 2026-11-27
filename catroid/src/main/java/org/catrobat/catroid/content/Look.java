@@ -349,6 +349,12 @@ public class Look extends Image {
 		}
 	}
 
+	public void removeThreadsWithScript(Script script) {
+		if (scheduler != null) {
+			scheduler.removeThreadsWithScript(script);
+		}
+	}
+
 	public void setSchedulerState(@ThreadScheduler.SchedulerState int state) {
 		scheduler.setState(state);
 	}

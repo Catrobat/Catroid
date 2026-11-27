@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,15 +91,31 @@ public class ThreadScheduler {
 	}
 
 	public void startThread(ScriptSequenceAction sequenceAction) {
-		removeThreadsWithEqualScriptFromStartQueue(sequenceAction);
+		removeThreadsWithEqualScriptFromStartQueue(sequenceAction.getScript());
 		startQueue.add(sequenceAction);
 	}
 
-	private void removeThreadsWithEqualScriptFromStartQueue(ScriptSequenceAction sequenceAction) {
+	/**
+	 * Removes the started and the queued threads of the script at once, so none of them acts
+	 * again, not even in the next tick.
+	 */
+	public void removeThreadsWithScript(Script script) {
+		removeThreadsWithEqualScriptFromStartQueue(script);
+		for (Action action : new Array<>(actor.getActions())) {
+			if (action instanceof ScriptSequenceAction && ((ScriptSequenceAction) action).getScript() == script) {
+				actor.removeAction(action);
+				if (action instanceof ScriptSequenceActionWithWaiter) {
+					((ScriptSequenceActionWithWaiter) action).notifyWaiter();
+				}
+			}
+		}
+	}
+
+	private void removeThreadsWithEqualScriptFromStartQueue(Script script) {
 		Iterator<ScriptSequenceAction> iterator = startQueue.iterator();
 		while (iterator.hasNext()) {
 			ScriptSequenceAction action = iterator.next();
-			if (action.getScript() == sequenceAction.getScript()) {
+			if (action.getScript() == script) {
 				if (action instanceof ScriptSequenceActionWithWaiter) {
 					((ScriptSequenceActionWithWaiter) action).notifyWaiter();
 				}
