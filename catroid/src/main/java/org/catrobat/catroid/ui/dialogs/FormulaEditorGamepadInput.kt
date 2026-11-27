@@ -71,6 +71,7 @@ class FormulaEditorGamepadInput(
     fun stop() {
         inputManager?.unregisterInputDeviceListener(this)
         inputManager = null
+        adapter.releaseAll()
         input.reset()
         if (formulaEditorGamepadInput === input) {
             formulaEditorGamepadInput = null
@@ -85,9 +86,12 @@ class FormulaEditorGamepadInput(
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean =
         adapter.dispatchGenericMotionEvent(event).also { consumed -> if (consumed) applyInput() }
 
-    /** Releases every button, for example when the dialog loses the focus. */
+    /**
+     * Releases every button, for example when the dialog loses the focus. A trigger that was held
+     * needs half of its travel again to count as pressed.
+     */
     fun releaseAll() {
-        input.releaseAll()
+        adapter.releaseAll()
         applyInput()
     }
 
