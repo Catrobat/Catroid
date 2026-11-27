@@ -38,6 +38,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
@@ -281,6 +282,22 @@ class WhenStageExitedTest {
     }
 
     @Test
+    fun catchThatContinuesAnotherSceneDoesNotResumeWhenItsSceneContinues() {
+        val firstScene = project.defaultScene.name
+        addSecondScene(WaitBrick(SECOND_SCENE_MILLIS), SceneTransitionBrick(firstScene))
+        addCatchScript(setCatchState(CAUGHT), SceneTransitionBrick(SECOND_SCENE), setCatchState(CATCH_DONE))
+        startStage()
+        pressBackUnconditionally()
+        waitUntilStageMenuShows()
+        assertEquals(CAUGHT, catchState.value)
+
+        onView(withId(R.id.stage_dialog_button_continue)).inRoot(isDialog()).perform(click())
+
+        waitUntilScenePlays(firstScene)
+        assertUserVariableNotEqualsForTimeMs(catchState, CATCH_DONE, QUIET_PERIOD_MILLIS)
+    }
+
+    @Test
     fun unusedGamepadBRunsCatchThenOpensStageMenuLikeBack() {
         addCatchScript(setCatchState(CAUGHT), WaitBrick(CATCH_MILLIS), setCatchState(CATCH_DONE))
         startStage()
@@ -321,9 +338,23 @@ class WhenStageExitedTest {
         )
     }
 
-    /** Adds a second scene, whose start leaves the scene with the catch scripts. */
-    private fun addSecondScene() {
-        project.addScene(Scene(SECOND_SCENE, project).apply { addSprite(Sprite("Background")) })
+    /**
+     * Adds a second scene, whose start leaves the scene with the catch scripts. Its background
+     * runs [startBricks] when the scene starts.
+     */
+    private fun addSecondScene(vararg startBricks: Brick) {
+        val background = Sprite("Background").apply {
+            addScript(StartScript().apply { startBricks.forEach { addBrick(it) } })
+        }
+        project.addScene(Scene(SECOND_SCENE, project).apply { addSprite(background) })
+    }
+
+    private fun waitUntilScenePlays(sceneName: String) {
+        val deadline = SystemClock.uptimeMillis() + TIMEOUT_MILLIS
+        while (ProjectManager.getInstance().currentlyPlayingScene?.name != sceneName) {
+            assertTrue("The scene $sceneName did not play", SystemClock.uptimeMillis() < deadline)
+            SystemClock.sleep(POLL_INTERVAL_MILLIS)
+        }
     }
 
     private fun setCatchState(value: Double): Brick = SetVariableBrick(Formula(value), catchState)
@@ -372,6 +403,7 @@ class WhenStageExitedTest {
         private const val TIMEOUT_MILLIS = 5000
         private const val QUIET_PERIOD_MILLIS = 500
         private const val POLL_INTERVAL_MILLIS = 50L
+        private const val SECOND_SCENE_MILLIS = 1000
         private const val SECOND_SCENE = "Second scene"
     }
 }
