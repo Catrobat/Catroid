@@ -117,7 +117,7 @@ class StageGamepadInputTest {
 
     @Test
     fun sensorIsTrueOnlyWhileButtonIsHeld() {
-        val pressed = addSensorMirror(GamepadButton.A)
+        val pressed = addSensorMirror(GamepadButton.A.sensor)
         startStage()
         assertUserVariableEqualsWithTimeout(pressed, "false", TIMEOUT_MILLIS)
 
@@ -226,7 +226,7 @@ class StageGamepadInputTest {
 
     @Test
     fun heldButtonIsReleasedAfterStageMenu() {
-        val pressed = addSensorMirror(GamepadButton.A)
+        val pressed = addSensorMirror(GamepadButton.A.sensor)
         startStage()
         sendKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)
         assertUserVariableEqualsWithTimeout(pressed, "true", TIMEOUT_MILLIS)
@@ -239,7 +239,7 @@ class StageGamepadInputTest {
 
     @Test
     fun heldButtonIsReleasedWhenStageLosesWindowFocus() {
-        val pressed = addSensorMirror(GamepadButton.A)
+        val pressed = addSensorMirror(GamepadButton.A.sensor)
         startStage()
         sendKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A)
         assertUserVariableEqualsWithTimeout(pressed, "true", TIMEOUT_MILLIS)
@@ -270,9 +270,6 @@ class StageGamepadInputTest {
         )
         return presses
     }
-
-    /** Adds a script that keeps copying the "gamepad button pressed" sensor of [button]. */
-    private fun addSensorMirror(button: GamepadButton): UserVariable = addSensorMirror(button.sensor)
 
     /** Adds a script that keeps copying [sensor] into a variable. */
     private fun addSensorMirror(sensor: Sensors): UserVariable {
