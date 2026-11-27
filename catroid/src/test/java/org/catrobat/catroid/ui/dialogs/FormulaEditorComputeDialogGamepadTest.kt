@@ -213,6 +213,31 @@ class FormulaEditorComputeDialogGamepadTest {
     }
 
     @Test
+    fun `trigger released by the lost focus needs half of its travel to show as pressed again`() {
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_L2_PRESSED)
+        assertTrue(dialog.dispatchGenericMotionEvent(triggerMotion(leftTrigger = 0.6f)))
+        assertEquals(trueString(), dialog.result())
+
+        dialog.onWindowFocusChanged(false)
+        assertEquals(falseString(), dialog.result())
+
+        dialog.dispatchGenericMotionEvent(triggerMotion(leftTrigger = 0.45f))
+        assertEquals(falseString(), dialog.result())
+    }
+
+    @Test
+    fun `trigger released by a removed controller needs half of its travel to show as pressed again`() {
+        val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_L2_PRESSED)
+        assertTrue(dialog.dispatchGenericMotionEvent(triggerMotion(leftTrigger = 0.6f)))
+
+        registeredInputDeviceListener().onInputDeviceRemoved(GAMEPAD_DEVICE_ID)
+        assertEquals(falseString(), dialog.result())
+
+        dialog.dispatchGenericMotionEvent(triggerMotion(leftTrigger = 0.45f))
+        assertEquals(falseString(), dialog.result())
+    }
+
+    @Test
     fun `stops listening for the controller when closed`() {
         val dialog = showDialogFor(Sensors.GAMEPAD_BUTTON_A_PRESSED)
         dialog.dispatchKeyEvent(gamepadKey(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BUTTON_A))
@@ -266,27 +291,19 @@ class FormulaEditorComputeDialogGamepadTest {
     private fun gamepadKey(action: Int, keyCode: Int) =
         KeyEvent(0L, 0L, action, keyCode, 0, 0, GAMEPAD_DEVICE_ID, 0, 0, SOURCE_GAMEPAD)
 
-    private fun stickMotion(leftX: Float): MotionEvent {
-        val properties = MotionEvent.PointerProperties().apply {
-            id = 0
-            toolType = MotionEvent.TOOL_TYPE_UNKNOWN
-        }
-        val coordinates = MotionEvent.PointerCoords().apply {
-            setAxisValue(MotionEvent.AXIS_X, leftX)
-        }
-        return MotionEvent.obtain(
-            0L, 0L, MotionEvent.ACTION_MOVE, 1, arrayOf(properties), arrayOf(coordinates),
-            0, 0, 1f, 1f, GAMEPAD_DEVICE_ID, 0, SOURCE_JOYSTICK, 0
-        )
-    }
+    private fun stickMotion(leftX: Float): MotionEvent = axisMotion(MotionEvent.AXIS_X, leftX)
 
-    private fun hatMotion(hatY: Float): MotionEvent {
+    private fun hatMotion(hatY: Float): MotionEvent = axisMotion(MotionEvent.AXIS_HAT_Y, hatY)
+
+    private fun triggerMotion(leftTrigger: Float): MotionEvent = axisMotion(MotionEvent.AXIS_LTRIGGER, leftTrigger)
+
+    private fun axisMotion(axis: Int, value: Float): MotionEvent {
         val properties = MotionEvent.PointerProperties().apply {
             id = 0
             toolType = MotionEvent.TOOL_TYPE_UNKNOWN
         }
         val coordinates = MotionEvent.PointerCoords().apply {
-            setAxisValue(MotionEvent.AXIS_HAT_Y, hatY)
+            setAxisValue(axis, value)
         }
         return MotionEvent.obtain(
             0L, 0L, MotionEvent.ACTION_MOVE, 1, arrayOf(properties), arrayOf(coordinates),
