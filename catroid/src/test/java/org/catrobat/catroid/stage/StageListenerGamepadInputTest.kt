@@ -278,6 +278,45 @@ class StageListenerGamepadInputTest {
         assertFiredEventIds(GamepadButtonPressedEventId(A))
     }
 
+    @Test
+    fun `second press of a button queued in the same frame fires its event in a later frame`() {
+        useProjectScripts(WhenGamepadButtonPressedScript(A.name))
+        val input = stageListener.gamepadInput
+        input.setButtonState(A, KEY, true)
+        input.setButtonState(A, KEY, false)
+        val secondPress = input.setButtonState(A, KEY, true)
+
+        stageListener.applyPendingGamepadInput()
+
+        assertFiredEventIds(GamepadButtonPressedEventId(A))
+
+        stageListener.applyPendingGamepadInput()
+        stageListener.applyPendingGamepadInput()
+
+        assertTrue(input.isApplied(secondPress))
+        assertTrue(input.isPressed(A))
+        assertFiredEventIds(GamepadButtonPressedEventId(A), GamepadButtonPressedEventId(A))
+    }
+
+    @Test
+    fun `button pressed and released in the same frame stays pressed until the next frame`() {
+        val input = stageListener.gamepadInput
+        input.setButtonState(A, KEY, true)
+        val release = input.setButtonState(A, KEY, false)
+
+        stageListener.applyPendingGamepadInput()
+
+        assertTrue(input.isPressed(A))
+        assertFalse(input.isApplied(release))
+        assertFiredEventIds(GamepadButtonPressedEventId(A))
+
+        stageListener.applyPendingGamepadInput()
+
+        assertFalse(input.isPressed(A))
+        assertTrue(input.isApplied(release))
+        assertFiredEventIds(GamepadButtonPressedEventId(A))
+    }
+
     /** Asserts that the stage pressed Android Back [count] times and never finished silently. */
     private fun assertBackPresses(count: Int) {
         verify(stageActivity, times(count)).onBackPressed()
