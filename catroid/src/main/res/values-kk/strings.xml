@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Блоктар мен сенсорларды қосу</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B және X/Y ауыстыру</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A мен B, X пен Y түймелерін керісінше хабарлайтын геймпадтар үшін</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Түймелердің орналасуын анықтау</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A түймесін бір рет басып, A/B және X/Y ауыстыру керек пе екенін біліңіз</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Геймпадтағы A деп жазылған түймені басыңыз, ал түймелерде таңбалар болса, төменгі түймені басыңыз.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A түймесі A ретінде хабарланады, сондықтан A/B және X/Y ауыстырылмайды</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A түймесі B ретінде хабарланады, сондықтан A/B және X/Y ауыстырылады</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker қолданбасы</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Кейбір геймпадтарды ShenZhen ZhiXu Technology Co., Ltd. компаниясының KeyLinker қолданбасымен баптауға болады, мысалы, түймелерді қайта тағайындау немесе таяқшалардың ортасы мен жауап қисығын реттеу үшін.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">сахна ені</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">сахна биіктігі</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro алдыңғы сол сенсоры</string>

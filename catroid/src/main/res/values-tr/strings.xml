@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Blokları ve sensörleri etkinleştir</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ve X/Y\'yi değiştir</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A ile B\'yi ve X ile Y\'yi ters bildiren oyun kumandaları için</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Düğme düzenini algıla</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A\'ya bir kez basarak A/B ve X/Y\'nin değiştirilmesi gerekip gerekmediğini öğrenin</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Oyun kumandanızda A yazan düğmeye veya düğmelerinizde semboller varsa alttaki düğmeye basın.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A, A olarak bildiriliyor; bu yüzden A/B ve X/Y değiştirilmiyor</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A, B olarak bildiriliyor; bu yüzden A/B ve X/Y değiştiriliyor</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker uygulaması</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Bazı oyun kumandaları ShenZhen ZhiXu Technology Co., Ltd. firmasının KeyLinker uygulamasıyla ayarlanabilir; örneğin düğmeleri yeniden atamak veya çubukların merkezini ve tepki eğrisini ayarlamak için.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahne genişliği</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">sahne yüksekliği</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sol ön sensör</string>

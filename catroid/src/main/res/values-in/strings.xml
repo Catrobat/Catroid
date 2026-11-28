@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Aktifkan blok dan sensor</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Untuk gamepad yang melaporkan A dan B, serta X dan Y, secara terbalik</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Deteksi tata letak tombol</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Cari tahu dengan sekali tekan A apakah A/B dan X/Y perlu ditukar</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Tekan tombol berlabel A pada gamepad, atau tombol bawah jika tombolnya memiliki simbol.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A dilaporkan sebagai A, jadi A/B dan X/Y tidak ditukar</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A dilaporkan sebagai B, jadi A/B dan X/Y ditukar</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikasi KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Beberapa gamepad dapat diatur dengan aplikasi KeyLinker dari ShenZhen ZhiXu Technology Co., Ltd., misalnya untuk memetakan ulang tombol atau menyesuaikan titik tengah dan kurva respons stik.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar panggung</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi panggung</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor depan kiri phiro</string>

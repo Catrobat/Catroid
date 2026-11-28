@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Dayakan blok dan penderia</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Tukar A/B dan X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Untuk pad permainan yang melaporkan A dan B, serta X dan Y, secara terbalik</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Kesan susun atur butang</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Ketahui dengan sekali tekan A sama ada A/B dan X/Y perlu ditukar</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Tekan butang berlabel A pada pad permainan anda, atau butang bawah jika butang anda mempunyai simbol.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A dilaporkan sebagai A, jadi A/B dan X/Y tidak ditukar</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A dilaporkan sebagai B, jadi A/B dan X/Y ditukar</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikasi KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Sesetengah pad permainan boleh ditetapkan dengan aplikasi KeyLinker daripada ShenZhen ZhiXu Technology Co., Ltd., contohnya untuk memeta semula butang atau melaraskan titik tengah dan lengkung tindak balas batang.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lebar pentas</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tinggi pentas</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">penderia depan kiri phiro</string>

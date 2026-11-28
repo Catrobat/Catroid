@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">بلاڪ ۽ سينسر فعال ڪريو</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ۽ X/Y مٽايو</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">انهن گيم پيڊن لاءِ جيڪي A ۽ B، ۽ X ۽ Y ابتو ٻڌائين ٿا</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">بٽڻن جي ترتيب سڃاڻو</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A هڪ ڀيرو دٻائي ڄاڻو ته ڇا A/B ۽ X/Y مٽائڻا آهن</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">پنهنجي گيم پيڊ تي A لکيل بٽڻ دٻايو، يا جيڪڏهن بٽڻن تي نشان آهن ته هيٺيون بٽڻ دٻايو.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A کي A طور ٻڌايو وڃي ٿو، تنهن ڪري A/B ۽ X/Y نه مٽايا وڃن ٿا</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A کي B طور ٻڌايو وڃي ٿو، تنهن ڪري A/B ۽ X/Y مٽايا وڃن ٿا</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ايپ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">ڪجهه گيم پيڊ ShenZhen ZhiXu Technology Co., Ltd. جي KeyLinker ايپ سان سيٽ ڪري سگهجن ٿا، مثال طور بٽڻ ٻيهر مقرر ڪرڻ يا لٺين جو مرڪز ۽ ردعمل وارو وڪر ترتيب ڏيڻ لاءِ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٽيج جي ويڪر</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">اسٽيج جي اوچائي</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro اڳيون کاٻو سينسر</string>

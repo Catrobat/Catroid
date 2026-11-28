@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ඛණ්ඩ සහ සංවේදක සබල කරන්න</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B සහ X/Y මාරු කරන්න</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A සහ B, X සහ Y ප්‍රතිවිරුද්ධව වාර්තා කරන ගේම්පෑඩ් සඳහා</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">බොත්තම් පිරිසැලසුම හඳුනා ගන්න</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A එක් වරක් ඔබා A/B සහ X/Y මාරු කළ යුතුද යන්න දැනගන්න</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">ඔබේ ගේම්පෑඩයේ A ලෙස සලකුණු කළ බොත්තම ඔබන්න, නැතහොත් බොත්තම්වල සංකේත ඇත්නම් පහළ බොත්තම ඔබන්න.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A, A ලෙස වාර්තා වේ, එබැවින් A/B සහ X/Y මාරු නොකෙරේ</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A, B ලෙස වාර්තා වේ, එබැවින් A/B සහ X/Y මාරු කෙරේ</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker යෙදුම</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">සමහර ගේම්පෑඩ් ShenZhen ZhiXu Technology Co., Ltd. හි KeyLinker යෙදුමෙන් සැකසිය හැක, උදාහරණයක් ලෙස බොත්තම් නැවත පැවරීමට හෝ යෂ්ටිවල මධ්‍යය සහ ප්‍රතිචාර වක්‍රය සීරුමාරු කිරීමට.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">වේදිකාවේ පළල</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">වේදිකාවේ උස</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ඉදිරි වම් සංවේදකය</string>

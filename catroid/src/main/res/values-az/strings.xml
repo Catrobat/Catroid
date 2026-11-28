@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Blokları və sensorları aktivləşdir</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B və X/Y-ni dəyiş</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A və B, X və Y düymələrini tərsinə bildirən pultlar üçün</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Düymə düzülüşünü müəyyən et</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A-ya bir dəfə basmaqla A/B və X/Y-nin dəyişdirilməli olub-olmadığını öyrən</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Oyun pultunda A yazılmış düyməni və ya düymələrdə simvollar varsa, aşağıdakı düyməni bas.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A düyməsi A kimi bildirilir, ona görə A/B və X/Y dəyişdirilmir</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A düyməsi B kimi bildirilir, ona görə A/B və X/Y dəyişdirilir</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker tətbiqi</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Bəzi oyun pultlarını ShenZhen ZhiXu Technology Co., Ltd. şirkətinin KeyLinker tətbiqi ilə tənzimləmək olar, məsələn, düymələri yenidən təyin etmək və ya çubuqların mərkəzini və reaksiya əyrisini dəyişmək üçün.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">səhnənin eni</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">səhnənin hündürlüyü</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ön sol sensor</string>

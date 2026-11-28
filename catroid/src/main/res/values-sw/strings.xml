@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Washa vipande na vihisi</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Badilisha A/B na X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Kwa gamepad zinazoripoti A na B, na X na Y, kinyume</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tambua mpangilio wa vitufe</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Gundua kwa kubonyeza A mara moja kama A/B na X/Y zibadilishwe</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Bonyeza kitufe chenye alama A kwenye gamepad yako, au kitufe cha chini ikiwa vitufe vyako vina alama za picha.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A inaripotiwa kama A, kwa hiyo A/B na X/Y hazibadilishwi</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A inaripotiwa kama B, kwa hiyo A/B na X/Y zinabadilishwa</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Programu ya KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Baadhi ya gamepad zinaweza kuwekwa kwa programu ya KeyLinker ya ShenZhen ZhiXu Technology Co., Ltd., kwa mfano kupanga upya vitufe au kurekebisha katikati na mkunjo wa mwitikio wa vijiti.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">upana wa jukwaa</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">urefu wa jukwaa</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">kihisi cha mbele kushoto cha phiro</string>

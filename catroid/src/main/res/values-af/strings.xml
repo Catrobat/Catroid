@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Aktiveer blokke en sensors</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ruil A/B en X/Y om</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Vir beheerders wat A en B, en X en Y, andersom rapporteer</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Bespeur knoppie-uitleg</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Vind met een druk op A uit of A/B en X/Y omgeruil moet word</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Druk die knoppie gemerk A op jou spelbeheerder, of die onderste knoppie as jou knoppies simbole het.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A word as A gerapporteer, dus word A/B en X/Y nie omgeruil nie</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A word as B gerapporteer, dus word A/B en X/Y omgeruil</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Sommige beheerders kan met die KeyLinker-app van ShenZhen ZhiXu Technology Co., Ltd. ingestel word, byvoorbeeld om knoppies anders toe te ken of om die middelpunt en die reaksiekurwe van die stokke aan te pas.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">verhoogwydte</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">verhooghoogte</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro voorste linkersensor</string>

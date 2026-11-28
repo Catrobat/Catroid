@@ -1917,6 +1917,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">تفعيل اللبنات والمستشعرات</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">تبديل A/B و X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">للوحات الألعاب التي تُبلغ عن A وB، وX وY، بشكل معكوس</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">اكتشاف تخطيط الأزرار</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">اعرف بضغطة واحدة على A ما إذا كان يجب تبديل A/B و X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">اضغط الزر المكتوب عليه A في لوحة الألعاب، أو الزر السفلي إذا كانت الأزرار تحمل رموزًا.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">يُبلَّغ عن A على أنه A، لذلك لا يتم تبديل A/B و X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">يُبلَّغ عن A على أنه B، لذلك يتم تبديل A/B و X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">تطبيق KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">يمكن ضبط بعض لوحات الألعاب باستخدام تطبيق KeyLinker من ShenZhen ZhiXu Technology Co., Ltd.، مثلًا لإعادة تعيين الأزرار أو لضبط مركز العصي ومنحنى استجابتها.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">عرض المسرح</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع المسرح</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">المستشعر الأمامي الأيسر في Phiro</string>

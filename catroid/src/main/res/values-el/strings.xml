@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Ενεργοποίηση μπλοκ και αισθητήρων</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Εναλλαγή A/B και X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Για χειριστήρια που αναφέρουν ανάποδα τα A και B, καθώς και τα X και Y</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Εντοπισμός διάταξης κουμπιών</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Μάθε με ένα πάτημα του A αν πρέπει να εναλλαχθούν τα A/B και X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Πάτησε το κουμπί με την ένδειξη A στο χειριστήριο ή το κάτω κουμπί, αν τα κουμπιά σου έχουν σύμβολα.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Το A αναφέρεται ως A, οπότε τα A/B και X/Y δεν εναλλάσσονται</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Το A αναφέρεται ως B, οπότε τα A/B και X/Y εναλλάσσονται</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Εφαρμογή KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Ορισμένα χειριστήρια ρυθμίζονται με την εφαρμογή KeyLinker της ShenZhen ZhiXu Technology Co., Ltd., για παράδειγμα για αντιστοίχιση κουμπιών ή για ρύθμιση του κέντρου και της καμπύλης απόκρισης των μοχλών.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ύψος σκηνής</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">μπροστινός αριστερός αισθητήρας phiro</string>

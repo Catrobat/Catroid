@@ -1782,6 +1782,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Omogući blokove i senzore</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamijeni A/B i X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Za igraće ploče koje A i B te X i Y javljaju obrnuto</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Prepoznaj raspored tipki</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Jednim pritiskom na A saznaj treba li zamijeniti A/B i X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pritisni tipku označenu s A na igraćoj ploči ili donju tipku ako tvoje tipke imaju simbole.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A se javlja kao A, pa A/B i X/Y nisu zamijenjeni</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A se javlja kao B, pa su A/B i X/Y zamijenjeni</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikacija KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Neke igraće ploče mogu se podesiti aplikacijom KeyLinker tvrtke ShenZhen ZhiXu Technology Co., Ltd., na primjer za drukčiji raspored tipki ili za podešavanje središta i krivulje odziva palica.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">visina pozornice</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro prednji lijevi senzor</string>

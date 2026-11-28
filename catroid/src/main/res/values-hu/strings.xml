@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Blokkok és érzékelők engedélyezése</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B és X/Y felcserélése</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Olyan játékvezérlőkhöz, amelyek az A és B, valamint az X és Y gombot fordítva jelzik</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Gombelrendezés felismerése</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Egy A-gombnyomással kiderítheted, hogy fel kell-e cserélni az A/B és X/Y gombot</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Nyomd meg a játékvezérlőn az A feliratú gombot, vagy az alsó gombot, ha a gombokon szimbólumok vannak.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Az A gomb A-ként jelentkezik, ezért az A/B és X/Y nincs felcserélve</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Az A gomb B-ként jelentkezik, ezért az A/B és X/Y fel van cserélve</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker alkalmazás</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Egyes játékvezérlők beállíthatók a ShenZhen ZhiXu Technology Co., Ltd. KeyLinker alkalmazásával, például a gombok átrendelésére vagy a karok középpontjának és válaszgörbéjének beállítására.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">színpad szélessége</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">színpad magassága</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro bal első érzékelő</string>

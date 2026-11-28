@@ -1827,6 +1827,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Omogoči kocke in senzorje</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamenjaj A/B in X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Za igralne ploščke, ki A in B ter X in Y sporočajo obratno</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Zaznaj razporeditev gumbov</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Z enim pritiskom na A ugotovite, ali je treba zamenjati A/B in X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pritisnite gumb z oznako A na igralnem ploščku ali spodnji gumb, če imajo gumbi simbole.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A se sporoča kot A, zato A/B in X/Y nista zamenjana</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A se sporoča kot B, zato sta A/B in X/Y zamenjana</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikacija KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Nekatere igralne ploščke lahko nastavite z aplikacijo KeyLinker podjetja ShenZhen ZhiXu Technology Co., Ltd., na primer za ponovno dodelitev gumbov ali prilagoditev središča in krivulje odziva palic.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina odra</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">višina odra</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sprednji levi senzor</string>

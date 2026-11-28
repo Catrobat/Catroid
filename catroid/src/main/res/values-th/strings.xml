@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">เปิดใช้งานบล็อกและเซ็นเซอร์</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">สลับ A/B และ X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">สำหรับเกมแพดที่รายงาน A กับ B และ X กับ Y สลับกัน</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ตรวจหาการจัดวางปุ่ม</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">กด A หนึ่งครั้งเพื่อดูว่าต้องสลับ A/B และ X/Y หรือไม่</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">กดปุ่มที่มีตัวอักษร A บนเกมแพด หรือกดปุ่มล่างหากปุ่มของคุณเป็นสัญลักษณ์</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ถูกรายงานเป็น A จึงไม่สลับ A/B และ X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ถูกรายงานเป็น B จึงสลับ A/B และ X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">แอป KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">เกมแพดบางรุ่นตั้งค่าได้ด้วยแอป KeyLinker ของ ShenZhen ZhiXu Technology Co., Ltd. เช่น กำหนดปุ่มใหม่หรือปรับจุดกึ่งกลางและเส้นโค้งการตอบสนองของก้าน</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ความกว้างของเวที</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ความสูงของเวที</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">เซ็นเซอร์ด้านหน้าซ้ายของ phiro</string>

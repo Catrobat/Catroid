@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Bật khối lệnh và cảm biến</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Hoán đổi A/B và X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Dành cho tay cầm báo A và B, X và Y ngược nhau</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Phát hiện bố cục nút</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Nhấn A một lần để biết có cần hoán đổi A/B và X/Y không</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Nhấn nút có chữ A trên tay cầm, hoặc nút dưới cùng nếu các nút có ký hiệu.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A được báo là A, nên A/B và X/Y không bị hoán đổi</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A được báo là B, nên A/B và X/Y được hoán đổi</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Ứng dụng KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Một số tay cầm có thể được thiết lập bằng ứng dụng KeyLinker của ShenZhen ZhiXu Technology Co., Ltd., ví dụ để gán lại nút hoặc chỉnh tâm và đường cong phản hồi của cần điều khiển.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">chiều rộng sân khấu</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">chiều cao sân khấu</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">cảm biến trước bên trái phiro</string>

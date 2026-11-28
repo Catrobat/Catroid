@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Rmed iblugen d imaṭṭafen</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Beddel A/B d X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">I yimsenqaden n wurar i d-yettazznen A d B, akked X d Y, s umgal</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Af-d taneɣruft n tqeffalin</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Af-d s yiwen n usiti ɣef A ma ilaq ad ttwabeddlen A/B d X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Sit ɣef tqeffalt yesɛan A deg umsenqed n wurar, neɣ ɣef tqeffalt n wadda ma yella tiqeffalin-ik sɛant izamulen.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A yettwazen am A, ihi A/B d X/Y ur ttwabeddlen ara</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A yettwazen am B, ihi A/B d X/Y ttwabeddlen</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Asnas KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Kra n yimsenqaden n wurar zemren ad ttwasbadun s usnas KeyLinker n ShenZhen ZhiXu Technology Co., Ltd., amedya i usnifel n tqeffalin neɣ i useggem n wammas d tririt n yijeǧǧiḍen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">tehri n usayes</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">teɣzi n usayes</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">amaṭṭaf n zdat ɣer zelmeḍ n phiro</string>

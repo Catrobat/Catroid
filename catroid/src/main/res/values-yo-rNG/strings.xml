@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Mú àwọn búlọ́ọ̀kù àti sẹ́ńsọ̀ ṣiṣẹ́</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Pààrọ̀ A/B àti X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Fún àwọn gamepad tí ó ń ròyìn A àti B, àti X àti Y, ní ìdàkejì</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Ṣàwárí ètò àwọn bọ́tìnnì</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Tẹ A lẹ́ẹ̀kan láti mọ̀ bóyá kí o pààrọ̀ A/B àti X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Tẹ bọ́tìnnì tí a kọ A sí lórí gamepad rẹ, tàbí bọ́tìnnì ìsàlẹ̀ tí àwọn bọ́tìnnì rẹ bá ní àmì.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ń ròyìn bí A, nítorí náà a kò pààrọ̀ A/B àti X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ń ròyìn bí B, nítorí náà a pààrọ̀ A/B àti X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Ìṣàfilọ́lẹ̀ KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">A lè ṣètò àwọn gamepad kan pẹ̀lú ìṣàfilọ́lẹ̀ KeyLinker láti ọwọ́ ShenZhen ZhiXu Technology Co., Ltd., fún àpẹẹrẹ láti tún bọ́tìnnì yàn tàbí láti ṣàtúnṣe àárín àti ìlà ìdáhùn àwọn ọ̀pá.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ìbú ìtàgé</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">gíga ìtàgé</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sẹ́ńsọ̀ iwájú òsì phiro</string>

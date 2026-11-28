@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Овозможи блокови и сензори</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Замени A/B и X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">За геимпади што ги пријавуваат A и B, и X и Y, обратно</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Препознај го распоредот на копчињата</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Со едно притискање на A дознај дали да ги замениш A/B и X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Притисни го копчето означено со A на геимпадот или долното копче ако копчињата имаат симболи.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A се пријавува како A, па A/B и X/Y не се заменуваат</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A се пријавува како B, па A/B и X/Y се заменуваат</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Апликација KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Некои геимпади може да се поставуваат со апликацијата KeyLinker од ShenZhen ZhiXu Technology Co., Ltd., на пример за повторно доделување на копчињата или за прилагодување на центарот и кривата на одзив на палките.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина на бината</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висина на бината</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro преден лев сензор</string>

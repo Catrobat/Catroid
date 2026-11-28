@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ব্লক ও সেন্সর চালু করুন</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B এবং X/Y অদলবদল করুন</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">যেসব গেমপ্যাড A ও B, এবং X ও Y উল্টো করে জানায় তাদের জন্য</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">বোতামের বিন্যাস শনাক্ত করুন</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A একবার চেপে জেনে নিন A/B এবং X/Y অদলবদল করতে হবে কি না</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">গেমপ্যাডের A লেখা বোতামটি চাপুন, অথবা বোতামে প্রতীক থাকলে নিচের বোতামটি চাপুন।</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A-কে A হিসেবে জানানো হয়, তাই A/B এবং X/Y অদলবদল করা হয় না</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A-কে B হিসেবে জানানো হয়, তাই A/B এবং X/Y অদলবদল করা হয়</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker অ্যাপ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">কিছু গেমপ্যাড ShenZhen ZhiXu Technology Co., Ltd.-এর KeyLinker অ্যাপ দিয়ে সেট আপ করা যায়, যেমন বোতাম নতুন করে নির্ধারণ করতে বা স্টিকের কেন্দ্র ও প্রতিক্রিয়া বক্ররেখা ঠিক করতে।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">মঞ্চের প্রস্থ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">মঞ্চের উচ্চতা</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro সামনের বাঁ সেন্সর</string>

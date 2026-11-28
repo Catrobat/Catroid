@@ -1782,6 +1782,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">הפעלת לבנים וחיישנים</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">החלפת A/B ו-X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">לשלטים שמדווחים על A ו-B, ועל X ו-Y, בסדר הפוך</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">זיהוי פריסת הכפתורים</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">גלו בלחיצה אחת על A אם להחליף בין A/B ו-X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">לחצו על הכפתור שמסומן A בשלט, או על הכפתור התחתון אם על הכפתורים יש סמלים.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A מדווח כ-A, ולכן A/B ו-X/Y לא מוחלפים</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A מדווח כ-B, ולכן A/B ו-X/Y מוחלפים</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">האפליקציה KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">חלק מהשלטים אפשר להגדיר באפליקציה KeyLinker של ShenZhen ZhiXu Technology Co., Ltd., למשל כדי למפות מחדש כפתורים או לכוונן את המרכז ואת עקומת התגובה של הידיות.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">רוחב הבמה</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">גובה הבמה</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">חיישן קדמי שמאלי של Phiro</string>

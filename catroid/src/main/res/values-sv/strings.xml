@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Aktivera block och sensorer</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Byt plats på A/B och X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">För spelkontroller som rapporterar A och B samt X och Y omvänt</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Identifiera knapplayout</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Ta reda på med ett tryck på A om A/B och X/Y ska byta plats</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Tryck på knappen märkt A på din spelkontroll, eller på den nedersta knappen om dina knappar har symboler.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A rapporteras som A, så A/B och X/Y byter inte plats</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A rapporteras som B, så A/B och X/Y byter plats</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-appen</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Vissa spelkontroller kan ställas in med KeyLinker-appen från ShenZhen ZhiXu Technology Co., Ltd., till exempel för att mappa om knappar eller justera mittläget och responskurvan för spakarna.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spelplanens bredd</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spelplanens höjd</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro främre vänstra sensor</string>

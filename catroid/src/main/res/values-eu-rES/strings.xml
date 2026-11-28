@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Gaitu blokeak eta sentsoreak</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trukatu A/B eta X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A eta B, eta X eta Y, alderantziz ematen dituzten kontrolagailuetarako</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detektatu botoien antolaera</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Jakin A behin sakatuta A/B eta X/Y trukatu behar diren</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Sakatu joko-kontrolagailuan A duen botoia, edo beheko botoia botoiek ikurrak badituzte.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A A gisa ematen da; beraz, A/B eta X/Y ez dira trukatzen</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A B gisa ematen da; beraz, A/B eta X/Y trukatzen dira</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker aplikazioa</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Joko-kontrolagailu batzuk ShenZhen ZhiXu Technology Co., Ltd. enpresaren KeyLinker aplikazioarekin konfigura daitezke, adibidez botoiak berriro esleitzeko edo palanken erdigunea eta erantzun-kurba doitzeko.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agertokiaren zabalera</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agertokiaren altuera</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro aurreko ezkerreko sentsorea</string>

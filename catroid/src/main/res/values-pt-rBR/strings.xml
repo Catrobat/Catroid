@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Ativar blocos e sensores</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Trocar A/B e X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para gamepads que informam A e B, e X e Y, ao contrário</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detectar o layout dos botões</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Descubra pressionando A uma vez se é preciso trocar A/B e X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pressione o botão marcado com A no seu gamepad, ou o botão de baixo se os seus botões tiverem símbolos.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A é informado como A, então A/B e X/Y não são trocados</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A é informado como B, então A/B e X/Y são trocados</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">App KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Alguns gamepads podem ser configurados com o app KeyLinker da ShenZhen ZhiXu Technology Co., Ltd., por exemplo para remapear botões ou ajustar o centro e a curva de resposta das alavancas.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largura do palco</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">altura do palco</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor frontal esquerdo do phiro</string>

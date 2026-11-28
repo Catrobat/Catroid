@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">بلاکس اور سینسرز فعال کریں</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B اور X/Y کو بدلیں</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">ان گیم پیڈز کے لیے جو A اور B، اور X اور Y الٹا بتاتے ہیں</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">بٹنوں کی ترتیب پہچانیں</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ایک بار دبا کر جانیں کہ آیا A/B اور X/Y کو بدلنا ہے</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">اپنے گیم پیڈ پر A لکھا بٹن دبائیں، یا اگر بٹنوں پر علامتیں ہیں تو نیچے والا بٹن دبائیں۔</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A کو A کے طور پر بتایا جاتا ہے، اس لیے A/B اور X/Y نہیں بدلے جاتے</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A کو B کے طور پر بتایا جاتا ہے، اس لیے A/B اور X/Y بدلے جاتے ہیں</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ایپ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">کچھ گیم پیڈز کو ShenZhen ZhiXu Technology Co., Ltd. کی KeyLinker ایپ سے سیٹ کیا جا سکتا ہے، مثلاً بٹن دوبارہ مقرر کرنے یا اسٹکس کا مرکز اور ردعمل کا خم ایڈجسٹ کرنے کے لیے۔</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">اسٹیج کی چوڑائی</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">اسٹیج کی اونچائی</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro سامنے کا بایاں سینسر</string>

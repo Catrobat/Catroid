@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ಬ್ಲಾಕ್‌ಗಳು ಮತ್ತು ಸೆನ್ಸರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ಮತ್ತು X/Y ಅದಲುಬದಲು ಮಾಡಿ</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A ಮತ್ತು B, X ಮತ್ತು Y ಅನ್ನು ತಿರುಗುಮುರುಗಾಗಿ ವರದಿ ಮಾಡುವ ಗೇಮ್‌ಪ್ಯಾಡ್‌ಗಳಿಗಾಗಿ</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ಬಟನ್ ವಿನ್ಯಾಸವನ್ನು ಪತ್ತೆಮಾಡಿ</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ಅನ್ನು ಒಮ್ಮೆ ಒತ್ತಿ A/B ಮತ್ತು X/Y ಅದಲುಬದಲು ಮಾಡಬೇಕೇ ಎಂದು ತಿಳಿಯಿರಿ</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">ನಿಮ್ಮ ಗೇಮ್‌ಪ್ಯಾಡ್‌ನಲ್ಲಿ A ಎಂದು ಬರೆದ ಬಟನ್ ಒತ್ತಿ, ಅಥವಾ ಬಟನ್‌ಗಳಲ್ಲಿ ಚಿಹ್ನೆಗಳಿದ್ದರೆ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ಅನ್ನು A ಎಂದು ವರದಿ ಮಾಡಲಾಗುತ್ತದೆ, ಆದ್ದರಿಂದ A/B ಮತ್ತು X/Y ಅದಲುಬದಲು ಆಗುವುದಿಲ್ಲ</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ಅನ್ನು B ಎಂದು ವರದಿ ಮಾಡಲಾಗುತ್ತದೆ, ಆದ್ದರಿಂದ A/B ಮತ್ತು X/Y ಅದಲುಬದಲು ಆಗುತ್ತವೆ</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ಆ್ಯಪ್</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">ಕೆಲವು ಗೇಮ್‌ಪ್ಯಾಡ್‌ಗಳನ್ನು ShenZhen ZhiXu Technology Co., Ltd. ನ KeyLinker ಆ್ಯಪ್‌ನಿಂದ ಹೊಂದಿಸಬಹುದು, ಉದಾಹರಣೆಗೆ ಬಟನ್‌ಗಳನ್ನು ಮರುನಿಯೋಜಿಸಲು ಅಥವಾ ಸ್ಟಿಕ್‌ಗಳ ಕೇಂದ್ರ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ ವಕ್ರರೇಖೆಯನ್ನು ಹೊಂದಿಸಲು.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ವೇದಿಕೆಯ ಅಗಲ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ವೇದಿಕೆಯ ಎತ್ತರ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro ಮುಂದಿನ ಎಡ ಸೆನ್ಸರ್</string>

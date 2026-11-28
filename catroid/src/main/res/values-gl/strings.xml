@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Activar bloques e sensores</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercambiar A/B e X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para mandos que indican A e B, e X e Y, ao revés</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detectar a disposición dos botóns</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Descobre cunha pulsación de A se hai que intercambiar A/B e X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Preme o botón marcado con A no teu mando, ou o botón inferior se os teus botóns teñen símbolos.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A indícase como A, así que A/B e X/Y non se intercambian</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A indícase como B, así que A/B e X/Y intercámbianse</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicación KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Algúns mandos pódense configurar coa aplicación KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., por exemplo para reasignar botóns ou axustar o centro e a curva de resposta das pancas.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largura do escenario</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">altura do escenario</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor dianteiro esquerdo do phiro</string>

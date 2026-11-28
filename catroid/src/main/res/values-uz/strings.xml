@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Bloklar va sensorlarni yoqish</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B va X/Y ni almashtirish</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A va B, X va Y tugmalarini teskari xabar qiladigan geympadlar uchun</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tugmalar joylashuvini aniqlash</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ni bir marta bosib, A/B va X/Y ni almashtirish kerakmi, bilib oling</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Geympaddagi A yozilgan tugmani yoki tugmalarda belgilar boʻlsa, pastki tugmani bosing.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A tugmasi A deb xabar qilinadi, shuning uchun A/B va X/Y almashtirilmaydi</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A tugmasi B deb xabar qilinadi, shuning uchun A/B va X/Y almashtiriladi</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ilovasi</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Baʼzi geympadlarni ShenZhen ZhiXu Technology Co., Ltd. kompaniyasining KeyLinker ilovasi bilan sozlash mumkin, masalan, tugmalarni qayta tayinlash yoki richaglarning markazi va javob egri chizigʻini moslash uchun.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">sahna kengligi</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">sahna balandligi</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro old chap sensori</string>

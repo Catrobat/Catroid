@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ਬਲਾਕ ਅਤੇ ਸੈਂਸਰ ਚਾਲੂ ਕਰੋ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B ਅਤੇ X/Y ਅਦਲਾ-ਬਦਲੀ ਕਰੋ</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">ਉਹਨਾਂ ਗੇਮਪੈਡਾਂ ਲਈ ਜੋ A ਅਤੇ B, ਅਤੇ X ਅਤੇ Y ਉਲਟ ਦੱਸਦੇ ਹਨ</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ਬਟਨਾਂ ਦਾ ਲੇਆਉਟ ਪਛਾਣੋ</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ਇੱਕ ਵਾਰ ਦਬਾ ਕੇ ਜਾਣੋ ਕਿ A/B ਅਤੇ X/Y ਦੀ ਅਦਲਾ-ਬਦਲੀ ਕਰਨੀ ਹੈ ਜਾਂ ਨਹੀਂ</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">ਆਪਣੇ ਗੇਮਪੈਡ \'ਤੇ A ਲਿਖਿਆ ਬਟਨ ਦਬਾਓ, ਜਾਂ ਜੇ ਬਟਨਾਂ \'ਤੇ ਚਿੰਨ੍ਹ ਹਨ ਤਾਂ ਹੇਠਲਾ ਬਟਨ ਦਬਾਓ।</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ਨੂੰ A ਵਜੋਂ ਦੱਸਿਆ ਜਾਂਦਾ ਹੈ, ਇਸ ਲਈ A/B ਅਤੇ X/Y ਦੀ ਅਦਲਾ-ਬਦਲੀ ਨਹੀਂ ਹੁੰਦੀ</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ਨੂੰ B ਵਜੋਂ ਦੱਸਿਆ ਜਾਂਦਾ ਹੈ, ਇਸ ਲਈ A/B ਅਤੇ X/Y ਦੀ ਅਦਲਾ-ਬਦਲੀ ਹੁੰਦੀ ਹੈ</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ਐਪ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">ਕੁਝ ਗੇਮਪੈਡ ShenZhen ZhiXu Technology Co., Ltd. ਦੀ KeyLinker ਐਪ ਨਾਲ ਸੈੱਟ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ, ਉਦਾਹਰਨ ਲਈ ਬਟਨ ਮੁੜ ਨਿਰਧਾਰਿਤ ਕਰਨ ਜਾਂ ਸਟਿੱਕਾਂ ਦਾ ਕੇਂਦਰ ਅਤੇ ਪ੍ਰਤੀਕਿਰਿਆ ਵਕਰ ਬਦਲਣ ਲਈ।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ਸਟੇਜ ਦੀ ਚੌੜਾਈ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ਸਟੇਜ ਦੀ ਉਚਾਈ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro ਅਗਲਾ ਖੱਬਾ ਸੈਂਸਰ</string>

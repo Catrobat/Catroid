@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">블록 및 센서 활성화</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B 및 X/Y 바꾸기</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A와 B, X와 Y를 반대로 보고하는 게임패드용</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">버튼 배치 감지</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A를 한 번 눌러 A/B 및 X/Y를 바꿀지 알아보기</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">게임패드에서 A라고 적힌 버튼을 누르세요. 버튼에 기호가 있으면 아래쪽 버튼을 누르세요.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A가 A로 보고되므로 A/B 및 X/Y를 바꾸지 않습니다</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A가 B로 보고되므로 A/B 및 X/Y를 바꿉니다</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker 앱</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">일부 게임패드는 ShenZhen ZhiXu Technology Co., Ltd.의 KeyLinker 앱으로 설정할 수 있습니다. 예를 들어 버튼을 다시 지정하거나 스틱의 중심과 반응 곡선을 조정할 수 있습니다.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">무대 너비</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">무대 높이</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 앞 왼쪽 센서</string>

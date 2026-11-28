@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Activa els blocs i sensors</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercanvia A/B i X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Per a comandaments que indiquen A i B, i X i Y, al revés</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detecta la disposició dels botons</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Esbrina amb una pulsació d\'A si cal intercanviar A/B i X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Prem el botó marcat amb A del comandament, o el botó inferior si els botons tenen símbols.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A s\'indica com a A, per tant A/B i X/Y no s\'intercanvien</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A s\'indica com a B, per tant A/B i X/Y s\'intercanvien</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicació KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Alguns comandaments es poden configurar amb l\'aplicació KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., per exemple per reassignar botons o per ajustar el centre i la corba de resposta de les palanques.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">alçada de l\'escenari</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor frontal esquerre del phiro</string>

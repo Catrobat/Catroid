@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Activer les briques et les capteurs</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inverser A/B et X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pour les manettes qui signalent A et B, ainsi que X et Y, à l\'inverse</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Détecter la disposition des boutons</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Découvre d\'un appui sur A s\'il faut inverser A/B et X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Appuie sur le bouton marqué A de ta manette, ou sur le bouton du bas si tes boutons portent des symboles.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A est signalé comme A, donc A/B et X/Y ne sont pas inversés</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A est signalé comme B, donc A/B et X/Y sont inversés</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Application KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Certaines manettes peuvent être réglées avec l\'application KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., par exemple pour réattribuer les boutons ou ajuster le centre et la courbe de réponse des joysticks.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hauteur du plateau</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">capteur avant gauche phiro</string>

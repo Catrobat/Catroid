@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">启用积木和传感器</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">交换 A/B 和 X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">用于 A 与 B、X 与 Y 反向报告的游戏手柄</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">检测按钮布局</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">按一次 A，确定是否要交换 A/B 和 X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">请按游戏手柄上标有 A 的按钮；如果按钮上是符号，请按下方的按钮。</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A 被报告为 A，因此不交换 A/B 和 X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A 被报告为 B，因此交换 A/B 和 X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker 应用</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">部分游戏手柄可以用 ShenZhen ZhiXu Technology Co., Ltd. 的 KeyLinker 应用进行设置，例如重新映射按钮，或调整摇杆的中心和响应曲线。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">舞台宽度</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">舞台高度</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前传感器</string>

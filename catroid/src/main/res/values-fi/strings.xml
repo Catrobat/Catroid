@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Ota palikat ja anturit käyttöön</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Vaihda A/B ja X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Peliohjaimille, jotka ilmoittavat A:n ja B:n sekä X:n ja Y:n toisin päin</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tunnista painikkeiden asettelu</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Selvitä yhdellä A:n painalluksella, pitääkö A/B ja X/Y vaihtaa</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Paina peliohjaimesta painiketta, jossa on merkintä A, tai alinta painiketta, jos painikkeissa on symbolit.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ilmoitetaan A:na, joten A/B:tä ja X/Y:tä ei vaihdeta</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ilmoitetaan B:nä, joten A/B ja X/Y vaihdetaan</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-sovellus</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Joitakin peliohjaimia voi säätää ShenZhen ZhiXu Technology Co., Ltd:n KeyLinker-sovelluksella, esimerkiksi painikkeiden uudelleenmääritykseen tai sauvojen keskikohdan ja vastekäyrän säätämiseen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">esiintymislavan leveys</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">esiintymislavan korkeus</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiron vasen etuanturi</string>

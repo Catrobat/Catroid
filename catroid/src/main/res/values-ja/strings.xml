@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ブロックとセンサーを有効にする</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B と X/Y を入れ替える</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A と B、X と Y を逆に報告するゲームパッド用</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ボタン配置を検出</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A を1回押して、A/B と X/Y を入れ替えるかどうかを確認します</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">ゲームパッドの A と書かれたボタンを押してください。ボタンに記号が付いている場合は下のボタンを押してください。</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A は A として報告されるため、A/B と X/Y は入れ替えません</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A は B として報告されるため、A/B と X/Y を入れ替えます</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker アプリ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">一部のゲームパッドは ShenZhen ZhiXu Technology Co., Ltd. の KeyLinker アプリで設定でき、たとえばボタンの割り当てを変えたり、スティックの中心や反応カーブを調整したりできます。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ステージの幅</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ステージの高さ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前センサー</string>

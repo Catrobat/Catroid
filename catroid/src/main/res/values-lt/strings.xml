@@ -1827,6 +1827,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Įjungti blokus ir jutiklius</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sukeisti A/B ir X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Žaidimų pultams, kurie A ir B bei X ir Y praneša atvirkščiai</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Atpažinti mygtukų išdėstymą</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Vienu A paspaudimu sužinok, ar reikia sukeisti A/B ir X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Paspausk žaidimų pulto mygtuką, pažymėtą A, arba apatinį mygtuką, jei ant mygtukų yra simboliai.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A pranešamas kaip A, todėl A/B ir X/Y nesukeičiami</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A pranešamas kaip B, todėl A/B ir X/Y sukeičiami</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Programėlė KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Kai kuriuos žaidimų pultus galima nustatyti ShenZhen ZhiXu Technology Co., Ltd. programėle KeyLinker, pavyzdžiui, iš naujo priskirti mygtukus arba sureguliuoti svirtelių centrą ir atsako kreivę.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">scenos plotis</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">scenos aukštis</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro priekinis kairysis jutiklis</string>

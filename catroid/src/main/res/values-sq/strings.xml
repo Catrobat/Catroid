@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Aktivizo blloqet dhe sensorët</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ndërro A/B dhe X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Për tastierat e lojës që i raportojnë A dhe B, si dhe X dhe Y, së prapthi</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Zbulo renditjen e butonave</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Zbulo me një shtypje të A nëse duhen ndërruar A/B dhe X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Shtyp butonin me shenjën A në tastierën e lojës, ose butonin e poshtëm nëse butonat kanë simbole.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A raportohet si A, prandaj A/B dhe X/Y nuk ndërrohen</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A raportohet si B, prandaj A/B dhe X/Y ndërrohen</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikacioni KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Disa tastiera loje mund të konfigurohen me aplikacionin KeyLinker të ShenZhen ZhiXu Technology Co., Ltd., për shembull për të ricaktuar butonat ose për të rregulluar qendrën dhe kurbën e reagimit të levave.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">lartësia e skenës</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensori i përparmë majtas i phiro</string>

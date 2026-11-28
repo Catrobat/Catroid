@@ -1782,6 +1782,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Укључи блокове и сензоре</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Замени A/B и X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">За контролере који A и B, као и X и Y, пријављују обрнуто</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Препознај распоред дугмади</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Једним притиском на A сазнај да ли треба заменити A/B и X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Притисни дугме означено са A на контролеру или доње дугме ако дугмад има симболе.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A се пријављује као A, па A/B и X/Y нису замењени</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A се пријављује као B, па су A/B и X/Y замењени</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Апликација KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Неки контролери могу да се подесе апликацијом KeyLinker компаније ShenZhen ZhiXu Technology Co., Ltd., на пример за другачији распоред дугмади или за подешавање центра и криве одзива палица.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина позорнице</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висина позорнице</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro предњи леви сензор</string>

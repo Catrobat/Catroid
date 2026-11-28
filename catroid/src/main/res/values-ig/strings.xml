@@ -1692,6 +1692,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Gbanye blọk na sensọ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Gbanwee A/B na X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Maka gamepad ndị na-akọ A na B, na X na Y, n\'ụzọ ọzọ</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Chọpụta nhazi bọtịnụ</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Pịa A otu ugboro iji mata ma a ga-agbanwe A/B na X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pịa bọtịnụ e dere A na gamepad gị, ma ọ bụ bọtịnụ dị n\'okpuru ma ọ bụrụ na bọtịnụ gị nwere akara.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A na-akọ dị ka A, ya mere a naghị agbanwe A/B na X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A na-akọ dị ka B, ya mere a na-agbanwe A/B na X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Ngwa KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Enwere ike iji ngwa KeyLinker nke ShenZhen ZhiXu Technology Co., Ltd. hazie ụfọdụ gamepad, dịka ọmụmaatụ iji kenye bọtịnụ ọzọ ma ọ bụ dozie etiti na usoro nzaghachi nke osisi.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">obosara ogbo</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ogologo ogbo</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensọ ihu aka ekpe phiro</string>

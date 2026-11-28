@@ -1735,6 +1735,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Bausteine und Sensoren aktivieren</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B und X/Y tauschen</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Für Gamepads, die A und B sowie X und Y vertauscht melden</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tastenanordnung erkennen</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Mit einem Druck auf A herausfinden, ob A/B und X/Y getauscht werden sollen</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Drücke auf deinem Gamepad die mit A beschriftete Taste oder die untere Taste, wenn deine Tasten Symbole haben.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A wird als A gemeldet, daher werden A/B und X/Y nicht getauscht</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A wird als B gemeldet, daher werden A/B und X/Y getauscht</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-App</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Manche Gamepads lassen sich mit der KeyLinker-App von ShenZhen ZhiXu Technology Co., Ltd. einstellen, zum Beispiel um Tasten neu zu belegen oder die Mitte und die Ansprechkurve der Sticks anzupassen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">Bühnenbreite</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">Bühnenhöhe</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro Sensor vorne links</string>

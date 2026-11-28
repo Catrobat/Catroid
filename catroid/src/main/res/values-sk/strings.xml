@@ -1827,6 +1827,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Povoliť bloky a senzory</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Vymeniť A/B a X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pre gamepady, ktoré hlásia A a B aj X a Y opačne</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Zistiť rozloženie tlačidiel</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Jedným stlačením A zistite, či vymeniť A/B a X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Stlačte na gamepade tlačidlo označené A alebo spodné tlačidlo, ak majú tlačidlá symboly.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A sa hlási ako A, takže A/B a X/Y sa nevymieňajú</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A sa hlási ako B, takže A/B a X/Y sa vymieňajú</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikácia KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Niektoré gamepady sa dajú nastaviť aplikáciou KeyLinker od ShenZhen ZhiXu Technology Co., Ltd., napríklad na premapovanie tlačidiel alebo úpravu stredu a krivky odozvy páčok.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šírka javiska</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">výška javiska</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro predný ľavý senzor</string>

@@ -1782,6 +1782,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Activează blocurile și senzorii</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inversează A/B și X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pentru gamepaduri care raportează A și B, precum și X și Y, invers</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detectează dispunerea butoanelor</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Află cu o singură apăsare pe A dacă trebuie inversate A/B și X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Apasă pe gamepad butonul marcat cu A sau butonul de jos, dacă butoanele au simboluri.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A este raportat ca A, deci A/B și X/Y nu sunt inversate</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A este raportat ca B, deci A/B și X/Y sunt inversate</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicația KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Unele gamepaduri pot fi configurate cu aplicația KeyLinker de la ShenZhen ZhiXu Technology Co., Ltd., de exemplu pentru a realoca butoanele sau pentru a ajusta centrul și curba de răspuns ale joystickurilor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lățimea zonei de joc</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">înălțimea zonei de joc</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">senzorul phiro din față stânga</string>

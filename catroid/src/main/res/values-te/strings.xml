@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">బ్లాక్‌లు మరియు సెన్సార్‌లను ఆన్ చేయి</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B మరియు X/Y మార్చు</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A మరియు B, X మరియు Y లను తారుమారుగా తెలిపే గేమ్‌ప్యాడ్‌ల కోసం</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">బటన్ లేఅవుట్‌ను గుర్తించు</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ను ఒకసారి నొక్కి A/B మరియు X/Y మార్చాలా అని తెలుసుకో</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">మీ గేమ్‌ప్యాడ్‌లో A అని ఉన్న బటన్‌ను నొక్కండి, లేదా బటన్‌లపై చిహ్నాలు ఉంటే కింది బటన్‌ను నొక్కండి.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ను A గా తెలియజేస్తారు, కాబట్టి A/B మరియు X/Y మార్చబడవు</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ను B గా తెలియజేస్తారు, కాబట్టి A/B మరియు X/Y మార్చబడతాయి</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker యాప్</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">కొన్ని గేమ్‌ప్యాడ్‌లను ShenZhen ZhiXu Technology Co., Ltd. వారి KeyLinker యాప్‌తో సెట్ చేయవచ్చు, ఉదాహరణకు బటన్‌లను మళ్లీ కేటాయించడానికి లేదా స్టిక్‌ల మధ్య భాగం మరియు ప్రతిస్పందన వక్రరేఖను సర్దుబాటు చేయడానికి.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">వేదిక వెడల్పు</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">వేదిక ఎత్తు</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro ముందు ఎడమ సెన్సార్</string>

@@ -1827,6 +1827,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Увімкнути блоки та датчики</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Поміняти місцями A/B і X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Для геймпадів, які передають A і B, а також X і Y навпаки</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Визначити розташування кнопок</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Одним натисканням A дізнайтеся, чи треба поміняти місцями A/B і X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Натисніть на геймпаді кнопку з літерою A або нижню кнопку, якщо на кнопках символи.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A передається як A, тому A/B і X/Y не міняються місцями</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A передається як B, тому A/B і X/Y міняються місцями</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Застосунок KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Деякі геймпади можна налаштувати в застосунку KeyLinker від ShenZhen ZhiXu Technology Co., Ltd., наприклад перепризначити кнопки або налаштувати центр і криву відгуку стіків.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина сцени</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висота сцени</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">передній лівий датчик phiro</string>

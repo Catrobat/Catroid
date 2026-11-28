@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">I-enable ang mga block at sensor</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Pagpalitin ang A/B at X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para sa mga gamepad na baligtad mag-ulat ng A at B, at ng X at Y</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tukuyin ang ayos ng mga button</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Alamin sa isang pindot ng A kung kailangang pagpalitin ang A/B at X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pindutin ang button na may markang A sa iyong gamepad, o ang ibabang button kung may mga simbolo ang iyong mga button.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Iniuulat ang A bilang A, kaya hindi pinagpapalit ang A/B at X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Iniuulat ang A bilang B, kaya pinagpapalit ang A/B at X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Maaaring i-set up ang ilang gamepad gamit ang KeyLinker app ng ShenZhen ZhiXu Technology Co., Ltd., halimbawa para i-remap ang mga button o i-adjust ang gitna at response curve ng mga stick.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lapad ng entablado</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">taas ng entablado</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor sa harap-kaliwa</string>

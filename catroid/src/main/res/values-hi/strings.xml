@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">ब्लॉक और सेंसर चालू करें</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B और X/Y की अदला-बदली करें</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">उन गेमपैड के लिए जो A और B, तथा X और Y उल्टा बताते हैं</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">बटन का लेआउट पहचानें</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A एक बार दबाकर जानें कि A/B और X/Y की अदला-बदली करनी है या नहीं</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">अपने गेमपैड पर A लिखा बटन दबाएँ, या अगर बटनों पर चिह्न हैं तो नीचे वाला बटन दबाएँ।</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A को A के रूप में बताया जाता है, इसलिए A/B और X/Y की अदला-बदली नहीं होती</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A को B के रूप में बताया जाता है, इसलिए A/B और X/Y की अदला-बदली होती है</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ऐप</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">कुछ गेमपैड ShenZhen ZhiXu Technology Co., Ltd. के KeyLinker ऐप से सेट किए जा सकते हैं, उदाहरण के लिए बटन दोबारा असाइन करने या स्टिक का केंद्र और रिस्पॉन्स कर्व बदलने के लिए।</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">मंच की चौड़ाई</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">मंच की ऊँचाई</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro सामने बायाँ सेंसर</string>

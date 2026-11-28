@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Ma blɔk ne sɛnsa nyɛ adwuma</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Sesa A/B ne X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Ma gamepad a ɛka A ne B, ne X ne Y, nnan</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Hu sɛnea wɔahyehyɛ bɔtom no</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Mia A pɛnkoro na hu sɛ ɛsɛ sɛ wosesa A/B ne X/Y anaa</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Mia bɔtom a wɔakyerɛw A wɔ so wɔ wo gamepad so, anaa bɔtom a ɛwɔ ase no sɛ wo bɔtom wɔ ahyɛnsode a.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Wɔka A sɛ A, enti wɔnsesa A/B ne X/Y</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Wɔka A sɛ B, enti wɔsesa A/B ne X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Wobetumi de ShenZhen ZhiXu Technology Co., Ltd. KeyLinker app ahyehyɛ gamepad binom, sɛ nhwɛso no, sɛ wobɛsesa bɔtom anaa wobɛsiesie dua no mfinimfini ne ne mmuae kwan.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">agoprama tɛtrɛtɛ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">agoprama sorokɔ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro anim benkum sɛnsa</string>

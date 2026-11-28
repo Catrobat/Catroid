@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">فعال کردن بلوک‌ها و حسگرها</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">جابه‌جایی A/B و X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">برای دسته‌بازی‌هایی که A و B، و X و Y را برعکس گزارش می‌کنند</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">تشخیص چیدمان دکمه‌ها</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">با یک بار فشردن A بفهمید که آیا A/B و X/Y باید جابه‌جا شوند</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">دکمه‌ای را که روی دسته‌بازی با A مشخص شده فشار دهید، یا اگر دکمه‌ها نماد دارند، دکمهٔ پایینی را.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A به‌صورت A گزارش می‌شود، پس A/B و X/Y جابه‌جا نمی‌شوند</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A به‌صورت B گزارش می‌شود، پس A/B و X/Y جابه‌جا می‌شوند</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">برنامهٔ KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">برخی دسته‌بازی‌ها را می‌توان با برنامهٔ KeyLinker از ShenZhen ZhiXu Technology Co., Ltd. تنظیم کرد، مثلاً برای تغییر نگاشت دکمه‌ها یا تنظیم مرکز و منحنی پاسخ اهرم‌ها.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">پهنای صحنه</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع صحنه</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">حسگر جلو چپ Phiro</string>

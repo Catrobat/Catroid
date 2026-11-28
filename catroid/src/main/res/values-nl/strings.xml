@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Blokken en sensoren inschakelen</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B en X/Y omwisselen</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Voor gamepads die A en B, en X en Y, omgekeerd melden</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Knopindeling herkennen</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Ontdek met één druk op A of A/B en X/Y omgewisseld moeten worden</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Druk op je gamepad op de knop met A erop, of op de onderste knop als je knoppen symbolen hebben.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A wordt als A gemeld, dus A/B en X/Y worden niet omgewisseld</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A wordt als B gemeld, dus A/B en X/Y worden omgewisseld</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Sommige gamepads kun je instellen met de KeyLinker-app van ShenZhen ZhiXu Technology Co., Ltd., bijvoorbeeld om knoppen opnieuw toe te wijzen of het midden en de responscurve van de sticks aan te passen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">breedte speelveld</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hoogte speelveld</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor voor links</string>

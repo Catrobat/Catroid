@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">બ્લોક અને સેન્સર ચાલુ કરો</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B અને X/Y અદલાબદલી કરો</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">જે ગેમપૅડ A અને B, તથા X અને Y ઊલટા જણાવે છે તેમના માટે</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">બટનનો લેઆઉટ શોધો</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A એક વાર દબાવીને જાણો કે A/B અને X/Y અદલાબદલી કરવા કે નહીં</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">તમારા ગેમપૅડ પર A લખેલું બટન દબાવો, અથવા બટનો પર ચિહ્નો હોય તો નીચેનું બટન દબાવો.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ને A તરીકે જણાવવામાં આવે છે, તેથી A/B અને X/Y અદલાબદલી થતા નથી</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ને B તરીકે જણાવવામાં આવે છે, તેથી A/B અને X/Y અદલાબદલી થાય છે</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ઍપ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">કેટલાક ગેમપૅડ ShenZhen ZhiXu Technology Co., Ltd.ની KeyLinker ઍપ વડે સેટ કરી શકાય છે, ઉદાહરણ તરીકે બટનો ફરીથી સોંપવા અથવા સ્ટિકનું કેન્દ્ર અને પ્રતિભાવ વળાંક ગોઠવવા.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">મંચની પહોળાઈ</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">મંચની ઊંચાઈ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro આગળનું ડાબું સેન્સર</string>

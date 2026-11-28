@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B மற்றும் X/Y ஐ இடமாற்று</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A, B மற்றும் X, Y ஐத் தலைகீழாகத் தெரிவிக்கும் கேம்பேட்களுக்கு</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">பொத்தான் அமைப்பைக் கண்டறி</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A-ஐ ஒருமுறை அழுத்தி A/B மற்றும் X/Y ஐ இடமாற்ற வேண்டுமா என அறி</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">உங்கள் கேம்பேடில் A எனக் குறிக்கப்பட்ட பொத்தானை அழுத்தவும், அல்லது பொத்தான்களில் குறியீடுகள் இருந்தால் கீழ்ப் பொத்தானை அழுத்தவும்.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A, A ஆகத் தெரிவிக்கப்படுகிறது, எனவே A/B மற்றும் X/Y இடமாற்றப்படவில்லை</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A, B ஆகத் தெரிவிக்கப்படுகிறது, எனவே A/B மற்றும் X/Y இடமாற்றப்படுகின்றன</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker செயலி</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">சில கேம்பேட்களை ShenZhen ZhiXu Technology Co., Ltd. நிறுவனத்தின் KeyLinker செயலி மூலம் அமைக்கலாம், எடுத்துக்காட்டாக பொத்தான்களை மீண்டும் ஒதுக்க அல்லது குச்சிகளின் மையத்தையும் பதில் வளைவையும் சரிசெய்ய.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">மேடையின் உயரம்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro முன் இடது உணரி</string>

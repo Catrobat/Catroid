@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Kunna tubala da sensoshi</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Musanya A/B da X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Don gamepad da ke bayar da A da B, da X da Y, a juye</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Gano tsarin maɓallai</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Ka gano da danna A sau ɗaya ko ya kamata a musanya A/B da X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Danna maɓallin da aka rubuta A a kan gamepad ɗinka, ko maɓallin ƙasa idan maɓallanka suna da alamomi.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Ana bayar da A a matsayin A, don haka ba a musanya A/B da X/Y ba</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Ana bayar da A a matsayin B, don haka an musanya A/B da X/Y</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Manhajar KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Ana iya saita wasu gamepad da manhajar KeyLinker ta ShenZhen ZhiXu Technology Co., Ltd., misali don sake sanya maɓallai ko daidaita tsakiya da lanƙwasar amsa ta sanduna.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">faɗin fage</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">tsayin fage</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensar gaba ta hagu ta phiro</string>

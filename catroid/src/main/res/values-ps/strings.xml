@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">بلاکونه او سینسرونه فعال کړئ</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B او X/Y بدل کړئ</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">د هغو ګیم‌پیډونو لپاره چې A او B، او X او Y برعکس راپوروي</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">د تڼیو ترتیب وپېژنئ</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">په یو ځل د A کېکاږلو سره ومومئ چې آیا A/B او X/Y بدل شي</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">په خپل ګیم‌پیډ کې هغه تڼۍ کېکاږئ چې A پرې لیکل شوی، یا که تڼۍ نښې لري نو لاندنۍ تڼۍ.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A د A په توګه راپور کېږي، نو A/B او X/Y نه بدلېږي</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A د B په توګه راپور کېږي، نو A/B او X/Y بدلېږي</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">د KeyLinker اپ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">ځینې ګیم‌پیډونه د ShenZhen ZhiXu Technology Co., Ltd. د KeyLinker اپ سره تنظیمېدای شي، د بېلګې په توګه د تڼیو د بیا ټاکلو یا د لښتو د مرکز او غبرګون منحني د برابرولو لپاره.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">د سټېج پلنوالی</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">د سټېج لوړوالی</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">د Phiro مخکینی کیڼ سینسر</string>

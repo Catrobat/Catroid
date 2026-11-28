@@ -1737,6 +1737,13 @@
     <string formatted="false" name="preference_gamepad_enable_bricks">Aktiver klosser og sensorer</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Bytt A/B og X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">For spillkontroller som melder A og B, og X og Y, omvendt</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Gjenkjenn knappeoppsett</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Finn ut med ett trykk på A om A/B og X/Y skal byttes</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Trykk på knappen merket A på spillkontrollen, eller på den nederste knappen hvis knappene dine har symboler.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A meldes som A, så A/B og X/Y byttes ikke</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A meldes som B, så A/B og X/Y byttes</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-appen</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Noen spillkontroller kan stilles inn med KeyLinker-appen fra ShenZhen ZhiXu Technology Co., Ltd., for eksempel for å tilordne knapper på nytt eller justere midtpunktet og responskurven til spakene.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spilleflatens bredde</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spilleflatens høyde</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor foran venstre</string>
