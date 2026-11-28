@@ -28,11 +28,13 @@ import android.content.res.XmlResourceParser
 import android.os.Build
 import android.preference.PreferenceManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.ui.settingsfragments.GamepadSettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -130,11 +132,13 @@ class PhysicalGamepadSettingTest {
     }
 
     @Test
-    fun `gamepad submenu offers the extension checkbox followed by the swap checkbox`() {
+    fun `gamepad submenu offers the extension, the swap, its detection and the KeyLinker hint in this order`() {
         assertEquals(
             listOf(
                 SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS,
-                SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS
+                SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS,
+                GamepadSettingsFragment.DETECT_FACE_BUTTONS_KEY,
+                GamepadSettingsFragment.KEYLINKER_HINT_KEY
             ),
             gamepadPreferences().map { it.key }
         )
@@ -192,6 +196,65 @@ class PhysicalGamepadSettingTest {
         )
     }
 
+    @Test
+    fun `gamepad submenu offers the detection of the swap as an action that depends on the gamepad extension`() {
+        val preference = gamepadPreferences()
+            .singleOrNull { it.key == GamepadSettingsFragment.DETECT_FACE_BUTTONS_KEY }
+
+        assertNotNull(preference)
+        assertEquals("Preference", preference?.tag)
+        assertEquals("false", preference?.persistent)
+        assertEquals(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, preference?.dependency)
+        assertEquals(R.string.preference_title_gamepad_detect_face_buttons, preference?.titleResId)
+        assertEquals(R.string.preference_description_gamepad_detect_face_buttons, preference?.summaryResId)
+    }
+
+    @Test
+    fun `detection of the swap has its title, summary and prompt`() {
+        assertEquals(
+            "Detect button layout",
+            context.getString(R.string.preference_title_gamepad_detect_face_buttons)
+        )
+        assertEquals(
+            "Find out with one press of A whether to swap A/B and X/Y",
+            context.getString(R.string.preference_description_gamepad_detect_face_buttons)
+        )
+        assertEquals(
+            "Press the button labeled A on your controller, or the lower button if your buttons have symbols.",
+            context.getString(R.string.dialog_gamepad_detect_face_buttons)
+        )
+    }
+
+    @Test
+    fun `gamepad submenu offers the KeyLinker hint as text that cannot be tapped`() {
+        val preference = gamepadPreferences()
+            .singleOrNull { it.key == GamepadSettingsFragment.KEYLINKER_HINT_KEY }
+
+        assertNotNull(preference)
+        assertEquals("Preference", preference?.tag)
+        assertEquals("false", preference?.selectable)
+        assertEquals("false", preference?.persistent)
+        assertNull(preference?.dependency)
+        assertEquals(R.string.preference_title_gamepad_keylinker, preference?.titleResId)
+        assertEquals(R.string.preference_description_gamepad_keylinker, preference?.summaryResId)
+    }
+
+    @Test
+    fun `gamepad submenu links to no app or web page`() {
+        assertTrue(gamepadPreferenceTags().none { it == "intent" })
+    }
+
+    @Test
+    fun `KeyLinker hint names the app, its maker and what it adjusts`() {
+        assertEquals("KeyLinker app", context.getString(R.string.preference_title_gamepad_keylinker))
+        assertEquals(
+            "Some controllers can be set up with the KeyLinker app by ShenZhen ZhiXu Technology Co., " +
+                "Ltd., for example to remap buttons or to adjust the center and the response curve of " +
+                "the sticks.",
+            context.getString(R.string.preference_description_gamepad_keylinker)
+        )
+    }
+
     private fun setPhysicalGamepadSetting(enabled: Boolean) {
         sharedPreferences.edit()
             .putBoolean(SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, enabled)
@@ -202,10 +265,27 @@ class PhysicalGamepadSettingTest {
     private fun topLevelPreferences(): List<PreferenceEntry> = topLevelPreferencesOf(R.xml.preferences)
 
     /** Reads the direct children of the root preference screen of the gamepad submenu. */
-    private fun gamepadPreferences(): List<PreferenceEntry> {
+    private fun gamepadPreferences(): List<PreferenceEntry> = topLevelPreferencesOf(gamepadPreferencesResId())
+
+    /** Reads the tags of all elements of the gamepad submenu, at any depth. */
+    private fun gamepadPreferenceTags(): List<String> {
+        val parser = context.resources.getXml(gamepadPreferencesResId())
+        val tags = mutableListOf<String>()
+        var eventType = parser.eventType
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG) {
+                tags.add(parser.name)
+            }
+            eventType = parser.next()
+        }
+        parser.close()
+        return tags
+    }
+
+    private fun gamepadPreferencesResId(): Int {
         val xmlResId = context.resources.getIdentifier("gamepad_preferences", "xml", context.packageName)
         assertTrue("The gamepad submenu has no preference file", xmlResId != 0)
-        return topLevelPreferencesOf(xmlResId)
+        return xmlResId
     }
 
     private fun topLevelPreferencesOf(xmlResId: Int): List<PreferenceEntry> {
@@ -227,6 +307,8 @@ class PhysicalGamepadSettingTest {
         val key: String?,
         val defaultValue: String?,
         val dependency: String?,
+        val persistent: String?,
+        val selectable: String?,
         val titleResId: Int,
         val summaryResId: Int
     ) {
@@ -236,6 +318,8 @@ class PhysicalGamepadSettingTest {
                 key = parser.getAttributeValue(ANDROID_NAMESPACE, "key"),
                 defaultValue = parser.getAttributeValue(ANDROID_NAMESPACE, "defaultValue"),
                 dependency = parser.getAttributeValue(ANDROID_NAMESPACE, "dependency"),
+                persistent = parser.getAttributeValue(ANDROID_NAMESPACE, "persistent"),
+                selectable = parser.getAttributeValue(ANDROID_NAMESPACE, "selectable"),
                 titleResId = parser.getAttributeResourceValue(ANDROID_NAMESPACE, "title", 0),
                 summaryResId = parser.getAttributeResourceValue(ANDROID_NAMESPACE, "summary", 0)
             )
