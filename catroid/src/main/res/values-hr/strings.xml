@@ -1013,6 +1013,7 @@
     <string formatted="false" name="brick_reset_timer">Vrati štopericu na nulu</string>
     <string formatted="false" name="brick_open">Otvori</string>
     <string formatted="false" name="brick_in_browser">u pregledniku</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">pritisnuta</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kada scena započne</string>
     <string formatted="false" name="brick_when">Kada te dodirnu</string>
@@ -1066,11 +1067,25 @@
     <string formatted="false" name="brick_touch_from_x">"od x:"</string>
     <string formatted="false" name="brick_finish_stage">Zatvori pozornicu</string>
     <string formatted="false" name="brick_finish_tests">Završi testove</string>
+    <string formatted="false" name="brick_when_stage_exited">Kada se izađe s pozornice</string>
     <string formatted="false" name="brick_assert_lists">Provjeri liste</string>
     <string formatted="false" name="brick_assert_actual">Stvarno:</string>
     <string formatted="false" name="brick_assert_expected">Očekivano:</string>
     <string formatted="false" name="brick_parameterized_assert">provjeri</string>
     <string formatted="false" name="brick_parameterized_equals">jednako je očekivanoj stavci iz</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuliraj tipku igraće ploče</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuliraj palicu igraće ploče</string>
+    <string formatted="false" name="gamepad_stick_left">Lijeva</string>
+    <string formatted="false" name="gamepad_stick_right">Desna</string>
+    <string formatted="false" name="gamepad_button_state_pressed">pritisnuta</string>
+    <string formatted="false" name="gamepad_button_state_released">otpuštena</string>
+    <string formatted="false" name="gamepad_button_up">Gore</string>
+    <string formatted="false" name="gamepad_button_down">Dolje</string>
+    <string formatted="false" name="gamepad_button_left">Lijevo</string>
+    <string formatted="false" name="gamepad_button_right">Desno</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Bilo koja</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Za svaku stavku iz</item>
         <item quantity="few">Za svaku n-torku stavki iz</item>
@@ -1743,6 +1758,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">tipka dolje igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">tipka lijevo igraće ploče pritisnuta</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">tipka desno igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tipka A▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tipka B▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tipka X▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tipka Y▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tipka gore▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tipka dolje▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tipka lijevo▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tipka desno▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tipka start▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tipka select▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tipka L1▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tipka L2▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tipka R1▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tipka R2▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tipka bilo koja▾ fizičke igraće ploče pritisnuta</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">lijeva palica igraće ploče x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">lijeva palica igraće ploče y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">desna palica igraće ploče x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">desna palica igraće ploče y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Proširenje igraće ploče</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Dopusti korištenje fizičke igraće ploče</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Omogući blokove i senzore</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Zamijeni A/B i X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Za igraće ploče koje A i B te X i Y javljaju obrnuto</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Prepoznaj raspored tipki</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Jednim pritiskom na A saznaj treba li zamijeniti A/B i X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Pritisni tipku označenu s A na igraćoj ploči ili donju tipku ako tvoje tipke imaju simbole.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A se javlja kao A, pa A/B i X/Y nisu zamijenjeni</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A se javlja kao B, pa su A/B i X/Y zamijenjeni</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikacija KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Neke igraće ploče mogu se podesiti aplikacijom KeyLinker tvrtke ShenZhen ZhiXu Technology Co., Ltd., na primjer za drukčiji raspored tipki ili za podešavanje središta i krivulje odziva palica.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">širina pozornice</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">visina pozornice</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro prednji lijevi senzor</string>
@@ -1798,6 +1844,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dron</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Igraća ploča</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

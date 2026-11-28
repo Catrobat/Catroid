@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">ടൈമർ പുനഃസജ്ജമാക്കുക</string>
     <string formatted="false" name="brick_open">തുറക്കുക:</string>
     <string formatted="false" name="brick_in_browser">ബ്രൗസറിൽ</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">അമർത്തുമ്പോൾ</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">രംഗം തുടങ്ങുമ്പോൾ</string>
     <string formatted="false" name="brick_when">ടാപ്പ് ചെയ്യുമ്പോൾ</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"ഇവിടെ നിന്ന് x:"</string>
     <string formatted="false" name="brick_finish_stage">വേദി അവസാനിപ്പിക്കുക</string>
     <string formatted="false" name="brick_finish_tests">ടെസ്റ്റുകൾ അവസാനിപ്പിക്കുക</string>
+    <string formatted="false" name="brick_when_stage_exited">വേദിയിൽ നിന്ന് പുറത്തുകടക്കുമ്പോൾ</string>
     <string formatted="false" name="brick_assert_lists">ലിസ്റ്റുകൾ ഉറപ്പാക്കുക</string>
     <string formatted="false" name="brick_assert_actual">യഥാർത്ഥം:</string>
     <string formatted="false" name="brick_assert_expected">പ്രതീക്ഷിച്ചത്:</string>
     <string formatted="false" name="brick_parameterized_assert">ഉറപ്പാക്കുക:</string>
     <string formatted="false" name="brick_parameterized_equals">ഇതിലെ പ്രതീക്ഷിച്ച ഇനത്തിന് തുല്യം:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">ഗെയിംപാഡ് ബട്ടൺ സിമുലേറ്റ് ചെയ്യുക</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ഗെയിംപാഡ് സ്റ്റിക്ക് സിമുലേറ്റ് ചെയ്യുക</string>
+    <string formatted="false" name="gamepad_stick_left">ഇടത്</string>
+    <string formatted="false" name="gamepad_stick_right">വലത്</string>
+    <string formatted="false" name="gamepad_button_state_pressed">അമർത്തി</string>
+    <string formatted="false" name="gamepad_button_state_released">വിട്ടു</string>
+    <string formatted="false" name="gamepad_button_up">മുകളിൽ</string>
+    <string formatted="false" name="gamepad_button_down">താഴെ</string>
+    <string formatted="false" name="gamepad_button_left">ഇടത്</string>
+    <string formatted="false" name="gamepad_button_right">വലത്</string>
+    <string formatted="false" name="gamepad_button_start">സ്റ്റാർട്ട്</string>
+    <string formatted="false" name="gamepad_button_select">സെലക്റ്റ്</string>
+    <string formatted="false" name="gamepad_button_any">ഏതെങ്കിലും</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">ഇതിലെ ഓരോ ഇനത്തിനും:</item>
         <item quantity="other">ഇതിലെ ഇനങ്ങളുടെ ഓരോ കൂട്ടത്തിനും:</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ഗെയിംപാഡ് താഴേക്ക് അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ഗെയിംപാഡ് ഇടത്തേക്ക് അമർത്തി</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ഗെയിംപാഡ് വലത്തേക്ക് അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ഗെയിംപാഡ് ബട്ടൺ A▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ഗെയിംപാഡ് ബട്ടൺ B▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ഗെയിംപാഡ് ബട്ടൺ X▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ഗെയിംപാഡ് ബട്ടൺ Y▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ഗെയിംപാഡ് മുകളിലേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ഗെയിംപാഡ് താഴേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ഗെയിംപാഡ് ഇടത്തേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ഗെയിംപാഡ് വലത്തേക്കുള്ള▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ഗെയിംപാഡ് സ്റ്റാർട്ട്▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ഗെയിംപാഡ് സെലക്റ്റ്▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ഗെയിംപാഡ് ബട്ടൺ L1▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ഗെയിംപാഡ് ബട്ടൺ L2▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ഗെയിംപാഡ് ബട്ടൺ R1▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ഗെയിംപാഡ് ബട്ടൺ R2▾ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ഗെയിംപാഡ് ഏതെങ്കിലും▾ ബട്ടൺ അമർത്തി</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ഗെയിംപാഡ് ഇടത് സ്റ്റിക്ക് x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ഗെയിംപാഡ് ഇടത് സ്റ്റിക്ക് y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ഗെയിംപാഡ് വലത് സ്റ്റിക്ക് x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ഗെയിംപാഡ് വലത് സ്റ്റിക്ക് y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ഗെയിംപാഡ് എക്സ്റ്റൻഷൻ</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">ഫിസിക്കൽ ഗെയിംപാഡ് ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ബ്ലോക്കുകളും സെൻസറുകളും ഓണാക്കുക</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B, X/Y പരസ്പരം മാറ്റുക</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A, B എന്നിവയും X, Y എന്നിവയും തിരിച്ച് അറിയിക്കുന്ന ഗെയിംപാഡുകൾക്കായി</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ബട്ടൺ ക്രമീകരണം കണ്ടെത്തുക</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ഒരിക്കൽ അമർത്തി A/B, X/Y പരസ്പരം മാറ്റണോ എന്ന് അറിയുക</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">നിങ്ങളുടെ ഗെയിംപാഡിൽ A എന്ന് എഴുതിയ ബട്ടൺ അമർത്തുക, അല്ലെങ്കിൽ ബട്ടണുകളിൽ ചിഹ്നങ്ങളാണെങ്കിൽ താഴത്തെ ബട്ടൺ അമർത്തുക.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A, A ആയി അറിയിക്കുന്നു, അതിനാൽ A/B, X/Y പരസ്പരം മാറ്റുന്നില്ല</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A, B ആയി അറിയിക്കുന്നു, അതിനാൽ A/B, X/Y പരസ്പരം മാറ്റുന്നു</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker ആപ്പ്</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">ചില ഗെയിംപാഡുകൾ ShenZhen ZhiXu Technology Co., Ltd.-ന്റെ KeyLinker ആപ്പ് ഉപയോഗിച്ച് സജ്ജമാക്കാം, ഉദാഹരണത്തിന് ബട്ടണുകൾ വീണ്ടും നിയോഗിക്കാനോ സ്റ്റിക്കുകളുടെ മധ്യവും പ്രതികരണ വക്രവും ക്രമീകരിക്കാനോ.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">വേദിയുടെ വീതി</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">വേദിയുടെ ഉയരം</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro മുൻ ഇടത് സെൻസർ</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">ഡ്രോൺ</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">ഗെയിംപാഡ്</string>
     <string formatted="false" name="formula_editor_string">അആഇ</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -1013,6 +1013,7 @@
     <string formatted="false" name="brick_reset_timer">Ресетуј тајмер</string>
     <string formatted="false" name="brick_open">Отвори</string>
     <string formatted="false" name="brick_in_browser">у прегледачу</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">притиснуто</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Када сцена почне</string>
     <string formatted="false" name="brick_when">Када те неко додирне</string>
@@ -1066,11 +1067,25 @@
     <string formatted="false" name="brick_touch_from_x">"од x:"</string>
     <string formatted="false" name="brick_finish_stage">Заустави позорницу</string>
     <string formatted="false" name="brick_finish_tests">Заврши тестове</string>
+    <string formatted="false" name="brick_when_stage_exited">Када се напусти позорница</string>
     <string formatted="false" name="brick_assert_lists">Провери листе</string>
     <string formatted="false" name="brick_assert_actual">Стварно:</string>
     <string formatted="false" name="brick_assert_expected">Очекивано:</string>
     <string formatted="false" name="brick_parameterized_assert">провери</string>
     <string formatted="false" name="brick_parameterized_equals">једнако очекиваној ставци из</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Симулирај дугме контролера</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Симулирај палицу контролера</string>
+    <string formatted="false" name="gamepad_stick_left">Лева</string>
+    <string formatted="false" name="gamepad_stick_right">Десна</string>
+    <string formatted="false" name="gamepad_button_state_pressed">притиснуто</string>
+    <string formatted="false" name="gamepad_button_state_released">отпуштено</string>
+    <string formatted="false" name="gamepad_button_up">Горе</string>
+    <string formatted="false" name="gamepad_button_down">Доле</string>
+    <string formatted="false" name="gamepad_button_left">Лево</string>
+    <string formatted="false" name="gamepad_button_right">Десно</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Било које</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">За сваку ставку из</item>
         <item quantity="few">За сваку групу ставки из</item>
@@ -1743,6 +1758,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">контролер доле притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">контролер лево притиснуто</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">контролер десно притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">дугме контролера A▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">дугме контролера B▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">дугме контролера X▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">дугме контролера Y▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">дугме контролера горе▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">дугме контролера доле▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">дугме контролера лево▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">дугме контролера десно▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">дугме контролера Start▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">дугме контролера Select▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">дугме контролера L1▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">дугме контролера L2▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">дугме контролера R1▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">дугме контролера R2▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">дугме контролера било које▾ притиснуто</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">лева палица контролера x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">лева палица контролера y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">десна палица контролера x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">десна палица контролера y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Проширење контролер</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Дозволи коришћење физичког контролера</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Укључи блокове и сензоре</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Замени A/B и X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">За контролере који A и B, као и X и Y, пријављују обрнуто</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Препознај распоред дугмади</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Једним притиском на A сазнај да ли треба заменити A/B и X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Притисни дугме означено са A на контролеру или доње дугме ако дугмад има симболе.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A се пријављује као A, па A/B и X/Y нису замењени</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A се пријављује као B, па су A/B и X/Y замењени</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Апликација KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Неки контролери могу да се подесе апликацијом KeyLinker компаније ShenZhen ZhiXu Technology Co., Ltd., на пример за другачији распоред дугмади или за подешавање центра и криве одзива палица.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина позорнице</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">висина позорнице</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro предњи леви сензор</string>
@@ -1798,6 +1844,7 @@
     <string formatted="false" name="formula_editor_device_drone">Дрон</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Контролер</string>
     <string formatted="false" name="formula_editor_string">Абв</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">زمان‌سنج را صفر کن</string>
     <string formatted="false" name="brick_open">باز کن</string>
     <string formatted="false" name="brick_in_browser">در مرورگر</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">فشرده شد</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">وقتی سکانس شروع شد</string>
     <string formatted="false" name="brick_when">وقتی روی من ضربه زده شد</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"از x:"</string>
     <string formatted="false" name="brick_finish_stage">اجرای صحنه را تمام کن</string>
     <string formatted="false" name="brick_finish_tests">آزمون‌ها را تمام کن</string>
+    <string formatted="false" name="brick_when_stage_exited">وقتی از صحنه خارج شد</string>
     <string formatted="false" name="brick_assert_lists">بررسی لیست‌ها</string>
     <string formatted="false" name="brick_assert_actual">واقعی:</string>
     <string formatted="false" name="brick_assert_expected">مورد انتظار:</string>
     <string formatted="false" name="brick_parameterized_assert">بررسی کن که</string>
     <string formatted="false" name="brick_parameterized_equals">برابر است با مورد مورد انتظار از</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">شبیه‌سازی دکمهٔ دسته‌بازی</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">شبیه‌سازی اهرم دسته‌بازی</string>
+    <string formatted="false" name="gamepad_stick_left">چپ</string>
+    <string formatted="false" name="gamepad_stick_right">راست</string>
+    <string formatted="false" name="gamepad_button_state_pressed">فشرده</string>
+    <string formatted="false" name="gamepad_button_state_released">رها شده</string>
+    <string formatted="false" name="gamepad_button_up">بالا</string>
+    <string formatted="false" name="gamepad_button_down">پایین</string>
+    <string formatted="false" name="gamepad_button_left">چپ</string>
+    <string formatted="false" name="gamepad_button_right">راست</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">هرکدام</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">برای هر مورد از</item>
         <item quantity="other">برای هر چندتایی از موردهای</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">دکمهٔ پایین دسته‌بازی فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">دکمهٔ چپ دسته‌بازی فشرده شده</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">دکمهٔ راست دسته‌بازی فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">دکمهٔ دسته‌بازی A▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">دکمهٔ دسته‌بازی B▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">دکمهٔ دسته‌بازی X▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">دکمهٔ دسته‌بازی Y▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">دکمهٔ دسته‌بازی بالا▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">دکمهٔ دسته‌بازی پایین▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">دکمهٔ دسته‌بازی چپ▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">دکمهٔ دسته‌بازی راست▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">دکمهٔ دسته‌بازی Start▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">دکمهٔ دسته‌بازی Select▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">دکمهٔ دسته‌بازی L1▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">دکمهٔ دسته‌بازی L2▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">دکمهٔ دسته‌بازی R1▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">دکمهٔ دسته‌بازی R2▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">دکمهٔ دسته‌بازی هرکدام▾ فشرده شده</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">اهرم چپ دسته‌بازی x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">اهرم چپ دسته‌بازی y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">اهرم راست دسته‌بازی x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">اهرم راست دسته‌بازی y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">افزونهٔ دسته‌بازی</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">اجازهٔ استفاده از دسته‌بازی فیزیکی</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">فعال کردن بلوک‌ها و حسگرها</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">جابه‌جایی A/B و X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">برای دسته‌بازی‌هایی که A و B، و X و Y را برعکس گزارش می‌کنند</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">تشخیص چیدمان دکمه‌ها</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">با یک بار فشردن A بفهمید که آیا A/B و X/Y باید جابه‌جا شوند</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">دکمه‌ای را که روی دسته‌بازی با A مشخص شده فشار دهید، یا اگر دکمه‌ها نماد دارند، دکمهٔ پایینی را.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A به‌صورت A گزارش می‌شود، پس A/B و X/Y جابه‌جا نمی‌شوند</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A به‌صورت B گزارش می‌شود، پس A/B و X/Y جابه‌جا می‌شوند</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">برنامهٔ KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">برخی دسته‌بازی‌ها را می‌توان با برنامهٔ KeyLinker از ShenZhen ZhiXu Technology Co., Ltd. تنظیم کرد، مثلاً برای تغییر نگاشت دکمه‌ها یا تنظیم مرکز و منحنی پاسخ اهرم‌ها.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">پهنای صحنه</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ارتفاع صحنه</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">حسگر جلو چپ Phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">پهپاد</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">دسته‌بازی</string>
     <string formatted="false" name="formula_editor_string">متن</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

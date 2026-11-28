@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">நேரமானியை மீட்டமை</string>
     <string formatted="false" name="brick_open">திற:</string>
     <string formatted="false" name="brick_in_browser">உலாவியில்</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">அழுத்தப்படும்போது</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">காட்சி தொடங்கும்போது</string>
     <string formatted="false" name="brick_when">தட்டப்படும்போது</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"தொடக்க x:"</string>
     <string formatted="false" name="brick_finish_stage">மேடை இயக்கத்தை முடி</string>
     <string formatted="false" name="brick_finish_tests">சோதனைகளை முடி</string>
+    <string formatted="false" name="brick_when_stage_exited">மேடையிலிருந்து வெளியேறும்போது</string>
     <string formatted="false" name="brick_assert_lists">பட்டியல்களை உறுதிசெய்</string>
     <string formatted="false" name="brick_assert_actual">உண்மையானது:</string>
     <string formatted="false" name="brick_assert_expected">எதிர்பார்த்தது:</string>
     <string formatted="false" name="brick_parameterized_assert">உறுதிசெய்:</string>
     <string formatted="false" name="brick_parameterized_equals">இதன் எதிர்பார்த்த உருப்படிக்குச் சமம்:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">கேம்பேட் பொத்தானை உருவகப்படுத்து</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">கேம்பேட் குச்சியை உருவகப்படுத்து</string>
+    <string formatted="false" name="gamepad_stick_left">இடது</string>
+    <string formatted="false" name="gamepad_stick_right">வலது</string>
+    <string formatted="false" name="gamepad_button_state_pressed">அழுத்தப்பட்டது</string>
+    <string formatted="false" name="gamepad_button_state_released">விடுவிக்கப்பட்டது</string>
+    <string formatted="false" name="gamepad_button_up">மேல்</string>
+    <string formatted="false" name="gamepad_button_down">கீழ்</string>
+    <string formatted="false" name="gamepad_button_left">இடது</string>
+    <string formatted="false" name="gamepad_button_right">வலது</string>
+    <string formatted="false" name="gamepad_button_start">ஸ்டார்ட்</string>
+    <string formatted="false" name="gamepad_button_select">செலக்ட்</string>
+    <string formatted="false" name="gamepad_button_any">ஏதேனும்</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">இதன் ஒவ்வொரு உருப்படிக்கும்:</item>
         <item quantity="other">இவற்றின் ஒவ்வொரு உருப்படித் தொகுப்புக்கும்:</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">கேம்பேட் கீழ் அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">கேம்பேட் இடது அழுத்தப்பட்டது</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">கேம்பேட் வலது அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">கேம்பேட் பொத்தான் A▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">கேம்பேட் பொத்தான் B▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">கேம்பேட் பொத்தான் X▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">கேம்பேட் பொத்தான் Y▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">கேம்பேட் பொத்தான் மேல்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">கேம்பேட் பொத்தான் கீழ்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">கேம்பேட் பொத்தான் இடது▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">கேம்பேட் பொத்தான் வலது▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">கேம்பேட் பொத்தான் ஸ்டார்ட்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">கேம்பேட் பொத்தான் செலக்ட்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">கேம்பேட் பொத்தான் L1▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">கேம்பேட் பொத்தான் L2▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">கேம்பேட் பொத்தான் R1▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">கேம்பேட் பொத்தான் R2▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">கேம்பேட் பொத்தான் ஏதேனும்▾ அழுத்தப்பட்டது</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">கேம்பேட் இடது குச்சி x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">கேம்பேட் இடது குச்சி y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">கேம்பேட் வலது குச்சி x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">கேம்பேட் வலது குச்சி y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">கேம்பேட் நீட்சி</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">வன்பொருள் கேம்பேடைப் பயன்படுத்த அனுமதி</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">தொகுதிகளையும் உணரிகளையும் இயக்கு</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B மற்றும் X/Y ஐ இடமாற்று</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A, B மற்றும் X, Y ஐத் தலைகீழாகத் தெரிவிக்கும் கேம்பேட்களுக்கு</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">பொத்தான் அமைப்பைக் கண்டறி</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A-ஐ ஒருமுறை அழுத்தி A/B மற்றும் X/Y ஐ இடமாற்ற வேண்டுமா என அறி</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">உங்கள் கேம்பேடில் A எனக் குறிக்கப்பட்ட பொத்தானை அழுத்தவும், அல்லது பொத்தான்களில் குறியீடுகள் இருந்தால் கீழ்ப் பொத்தானை அழுத்தவும்.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A, A ஆகத் தெரிவிக்கப்படுகிறது, எனவே A/B மற்றும் X/Y இடமாற்றப்படவில்லை</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A, B ஆகத் தெரிவிக்கப்படுகிறது, எனவே A/B மற்றும் X/Y இடமாற்றப்படுகின்றன</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker செயலி</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">சில கேம்பேட்களை ShenZhen ZhiXu Technology Co., Ltd. நிறுவனத்தின் KeyLinker செயலி மூலம் அமைக்கலாம், எடுத்துக்காட்டாக பொத்தான்களை மீண்டும் ஒதுக்க அல்லது குச்சிகளின் மையத்தையும் பதில் வளைவையும் சரிசெய்ய.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">மேடையின் அகலம்</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">மேடையின் உயரம்</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro முன் இடது உணரி</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">ட்ரோன்</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">கேம்பேட்</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

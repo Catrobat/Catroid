@@ -30,6 +30,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.input.InputManager;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -42,6 +43,8 @@ import android.os.PowerManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -64,6 +67,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.stage.gamepad.AndroidGamepadInputAdapter;
+import org.catrobat.catroid.stage.gamepad.StageGamepadInputAdapterFactory;
 import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
@@ -72,6 +77,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionAdaptingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -127,11 +133,14 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
 	private boolean isFromShortcut;
+	private AndroidGamepadInputAdapter gamepadInputAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		isFromShortcut = getIntent().getBooleanExtra(EXTRA_IS_FROM_SHORTCUT, false);
+		gamepadInputAdapter = StageGamepadInputAdapterFactory.create(ProjectManager.getInstance().getCurrentProject(),
+				SettingsFragment.isGamepadFaceButtonSwapEnabled(this));
 		StageLifeCycleController.stageCreate(this);
 		activeStageActivity = new WeakReference<>(this);
 	}
@@ -139,6 +148,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onPause() {
 		StageLifeCycleController.stagePause(this);
+		gamepadInputAdapter.releaseAll();
+		gamepadInputAdapter.unregister(getSystemService(InputManager.class));
 		super.onPause();
 
 		if (surveyCampaign != null) {
@@ -170,6 +181,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onResume() {
 		StageLifeCycleController.stageResume(this);
+		gamepadInputAdapter.register(getSystemService(InputManager.class));
 		super.onResume();
 		activeStageActivity = new WeakReference<>(this);
 
@@ -185,6 +197,24 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			StageLifeCycleController.stageDestroy(this);
 		}
 		super.onDestroy();
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (!hasFocus) {
+			gamepadInputAdapter.releaseAll();
+		}
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		return gamepadInputAdapter.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public boolean dispatchGenericMotionEvent(MotionEvent event) {
+		return gamepadInputAdapter.dispatchGenericMotionEvent(event) || super.dispatchGenericMotionEvent(event);
 	}
 
 	AndroidGraphics getGdxGraphics() {
@@ -244,27 +274,43 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onBackPressed() {
 		if (isFromShortcut) {
-			manageLoadAndFinish();
-			finish();
+			StageExitController.requestExitOfRunningStage(this::finishFromShortcut);
 			return;
 		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-			if (service != null) {
-				service.disconnectDevices();
-			}
-
-			TextToSpeechHolder.getInstance().deleteSpeechFiles();
-			Intent marketingIntent = new Intent(this, MarketingActivity.class);
-			startActivity(marketingIntent);
-			finish();
+			StageExitController.requestExitOfRunningStage(this::finishToMarketingScreen);
 		} else {
-			StageLifeCycleController.stagePause(this);
-			idlingResource.increment();
-			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
-					success -> runOnUiThread(() -> idlingResource.decrement()));
-			stageDialog.show();
+			StageExitController.requestExitOfRunningStage(this::showStageMenu);
 		}
+	}
+
+	private void showStageMenu() {
+		if (isFinishing()) {
+			return;
+		}
+		stageListener.getStageExitController().reset();
+		StageLifeCycleController.stagePause(this);
+		idlingResource.increment();
+		stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+				success -> runOnUiThread(() -> idlingResource.decrement()));
+		stageDialog.show();
+	}
+
+	private void finishFromShortcut() {
+		manageLoadAndFinish();
+		finish();
+	}
+
+	private void finishToMarketingScreen() {
+		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		if (service != null) {
+			service.disconnectDevices();
+		}
+
+		TextToSpeechHolder.getInstance().deleteSpeechFiles();
+		Intent marketingIntent = new Intent(this, MarketingActivity.class);
+		startActivity(marketingIntent);
+		finish();
 	}
 
 	public void manageLoadAndFinish() {

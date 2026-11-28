@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Rivendos kohëmatësin</string>
     <string formatted="false" name="brick_open">Hap</string>
     <string formatted="false" name="brick_in_browser">në shfletues</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">shtypet</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kur fillon episodi</string>
     <string formatted="false" name="brick_when">Kur prekesh</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"nga x:"</string>
     <string formatted="false" name="brick_finish_stage">Përfundo skenën</string>
     <string formatted="false" name="brick_finish_tests">Përfundo testet</string>
+    <string formatted="false" name="brick_when_stage_exited">Kur mbyllet skena</string>
     <string formatted="false" name="brick_assert_lists">Verifiko listat</string>
     <string formatted="false" name="brick_assert_actual">Aktuale:</string>
     <string formatted="false" name="brick_assert_expected">E pritur:</string>
     <string formatted="false" name="brick_parameterized_assert">verifiko</string>
     <string formatted="false" name="brick_parameterized_equals">është e barabartë me elementin e pritur të</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulo butonin e tastierës së lojës</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulo levën e tastierës së lojës</string>
+    <string formatted="false" name="gamepad_stick_left">Majtas</string>
+    <string formatted="false" name="gamepad_stick_right">Djathtas</string>
+    <string formatted="false" name="gamepad_button_state_pressed">i shtypur</string>
+    <string formatted="false" name="gamepad_button_state_released">i lëshuar</string>
+    <string formatted="false" name="gamepad_button_up">Lart</string>
+    <string formatted="false" name="gamepad_button_down">Poshtë</string>
+    <string formatted="false" name="gamepad_button_left">Majtas</string>
+    <string formatted="false" name="gamepad_button_right">Djathtas</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Cilido</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Për çdo element të</item>
         <item quantity="other">Për çdo grup elementesh të</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">poshtë në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">majtas në tastierën e lojës u shtyp</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">djathtas në tastierën e lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butoni A▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butoni B▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butoni X▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butoni Y▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butoni lart▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butoni poshtë▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butoni majtas▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butoni djathtas▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butoni Start▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butoni Select▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butoni L1▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butoni L2▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butoni R1▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butoni R2▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butoni cilido▾ i tastierës fizike të lojës u shtyp</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">leva e majtë e tastierës së lojës x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">leva e majtë e tastierës së lojës y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">leva e djathtë e tastierës së lojës x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">leva e djathtë e tastierës së lojës y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Shtesa tastierë loje</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Lejo përdorimin e një tastiere fizike loje</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktivizo blloqet dhe sensorët</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Ndërro A/B dhe X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Për tastierat e lojës që i raportojnë A dhe B, si dhe X dhe Y, së prapthi</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Zbulo renditjen e butonave</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Zbulo me një shtypje të A nëse duhen ndërruar A/B dhe X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Shtyp butonin me shenjën A në tastierën e lojës, ose butonin e poshtëm nëse butonat kanë simbole.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A raportohet si A, prandaj A/B dhe X/Y nuk ndërrohen</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A raportohet si B, prandaj A/B dhe X/Y ndërrohen</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikacioni KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Disa tastiera loje mund të konfigurohen me aplikacionin KeyLinker të ShenZhen ZhiXu Technology Co., Ltd., për shembull për të ricaktuar butonat ose për të rregulluar qendrën dhe kurbën e reagimit të levave.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">gjerësia e skenës</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">lartësia e skenës</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensori i përparmë majtas i phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dron</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Tastierë loje</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

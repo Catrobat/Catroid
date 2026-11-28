@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Weka upya kipima muda</string>
     <string formatted="false" name="brick_open">Fungua</string>
     <string formatted="false" name="brick_in_browser">kwenye kivinjari</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">kinapobonyezwa</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Onyesho linapoanza</string>
     <string formatted="false" name="brick_when">Unapoguswa</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"kutoka x:"</string>
     <string formatted="false" name="brick_finish_stage">Maliza jukwaa</string>
     <string formatted="false" name="brick_finish_tests">Maliza majaribio</string>
+    <string formatted="false" name="brick_when_stage_exited">Unapotoka kwenye jukwaa</string>
     <string formatted="false" name="brick_assert_lists">Thibitisha orodha</string>
     <string formatted="false" name="brick_assert_actual">Halisi:</string>
     <string formatted="false" name="brick_assert_expected">Inayotarajiwa:</string>
     <string formatted="false" name="brick_parameterized_assert">thibitisha kwamba</string>
     <string formatted="false" name="brick_parameterized_equals">ni sawa na kipengee kinachotarajiwa cha</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Iga kitufe cha gamepad</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Iga kijiti cha gamepad</string>
+    <string formatted="false" name="gamepad_stick_left">Kushoto</string>
+    <string formatted="false" name="gamepad_stick_right">Kulia</string>
+    <string formatted="false" name="gamepad_button_state_pressed">kimebonyezwa</string>
+    <string formatted="false" name="gamepad_button_state_released">kimeachiliwa</string>
+    <string formatted="false" name="gamepad_button_up">Juu</string>
+    <string formatted="false" name="gamepad_button_down">Chini</string>
+    <string formatted="false" name="gamepad_button_left">Kushoto</string>
+    <string formatted="false" name="gamepad_button_right">Kulia</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Chochote</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Kwa kila kipengee cha</item>
         <item quantity="other">Kwa kila kundi la vipengee vya</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">kitufe cha chini cha gamepad kimebonyezwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">kitufe cha kushoto cha gamepad kimebonyezwa</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">kitufe cha kulia cha gamepad kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">kitufe cha gamepad A▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">kitufe cha gamepad B▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">kitufe cha gamepad X▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">kitufe cha gamepad Y▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">kitufe cha gamepad juu▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">kitufe cha gamepad chini▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">kitufe cha gamepad kushoto▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">kitufe cha gamepad kulia▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">kitufe cha gamepad start▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">kitufe cha gamepad select▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">kitufe cha gamepad L1▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">kitufe cha gamepad L2▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">kitufe cha gamepad R1▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">kitufe cha gamepad R2▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">kitufe cha gamepad chochote▾ kimebonyezwa</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">kijiti cha kushoto cha gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">kijiti cha kushoto cha gamepad y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">kijiti cha kulia cha gamepad x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">kijiti cha kulia cha gamepad y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Kiendelezi cha gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Ruhusu matumizi ya gamepad halisi</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Washa vipande na vihisi</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Badilisha A/B na X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Kwa gamepad zinazoripoti A na B, na X na Y, kinyume</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tambua mpangilio wa vitufe</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Gundua kwa kubonyeza A mara moja kama A/B na X/Y zibadilishwe</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Bonyeza kitufe chenye alama A kwenye gamepad yako, au kitufe cha chini ikiwa vitufe vyako vina alama za picha.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A inaripotiwa kama A, kwa hiyo A/B na X/Y hazibadilishwi</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A inaripotiwa kama B, kwa hiyo A/B na X/Y zinabadilishwa</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Programu ya KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Baadhi ya gamepad zinaweza kuwekwa kwa programu ya KeyLinker ya ShenZhen ZhiXu Technology Co., Ltd., kwa mfano kupanga upya vitufe au kurekebisha katikati na mkunjo wa mwitikio wa vijiti.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">upana wa jukwaa</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">urefu wa jukwaa</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">kihisi cha mbele kushoto cha phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Droni</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

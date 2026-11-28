@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,18 +24,33 @@ package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageExitController
 import org.catrobat.catroid.stage.TestResult
 
+/**
+ * Finishes the stage. A [silent] finish is the brick "Finish stage", a real exit of the stage that
+ * first lets the "When stage is exited" scripts run, see [StageExitController]. Otherwise it is the
+ * Testing brick "Finish tests", which reports success at once.
+ */
 class FinishStageAction : TemporalAction() {
     var silent: Boolean = false
 
     override fun update(percent: Float) {
         if (silent) {
-            StageActivity.finishStage()
+            finishStageSilently()
         } else {
             StageActivity.finishTestWithResult(
                 TestResult(SUCCESS_MESSAGE, TestResult.STAGE_ACTIVITY_TEST_SUCCESS)
             )
+        }
+    }
+
+    private fun finishStageSilently() {
+        val exitController = StageExitController.ofRunningStage()
+        if (exitController != null) {
+            exitController.requestFinishStage()
+        } else {
+            StageActivity.finishStage()
         }
     }
 

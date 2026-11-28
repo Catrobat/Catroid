@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Wennez amakud</string>
     <string formatted="false" name="brick_open">Ldi</string>
     <string formatted="false" name="brick_in_browser">deg yiminig</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">tettwasit</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Mi ara yebdu uḥric</string>
     <string formatted="false" name="brick_when">Mi ara yettwasit</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"seg x:"</string>
     <string formatted="false" name="brick_finish_stage">Mdel asayes</string>
     <string formatted="false" name="brick_finish_tests">Fak isekyad</string>
+    <string formatted="false" name="brick_when_stage_exited">Mi ara teffɣeḍ seg usayes</string>
     <string formatted="false" name="brick_assert_lists">Ssentem tibdarin</string>
     <string formatted="false" name="brick_assert_actual">Ayen yellan:</string>
     <string formatted="false" name="brick_assert_expected">Ayen yettwarǧan:</string>
     <string formatted="false" name="brick_parameterized_assert">ssentem</string>
     <string formatted="false" name="brick_parameterized_equals">yegda aferdis yettwarǧan n</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Sserwes taqeffalt n umsenqed n wurar</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Sserwes ajeǧǧiḍ n umsenqed n wurar</string>
+    <string formatted="false" name="gamepad_stick_left">Azelmaḍ</string>
+    <string formatted="false" name="gamepad_stick_right">Ayeffus</string>
+    <string formatted="false" name="gamepad_button_state_pressed">tettwasit</string>
+    <string formatted="false" name="gamepad_button_state_released">tettwaserreḥ</string>
+    <string formatted="false" name="gamepad_button_up">Asawen</string>
+    <string formatted="false" name="gamepad_button_down">Akessar</string>
+    <string formatted="false" name="gamepad_button_left">Zelmeḍ</string>
+    <string formatted="false" name="gamepad_button_right">Yefus</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Yal yiwet</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">I yal aferdis n</item>
         <item quantity="other">I yal agraw n yiferdisen n</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">akessar n umsenqed n wurar yettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">zelmeḍ n umsenqed n wurar yettwasit</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">yefus n umsenqed n wurar yettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">taqeffalt A▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">taqeffalt B▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">taqeffalt X▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">taqeffalt Y▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">taqeffalt asawen▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">taqeffalt akessar▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">taqeffalt zelmeḍ▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">taqeffalt yefus▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">taqeffalt start▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">taqeffalt select▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">taqeffalt L1▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">taqeffalt L2▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">taqeffalt R1▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">taqeffalt R2▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">taqeffalt yal yiwet▾ n umsenqed n wurar tettwasit</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ajeǧǧiḍ azelmaḍ n umsenqed n wurar x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ajeǧǧiḍ azelmaḍ n umsenqed n wurar y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ajeǧǧiḍ ayeffus n umsenqed n wurar x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ajeǧǧiḍ ayeffus n umsenqed n wurar y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Asiɣzef n umsenqed n wurar</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Sireg aseqdec n umsenqed n wurar n tidet</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Rmed iblugen d imaṭṭafen</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Beddel A/B d X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">I yimsenqaden n wurar i d-yettazznen A d B, akked X d Y, s umgal</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Af-d taneɣruft n tqeffalin</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Af-d s yiwen n usiti ɣef A ma ilaq ad ttwabeddlen A/B d X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Sit ɣef tqeffalt yesɛan A deg umsenqed n wurar, neɣ ɣef tqeffalt n wadda ma yella tiqeffalin-ik sɛant izamulen.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A yettwazen am A, ihi A/B d X/Y ur ttwabeddlen ara</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A yettwazen am B, ihi A/B d X/Y ttwabeddlen</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Asnas KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Kra n yimsenqaden n wurar zemren ad ttwasbadun s usnas KeyLinker n ShenZhen ZhiXu Technology Co., Ltd., amedya i usnifel n tqeffalin neɣ i useggem n wammas d tririt n yijeǧǧiḍen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">tehri n usayes</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">teɣzi n usayes</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">amaṭṭaf n zdat ɣer zelmeḍ n phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Adrun</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Amsenqed n wurar</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

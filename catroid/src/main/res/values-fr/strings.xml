@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Réinitialiser le chronomètre</string>
     <string formatted="false" name="brick_open">Ouvrir</string>
     <string formatted="false" name="brick_in_browser">dans le navigateur</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">est enfoncé</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Quand la scène démarre</string>
     <string formatted="false" name="brick_when">Quand on me touche</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"de x :"</string>
     <string formatted="false" name="brick_finish_stage">Quitter le plateau</string>
     <string formatted="false" name="brick_finish_tests">Terminer les tests</string>
+    <string formatted="false" name="brick_when_stage_exited">Quand on quitte le plateau</string>
     <string formatted="false" name="brick_assert_lists">Vérifier les listes</string>
     <string formatted="false" name="brick_assert_actual">Obtenu :</string>
     <string formatted="false" name="brick_assert_expected">Attendu :</string>
     <string formatted="false" name="brick_parameterized_assert">vérifier que</string>
     <string formatted="false" name="brick_parameterized_equals">est égal à l\'élément attendu de</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuler le bouton de la manette</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuler le joystick de la manette</string>
+    <string formatted="false" name="gamepad_stick_left">Gauche</string>
+    <string formatted="false" name="gamepad_stick_right">Droit</string>
+    <string formatted="false" name="gamepad_button_state_pressed">appuyé</string>
+    <string formatted="false" name="gamepad_button_state_released">relâché</string>
+    <string formatted="false" name="gamepad_button_up">Haut</string>
+    <string formatted="false" name="gamepad_button_down">Bas</string>
+    <string formatted="false" name="gamepad_button_left">Gauche</string>
+    <string formatted="false" name="gamepad_button_right">Droite</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">N\'importe lequel</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pour chaque élément de</item>
         <item quantity="other">Pour chaque tuple d\'éléments de</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">bas de la manette appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gauche de la manette appuyé</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">droite de la manette appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">bouton A▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">bouton B▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">bouton X▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">bouton Y▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">bouton haut▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">bouton bas▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">bouton gauche▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">bouton droite▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">bouton start▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">bouton select▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">bouton L1▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">bouton L2▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">bouton R1▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">bouton R2▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">bouton n\'importe lequel▾ de la manette physique appuyé</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">joystick gauche de la manette x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">joystick gauche de la manette y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">joystick droit de la manette x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joystick droit de la manette y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extension manette</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Autoriser l\'utilisation d\'une manette physique</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activer les briques et les capteurs</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inverser A/B et X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pour les manettes qui signalent A et B, ainsi que X et Y, à l\'inverse</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Détecter la disposition des boutons</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Découvre d\'un appui sur A s\'il faut inverser A/B et X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Appuie sur le bouton marqué A de ta manette, ou sur le bouton du bas si tes boutons portent des symboles.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A est signalé comme A, donc A/B et X/Y ne sont pas inversés</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A est signalé comme B, donc A/B et X/Y sont inversés</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Application KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Certaines manettes peuvent être réglées avec l\'application KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., par exemple pour réattribuer les boutons ou ajuster le centre et la courbe de réponse des joysticks.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largeur du plateau</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hauteur du plateau</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">capteur avant gauche phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Drone</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Manette</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

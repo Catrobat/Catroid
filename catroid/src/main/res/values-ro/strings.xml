@@ -1013,6 +1013,7 @@
     <string formatted="false" name="brick_reset_timer">Resetează cronometrul</string>
     <string formatted="false" name="brick_open">Deschide</string>
     <string formatted="false" name="brick_in_browser">în browser</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">este apăsat</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Când pornește scena</string>
     <string formatted="false" name="brick_when">Când ești atins</string>
@@ -1066,11 +1067,25 @@
     <string formatted="false" name="brick_touch_from_x">"de la x:"</string>
     <string formatted="false" name="brick_finish_stage">Închide zona de joc</string>
     <string formatted="false" name="brick_finish_tests">Încheie testele</string>
+    <string formatted="false" name="brick_when_stage_exited">Când se închide zona de joc</string>
     <string formatted="false" name="brick_assert_lists">Verifică listele</string>
     <string formatted="false" name="brick_assert_actual">Valoarea reală:</string>
     <string formatted="false" name="brick_assert_expected">Valoarea așteptată:</string>
     <string formatted="false" name="brick_parameterized_assert">verifică dacă</string>
     <string formatted="false" name="brick_parameterized_equals">este egal cu elementul așteptat din</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulează butonul de gamepad</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulează joystickul gamepadului</string>
+    <string formatted="false" name="gamepad_stick_left">Stânga</string>
+    <string formatted="false" name="gamepad_stick_right">Dreapta</string>
+    <string formatted="false" name="gamepad_button_state_pressed">apăsat</string>
+    <string formatted="false" name="gamepad_button_state_released">eliberat</string>
+    <string formatted="false" name="gamepad_button_up">Sus</string>
+    <string formatted="false" name="gamepad_button_down">Jos</string>
+    <string formatted="false" name="gamepad_button_left">Stânga</string>
+    <string formatted="false" name="gamepad_button_right">Dreapta</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Oricare</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pentru fiecare element din</item>
         <item quantity="few">Pentru fiecare tuplu de elemente din</item>
@@ -1743,6 +1758,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad jos apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad stânga apăsat</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad dreapta apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">butonul de gamepad A▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">butonul de gamepad B▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">butonul de gamepad X▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">butonul de gamepad Y▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">butonul de gamepad sus▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">butonul de gamepad jos▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">butonul de gamepad stânga▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">butonul de gamepad dreapta▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">butonul de gamepad start▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">butonul de gamepad select▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">butonul de gamepad L1▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">butonul de gamepad L2▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">butonul de gamepad R1▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">butonul de gamepad R2▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">butonul de gamepad oricare▾ apăsat</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">joystickul stâng al gamepadului x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">joystickul stâng al gamepadului y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">joystickul drept al gamepadului x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">joystickul drept al gamepadului y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensia gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Permite utilizarea unui gamepad fizic</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activează blocurile și senzorii</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Inversează A/B și X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pentru gamepaduri care raportează A și B, precum și X și Y, invers</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detectează dispunerea butoanelor</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Află cu o singură apăsare pe A dacă trebuie inversate A/B și X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Apasă pe gamepad butonul marcat cu A sau butonul de jos, dacă butoanele au simboluri.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A este raportat ca A, deci A/B și X/Y nu sunt inversate</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A este raportat ca B, deci A/B și X/Y sunt inversate</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicația KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Unele gamepaduri pot fi configurate cu aplicația KeyLinker de la ShenZhen ZhiXu Technology Co., Ltd., de exemplu pentru a realoca butoanele sau pentru a ajusta centrul și curba de răspuns ale joystickurilor.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">lățimea zonei de joc</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">înălțimea zonei de joc</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">senzorul phiro din față stânga</string>
@@ -1798,6 +1844,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dronă</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

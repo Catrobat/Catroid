@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -37,6 +39,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -57,7 +60,9 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -83,6 +88,8 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PLOT_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_MQTT_BRICKS;
@@ -101,6 +108,7 @@ import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -124,7 +132,8 @@ public class SettingsFragmentTest {
 			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
 			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
 			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, SETTINGS_SHOW_MQTT_BRICKS));
+			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, SETTINGS_SHOW_MQTT_BRICKS,
+			SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
@@ -195,6 +204,50 @@ public class SettingsFragmentTest {
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
 		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
 		checkPreference(R.string.preference_title_multiplayer_variables_enabled, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void gamepadSettingsTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_physical_gamepad_bricks))
+				.perform(click());
+
+		checkPreference(R.string.preference_title_enable_physical_gamepad_bricks, SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS);
+		checkPreference(R.string.preference_title_gamepad_swap_face_buttons, SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void physicalGamepadSettingIsOffByDefaultTest() {
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.remove(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS)
+				.commit();
+		baseActivityTestRule.finishActivity();
+		baseActivityTestRule.launchActivity(null);
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_physical_gamepad_bricks))
+				.perform(click());
+
+		onData(PreferenceMatchers.withKey(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS))
+				.onChildView(withId(android.R.id.checkbox))
+				.check(matches(isNotChecked()));
+		assertFalse(SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(
+				ApplicationProvider.getApplicationContext()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void physicalGamepadSettingIsPlacedBeforeChromecastSettingTest() {
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+		PreferenceFragment settingsFragment = (PreferenceFragment) baseActivityTestRule.getActivity()
+				.getFragmentManager().findFragmentById(R.id.content_frame);
+		List<String> keys = getPreferenceKeys(settingsFragment.getPreferenceScreen());
+
+		int physicalGamepadIndex = keys.indexOf("setting_gamepad_screen");
+		assertTrue(physicalGamepadIndex >= 0);
+		assertFalse(keys.contains(SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS));
+		if (BuildConfig.FEATURE_CAST_ENABLED) {
+			assertEquals(physicalGamepadIndex + 1, keys.indexOf(SETTINGS_CAST_GLOBALLY_ENABLED));
+		}
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
@@ -334,6 +387,14 @@ public class SettingsFragmentTest {
 				.perform(click());
 
 		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, false));
+	}
+
+	private List<String> getPreferenceKeys(PreferenceScreen preferenceScreen) {
+		List<String> keys = new ArrayList<>();
+		for (int index = 0; index < preferenceScreen.getPreferenceCount(); index++) {
+			keys.add(preferenceScreen.getPreference(index).getKey());
+		}
+		return keys;
 	}
 
 	private void openAppstoreDialog(int displayedTitleResourceString) {

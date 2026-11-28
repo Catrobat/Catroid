@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -275,6 +275,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	@NonNull
 	public static Object getSensorValue(Sensors sensor) {
+		Double gamepadButtonValue = GamepadButtonSensors.gamepadButtonSensorValue(sensor);
+		if (gamepadButtonValue != null) {
+			return gamepadButtonValue;
+		}
+		Double gamepadStickValue = GamepadStickSensors.gamepadStickSensorValue(sensor);
+		if (gamepadStickValue != null) {
+			return gamepadStickValue;
+		}
 		if (instance.sensorManager == null) {
 			return 0d;
 		}

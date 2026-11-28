@@ -197,6 +197,8 @@ import org.catrobat.catroid.content.bricks.ShareLaserBrick
 import org.catrobat.catroid.content.bricks.ShowBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
+import org.catrobat.catroid.content.bricks.SimulateGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.SimulateGamepadStickBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
@@ -236,8 +238,10 @@ import org.catrobat.catroid.content.bricks.WhenBrick
 import org.catrobat.catroid.content.bricks.WhenClonedBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonPressedBrick
 import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
+import org.catrobat.catroid.content.bricks.WhenStageExitedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
@@ -351,8 +355,12 @@ open class CategoryBricksFactory {
         eventBrickList.add(WhenClonedBrick())
         eventBrickList.add(CloneBrick())
         eventBrickList.add(DeleteThisCloneBrick())
+        eventBrickList.add(WhenStageExitedBrick())
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             eventBrickList.add(WhenNfcBrick())
+        }
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            eventBrickList.add(WhenGamepadButtonPressedBrick())
         }
         return eventBrickList
     }
@@ -728,6 +736,14 @@ open class CategoryBricksFactory {
         return dataBrickList
     }
 
+    private fun createLookOrBackgroundRequestBrick(isBackgroundSprite: Boolean): Brick = when {
+        !isBackgroundSprite -> LookRequestBrick(BrickValues.LOOK_REQUEST)
+        ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() ->
+            BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+
+        else -> BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST)
+    }
+
     @SuppressWarnings("ComplexMethod")
     protected fun setupDeviceCategoryList(
         context: Context,
@@ -737,19 +753,15 @@ open class CategoryBricksFactory {
         deviceBrickList.add(ResetTimerBrick())
         deviceBrickList.add(WhenBrick())
         deviceBrickList.add(WhenTouchDownBrick())
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            deviceBrickList.add(WhenGamepadButtonPressedBrick())
+        }
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             deviceBrickList.add(WhenNfcBrick())
             deviceBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
         }
         deviceBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
-        when {
-            !isBackgroundSprite -> deviceBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(
-                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
-            )
-
-            else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
-        }
+        deviceBrickList.add(createLookOrBackgroundRequestBrick(isBackgroundSprite))
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
         deviceBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
 
@@ -1116,7 +1128,12 @@ open class CategoryBricksFactory {
                 BrickValues.TOUCH_DURATION
             )
         )
+        if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(context)) {
+            assertionsBrickList.add(SimulateGamepadButtonBrick())
+            assertionsBrickList.add(SimulateGamepadStickBrick())
+        }
         assertionsBrickList.add(FinishStageBrick())
+        assertionsBrickList.add(WhenStageExitedBrick())
         assertionsBrickList.add(
             StoreCSVIntoUserListBrick(
                 BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
@@ -1226,6 +1243,8 @@ open class CategoryBricksFactory {
             is UserDefinedReceiverBrick -> category = res.getString(R.string.category_user_bricks)
             is ParameterizedEndBrick -> category = res.getString(R.string.category_assertions)
             is WriteEmbroideryToFileBrick -> category = res.getString(R.string.category_embroidery)
+            is WhenGamepadButtonPressedBrick -> category = res.getString(R.string.category_device)
+            is WhenStageExitedBrick -> category = res.getString(R.string.category_event)
         }
 
         config.locale = savedLocale

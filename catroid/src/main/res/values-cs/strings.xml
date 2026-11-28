@@ -1053,6 +1053,7 @@
     <string formatted="false" name="brick_reset_timer">Vynuluj stopky</string>
     <string formatted="false" name="brick_open">Otevři</string>
     <string formatted="false" name="brick_in_browser">v prohlížeči</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">stisknuto</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Když se scéna spustí</string>
     <string formatted="false" name="brick_when">Když na tebe někdo klepne</string>
@@ -1107,11 +1108,25 @@
     <string formatted="false" name="brick_touch_from_x">"z x:"</string>
     <string formatted="false" name="brick_finish_stage">Ukonči jeviště</string>
     <string formatted="false" name="brick_finish_tests">Ukonči testy</string>
+    <string formatted="false" name="brick_when_stage_exited">Když se opustí jeviště</string>
     <string formatted="false" name="brick_assert_lists">Ověř seznamy</string>
     <string formatted="false" name="brick_assert_actual">Skutečný:</string>
     <string formatted="false" name="brick_assert_expected">Očekávaný:</string>
     <string formatted="false" name="brick_parameterized_assert">ověř, že</string>
     <string formatted="false" name="brick_parameterized_equals">se rovná očekávané položce ze seznamu</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuluj tlačítko gamepadu</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuluj páčku gamepadu</string>
+    <string formatted="false" name="gamepad_stick_left">Levá</string>
+    <string formatted="false" name="gamepad_stick_right">Pravá</string>
+    <string formatted="false" name="gamepad_button_state_pressed">stisknuto</string>
+    <string formatted="false" name="gamepad_button_state_released">uvolněno</string>
+    <string formatted="false" name="gamepad_button_up">Nahoru</string>
+    <string formatted="false" name="gamepad_button_down">Dolů</string>
+    <string formatted="false" name="gamepad_button_left">Doleva</string>
+    <string formatted="false" name="gamepad_button_right">Doprava</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Libovolné</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Pro každou položku ze seznamu</item>
         <item quantity="few">Pro každou n-tici položek ze seznamů</item>
@@ -1788,6 +1803,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad dolů stisknuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad doleva stisknuto</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad doprava stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">tlačítko gamepadu A▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">tlačítko gamepadu B▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">tlačítko gamepadu X▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">tlačítko gamepadu Y▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">tlačítko gamepadu nahoru▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">tlačítko gamepadu dolů▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">tlačítko gamepadu doleva▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">tlačítko gamepadu doprava▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">tlačítko gamepadu start▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">tlačítko gamepadu select▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">tlačítko gamepadu L1▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">tlačítko gamepadu L2▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">tlačítko gamepadu R1▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">tlačítko gamepadu R2▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">tlačítko gamepadu libovolné▾ stisknuto</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">levá páčka gamepadu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">levá páčka gamepadu y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">pravá páčka gamepadu x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">pravá páčka gamepadu y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Rozšíření gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Povolit používání fyzického gamepadu</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Zapnout bloky a senzory</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Prohodit A/B a X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Pro gamepady, které hlásí A a B i X a Y obráceně</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Zjistit rozložení tlačítek</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Jedním stisknutím A zjisti, zda prohodit A/B a X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Stiskni na gamepadu tlačítko označené A, nebo spodní tlačítko, pokud mají tlačítka symboly.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A se hlásí jako A, takže A/B a X/Y se neprohazují</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A se hlásí jako B, takže A/B a X/Y se prohazují</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplikace KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Některé gamepady lze nastavit aplikací KeyLinker od ShenZhen ZhiXu Technology Co., Ltd., například pro přemapování tlačítek nebo úpravu středu a křivky odezvy páček.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">šířka jeviště</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">výška jeviště</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro přední levý senzor</string>
@@ -1843,6 +1889,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dron</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

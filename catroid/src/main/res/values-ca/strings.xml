@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Reinicia el cronòmetre</string>
     <string formatted="false" name="brick_open">Obre</string>
     <string formatted="false" name="brick_in_browser">al navegador</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">es premi</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Quan comenci l\'escena</string>
     <string formatted="false" name="brick_when">Quan es toqui</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"des de x:"</string>
     <string formatted="false" name="brick_finish_stage">Finalitza l\'escenari</string>
     <string formatted="false" name="brick_finish_tests">Finalitza les proves</string>
+    <string formatted="false" name="brick_when_stage_exited">Quan se surti de l\'escenari</string>
     <string formatted="false" name="brick_assert_lists">Comprova les llistes</string>
     <string formatted="false" name="brick_assert_actual">Real:</string>
     <string formatted="false" name="brick_assert_expected">Esperat:</string>
     <string formatted="false" name="brick_parameterized_assert">comprova que</string>
     <string formatted="false" name="brick_parameterized_equals">és igual a l\'element esperat de</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simula el botó del comandament</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simula la palanca del comandament</string>
+    <string formatted="false" name="gamepad_stick_left">Esquerra</string>
+    <string formatted="false" name="gamepad_stick_right">Dreta</string>
+    <string formatted="false" name="gamepad_button_state_pressed">premut</string>
+    <string formatted="false" name="gamepad_button_state_released">deixat anar</string>
+    <string formatted="false" name="gamepad_button_up">Amunt</string>
+    <string formatted="false" name="gamepad_button_down">Avall</string>
+    <string formatted="false" name="gamepad_button_left">Esquerra</string>
+    <string formatted="false" name="gamepad_button_right">Dreta</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Qualsevol</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Per a cada element de</item>
         <item quantity="other">Per a cada tupla d\'elements de</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">botó avall del comandament premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">botó esquerra del comandament premut</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">botó dreta del comandament premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">botó A▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">botó B▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">botó X▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">botó Y▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">botó amunt▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">botó avall▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">botó esquerra▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">botó dreta▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">botó start▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">botó select▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">botó L1▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">botó L2▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botó R1▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botó R2▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botó qualsevol▾ del comandament físic premut</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">palanca esquerra del comandament x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">palanca esquerra del comandament y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">palanca dreta del comandament x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">palanca dreta del comandament y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensió comandament</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Permet l\'ús d\'un comandament físic</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activa els blocs i sensors</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercanvia A/B i X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Per a comandaments que indiquen A i B, i X i Y, al revés</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detecta la disposició dels botons</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Esbrina amb una pulsació d\'A si cal intercanviar A/B i X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Prem el botó marcat amb A del comandament, o el botó inferior si els botons tenen símbols.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A s\'indica com a A, per tant A/B i X/Y no s\'intercanvien</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A s\'indica com a B, per tant A/B i X/Y s\'intercanvien</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicació KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Alguns comandaments es poden configurar amb l\'aplicació KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., per exemple per reassignar botons o per ajustar el centre i la corba de resposta de les palanques.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">amplada de l\'escenari</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">alçada de l\'escenari</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor frontal esquerre del phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dron</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Comandament</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

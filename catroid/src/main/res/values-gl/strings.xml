@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Reiniciar o cronómetro</string>
     <string formatted="false" name="brick_open">Abrir</string>
     <string formatted="false" name="brick_in_browser">no navegador</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">do mando físico</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Cando comece a escena</string>
     <string formatted="false" name="brick_when">Cando se toque</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"desde x:"</string>
     <string formatted="false" name="brick_finish_stage">Rematar o escenario</string>
     <string formatted="false" name="brick_finish_tests">Rematar as probas</string>
+    <string formatted="false" name="brick_when_stage_exited">Cando se saia do escenario</string>
     <string formatted="false" name="brick_assert_lists">Comprobar listas</string>
     <string formatted="false" name="brick_assert_actual">Real:</string>
     <string formatted="false" name="brick_assert_expected">Esperado:</string>
     <string formatted="false" name="brick_parameterized_assert">comprobar</string>
     <string formatted="false" name="brick_parameterized_equals">é igual ao elemento esperado de</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simular o botón do mando</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simular a panca do mando</string>
+    <string formatted="false" name="gamepad_stick_left">Esquerda</string>
+    <string formatted="false" name="gamepad_stick_right">Dereita</string>
+    <string formatted="false" name="gamepad_button_state_pressed">premido</string>
+    <string formatted="false" name="gamepad_button_state_released">soltado</string>
+    <string formatted="false" name="gamepad_button_up">Arriba</string>
+    <string formatted="false" name="gamepad_button_down">Abaixo</string>
+    <string formatted="false" name="gamepad_button_left">Esquerda</string>
+    <string formatted="false" name="gamepad_button_right">Dereita</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Calquera</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Para cada elemento de</item>
         <item quantity="other">Para cada tupla de elementos de</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">frecha abaixo do mando premida</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">frecha esquerda do mando premida</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">frecha dereita do mando premida</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">botón A▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">botón B▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">botón X▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">botón Y▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">botón arriba▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">botón abaixo▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">botón esquerda▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">botón dereita▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">botón start▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">botón select▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">botón L1▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">botón L2▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">botón R1▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">botón R2▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">botón calquera▾ do mando físico premido</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">panca esquerda do mando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">panca esquerda do mando y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">panca dereita do mando x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">panca dereita do mando y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensión mando</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Permitir o uso dun mando físico</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Activar bloques e sensores</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Intercambiar A/B e X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Para mandos que indican A e B, e X e Y, ao revés</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detectar a disposición dos botóns</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Descobre cunha pulsación de A se hai que intercambiar A/B e X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Preme o botón marcado con A no teu mando, ou o botón inferior se os teus botóns teñen símbolos.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A indícase como A, así que A/B e X/Y non se intercambian</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A indícase como B, así que A/B e X/Y intercámbianse</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Aplicación KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Algúns mandos pódense configurar coa aplicación KeyLinker de ShenZhen ZhiXu Technology Co., Ltd., por exemplo para reasignar botóns ou axustar o centro e a curva de resposta das pancas.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">largura do escenario</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">altura do escenario</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">sensor dianteiro esquerdo do phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Dron</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Mando</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -60,15 +60,21 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SoundBackup;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenStageExitedScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.eventids.AnyGamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.GamepadButtonPressedEventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
+import org.catrobat.catroid.gamepad.GamepadInput;
+import org.catrobat.catroid.stage.gamepad.GamepadUsage;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -176,6 +182,10 @@ public class StageListener implements ApplicationListener {
 	private ScreenshotSaverCallback screenshotSaverCallback = null;
 	private ScreenshotSaver screenshotSaver;
 
+	private final GamepadInput gamepadInput = new GamepadInput();
+	private volatile GamepadUsage gamepadUsage;
+	private final StageExitController stageExitController = new StageExitController(() -> project);
+
 	public StageListener() {
 		webConnectionHolder = new WebConnectionHolder();
 	}
@@ -187,11 +197,14 @@ public class StageListener implements ApplicationListener {
 		shapeRenderer = new ShapeRenderer();
 
 		project = ProjectManager.getInstance().getCurrentProject();
+		gamepadUsage = null;
 		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
 
 		if (stage == null) {
 			createNewStage();
 			Gdx.input.setInputProcessor(stage);
+			// A scene change also calls create(), but a held button stays held across it.
+			gamepadInput.reset();
 		} else {
 			stage.getRoot().clear();
 		}
@@ -417,6 +430,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
+		stageExitController.onSceneLeaving(this::stopCatchScripts);
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 
@@ -442,6 +456,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
+		stageExitController.onSceneLeaving(this::stopCatchScripts);
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 
@@ -467,6 +482,20 @@ public class StageListener implements ApplicationListener {
 
 		scene.firstStart = true;
 		create();
+	}
+
+	/**
+	 * Stops the "When stage is exited" scripts of the running scene for good, in the background,
+	 * objects and clones, so they do not resume when the project continues the scene later.
+	 */
+	private void stopCatchScripts() {
+		for (Sprite sprite : sprites) {
+			for (Script script : sprite.getScriptList()) {
+				if (script instanceof WhenStageExitedScript) {
+					sprite.look.removeThreadsWithScript(script);
+				}
+			}
+		}
 	}
 
 	public void reloadProject(StageDialog stageDialog) {
@@ -545,6 +574,7 @@ public class StageListener implements ApplicationListener {
 			embroideryPatternManager.clear();
 
 			SoundManager.getInstance().clear();
+			gamepadInput.reset();
 
 			physicsWorld = scene.resetPhysicsWorld();
 
@@ -582,6 +612,9 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (!paused) {
+			applyPendingGamepadInput();
+			stageExitController.onFrame();
+
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
@@ -843,6 +876,42 @@ public class StageListener implements ApplicationListener {
 		EventId eventId = new GamepadEventId(buttonType);
 		EventWrapper gamepadEvent = new EventWrapper(eventId, false);
 		project.fireToAllSprites(gamepadEvent);
+	}
+
+	@NonNull
+	public GamepadInput getGamepadInput() {
+		return gamepadInput;
+	}
+
+	/** The gamepad elements of the running project, which do not change while the stage runs. */
+	@NonNull
+	public GamepadUsage getGamepadUsage() {
+		GamepadUsage usage = gamepadUsage;
+		if (usage == null) {
+			usage = GamepadUsage.of(project);
+			gamepadUsage = usage;
+		}
+		return usage;
+	}
+
+	@NonNull
+	public StageExitController getStageExitController() {
+		return stageExitController;
+	}
+
+	@VisibleForTesting
+	void applyPendingGamepadInput() {
+		// Each button changes at most once per frame, and only one press per frame starts the scripts
+		// for any button, so that the scripts see every press.
+		gamepadInput.applyPendingFrameInput(button -> getGamepadUsage().startsAnyButtonScripts(button), button -> {
+			// The script of the pressed button starts last, so that within an object its result
+			// stays visible when it changes the same thing as a script for any button.
+			if (getGamepadUsage().startsAnyButtonScripts(button)) {
+				project.fireToAllSprites(new EventWrapper(AnyGamepadButtonPressedEventId.INSTANCE, false));
+			}
+			project.fireToAllSprites(new EventWrapper(new GamepadButtonPressedEventId(button), false));
+			stageExitController.onGamepadButtonPressed(button);
+		});
 	}
 
 	public void addActor(Actor actor) {

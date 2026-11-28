@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Μηδένισε το χρονόμετρο</string>
     <string formatted="false" name="brick_open">Άνοιξε</string>
     <string formatted="false" name="brick_in_browser">στο πρόγραμμα περιήγησης</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">πατηθεί</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Όταν ξεκινά το σκηνικό</string>
     <string formatted="false" name="brick_when">Όταν πατηθεί</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"από x:"</string>
     <string formatted="false" name="brick_finish_stage">Τερμάτισε τη σκηνή</string>
     <string formatted="false" name="brick_finish_tests">Ολοκλήρωσε τις δοκιμές</string>
+    <string formatted="false" name="brick_when_stage_exited">Όταν γίνει έξοδος από τη σκηνή</string>
     <string formatted="false" name="brick_assert_lists">Επιβεβαίωσε τις λίστες</string>
     <string formatted="false" name="brick_assert_actual">Πραγματικό:</string>
     <string formatted="false" name="brick_assert_expected">Αναμενόμενο:</string>
     <string formatted="false" name="brick_parameterized_assert">επιβεβαίωσε ότι</string>
     <string formatted="false" name="brick_parameterized_equals">ισούται με το αναμενόμενο στοιχείο από</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Προσομοίωσε κουμπί χειριστηρίου</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Προσομοίωσε μοχλό χειριστηρίου</string>
+    <string formatted="false" name="gamepad_stick_left">Αριστερός</string>
+    <string formatted="false" name="gamepad_stick_right">Δεξιός</string>
+    <string formatted="false" name="gamepad_button_state_pressed">πατημένο</string>
+    <string formatted="false" name="gamepad_button_state_released">αφημένο</string>
+    <string formatted="false" name="gamepad_button_up">Πάνω</string>
+    <string formatted="false" name="gamepad_button_down">Κάτω</string>
+    <string formatted="false" name="gamepad_button_left">Αριστερά</string>
+    <string formatted="false" name="gamepad_button_right">Δεξιά</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Οποιοδήποτε</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Για κάθε στοιχείο από</item>
         <item quantity="other">Για κάθε πλειάδα στοιχείων από</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">κουμπί κάτω χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">κουμπί αριστερά χειριστηρίου πατημένο</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">κουμπί δεξιά χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">κουμπί A▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">κουμπί B▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">κουμπί X▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">κουμπί Y▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">κουμπί πάνω▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">κουμπί κάτω▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">κουμπί αριστερά▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">κουμπί δεξιά▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">κουμπί Start▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">κουμπί Select▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">κουμπί L1▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">κουμπί L2▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">κουμπί R1▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">κουμπί R2▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">κουμπί οποιοδήποτε▾ φυσικού χειριστηρίου πατημένο</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">αριστερός μοχλός χειριστηρίου x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">αριστερός μοχλός χειριστηρίου y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">δεξιός μοχλός χειριστηρίου x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">δεξιός μοχλός χειριστηρίου y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Επέκταση χειριστηρίου</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Επιτρέπει τη χρήση φυσικού χειριστηρίου</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Ενεργοποίηση μπλοκ και αισθητήρων</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Εναλλαγή A/B και X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Για χειριστήρια που αναφέρουν ανάποδα τα A και B, καθώς και τα X και Y</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Εντοπισμός διάταξης κουμπιών</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Μάθε με ένα πάτημα του A αν πρέπει να εναλλαχθούν τα A/B και X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Πάτησε το κουμπί με την ένδειξη A στο χειριστήριο ή το κάτω κουμπί, αν τα κουμπιά σου έχουν σύμβολα.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">Το A αναφέρεται ως A, οπότε τα A/B και X/Y δεν εναλλάσσονται</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">Το A αναφέρεται ως B, οπότε τα A/B και X/Y εναλλάσσονται</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Εφαρμογή KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Ορισμένα χειριστήρια ρυθμίζονται με την εφαρμογή KeyLinker της ShenZhen ZhiXu Technology Co., Ltd., για παράδειγμα για αντιστοίχιση κουμπιών ή για ρύθμιση του κέντρου και της καμπύλης απόκρισης των μοχλών.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">πλάτος σκηνής</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ύψος σκηνής</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">μπροστινός αριστερός αισθητήρας phiro</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Drone</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Χειριστήριο</string>
     <string formatted="false" name="formula_editor_string">Αβγ</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

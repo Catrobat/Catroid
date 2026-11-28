@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Nollaa ajastin</string>
     <string formatted="false" name="brick_open">Avaa</string>
     <string formatted="false" name="brick_in_browser">selaimessa</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">painetaan</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Kun kohtaus alkaa</string>
     <string formatted="false" name="brick_when">Kun minua napautetaan</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"kohdasta x:"</string>
     <string formatted="false" name="brick_finish_stage">Sulje esiintymislava</string>
     <string formatted="false" name="brick_finish_tests">Lopeta testit</string>
+    <string formatted="false" name="brick_when_stage_exited">Kun esiintymislavalta poistutaan</string>
     <string formatted="false" name="brick_assert_lists">Varmista listat</string>
     <string formatted="false" name="brick_assert_actual">Todellinen:</string>
     <string formatted="false" name="brick_assert_expected">Odotettu:</string>
     <string formatted="false" name="brick_parameterized_assert">varmista, että</string>
     <string formatted="false" name="brick_parameterized_equals">vastaa odotettua alkiota listasta</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuloi peliohjaimen painiketta</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuloi peliohjaimen sauvaa</string>
+    <string formatted="false" name="gamepad_stick_left">Vasen</string>
+    <string formatted="false" name="gamepad_stick_right">Oikea</string>
+    <string formatted="false" name="gamepad_button_state_pressed">painettu</string>
+    <string formatted="false" name="gamepad_button_state_released">vapautettu</string>
+    <string formatted="false" name="gamepad_button_up">Ylös</string>
+    <string formatted="false" name="gamepad_button_down">Alas</string>
+    <string formatted="false" name="gamepad_button_left">Vasen</string>
+    <string formatted="false" name="gamepad_button_right">Oikea</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Mikä tahansa</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Jokaiselle alkiolle listasta</item>
         <item quantity="other">Jokaiselle alkioiden monikolle listasta</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">peliohjaimen alas painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">peliohjaimen vasen painettu</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">peliohjaimen oikea painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">peliohjaimen painike A▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">peliohjaimen painike B▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">peliohjaimen painike X▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">peliohjaimen painike Y▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">peliohjaimen painike ylös▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">peliohjaimen painike alas▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">peliohjaimen painike vasen▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">peliohjaimen painike oikea▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">peliohjaimen painike start▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">peliohjaimen painike select▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">peliohjaimen painike L1▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">peliohjaimen painike L2▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">peliohjaimen painike R1▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">peliohjaimen painike R2▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">peliohjaimen painike mikä tahansa▾ painettu</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">peliohjaimen vasen sauva x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">peliohjaimen vasen sauva y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">peliohjaimen oikea sauva x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">peliohjaimen oikea sauva y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Peliohjainlaajennus</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Salli fyysisen peliohjaimen käyttö</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Ota palikat ja anturit käyttöön</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Vaihda A/B ja X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Peliohjaimille, jotka ilmoittavat A:n ja B:n sekä X:n ja Y:n toisin päin</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Tunnista painikkeiden asettelu</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Selvitä yhdellä A:n painalluksella, pitääkö A/B ja X/Y vaihtaa</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Paina peliohjaimesta painiketta, jossa on merkintä A, tai alinta painiketta, jos painikkeissa on symbolit.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ilmoitetaan A:na, joten A/B:tä ja X/Y:tä ei vaihdeta</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ilmoitetaan B:nä, joten A/B ja X/Y vaihdetaan</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-sovellus</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Joitakin peliohjaimia voi säätää ShenZhen ZhiXu Technology Co., Ltd:n KeyLinker-sovelluksella, esimerkiksi painikkeiden uudelleenmääritykseen tai sauvojen keskikohdan ja vastekäyrän säätämiseen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">esiintymislavan leveys</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">esiintymislavan korkeus</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiron vasen etuanturi</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Drooni</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Peliohjain</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

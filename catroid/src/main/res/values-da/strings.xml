@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Nulstil stopur</string>
     <string formatted="false" name="brick_open">Åbn</string>
     <string formatted="false" name="brick_in_browser">i browseren</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">trykkes ned</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Når scenen starter</string>
     <string formatted="false" name="brick_when">Når der trykkes på dig</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"fra x:"</string>
     <string formatted="false" name="brick_finish_stage">Luk spillefladen</string>
     <string formatted="false" name="brick_finish_tests">Afslut tests</string>
+    <string formatted="false" name="brick_when_stage_exited">Når spillefladen forlades</string>
     <string formatted="false" name="brick_assert_lists">Kontrollér lister</string>
     <string formatted="false" name="brick_assert_actual">Faktisk:</string>
     <string formatted="false" name="brick_assert_expected">Forventet:</string>
     <string formatted="false" name="brick_parameterized_assert">kontrollér</string>
     <string formatted="false" name="brick_parameterized_equals">er lig med forventet element i</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simulér gamepad-knap</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simulér gamepad-pind</string>
+    <string formatted="false" name="gamepad_stick_left">Venstre</string>
+    <string formatted="false" name="gamepad_stick_right">Højre</string>
+    <string formatted="false" name="gamepad_button_state_pressed">trykket</string>
+    <string formatted="false" name="gamepad_button_state_released">sluppet</string>
+    <string formatted="false" name="gamepad_button_up">Op</string>
+    <string formatted="false" name="gamepad_button_down">Ned</string>
+    <string formatted="false" name="gamepad_button_left">Venstre</string>
+    <string formatted="false" name="gamepad_button_right">Højre</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Vilkårlig</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For hvert element i</item>
         <item quantity="other">For hver tupel af elementer i</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad ned trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad venstre trykket</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad højre trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepad-knap A▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepad-knap B▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepad-knap X▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepad-knap Y▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepad-knap op▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepad-knap ned▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepad-knap venstre▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepad-knap højre▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepad-knap start▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepad-knap select▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepad-knap L1▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepad-knap L2▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepad-knap R1▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepad-knap R2▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepad-knap vilkårlig▾ trykket</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">gamepad venstre pind x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">gamepad venstre pind y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">gamepad højre pind x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">gamepad højre pind y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Gamepad-udvidelse</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Tillad brug af en fysisk gamepad</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Aktivér klodser og sensorer</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Byt om på A/B og X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Til gamepads, der melder A og B samt X og Y omvendt</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Registrér knaplayout</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Find ud af med ét tryk på A, om A/B og X/Y skal byttes om</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Tryk på knappen mærket A på din gamepad, eller på den nederste knap, hvis dine knapper har symboler.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A meldes som A, så A/B og X/Y byttes ikke om</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A meldes som B, så A/B og X/Y byttes om</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-appen</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Nogle gamepads kan indstilles med KeyLinker-appen fra ShenZhen ZhiXu Technology Co., Ltd., for eksempel til at omdefinere knapper eller justere midten og responskurven for pindene.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">spillefladens bredde</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">spillefladens højde</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor foran venstre</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Drone</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

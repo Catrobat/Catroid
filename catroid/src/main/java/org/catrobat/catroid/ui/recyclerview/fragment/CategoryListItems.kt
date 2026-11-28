@@ -27,6 +27,10 @@ import android.app.Activity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
+import org.catrobat.catroid.formulaeditor.gamepadStickSensorNameResId
+import org.catrobat.catroid.formulaeditor.gamepadStickSensors
+import org.catrobat.catroid.formulaeditor.sensorNameResId
+import org.catrobat.catroid.gamepad.GamepadButton
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
@@ -92,6 +96,7 @@ class CategoryListItems {
         addAll(getTextSensorItems(activity))
         addAll(getObjectDetectionSensorItems(activity))
         addAll(getDeviceSensorItems(activity))
+        addAll(getPhysicalGamepadSensorItems(activity))
         addAll(getTouchDetectionSensorItems(activity))
         addAll(getDateTimeSensorItems(activity))
     }
@@ -276,6 +281,17 @@ class CategoryListItems {
         return addHeader(
             deviceSensorItems, activity.getString(R.string.formula_editor_device_sensors)
         )
+    }
+
+    private fun getPhysicalGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+        return if (SettingsFragment.isPhysicalGamepadSharedPreferenceEnabled(activity.applicationContext)) {
+            addHeader(
+                toCategoryListItems(activity, SENSOR_PHYSICAL_GAMEPAD),
+                activity.getString(R.string.formula_editor_device_gamepad)
+            )
+        } else {
+            emptyList()
+        }
     }
 
     private fun getTouchDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
@@ -580,6 +596,8 @@ class CategoryListItems {
             R.string.formula_editor_sensor_altitude
         )
         private val SENSOR_USER_LANGUAGE = listOf(R.string.formula_editor_sensor_user_language)
+        private val SENSOR_PHYSICAL_GAMEPAD = listOf(GamepadButton.A.sensorNameResId) +
+            gamepadStickSensors.mapNotNull { sensor -> gamepadStickSensorNameResId(sensor) }
         private val SENSORS_TOUCH = listOf(
             R.string.formula_editor_function_finger_x,
             R.string.formula_editor_function_finger_y,

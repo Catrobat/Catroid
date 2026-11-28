@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -89,6 +89,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
+	public static final String SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS = "setting_physical_gamepad_bricks";
+	public static final String SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS = "setting_gamepad_swap_face_buttons";
 	public static final String SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS = "setting_ai_speech_recognition";
 	public static final String SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS = "setting_ai_speech_synthetization";
 	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS = "setting_ai_face_detection";
@@ -132,6 +134,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String RASPI_VERSION_SPINNER = "setting_raspi_version_preference";
 
 	public static final String MQTT_SCREEN_KEY = "settings_mqtt_screen";
+	public static final String GAMEPAD_SCREEN_KEY = "setting_gamepad_screen";
 	public static final String SETTINGS_SHOW_MQTT_BRICKS = "setting_mqtt_bricks";
 	public static final String MQTT_CONNECTION_SETTINGS_CATEGORY = "setting_mqtt_category";
 	public static final String MQTT_HOST = "setting_mqtt_host";
@@ -285,6 +288,12 @@ public class SettingsFragment extends PreferenceFragment {
 						.addToBackStack(MqttSettingsFragment.TAG)
 						.commit();
 				break;
+			case GAMEPAD_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new GamepadSettingsFragment(), GamepadSettingsFragment.TAG)
+						.addToBackStack(GamepadSettingsFragment.TAG)
+						.commit();
+				break;
 		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
@@ -331,6 +340,14 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+	}
+
+	public static boolean isPhysicalGamepadSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS, context);
+	}
+
+	public static boolean isGamepadFaceButtonSwapEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_GAMEPAD_SWAP_FACE_BUTTONS, context);
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {

@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">టైమర్‌ను రీసెట్ చేయి</string>
     <string formatted="false" name="brick_open">తెరువు:</string>
     <string formatted="false" name="brick_in_browser">బ్రౌజర్‌లో</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">ఒత్తినప్పుడు</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">దృశ్యం ప్రారంభమైనప్పుడు</string>
     <string formatted="false" name="brick_when">నొక్కినప్పుడు</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"నుండి x:"</string>
     <string formatted="false" name="brick_finish_stage">వేదికను ముగించు</string>
     <string formatted="false" name="brick_finish_tests">టెస్ట్‌లను ముగించు</string>
+    <string formatted="false" name="brick_when_stage_exited">వేదిక నుండి నిష్క్రమించినప్పుడు</string>
     <string formatted="false" name="brick_assert_lists">జాబితాలను నిర్ధారించు</string>
     <string formatted="false" name="brick_assert_actual">వాస్తవం:</string>
     <string formatted="false" name="brick_assert_expected">అంచనా:</string>
     <string formatted="false" name="brick_parameterized_assert">నిర్ధారించు:</string>
     <string formatted="false" name="brick_parameterized_equals">దీనిలోని అంచనా అంశానికి సమానం:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">గేమ్‌ప్యాడ్ బటన్‌ను అనుకరించు</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">గేమ్‌ప్యాడ్ స్టిక్‌ను అనుకరించు</string>
+    <string formatted="false" name="gamepad_stick_left">ఎడమ</string>
+    <string formatted="false" name="gamepad_stick_right">కుడి</string>
+    <string formatted="false" name="gamepad_button_state_pressed">నొక్కబడింది</string>
+    <string formatted="false" name="gamepad_button_state_released">వదిలివేయబడింది</string>
+    <string formatted="false" name="gamepad_button_up">పైకి</string>
+    <string formatted="false" name="gamepad_button_down">కిందికి</string>
+    <string formatted="false" name="gamepad_button_left">ఎడమ</string>
+    <string formatted="false" name="gamepad_button_right">కుడి</string>
+    <string formatted="false" name="gamepad_button_start">స్టార్ట్</string>
+    <string formatted="false" name="gamepad_button_select">సెలెక్ట్</string>
+    <string formatted="false" name="gamepad_button_any">ఏదైనా</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">దీనిలోని ప్రతి అంశానికి:</item>
         <item quantity="other">దీనిలోని ప్రతి అంశాల సమూహానికి:</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">గేమ్‌ప్యాడ్ కిందికి నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">గేమ్‌ప్యాడ్ ఎడమ నొక్కబడింది</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">గేమ్‌ప్యాడ్ కుడి నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">గేమ్‌ప్యాడ్ బటన్ A▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">గేమ్‌ప్యాడ్ బటన్ B▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">గేమ్‌ప్యాడ్ బటన్ X▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">గేమ్‌ప్యాడ్ బటన్ Y▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">గేమ్‌ప్యాడ్ బటన్ పైకి▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">గేమ్‌ప్యాడ్ బటన్ కిందికి▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">గేమ్‌ప్యాడ్ బటన్ ఎడమ▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">గేమ్‌ప్యాడ్ బటన్ కుడి▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">గేమ్‌ప్యాడ్ బటన్ స్టార్ట్▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">గేమ్‌ప్యాడ్ బటన్ సెలెక్ట్▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">గేమ్‌ప్యాడ్ బటన్ L1▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">గేమ్‌ప్యాడ్ బటన్ L2▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">గేమ్‌ప్యాడ్ బటన్ R1▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">గేమ్‌ప్యాడ్ బటన్ R2▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">గేమ్‌ప్యాడ్ బటన్ ఏదైనా▾ నొక్కబడింది</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">గేమ్‌ప్యాడ్ ఎడమ స్టిక్ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">గేమ్‌ప్యాడ్ ఎడమ స్టిక్ y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">గేమ్‌ప్యాడ్ కుడి స్టిక్ x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">గేమ్‌ప్యాడ్ కుడి స్టిక్ y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">గేమ్‌ప్యాడ్ ఎక్స్‌టెన్షన్</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">భౌతిక గేమ్‌ప్యాడ్ వాడకాన్ని అనుమతించండి</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">బ్లాక్‌లు మరియు సెన్సార్‌లను ఆన్ చేయి</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B మరియు X/Y మార్చు</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A మరియు B, X మరియు Y లను తారుమారుగా తెలిపే గేమ్‌ప్యాడ్‌ల కోసం</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">బటన్ లేఅవుట్‌ను గుర్తించు</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A ను ఒకసారి నొక్కి A/B మరియు X/Y మార్చాలా అని తెలుసుకో</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">మీ గేమ్‌ప్యాడ్‌లో A అని ఉన్న బటన్‌ను నొక్కండి, లేదా బటన్‌లపై చిహ్నాలు ఉంటే కింది బటన్‌ను నొక్కండి.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A ను A గా తెలియజేస్తారు, కాబట్టి A/B మరియు X/Y మార్చబడవు</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A ను B గా తెలియజేస్తారు, కాబట్టి A/B మరియు X/Y మార్చబడతాయి</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker యాప్</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">కొన్ని గేమ్‌ప్యాడ్‌లను ShenZhen ZhiXu Technology Co., Ltd. వారి KeyLinker యాప్‌తో సెట్ చేయవచ్చు, ఉదాహరణకు బటన్‌లను మళ్లీ కేటాయించడానికి లేదా స్టిక్‌ల మధ్య భాగం మరియు ప్రతిస్పందన వక్రరేఖను సర్దుబాటు చేయడానికి.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">వేదిక వెడల్పు</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">వేదిక ఎత్తు</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro ముందు ఎడమ సెన్సార్</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">డ్రోన్</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">గేమ్‌ప్యాడ్</string>
     <string formatted="false" name="formula_editor_string">అఆఇ</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

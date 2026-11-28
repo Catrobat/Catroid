@@ -1053,6 +1053,7 @@
     <string formatted="false" name="brick_reset_timer">Сбросить таймер</string>
     <string formatted="false" name="brick_open">Открыть</string>
     <string formatted="false" name="brick_in_browser">в браузере</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">нажата</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">При запуске эпизода</string>
     <string formatted="false" name="brick_when">При нажатии</string>
@@ -1107,11 +1108,25 @@
     <string formatted="false" name="brick_touch_from_x">"от x:"</string>
     <string formatted="false" name="brick_finish_stage">Завершить сцену</string>
     <string formatted="false" name="brick_finish_tests">Закончить тесты</string>
+    <string formatted="false" name="brick_when_stage_exited">При выходе со сцены</string>
     <string formatted="false" name="brick_assert_lists">Проверить списки</string>
     <string formatted="false" name="brick_assert_actual">Фактически:</string>
     <string formatted="false" name="brick_assert_expected">Ожидается:</string>
     <string formatted="false" name="brick_parameterized_assert">проверить, что</string>
     <string formatted="false" name="brick_parameterized_equals">равно ожидаемому элементу из</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Имитировать кнопку геймпада</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Имитировать стик геймпада</string>
+    <string formatted="false" name="gamepad_stick_left">Левый</string>
+    <string formatted="false" name="gamepad_stick_right">Правый</string>
+    <string formatted="false" name="gamepad_button_state_pressed">нажата</string>
+    <string formatted="false" name="gamepad_button_state_released">отпущена</string>
+    <string formatted="false" name="gamepad_button_up">Вверх</string>
+    <string formatted="false" name="gamepad_button_down">Вниз</string>
+    <string formatted="false" name="gamepad_button_left">Влево</string>
+    <string formatted="false" name="gamepad_button_right">Вправо</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Любая</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Для каждого элемента из</item>
         <item quantity="few">Для каждого набора элементов из</item>
@@ -1788,6 +1803,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">на геймпаде нажата \"вниз\"</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">на геймпаде нажата \"влево\"</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">на геймпаде нажата \"вправо\"</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">на геймпаде нажата кнопка A▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">на геймпаде нажата кнопка B▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">на геймпаде нажата кнопка X▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">на геймпаде нажата кнопка Y▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">на геймпаде нажата кнопка \"вверх\"▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">на геймпаде нажата кнопка \"вниз\"▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">на геймпаде нажата кнопка \"влево\"▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">на геймпаде нажата кнопка \"вправо\"▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">на геймпаде нажата кнопка Start▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">на геймпаде нажата кнопка Select▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">на геймпаде нажата кнопка L1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">на геймпаде нажата кнопка L2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">на геймпаде нажата кнопка R1▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">на геймпаде нажата кнопка R2▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">на геймпаде нажата кнопка \"любая\"▾</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">левый стик геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">левый стик геймпада y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">правый стик геймпада x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">правый стик геймпада y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Расширение геймпада</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Разрешить использование физического геймпада</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Включить блоки и датчики</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Поменять местами A/B и X/Y</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Для геймпадов, которые передают A и B, а также X и Y наоборот</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Определить расположение кнопок</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Одним нажатием A узнайте, нужно ли поменять местами A/B и X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Нажмите на геймпаде кнопку с буквой A или нижнюю кнопку, если на кнопках символы.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A передаётся как A, поэтому A/B и X/Y не меняются местами</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A передаётся как B, поэтому A/B и X/Y меняются местами</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">Приложение KeyLinker</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Некоторые геймпады можно настроить в приложении KeyLinker от ShenZhen ZhiXu Technology Co., Ltd., например переназначить кнопки или настроить центр и кривую отклика стиков.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ширина сцены</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">высота сцены</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">передний левый датчик phiro</string>
@@ -1843,6 +1889,7 @@
     <string formatted="false" name="formula_editor_device_drone">Дрон</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Геймпад</string>
     <string formatted="false" name="formula_editor_string">Абв</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

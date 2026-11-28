@@ -933,6 +933,7 @@
     <string formatted="false" name="brick_reset_timer">타이머 초기화하기</string>
     <string formatted="false" name="brick_open">웹 페이지 열기</string>
     <string formatted="false" name="brick_in_browser">(브라우저에서)</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">이(가) 눌렸을 때</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">장면이 시작되었을 때</string>
     <string formatted="false" name="brick_when">터치했을 때</string>
@@ -984,11 +985,25 @@
     <string formatted="false" name="brick_touch_from_x">"시작 위치 x:"</string>
     <string formatted="false" name="brick_finish_stage">무대 종료하기</string>
     <string formatted="false" name="brick_finish_tests">테스트 종료하기</string>
+    <string formatted="false" name="brick_when_stage_exited">무대에서 나갔을 때</string>
     <string formatted="false" name="brick_assert_lists">리스트 확인하기</string>
     <string formatted="false" name="brick_assert_actual">실제값:</string>
     <string formatted="false" name="brick_assert_expected">기댓값:</string>
     <string formatted="false" name="brick_parameterized_assert">확인하기:</string>
     <string formatted="false" name="brick_parameterized_equals">이(가) 다음 리스트의 기대 항목과 같음:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">게임패드 버튼 시뮬레이션하기</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">게임패드 스틱 시뮬레이션하기</string>
+    <string formatted="false" name="gamepad_stick_left">왼쪽</string>
+    <string formatted="false" name="gamepad_stick_right">오른쪽</string>
+    <string formatted="false" name="gamepad_button_state_pressed">눌림</string>
+    <string formatted="false" name="gamepad_button_state_released">떼어짐</string>
+    <string formatted="false" name="gamepad_button_up">위</string>
+    <string formatted="false" name="gamepad_button_down">아래</string>
+    <string formatted="false" name="gamepad_button_left">왼쪽</string>
+    <string formatted="false" name="gamepad_button_right">오른쪽</string>
+    <string formatted="false" name="gamepad_button_start">스타트</string>
+    <string formatted="false" name="gamepad_button_select">셀렉트</string>
+    <string formatted="false" name="gamepad_button_any">아무거나</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">다음 리스트의 각 항목(묶음)마다:</item>
     </plurals>
@@ -1653,6 +1668,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">게임패드 아래 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">게임패드 왼쪽 눌림</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">게임패드 오른쪽 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">게임패드 버튼 A▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">게임패드 버튼 B▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">게임패드 버튼 X▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">게임패드 버튼 Y▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">게임패드 위▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">게임패드 아래▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">게임패드 왼쪽▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">게임패드 오른쪽▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">게임패드 스타트▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">게임패드 셀렉트▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">게임패드 버튼 L1▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">게임패드 버튼 L2▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">게임패드 버튼 R1▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">게임패드 버튼 R2▾ 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">게임패드 아무▾ 버튼 눌림</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">게임패드 왼쪽 스틱 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">게임패드 왼쪽 스틱 y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">게임패드 오른쪽 스틱 x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">게임패드 오른쪽 스틱 y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">게임패드 확장 기능</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">물리 게임패드 사용 허용</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">블록 및 센서 활성화</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B 및 X/Y 바꾸기</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A와 B, X와 Y를 반대로 보고하는 게임패드용</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">버튼 배치 감지</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A를 한 번 눌러 A/B 및 X/Y를 바꿀지 알아보기</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">게임패드에서 A라고 적힌 버튼을 누르세요. 버튼에 기호가 있으면 아래쪽 버튼을 누르세요.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A가 A로 보고되므로 A/B 및 X/Y를 바꾸지 않습니다</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A가 B로 보고되므로 A/B 및 X/Y를 바꿉니다</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker 앱</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">일부 게임패드는 ShenZhen ZhiXu Technology Co., Ltd.의 KeyLinker 앱으로 설정할 수 있습니다. 예를 들어 버튼을 다시 지정하거나 스틱의 중심과 반응 곡선을 조정할 수 있습니다.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">무대 너비</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">무대 높이</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 앞 왼쪽 센서</string>
@@ -1708,6 +1754,7 @@
     <string formatted="false" name="formula_editor_device_drone">드론</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">게임패드</string>
     <string formatted="false" name="formula_editor_string">가나다</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -229,6 +229,7 @@ class FormulaEditorSensorListTest(
             paramsData.addAll(listOfPoseDetection)
             paramsData.addAll(listOfTextRecognition)
             paramsData.addAll(listOfDevice)
+            paramsData.addAll(listOfGamepad)
             paramsData.addAll(listOfTouch)
             paramsData.addAll(listOfDateTime)
 
@@ -758,6 +759,17 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_user_language), "", "")
         )
 
+        private val listOfGamepad = listOf(
+            listOf(
+                str(R.string.formula_editor_sensor_gamepad_button_a_pressed),
+                "", str(R.string.formula_editor_device_gamepad)
+            ),
+            listOf(str(R.string.formula_editor_sensor_gamepad_left_stick_x), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_left_stick_y), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_right_stick_x), "", ""),
+            listOf(str(R.string.formula_editor_sensor_gamepad_right_stick_y), "", "")
+        )
+
         private val listOfTouch = listOf(
             listOf(
                 str(R.string.formula_editor_function_finger_x),
@@ -820,6 +832,7 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE,
             SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
             SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS,
+            SettingsFragment.SETTINGS_SHOW_PHYSICAL_GAMEPAD_BRICKS,
             SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,

@@ -933,6 +933,7 @@
     <string formatted="false" name="brick_reset_timer">タイマーをリセット</string>
     <string formatted="false" name="brick_open">開く</string>
     <string formatted="false" name="brick_in_browser">ブラウザで</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">が押されたとき</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">シーンが始まったとき</string>
     <string formatted="false" name="brick_when">タップされたとき</string>
@@ -984,11 +985,25 @@
     <string formatted="false" name="brick_touch_from_x">"開始 x:"</string>
     <string formatted="false" name="brick_finish_stage">ステージを終了する</string>
     <string formatted="false" name="brick_finish_tests">テストを終了する</string>
+    <string formatted="false" name="brick_when_stage_exited">ステージが終了したとき</string>
     <string formatted="false" name="brick_assert_lists">リストをアサート</string>
     <string formatted="false" name="brick_assert_actual">実際の値:</string>
     <string formatted="false" name="brick_assert_expected">期待値:</string>
     <string formatted="false" name="brick_parameterized_assert">アサート</string>
     <string formatted="false" name="brick_parameterized_equals">が次のリストの期待値と等しい</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">ゲームパッドのボタンをシミュレートする</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">ゲームパッドのスティックをシミュレートする</string>
+    <string formatted="false" name="gamepad_stick_left">左</string>
+    <string formatted="false" name="gamepad_stick_right">右</string>
+    <string formatted="false" name="gamepad_button_state_pressed">押された</string>
+    <string formatted="false" name="gamepad_button_state_released">離された</string>
+    <string formatted="false" name="gamepad_button_up">上</string>
+    <string formatted="false" name="gamepad_button_down">下</string>
+    <string formatted="false" name="gamepad_button_left">左</string>
+    <string formatted="false" name="gamepad_button_right">右</string>
+    <string formatted="false" name="gamepad_button_start">スタート</string>
+    <string formatted="false" name="gamepad_button_select">セレクト</string>
+    <string formatted="false" name="gamepad_button_any">任意</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">次のリストの項目ごとに</item>
     </plurals>
@@ -1653,6 +1668,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">ゲームパッド下が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">ゲームパッド左が押された</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">ゲームパッド右が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">ゲームパッドのボタン A▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">ゲームパッドのボタン B▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">ゲームパッドのボタン X▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">ゲームパッドのボタン Y▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">ゲームパッドの上▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">ゲームパッドの下▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">ゲームパッドの左▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">ゲームパッドの右▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">ゲームパッドのスタート▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">ゲームパッドのセレクト▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">ゲームパッドのボタン L1▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">ゲームパッドのボタン L2▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">ゲームパッドのボタン R1▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">ゲームパッドのボタン R2▾が押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">ゲームパッドの任意▾ボタンが押された</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">ゲームパッドの左スティック x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">ゲームパッドの左スティック y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">ゲームパッドの右スティック x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">ゲームパッドの右スティック y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">ゲームパッド拡張機能</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">物理ゲームパッドを使用できるようにする</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">ブロックとセンサーを有効にする</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B と X/Y を入れ替える</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A と B、X と Y を逆に報告するゲームパッド用</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">ボタン配置を検出</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A を1回押して、A/B と X/Y を入れ替えるかどうかを確認します</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">ゲームパッドの A と書かれたボタンを押してください。ボタンに記号が付いている場合は下のボタンを押してください。</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A は A として報告されるため、A/B と X/Y は入れ替えません</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A は B として報告されるため、A/B と X/Y を入れ替えます</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker アプリ</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">一部のゲームパッドは ShenZhen ZhiXu Technology Co., Ltd. の KeyLinker アプリで設定でき、たとえばボタンの割り当てを変えたり、スティックの中心や反応カーブを調整したりできます。</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">ステージの幅</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">ステージの高さ</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">Phiro 左前センサー</string>
@@ -1708,6 +1754,7 @@
     <string formatted="false" name="formula_editor_device_drone">ドローン</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">ゲームパッド</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

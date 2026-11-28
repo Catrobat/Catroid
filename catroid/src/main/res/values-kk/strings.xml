@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Таймерді нөлдеу</string>
     <string formatted="false" name="brick_open">Ашу:</string>
     <string formatted="false" name="brick_in_browser">(браузерде)</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">басылған сәтте</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Көрініс басталғанда</string>
     <string formatted="false" name="brick_when">Түртілгенде</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"басы x:"</string>
     <string formatted="false" name="brick_finish_stage">Сахнаны аяқтау</string>
     <string formatted="false" name="brick_finish_tests">Тесттерді аяқтау</string>
+    <string formatted="false" name="brick_when_stage_exited">Сахнадан шыққанда</string>
     <string formatted="false" name="brick_assert_lists">Тізімдерді тексеру</string>
     <string formatted="false" name="brick_assert_actual">Нақты:</string>
     <string formatted="false" name="brick_assert_expected">Күтілген:</string>
     <string formatted="false" name="brick_parameterized_assert">тексеру:</string>
     <string formatted="false" name="brick_parameterized_equals">мына тізімнің күтілген элементіне тең:</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Геймпад түймесін симуляциялау</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Геймпад таяқшасын симуляциялау</string>
+    <string formatted="false" name="gamepad_stick_left">Сол</string>
+    <string formatted="false" name="gamepad_stick_right">Оң</string>
+    <string formatted="false" name="gamepad_button_state_pressed">басулы</string>
+    <string formatted="false" name="gamepad_button_state_released">жіберілген</string>
+    <string formatted="false" name="gamepad_button_up">Жоғары</string>
+    <string formatted="false" name="gamepad_button_down">Төмен</string>
+    <string formatted="false" name="gamepad_button_left">Сол</string>
+    <string formatted="false" name="gamepad_button_right">Оң</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Кез келген</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Мына тізімнің әр элементі үшін:</item>
         <item quantity="other">Мына тізімдердің әр элементтер тобы үшін:</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">геймпад төмен басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">геймпад сол басулы</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">геймпад оң басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">геймпад түймесі A▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">геймпад түймесі B▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">геймпад түймесі X▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">геймпад түймесі Y▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">геймпад түймесі жоғары▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">геймпад түймесі төмен▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">геймпад түймесі сол▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">геймпад түймесі оң▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">геймпад түймесі Start▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">геймпад түймесі Select▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">геймпад түймесі L1▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">геймпад түймесі L2▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">геймпад түймесі R1▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">геймпад түймесі R2▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">геймпад түймесі кез келген▾ басулы</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">геймпадтың сол таяқшасы x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">геймпадтың сол таяқшасы y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">геймпадтың оң таяқшасы x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">геймпадтың оң таяқшасы y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Геймпад кеңейтімі</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Физикалық геймпадты пайдалануға рұқсат ету</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Блоктар мен сенсорларды қосу</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B және X/Y ауыстыру</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">A мен B, X пен Y түймелерін керісінше хабарлайтын геймпадтар үшін</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Түймелердің орналасуын анықтау</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">A түймесін бір рет басып, A/B және X/Y ауыстыру керек пе екенін біліңіз</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Геймпадтағы A деп жазылған түймені басыңыз, ал түймелерде таңбалар болса, төменгі түймені басыңыз.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A түймесі A ретінде хабарланады, сондықтан A/B және X/Y ауыстырылмайды</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A түймесі B ретінде хабарланады, сондықтан A/B және X/Y ауыстырылады</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker қолданбасы</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Кейбір геймпадтарды ShenZhen ZhiXu Technology Co., Ltd. компаниясының KeyLinker қолданбасымен баптауға болады, мысалы, түймелерді қайта тағайындау немесе таяқшалардың ортасы мен жауап қисығын реттеу үшін.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">сахна ені</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">сахна биіктігі</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro алдыңғы сол сенсоры</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Дрон</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Геймпад</string>
     <string formatted="false" name="formula_editor_string">Абв</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -973,6 +973,7 @@
     <string formatted="false" name="brick_reset_timer">Zet timer op nul</string>
     <string formatted="false" name="brick_open">Open</string>
     <string formatted="false" name="brick_in_browser">in browser</string>
+    <string formatted="false" name="brick_when_gamepad_button_pressed">ingedrukt wordt</string>
     <!-- Control bricks -->
     <string formatted="false" name="brick_when_started">Wanneer scène start</string>
     <string formatted="false" name="brick_when">Wanneer erop getikt wordt</string>
@@ -1025,11 +1026,25 @@
     <string formatted="false" name="brick_touch_from_x">"van x:"</string>
     <string formatted="false" name="brick_finish_stage">Beëindig speelveld</string>
     <string formatted="false" name="brick_finish_tests">Beëindig tests</string>
+    <string formatted="false" name="brick_when_stage_exited">Wanneer het speelveld verlaten wordt</string>
     <string formatted="false" name="brick_assert_lists">Controleer lijsten</string>
     <string formatted="false" name="brick_assert_actual">Werkelijk:</string>
     <string formatted="false" name="brick_assert_expected">Verwacht:</string>
     <string formatted="false" name="brick_parameterized_assert">controleer of</string>
     <string formatted="false" name="brick_parameterized_equals">gelijk is aan het verwachte item van</string>
+    <string formatted="false" name="brick_simulate_gamepad_button">Simuleer gamepadknop</string>
+    <string formatted="false" name="brick_simulate_gamepad_stick">Simuleer gamepadstick</string>
+    <string formatted="false" name="gamepad_stick_left">Links</string>
+    <string formatted="false" name="gamepad_stick_right">Rechts</string>
+    <string formatted="false" name="gamepad_button_state_pressed">ingedrukt</string>
+    <string formatted="false" name="gamepad_button_state_released">losgelaten</string>
+    <string formatted="false" name="gamepad_button_up">Omhoog</string>
+    <string formatted="false" name="gamepad_button_down">Omlaag</string>
+    <string formatted="false" name="gamepad_button_left">Links</string>
+    <string formatted="false" name="gamepad_button_right">Rechts</string>
+    <string formatted="false" name="gamepad_button_start">Start</string>
+    <string formatted="false" name="gamepad_button_select">Select</string>
+    <string formatted="false" name="gamepad_button_any">Willekeurig</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Voor elk item van</item>
         <item quantity="other">Voor elk tupel van items van</item>
@@ -1698,6 +1713,37 @@
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad omlaag ingedrukt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad links ingedrukt</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad rechts ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_a_pressed">gamepadknop A▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_b_pressed">gamepadknop B▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_x_pressed">gamepadknop X▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_y_pressed">gamepadknop Y▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_up_pressed">gamepadknop omhoog▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_down_pressed">gamepadknop omlaag▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_left_pressed">gamepadknop links▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_right_pressed">gamepadknop rechts▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_start_pressed">gamepadknop start▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_select_pressed">gamepadknop select▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l1_pressed">gamepadknop L1▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_l2_pressed">gamepadknop L2▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r1_pressed">gamepadknop R1▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_r2_pressed">gamepadknop R2▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_button_any_pressed">gamepadknop willekeurig▾ ingedrukt</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_x">linker gamepadstick x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_left_stick_y">linker gamepadstick y</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_x">rechter gamepadstick x</string>
+    <string formatted="false" name="formula_editor_sensor_gamepad_right_stick_y">rechter gamepadstick y</string>
+    <string formatted="false" name="preference_title_enable_physical_gamepad_bricks">Extensie gamepad</string>
+    <string formatted="false" name="preference_description_physical_gamepad_bricks">Sta het gebruik van een fysieke gamepad toe</string>
+    <string formatted="false" name="preference_gamepad_enable_bricks">Blokken en sensoren inschakelen</string>
+    <string formatted="false" name="preference_title_gamepad_swap_face_buttons">A/B en X/Y omwisselen</string>
+    <string formatted="false" name="preference_description_gamepad_swap_face_buttons">Voor gamepads die A en B, en X en Y, omgekeerd melden</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Knopindeling herkennen</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Ontdek met één druk op A of A/B en X/Y omgewisseld moeten worden</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Druk op je gamepad op de knop met A erop, of op de onderste knop als je knoppen symbolen hebben.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A wordt als A gemeld, dus A/B en X/Y worden niet omgewisseld</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A wordt als B gemeld, dus A/B en X/Y worden omgewisseld</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker-app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Sommige gamepads kun je instellen met de KeyLinker-app van ShenZhen ZhiXu Technology Co., Ltd., bijvoorbeeld om knoppen opnieuw toe te wijzen of het midden en de responscurve van de sticks aan te passen.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">breedte speelveld</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">hoogte speelveld</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro sensor voor links</string>
@@ -1753,6 +1799,7 @@
     <string formatted="false" name="formula_editor_device_drone">Drone</string>
     <string formatted="false" name="formula_editor_device_nfc">NFC</string>
     <string formatted="false" name="formula_editor_device_cast">Chromecast</string>
+    <string formatted="false" name="formula_editor_device_gamepad">Gamepad</string>
     <string formatted="false" name="formula_editor_string">Abc</string>
     <string formatted="false" name="formula_editor_logic_notequal">≠</string>
     <string formatted="false" name="formula_editor_logic_lesserthan">&lt;</string>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2025 The Catrobat Team
+ * Copyright (C) 2010-2026 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.gamepad.GamepadButton;
 import org.catrobat.catroid.utils.FormatNumberUtil;
 
 import java.util.HashMap;
@@ -241,6 +242,16 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_gamepad_left_pressed);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_RIGHT_PRESSED.name(),
 				R.string.formula_editor_sensor_gamepad_right_pressed);
+		for (GamepadButton button : GamepadButton.values()) {
+			INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(GamepadButtonSensors.getSensor(button).name(),
+					GamepadButtonSensors.getSensorNameResId(button));
+		}
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_BUTTON_ANY_PRESSED.name(),
+				R.string.formula_editor_sensor_gamepad_button_any_pressed);
+		for (Sensors stickSensor : GamepadStickSensors.getGamepadStickSensors()) {
+			INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(stickSensor.name(),
+					GamepadStickSensors.gamepadStickSensorNameResId(stickSensor));
+		}
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_1.name(), R.string.formula_editor_sensor_lego_nxt_1);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
