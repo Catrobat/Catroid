@@ -84,10 +84,7 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
      * @return true if the event is consumed, false if Android should handle it
      */
     fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        val reportedButton = KEY_CODE_BUTTONS[event.keyCode] ?: return false
-        if (!isFromGameController(event)) {
-            return false
-        }
+        val reportedButton = reportedGamepadButton(event) ?: return false
         val input = gamepadInput() ?: return false
         val button = if (swapsFaceButtons) swappedFaceButton(reportedButton) else reportedButton
         if (!isButtonHandled(button)) {
@@ -163,14 +160,6 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
      * with a single supported controller any removal may be the controller.
      */
     override fun onInputDeviceRemoved(deviceId: Int) = releaseAll()
-
-    private fun isFromGameController(event: KeyEvent): Boolean {
-        if (GAME_CONTROLLER_SOURCES.any(event::isFromSource)) {
-            return true
-        }
-        val device = event.device ?: return false
-        return GAME_CONTROLLER_SOURCES.any(device::supportsSource)
-    }
 
     /**
      * Keeps Android from seeing the Back of a reported B that counts as A, and presses Back for a
@@ -329,24 +318,5 @@ class AndroidGamepadInputAdapter @JvmOverloads constructor(
 
         const val NO_TRAVEL = 0f
         const val FULL_TRAVEL = 1f
-
-        val GAME_CONTROLLER_SOURCES = intArrayOf(InputDevice.SOURCE_GAMEPAD, InputDevice.SOURCE_JOYSTICK)
-
-        val KEY_CODE_BUTTONS = mapOf(
-            KeyEvent.KEYCODE_BUTTON_A to GamepadButton.A,
-            KeyEvent.KEYCODE_BUTTON_B to GamepadButton.B,
-            KeyEvent.KEYCODE_BUTTON_X to GamepadButton.X,
-            KeyEvent.KEYCODE_BUTTON_Y to GamepadButton.Y,
-            KeyEvent.KEYCODE_DPAD_UP to GamepadButton.UP,
-            KeyEvent.KEYCODE_DPAD_DOWN to GamepadButton.DOWN,
-            KeyEvent.KEYCODE_DPAD_LEFT to GamepadButton.LEFT,
-            KeyEvent.KEYCODE_DPAD_RIGHT to GamepadButton.RIGHT,
-            KeyEvent.KEYCODE_BUTTON_START to GamepadButton.START,
-            KeyEvent.KEYCODE_BUTTON_SELECT to GamepadButton.SELECT,
-            KeyEvent.KEYCODE_BUTTON_L1 to GamepadButton.L1,
-            KeyEvent.KEYCODE_BUTTON_L2 to GamepadButton.L2,
-            KeyEvent.KEYCODE_BUTTON_R1 to GamepadButton.R1,
-            KeyEvent.KEYCODE_BUTTON_R2 to GamepadButton.R2
-        )
     }
 }
