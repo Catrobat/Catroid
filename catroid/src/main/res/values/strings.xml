@@ -2034,6 +2034,13 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="preference_gamepad_enable_bricks">Enable bricks and sensors</string>
     <string formatted="false" name="preference_title_gamepad_swap_face_buttons">Swap A/B and X/Y</string>
     <string formatted="false" name="preference_description_gamepad_swap_face_buttons">For controllers that report A and B, and X and Y, the other way round</string>
+    <string formatted="false" name="preference_title_gamepad_detect_face_buttons">Detect button layout</string>
+    <string formatted="false" name="preference_description_gamepad_detect_face_buttons">Find out with one press of A whether to swap A/B and X/Y</string>
+    <string formatted="false" name="dialog_gamepad_detect_face_buttons">Press the button labeled A on your controller, or the lower button if your buttons have symbols.</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_as_labeled">A is reported as A, so A/B and X/Y are not swapped</string>
+    <string formatted="false" name="gamepad_face_buttons_detected_swapped">A is reported as B, so A/B and X/Y are swapped</string>
+    <string formatted="false" name="preference_title_gamepad_keylinker">KeyLinker app</string>
+    <string formatted="false" name="preference_description_gamepad_keylinker">Some controllers can be set up with the KeyLinker app by ShenZhen ZhiXu Technology Co., Ltd., for example to remap buttons or to adjust the center and the response curve of the sticks.</string>
     <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
     <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>

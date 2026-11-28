@@ -41,4 +41,18 @@
         android:summary="@string/preference_description_gamepad_swap_face_buttons"
         android:title="@string/preference_title_gamepad_swap_face_buttons" />
 
+    <Preference
+        android:dependency="setting_physical_gamepad_bricks"
+        android:key="setting_gamepad_detect_face_buttons"
+        android:persistent="false"
+        android:summary="@string/preference_description_gamepad_detect_face_buttons"
+        android:title="@string/preference_title_gamepad_detect_face_buttons" />
+
+    <Preference
+        android:key="setting_gamepad_keylinker_hint"
+        android:persistent="false"
+        android:selectable="false"
+        android:summary="@string/preference_description_gamepad_keylinker"
+        android:title="@string/preference_title_gamepad_keylinker" />
+
 </PreferenceScreen>
